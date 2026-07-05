@@ -9,16 +9,16 @@ type Gateway = {
   image: string
 }
 
-// Galeri live — setiap "pintu" membuka puluhan demo asli
+// Galeri live — setiap "pintu" membuka puluhan demo asli (screenshot & tautan nyata)
 const GATEWAYS: Gateway[] = [
-  { title: 'Landing Page', tagline: 'Halaman yang menjual — webinar, sales, promo', count: '17 demo', href: 'https://portal-landing.vercel.app', image: '/images/w2.jpg' },
-  { title: 'Link in Bio', tagline: 'Satu tautan untuk semua kanalmu', count: '12 demo', href: 'https://portal-bio.vercel.app', image: '/images/s3.jpg' },
-  { title: 'Kontes Desain', tagline: 'Beragam konsep untuk satu brief', count: '9 entri', href: 'https://portal-kontes.vercel.app', image: '/images/l1.jpg' },
-  { title: 'Undangan Digital', tagline: 'Undangan online elegan untuk momen spesial', count: '8 tema', href: 'https://portal-undangan.vercel.app', image: '/images/c1.png' },
-  { title: 'Portfolio Pribadi', tagline: 'Personal branding yang berkesan', count: '7 varian', href: 'https://portal-porto.vercel.app', image: '/images/o1.png' },
-  { title: 'Reservasi & Booking', tagline: 'Sistem pemesanan online multi-industri', count: '5 sistem', href: 'https://portal-reservasi.vercel.app', image: '/images/sv2.jpg' },
-  { title: 'Properti', tagline: 'Marketplace & katalog properti', count: '4 varian', href: 'https://portal-properti.vercel.app', image: '/images/p1.jpg' },
-  { title: 'To-Do & Produktivitas', tagline: 'Aplikasi web untuk kelola tugas', count: '3 aplikasi', href: 'https://portal-todo.vercel.app', image: '/images/o3.png' },
+  { title: 'Landing Page', tagline: 'Halaman yang menjual — webinar, sales, promo', count: '17 demo', href: 'https://portal-landing.vercel.app', image: '/images/portal-landing.jpg' },
+  { title: 'Link in Bio', tagline: 'Satu tautan untuk semua kanalmu', count: '12 demo', href: 'https://portal-bio-neon.vercel.app', image: '/images/portal-bio.jpg' },
+  { title: 'Kontes Desain', tagline: 'Beragam konsep untuk satu brief', count: '9 entri', href: 'https://portal-kontes.vercel.app', image: '/images/portal-kontes.jpg' },
+  { title: 'Undangan Digital', tagline: 'Undangan online elegan untuk momen spesial', count: '8 tema', href: 'https://portal-undangan.vercel.app', image: '/images/portal-undangan.jpg' },
+  { title: 'Portfolio Pribadi', tagline: 'Personal branding yang berkesan', count: '7 varian', href: 'https://portal-porto.vercel.app', image: '/images/portal-porto.jpg' },
+  { title: 'Reservasi & Booking', tagline: 'Sistem pemesanan online multi-industri', count: '5 sistem', href: 'https://portal-reservasi-nu.vercel.app', image: '/images/portal-reservasi.jpg' },
+  { title: 'Properti', tagline: 'Marketplace & katalog properti', count: '4 varian', href: 'https://portal-properti.vercel.app', image: '/images/portal-properti.jpg' },
+  { title: 'To-Do & Produktivitas', tagline: 'Aplikasi web untuk kelola tugas', count: '3 aplikasi', href: 'https://portal-todo.vercel.app', image: '/images/portal-todo.jpg' },
 ]
 
 const STATS = [
@@ -79,12 +79,12 @@ export default function Portfolio() {
                     sizes="(max-width:640px) 100vw, 25vw"
                     className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(20,19,15,0.62)] via-transparent to-transparent" />
-                  <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-bold text-[color:var(--primary-700)] shadow-sm">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(20,19,15,0.72)] via-[rgba(20,19,15,0.12)] to-transparent" />
+                  <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[color:var(--primary-700)] shadow-sm">
                     {g.count}
                   </span>
-                  <span className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-xs font-semibold text-[color:var(--text-primary)] opacity-0 shadow-md transition-all duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
-                    Buka galeri <ArrowUpRight size={13} />
+                  <span className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-[color:var(--primary-700)] px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-md transition-all duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+                    Buka <ArrowUpRight size={13} />
                   </span>
                 </div>
               </div>

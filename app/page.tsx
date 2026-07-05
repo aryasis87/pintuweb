@@ -2,12 +2,14 @@
 import Hero from './components/Hero'
 import TechMarquee from './components/TechMarquee'
 import Services from './components/Services'
+import AudienceSection from './components/AudienceSection'
 import Process from './components/Process'
 import Portfolio from './components/Portfolio'
 import WhyUs from './components/WhyUs'
 import StatsBand from './components/StatsBand'
 import Pricing from './components/Pricing'
 import Testimonials from './components/Testimonials'
+import CTABand from './components/CTABand'
 import FAQ from './components/FAQ'
 import { faqItems } from './lib/faqData'
 
@@ -40,12 +42,14 @@ export default function HomePage() {
         <section id="hero" aria-label="Beranda"><Hero /></section>
         <TechMarquee />
         <section id="services"><Services /></section>
+        <AudienceSection />
         <Process />
         <section id="portfolio"><Portfolio /></section>
         <WhyUs />
         <StatsBand />
         <section id="pricing"><Pricing /></section>
         <Testimonials />
+        <CTABand />
         <section id="faq"><FAQ /></section>
       </main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
