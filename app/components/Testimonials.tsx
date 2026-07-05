@@ -292,7 +292,7 @@ export default function Testimonials() {
           {testimonial.industry}
         </span>
         {testimonial.verified && (
-          <div className="flex items-center gap-1 text-xs" style={{ color: 'var(--success-600)' }}>
+          <div className="flex items-center gap-1 text-xs" style={{ color: 'var(--success-700)' }}>
             <CheckCircle2 size={12} />
             <span>Verified</span>
           </div>
@@ -448,7 +448,7 @@ export default function Testimonials() {
                       <div className="text-2xl font-bold" style={{ color: 'var(--success-700)' }}>
                         {testimonial.results.increase}
                       </div>
-                      <div className="text-sm" style={{ color: 'var(--success-600)' }}>
+                      <div className="text-sm" style={{ color: 'var(--success-700)' }}>
                         {testimonial.results.metric} dalam {testimonial.results.timeframe}
                       </div>
                     </div>

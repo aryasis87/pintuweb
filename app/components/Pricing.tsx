@@ -344,7 +344,7 @@ function PricingCard({
             {pkg.price}
           </div>
           {pkg.originalPrice && (
-            <div className="text-base sm:text-lg text-gray-400 line-through">
+            <div className="text-base sm:text-lg text-gray-500 line-through">
               {pkg.originalPrice}
             </div>
           )}

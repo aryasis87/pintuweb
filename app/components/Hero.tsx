@@ -29,7 +29,7 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
         {/* Copy */}
-        <div className="reveal">
+        <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-light)] bg-white/70 px-4 py-1.5 backdrop-blur">
             <span className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
@@ -64,15 +64,14 @@ export default function Hero() {
           </div>
 
           {/* Stats */}
-          <dl className="mt-10 grid grid-cols-4 gap-3 border-t border-[color:var(--border-light)] pt-6">
+          <div className="mt-10 grid grid-cols-4 gap-3 border-t border-[color:var(--border-light)] pt-6">
             {STATS.map((s) => (
               <div key={s.l}>
-                <dt className="sr-only">{s.l}</dt>
-                <dd className="text-2xl font-extrabold text-[color:var(--text-primary)] sm:text-3xl">{s.v}</dd>
+                <div className="text-2xl font-extrabold text-[color:var(--text-primary)] sm:text-3xl">{s.v}</div>
                 <p className="mt-0.5 text-xs text-[color:var(--text-tertiary)]">{s.l}</p>
               </div>
             ))}
-          </dl>
+          </div>
 
           {/* Feature chips */}
           <ul className="mt-8 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
@@ -92,7 +91,7 @@ export default function Hero() {
         </div>
 
         {/* Visual — the "pintu" (gateway arch) */}
-        <div className="reveal relative hidden lg:block" style={{ animationDelay: '.15s' }}>
+        <div className="relative hidden lg:block">
           <div className="relative mx-auto max-w-md">
             {/* Arch frame */}
             <div className="pintu-frame relative overflow-hidden bg-white p-2 shadow-[0_30px_60px_-24px_rgba(20,19,15,0.35)]">
