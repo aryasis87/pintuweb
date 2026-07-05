@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import AboutPageContent from './AboutPageContent'
 
 export const metadata: Metadata = {
-  title: 'Tentang Kami – Pintu Web',
+  title: 'Tentang Kami',
   description:
-    'Kenali Pintu Web, studio digital yang membantu UMKM dan startup membangun website profesional, cepat, dan kredibel. Temui tim di balik kesuksesan Anda.',
+    'Kenali PintuWeb, studio digital yang membantu UMKM dan startup membangun website profesional, cepat, dan kredibel. Temui tim di balik kesuksesan Anda.',
   keywords: [
-    'tentang Pintu Web',
+    'tentang PintuWeb',
     'tim jasa website',
     'jasa website UMKM',
     'studio digital Indonesia',
@@ -15,17 +15,17 @@ export const metadata: Metadata = {
     'developer website Indonesia',
   ],
   openGraph: {
-    title: 'Tentang Kami – Pintu Web',
+    title: 'Tentang Kami',
     description:
-      'Pintu Web adalah mitra digital terpercaya untuk UMKM dan startup. Fokus pada desain elegan, performa cepat, dan solusi berbasis kebutuhan bisnis.',
+      'PintuWeb adalah mitra digital terpercaya untuk UMKM dan startup. Fokus pada desain elegan, performa cepat, dan solusi berbasis kebutuhan bisnis.',
     url: 'https://pintuweb.id/about',
-    siteName: 'Pintu Web',
+    siteName: 'PintuWeb',
     images: [
       {
         url: 'https://pintuweb.id/images/og/about.jpg',
         width: 1200,
         height: 630,
-        alt: 'Tentang Tim Pintu Web',
+        alt: 'Tentang Tim PintuWeb',
       },
     ],
     type: 'website',
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Tentang Kami – Pintu Web',
+    title: 'Tentang Kami',
     description:
-      'Kenali siapa kami – tim di balik Pintu Web yang membangun website cepat, modern, dan mobile-first untuk bisnis Anda.',
+      'Kenali siapa kami – tim di balik PintuWeb yang membangun website cepat, modern, dan mobile-first untuk bisnis Anda.',
     site: '@pintuweb', // Aktifkan jika akun Twitter tersedia
   },
   alternates: {
@@ -45,15 +45,15 @@ export const metadata: Metadata = {
     'application/ld+json': JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      name: 'Pintu Web',
+      name: 'PintuWeb',
       url: 'https://pintuweb.id',
       logo: 'https://pintuweb.id/logo.png',
       description:
-        'Pintu Web adalah studio digital asal Indonesia yang berfokus pada jasa pembuatan website profesional untuk UMKM dan startup.',
+        'PintuWeb adalah studio digital asal Indonesia yang berfokus pada jasa pembuatan website profesional untuk UMKM dan startup.',
       foundingDate: '2024',
       founder: {
         '@type': 'Person',
-        name: 'Tim Pintu Web',
+        name: 'Tim PintuWeb',
       },
       address: {
         '@type': 'PostalAddress',

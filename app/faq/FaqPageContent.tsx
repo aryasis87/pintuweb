@@ -1,8 +1,6 @@
 'use client'
 
-import { useEffect, useState, useMemo } from 'react'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
+import { useState, useMemo } from 'react'
 import { 
   ChevronDown, 
   Search, 
@@ -188,10 +186,6 @@ export default function FaqPageContent() {
   const [searchTerm, setSearchTerm] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
 
-  useEffect(() => {
-    AOS.init({ once: true, duration: 800 })
-  }, [])
-
   const filteredFaqs = useMemo(() => {
     let filtered = faqs
 
@@ -239,23 +233,23 @@ export default function FaqPageContent() {
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-3 mb-6 px-4 py-2 bg-white border border-slate-200 rounded-full shadow-sm" data-aos="fade-up">
+          <div className="inline-flex items-center gap-3 mb-6 px-4 py-2 bg-white border border-slate-200 rounded-full shadow-sm">
             <Shield size={16} className="text-blue-700" />
             <span className="text-sm font-medium text-slate-700">Frequently Asked Questions</span>
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight" data-aos="fade-up" data-aos-delay="100">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
             Pertanyaan <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Umum</span><br />
             Seputar Layanan Kami
           </h1>
           
-          <p className="text-lg md:text-xl text-slate-600 mb-12 leading-relaxed max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+          <p className="text-lg md:text-xl text-slate-600 mb-12 leading-relaxed max-w-3xl mx-auto">
             Temukan jawaban lengkap untuk pertanyaan yang paling sering ditanyakan tentang proses, 
             harga, teknologi, dan layanan PintuWeb. Belum ketemu jawaban? Chat langsung dengan tim kami.
           </p>
 
           {/* Trust Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12" data-aos="fade-up" data-aos-delay="300">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             <div className="text-center">
               <div className="text-2xl font-bold text-slate-900 mb-1">{faqs.length}+</div>
               <div className="text-sm text-slate-600">FAQ Tersedia</div>
@@ -281,7 +275,7 @@ export default function FaqPageContent() {
         <div className="max-w-5xl mx-auto">
           
           {/* Search Bar */}
-          <div className="relative max-w-xl mx-auto mb-12" data-aos="fade-up">
+          <div className="relative max-w-xl mx-auto mb-12">
             <Search size={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400" />
             <input
               type="text"
@@ -293,7 +287,7 @@ export default function FaqPageContent() {
           </div>
 
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12" data-aos="fade-up" data-aos-delay="200">
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
             <div className="flex items-center gap-2 text-sm text-slate-600 mr-4">
               <Filter size={16} />
               <span>Filter kategori:</span>
@@ -340,7 +334,7 @@ export default function FaqPageContent() {
           {/* FAQ Accordion */}
           <div className="space-y-4">
             {filteredFaqs.length === 0 ? (
-              <div className="text-center py-12" data-aos="fade-up">
+              <div className="text-center py-12">
                 <HelpCircle size={48} className="mx-auto text-slate-300 mb-4" />
                 <h3 className="text-lg font-semibold text-slate-600 mb-2">
                   Tidak menemukan jawaban yang dicari?
@@ -373,8 +367,8 @@ export default function FaqPageContent() {
                         ? 'bg-blue-50 border-blue-200 shadow-lg'
                         : 'bg-white border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300'
                     }`}
-                    data-aos="fade-up"
-                    data-aos-delay={index * 50}
+                   
+                   
                   >
                     <button
                       onClick={() => toggle(index)}
@@ -451,14 +445,14 @@ export default function FaqPageContent() {
       {/* Additional Help Section */}
       <section className="py-16 bg-slate-50 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-12" data-aos="fade-up">
+          <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">
             Butuh Bantuan Lebih Lanjut?
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
             
             {/* Quick Contact */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all" data-aos="fade-up" data-aos-delay="100">
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
               <div className="flex items-start gap-4 mb-6">
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                   <MessageCircle size={24} className="text-green-600" />
@@ -482,7 +476,7 @@ export default function FaqPageContent() {
                     href="https://wa.me/6281339908765?text=Halo%2C%20saya%20butuh%20bantuan%20terkait%20layanan%20PintuWeb."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm"
+                    className="inline-flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-800 transition-colors text-sm"
                   >
                     <MessageCircle size={16} />
                     Chat Sekarang
@@ -492,7 +486,7 @@ export default function FaqPageContent() {
             </div>
 
             {/* Consultation */}
-            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all" data-aos="fade-up" data-aos-delay="200">
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all">
               <div className="flex items-start gap-4 mb-6">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                   <Users size={24} className="text-blue-600" />
@@ -531,15 +525,15 @@ export default function FaqPageContent() {
       {/* Final CTA */}
       <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white text-center px-6">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Sudah Siap Memulai Project Website Anda?
           </h2>
-          <p className="text-slate-300 text-lg mb-8 leading-relaxed" data-aos="fade-up" data-aos-delay="200">
+          <p className="text-slate-300 text-lg mb-8 leading-relaxed">
             Jangan biarkan pertanyaan menghalangi kesuksesan digital bisnis Anda. 
             Tim expert kami siap membantu mewujudkan website impian dengan hasil yang melampaui ekspektasi.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8" data-aos="fade-up" data-aos-delay="400">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <a
               href="https://wa.me/6281339908765?text=Halo%2C%20saya%20siap%20memulai%20project%20website%20dengan%20PintuWeb!"
               target="_blank"

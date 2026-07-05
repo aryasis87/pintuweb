@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: '%s | PintuWeb',
   },
   description:
-    'PintuWeb adalah pintu menuju website impianmu. Jasa pembuatan website profesional, cepat, SEO-friendly, dan berperforma tinggi untuk UMKM, startup, dan personal brand. Lihat 70+ demo langsung.',
+    'PintuWeb adalah pintu menuju website impianmu. Jasa pembuatan website profesional, cepat, SEO-friendly, dan berperforma tinggi untuk UMKM, startup, dan personal brand. Lihat 65+ demo langsung.',
   applicationName: 'PintuWeb',
   authors: [{ name: 'PintuWeb' }],
   creator: 'PintuWeb',
@@ -49,20 +49,20 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'PintuWeb — Jasa Pembuatan Website Profesional & Cepat',
     description:
-      'Pintu menuju website impianmu. Website modern, cepat, dan SEO-friendly untuk UMKM, startup, hingga personal brand. Lihat 70+ demo langsung.',
+      'Pintu menuju website impianmu. Website modern, cepat, dan SEO-friendly untuk UMKM, startup, hingga personal brand. Lihat 65+ demo langsung.',
     url: SITE,
     siteName: 'PintuWeb',
     locale: 'id_ID',
     images: [
-      { url: '/images/ogimage.png', width: 1200, height: 630, alt: 'PintuWeb — Jasa Pembuatan Website Profesional' },
+      { url: '/images/og-pintuweb.png', width: 1200, height: 630, alt: 'PintuWeb — Jasa Pembuatan Website Profesional' },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'PintuWeb — Jasa Pembuatan Website Profesional',
-    description: 'Pintu menuju website impianmu. Website cepat, modern, dan SEO-friendly. Lihat 70+ demo langsung.',
-    images: ['/images/ogimage.png'],
+    description: 'Pintu menuju website impianmu. Website cepat, modern, dan SEO-friendly. Lihat 65+ demo langsung.',
+    images: ['/images/og-pintuweb.png'],
   },
   icons: {
     icon: [
@@ -124,6 +124,7 @@ const jsonLd = {
       serviceType: 'Jasa Pembuatan Website',
       provider: { '@id': `${SITE}/#organization` },
       areaServed: 'Indonesia',
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '15', bestRating: '5', worstRating: '1' },
       offers: [
         { '@type': 'Offer', name: 'Paket Starter', price: '200000', priceCurrency: 'IDR' },
         { '@type': 'Offer', name: 'Paket Business Pro', price: '1500000', priceCurrency: 'IDR' },

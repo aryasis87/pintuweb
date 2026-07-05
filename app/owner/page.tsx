@@ -19,7 +19,7 @@ export default function OwnerPageContent() {
               Halo, Saya <span className="text-blue-700">Sanzy</span>
             </h1>
             <p className="text-lg text-gray-600 leading-relaxed mb-6">
-              Founder & Developer di balik <strong className="text-blue-700">Pintu Web</strong>. Saya membangun solusi web
+              Founder & Developer di balik <strong className="text-blue-700">PintuWeb</strong>. Saya membangun solusi web
               yang cepat, elegan, dan performa tinggi untuk UMKM dan startup di Indonesia.
             </p>
             <div className="flex items-center gap-4">
@@ -68,8 +68,8 @@ export default function OwnerPageContent() {
               },
               {
                 year: '2020',
-                title: 'Pintu Web Lahir',
-                desc: 'Resmi mendirikan studio freelance digital Pintu Web.',
+                title: 'PintuWeb Lahir',
+                desc: 'Resmi mendirikan studio freelance digital PintuWeb.',
               },
               {
                 year: '2022',
@@ -134,7 +134,7 @@ export default function OwnerPageContent() {
           <blockquote className="text-xl italic text-gray-700">
             &ldquo;Sebuah website bukan hanya desain &mdash; tapi citra, kepercayaan, dan strategi bisnis.&rdquo;
           </blockquote>
-          <p className="mt-4 text-gray-500">&mdash; Sanzy, Founder Pintu Web</p>
+          <p className="mt-4 text-gray-500">&mdash; Sanzy, Founder PintuWeb</p>
         </div>
       </section>
 
@@ -147,7 +147,7 @@ export default function OwnerPageContent() {
           <div className="bg-white rounded-xl p-6 shadow-md">
             <MessageCircle size={24} className="text-blue-600 mb-2 mx-auto" />
             <p className="text-gray-700 italic max-w-2xl mx-auto mb-4">
-              &ldquo;Sanzy sangat komunikatif dan detail. Website kami jauh lebih profesional dan cepat setelah dibangun ulang oleh Pintu Web.&rdquo;
+              &ldquo;Sanzy sangat komunikatif dan detail. Website kami jauh lebih profesional dan cepat setelah dibangun ulang oleh PintuWeb.&rdquo;
             </p>
             <p className="text-sm font-semibold text-gray-800">&mdash; Budi, Founder Kopi Lokal</p>
           </div>

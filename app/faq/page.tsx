@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import FaqPageContent from './FaqPageContent'
 
 export const metadata: Metadata = {
-  title: 'FAQ – Pertanyaan Umum tentang Layanan Pintu Web',
+  title: 'FAQ — Pertanyaan Umum',
   description:
-    'Temukan jawaban lengkap tentang biaya pembuatan website, durasi pengerjaan, sistem kerja, revisi, dan dukungan dari tim Pintu Web.',
+    'Temukan jawaban lengkap tentang biaya pembuatan website, durasi pengerjaan, sistem kerja, revisi, dan dukungan dari tim PintuWeb.',
   keywords: [
-    'FAQ Pintu Web',
+    'FAQ PintuWeb',
     'Pertanyaan umum jasa website',
     'Biaya pembuatan website',
     'Lama pengerjaan website',
@@ -18,17 +18,17 @@ export const metadata: Metadata = {
     canonical: 'https://pintuweb.id/faq',
   },
   openGraph: {
-    title: 'FAQ – Pintu Web',
+    title: 'FAQ – PintuWeb',
     description:
-      'Temukan jawaban atas pertanyaan umum seputar layanan pembuatan website profesional dari Pintu Web.',
+      'Temukan jawaban atas pertanyaan umum seputar layanan pembuatan website profesional dari PintuWeb.',
     url: 'https://pintuweb.id/faq',
-    siteName: 'Pintu Web',
+    siteName: 'PintuWeb',
     images: [
       {
         url: 'https://pintuweb.id/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Banner FAQ Pintu Web',
+        alt: 'Banner FAQ PintuWeb',
       },
     ],
     type: 'website',
@@ -36,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FAQ – Pintu Web',
+    title: 'FAQ – PintuWeb',
     description:
-      'Jawaban lengkap seputar biaya, waktu pengerjaan, revisi, dan sistem kerja Pintu Web.',
+      'Jawaban lengkap seputar biaya, waktu pengerjaan, revisi, dan sistem kerja PintuWeb.',
     site: '@pintuweb', // Aktifkan jika tersedia
   },
   other: {
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
       mainEntity: [
         {
           '@type': 'Question',
-          name: 'Berapa lama proses pembuatan website di Pintu Web?',
+          name: 'Berapa lama proses pembuatan website di PintuWeb?',
           acceptedAnswer: {
             '@type': 'Answer',
             text: 'Rata-rata durasi pengerjaan website adalah 2–4 minggu, tergantung kompleksitas dan kesiapan konten.',

@@ -1,10 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
-import AOS from 'aos'
-import 'aos/dist/aos.css'
 import {
-  Rocket, 
+  Rocket,
   Brush, 
   ShieldCheck,
   Users, 
@@ -17,16 +14,12 @@ import {
 } from 'lucide-react'
 
 export default function AboutPageContent() {
-  useEffect(() => {
-    AOS.init({ once: true, duration: 800 })
-  }, [])
-
   return (
     <main className="pt-16 scroll-smooth bg-white text-slate-800">
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 to-white py-24 px-6 text-center">
-        <div className="max-w-4xl mx-auto" data-aos="fade-up">
+        <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight">
             Tentang <span className="text-blue-700">PintuWeb</span>
           </h1>
@@ -64,10 +57,10 @@ export default function AboutPageContent() {
       {/* Our Story */}
       <section className="py-20 bg-white px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8">
             Cerita Kami
           </h2>
-          <div className="prose prose-lg max-w-none text-slate-600" data-aos="fade-up" data-aos-delay="200">
+          <div className="prose prose-lg max-w-none text-slate-600">
             <p className="text-lg leading-relaxed mb-6">
               PintuWeb dimulai dari kepedulian terhadap UMKM dan bisnis lokal yang belum memiliki 
               kehadiran digital yang memadai. Kami melihat banyak produk dan layanan berkualitas 
@@ -89,11 +82,11 @@ export default function AboutPageContent() {
       {/* Visi, Misi, dan Fokus */}
       <section className="py-20 bg-gradient-to-br from-slate-50 to-white px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-slate-900" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 text-slate-900">
             Apa yang Kami Percayai
           </h2>
           <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Rocket className="text-blue-600" size={28} />
               </div>
@@ -103,7 +96,7 @@ export default function AboutPageContent() {
                 di seluruh Indonesia untuk berkembang melalui kehadiran online yang profesional.
               </p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Brush className="text-green-600" size={28} />
               </div>
@@ -113,7 +106,7 @@ export default function AboutPageContent() {
                 dengan harga terjangkau, disertai dukungan jangka panjang untuk kesuksesan klien.
               </p>
             </div>
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+            <div className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Target className="text-purple-600" size={28} />
               </div>
@@ -130,14 +123,14 @@ export default function AboutPageContent() {
       {/* Journey Timeline */}
       <section className="py-20 bg-white px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-16 text-center" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-16 text-center">
             Perjalanan Kami
           </h2>
           <div className="relative">
             <div className="absolute left-4 md:left-1/2 md:-translate-x-0.5 top-0 bottom-0 w-0.5 bg-blue-200"></div>
             
             <div className="space-y-12">
-              <div className="relative flex items-center gap-8" data-aos="fade-right">
+              <div className="relative flex items-center gap-8">
                 <div className="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center relative z-10">
                   <Sparkles className="text-white" size={16} />
                 </div>
@@ -150,7 +143,7 @@ export default function AboutPageContent() {
                 </div>
               </div>
               
-              <div className="relative flex items-center gap-8" data-aos="fade-left">
+              <div className="relative flex items-center gap-8">
                 <div className="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center relative z-10">
                   <Rocket className="text-white" size={16} />
                 </div>
@@ -171,16 +164,16 @@ export default function AboutPageContent() {
       <section className="py-20 bg-gradient-to-br from-slate-50 to-white px-6">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6" data-aos="fade-up">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
               Nilai-Nilai Kami
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
               Prinsip-prinsip yang memandu setiap keputusan dan tindakan kami dalam melayani klien.
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center" data-aos="fade-up" data-aos-delay="100">
+            <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Users className="text-blue-600" size={28} />
               </div>
@@ -191,7 +184,7 @@ export default function AboutPageContent() {
               </p>
             </div>
             
-            <div className="text-center" data-aos="fade-up" data-aos-delay="200">
+            <div className="text-center">
               <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Sparkles className="text-purple-600" size={28} />
               </div>
@@ -202,7 +195,7 @@ export default function AboutPageContent() {
               </p>
             </div>
             
-            <div className="text-center" data-aos="fade-up" data-aos-delay="300">
+            <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <ShieldCheck className="text-green-600" size={28} />
               </div>
@@ -219,12 +212,12 @@ export default function AboutPageContent() {
       {/* Why Choose Us */}
       <section className="py-20 bg-white px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-12">
             Mengapa Memilih PintuWeb?
           </h2>
           
           <div className="grid md:grid-cols-2 gap-8 text-left">
-            <div className="flex gap-4" data-aos="fade-up" data-aos-delay="100">
+            <div className="flex gap-4">
               <CheckCircle2 size={24} className="text-green-600 shrink-0 mt-1" />
               <div>
                 <h4 className="font-semibold text-slate-900 mb-2">Kualitas Terjamin</h4>
@@ -232,7 +225,7 @@ export default function AboutPageContent() {
               </div>
             </div>
             
-            <div className="flex gap-4" data-aos="fade-up" data-aos-delay="200">
+            <div className="flex gap-4">
               <CheckCircle2 size={24} className="text-green-600 shrink-0 mt-1" />
               <div>
                 <h4 className="font-semibold text-slate-900 mb-2">Pengerjaan Cepat</h4>
@@ -240,7 +233,7 @@ export default function AboutPageContent() {
               </div>
             </div>
             
-            <div className="flex gap-4" data-aos="fade-up" data-aos-delay="300">
+            <div className="flex gap-4">
               <CheckCircle2 size={24} className="text-green-600 shrink-0 mt-1" />
               <div>
                 <h4 className="font-semibold text-slate-900 mb-2">Harga Transparan</h4>
@@ -248,7 +241,7 @@ export default function AboutPageContent() {
               </div>
             </div>
             
-            <div className="flex gap-4" data-aos="fade-up" data-aos-delay="400">
+            <div className="flex gap-4">
               <CheckCircle2 size={24} className="text-green-600 shrink-0 mt-1" />
               <div>
                 <h4 className="font-semibold text-slate-900 mb-2">Support Berkelanjutan</h4>
@@ -262,15 +255,15 @@ export default function AboutPageContent() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-slate-800 to-slate-900 text-white text-center px-6">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6" data-aos="fade-up">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Siap Membangun Website Profesional?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 leading-relaxed" data-aos="fade-up" data-aos-delay="200">
+          <p className="text-xl text-blue-100 mb-8 leading-relaxed">
             Mari diskusikan bagaimana kami dapat membantu mewujudkan website impian Anda. 
             Konsultasi gratis, tanpa komitmen, dan full support dari tim expert kami.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center" data-aos="fade-up" data-aos-delay="400">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
               href="https://wa.me/6281339908765?text=Halo%2C%20saya%20tertarik%20untuk%20konsultasi%20tentang%20pembuatan%20website%20setelah%20membaca%20tentang%20PintuWeb."
               target="_blank"

@@ -100,9 +100,9 @@ export default function Header() {
                 <span className="absolute inset-x-3.5 -bottom-0.5 h-0.5 rounded-full bg-[color:var(--primary-700)]" />
               ) : null
               return n.href.startsWith('/') ? (
-                <Link key={n.label} href={n.href} className={cls}>{n.label}{dot}</Link>
+                <Link key={n.label} href={n.href} className={cls} aria-current={isActive ? 'true' : undefined}>{n.label}{dot}</Link>
               ) : (
-                <a key={n.label} href={n.href} className={cls}>{n.label}{dot}</a>
+                <a key={n.label} href={n.href} className={cls} aria-current={isActive ? 'true' : undefined}>{n.label}{dot}</a>
               )
             })}
           </nav>

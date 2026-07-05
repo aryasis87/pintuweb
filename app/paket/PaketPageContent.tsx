@@ -315,7 +315,7 @@ export default function PaketPageContent() {
         <p className="text-lg text-gray-600">
           Mulai dari landing page, UMKM, hingga toko online – semua sudah termasuk domain, hosting, dan support.
         </p>
-        <p className="text-sm text-gray-400 mt-2">
+        <p className="text-sm text-gray-500 mt-2">
           Bayar DP sekarang via Midtrans (transfer bank, QRIS, e-wallet) atau konsultasi gratis via WhatsApp.
         </p>
       </div>
@@ -355,7 +355,7 @@ export default function PaketPageContent() {
                   <span className="text-gray-500 text-sm">Mulai dari </span>
                   <span className="text-blue-600 font-bold">{pkg.price}</span>
                 </p>
-                <p className="text-xs text-gray-400 mb-4">
+                <p className="text-xs text-gray-500 mb-4">
                   DP mulai {formatRupiah(Math.round(pkg.basePrice * 0.5))}
                 </p>
 
@@ -516,7 +516,7 @@ export default function PaketPageContent() {
                         {formatRupiah(selectedPkg.basePrice)}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2 text-right">
+                    <p className="text-xs text-gray-500 mt-2 text-right">
                       *DP = harga paket minimum. Harga final sesuai brief.
                     </p>
                   </div>
@@ -587,7 +587,7 @@ export default function PaketPageContent() {
                     Lanjut ke Pembayaran
                   </button>
 
-                  <p className="text-xs text-center text-gray-400 mt-3">
+                  <p className="text-xs text-center text-gray-500 mt-3">
                     🔒 Aman & terenkripsi oleh Midtrans. Mendukung QRIS, e-wallet, transfer bank, dan kartu kredit.
                   </p>
                 </>
@@ -598,7 +598,7 @@ export default function PaketPageContent() {
                 <div className="py-8 text-center">
                   <Loader2 size={40} className="animate-spin mx-auto text-blue-600 mb-4" />
                   <p className="text-gray-600 font-medium">Memproses pembayaran...</p>
-                  <p className="text-gray-400 text-sm mt-1">Mohon tunggu sebentar</p>
+                  <p className="text-gray-500 text-sm mt-1">Mohon tunggu sebentar</p>
                 </div>
               )}
             </div>

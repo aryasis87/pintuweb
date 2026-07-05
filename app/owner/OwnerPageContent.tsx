@@ -2,28 +2,28 @@ import type { Metadata } from 'next'
 import OwnerPageContent from './OwnerPageContent'
 
 export const metadata: Metadata = {
-  title: 'Profil Founder – Pintu Web',
+  title: 'Profil Founder – PintuWeb',
   description:
-    'Kenalan dengan Sanzy, programmer di balik Pintu Web. Bangun solusi digital untuk UMKM & startup dengan desain modern dan teknologi terkini.',
+    'Kenalan dengan Sanzy, programmer di balik PintuWeb. Bangun solusi digital untuk UMKM & startup dengan desain modern dan teknologi terkini.',
   keywords: [
-    'founder Pintu Web',
+    'founder PintuWeb',
     'profil owner website',
     'pengembang website Indonesia',
     'jasa web UMKM',
     'pengalaman developer web',
   ],
   openGraph: {
-    title: 'Profil Founder – Pintu Web',
+    title: 'Profil Founder – PintuWeb',
     description:
-      'Sanzy adalah programmer & pendiri Pintu Web, fokus pada solusi web berkualitas tinggi untuk bisnis lokal.',
+      'Sanzy adalah programmer & pendiri PintuWeb, fokus pada solusi web berkualitas tinggi untuk bisnis lokal.',
     url: 'https://pintuweb.id/owner',
-    siteName: 'Pintu Web',
+    siteName: 'PintuWeb',
     images: [
       {
         url: '/images/owner-og.jpg',
         width: 1200,
         height: 630,
-        alt: 'Foto Owner Pintu Web',
+        alt: 'Foto Owner PintuWeb',
       },
     ],
     type: 'profile',
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Profil Founder – Pintu Web',
+    title: 'Profil Founder – PintuWeb',
     description:
-      'Bangun kredibilitas digital Anda bersama Sanzy, developer di balik Pintu Web.',
+      'Bangun kredibilitas digital Anda bersama Sanzy, developer di balik PintuWeb.',
     site: '@pintuweb',
   },
   alternates: {
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
       jobTitle: 'Founder & Developer',
       worksFor: {
         '@type': 'Organization',
-        name: 'Pintu Web',
+        name: 'PintuWeb',
         url: 'https://pintuweb.id',
       },
       url: 'https://pintuweb.id/owner',
