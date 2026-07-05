@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+/* ============================================================
+   PintuWeb — Design System
+   Identitas: "Pintu menuju website impianmu"
+   Ink hangat + kertas + cobalt, aksen amber, motif gerbang/arch
+   ============================================================ */
+
+:root {
+  /* Background & Foreground (warm, premium) */
+  --background: #fffdf9;
+  --foreground: #14130f;
+
+  /* Brand — Cobalt (primary) */
+  --primary-50: #f1f3ff;
+  --primary-100: #e5e8ff;
+  --primary-200: #ccd3ff;
+  --primary-300: #a7b3ff;
+  --primary-400: #7d8cfb;
+  --primary-500: #5867f2;
+  --primary-600: #3f4ee6;
+  --primary-700: #2b39d4;
+  --primary-800: #212ba6;
+  --primary-900: #1a2170;
+
+  /* Secondary — deep indigo (for classy monochrome gradients) */
+  --secondary-50: #f1f2ff;
+  --secondary-100: #e5e6fb;
+  --secondary-200: #cdd0f7;
+  --secondary-300: #a9adef;
+  --secondary-400: #8084e4;
+  --secondary-500: #5f63d6;
+  --secondary-600: #4a4ec2;
+  --secondary-700: #3a3d9e;
+  --secondary-800: #2c2e78;
+  --secondary-900: #1f2158;
+
+  /* Accent — warm amber (signature, sparingly) */
+  --accent-50: #fdf6e9;
+  --accent-100: #f9e7c2;
+  --accent-200: #f2cf85;
+  --accent-300: #ebb54c;
+  --accent-400: #e29e28;
+  --accent-500: #c9861a;
+  --accent-600: #a56a14;
+
+  /* Success */
+  --success-50: #f0fdf4;  --success-100: #dcfce7; --success-200: #bbf7d0;
+  --success-300: #86efac; --success-400: #4ade80; --success-500: #22c55e;
+  --success-600: #16a34a; --success-700: #15803d; --success-800: #166534; --success-900: #14532d;
+
+  /* Warning */
+  --warning-50: #fefce8;  --warning-100: #fef3c7; --warning-200: #fde68a;
+  --warning-300: #fcd34d; --warning-400: #fbbf24; --warning-500: #f59e0b;
+  --warning-600: #d97706; --warning-700: #b45309; --warning-800: #92400e; --warning-900: #78350f;
+
+  /* Error */
+  --error-50: #fef2f2;  --error-100: #fee2e2; --error-200: #fecaca;
+  --error-300: #fca5a5; --error-400: #f87171; --error-500: #ef4444;
+  --error-600: #dc2626; --error-700: #b91c1c; --error-800: #991b1b; --error-900: #7f1d1d;
+
+  /* Neutral — warm greige (bukan slate dingin) */
+  --neutral-50: #faf8f4;
+  --neutral-100: #f3f0e9;
+  --neutral-200: #e7e2d7;
+  --neutral-300: #d2ccbe;
+  --neutral-400: #a8a294;
+  --neutral-500: #7c766a;
+  --neutral-600: #5c574d;
+  --neutral-700: #423e37;
+  --neutral-800: #2a2823;
+  --neutral-900: #1a1813;
+
+  /* Gradients (monokrom klasik, bukan biru-ungu generik) */
+  --gradient-primary: linear-gradient(135deg, var(--primary-700), var(--secondary-800));
+  --gradient-success: linear-gradient(135deg, var(--success-500), var(--success-600));
+  --gradient-warning: linear-gradient(135deg, var(--accent-400), var(--accent-600));
+  --gradient-neutral: linear-gradient(135deg, var(--neutral-800), var(--neutral-900));
+
+  /* Surfaces */
+  --surface-primary: #f6f1e8;
+  --surface-secondary: var(--primary-50);
+  --surface-success: var(--success-50);
+  --surface-warning: var(--accent-50);
+  --surface-error: var(--error-50);
+
+  /* Borders */
+  --border-light: #ece7dc;
+  --border-medium: var(--neutral-300);
+  --border-dark: var(--neutral-400);
+  --border-primary: var(--primary-200);
+  --border-success: var(--success-200);
+  --border-warning: var(--accent-200);
+  --border-error: var(--error-200);
+
+  /* Text */
+  --text-primary: #14130f;
+  --text-secondary: #45413a;
+  --text-tertiary: #6b665c;
+  --text-quaternary: #8a8478;
+  --text-muted: #a8a294;
+  --text-on-primary: #ffffff;
+  --text-on-dark: #f6f1e8;
+
+  /* Component */
+  --card-bg: #ffffff;
+  --card-border: var(--border-light);
+  --card-shadow: 0 1px 2px 0 rgb(20 19 15 / 0.04), 0 4px 16px -6px rgb(20 19 15 / 0.08);
+  --card-shadow-hover: 0 12px 32px -10px rgb(20 19 15 / 0.16), 0 4px 8px -4px rgb(43 57 212 / 0.10);
+
+  /* Buttons */
+  --btn-primary-bg: var(--primary-700);
+  --btn-primary-hover: var(--primary-800);
+  --btn-primary-text: var(--text-on-primary);
+  --btn-secondary-bg: var(--neutral-100);
+  --btn-secondary-hover: var(--neutral-200);
+  --btn-secondary-text: var(--text-primary);
+  --btn-success-bg: var(--success-600);
+  --btn-success-hover: var(--success-700);
+  --btn-warning-bg: var(--accent-400);
+  --btn-warning-hover: var(--accent-500);
+
+  --pattern-dots: var(--neutral-300);
+  --pattern-opacity: 0.3;
+
+  --status-online: var(--success-500);
+  --status-offline: var(--neutral-400);
+  --status-busy: var(--error-500);
+  --status-away: var(--warning-500);
+}
+
+/* ---- Base ---- */
+* { border-color: var(--border-light); }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+::selection { background: var(--primary-700); color: #fff; }
+
+/* Accessible focus ring everywhere */
+:focus-visible {
+  outline: 3px solid var(--primary-600);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 100;
+  background: var(--primary-700); color: #fff;
+  padding: 10px 16px; border-radius: 10px; font-weight: 600;
+  transition: top .2s ease;
+}
+.skip-link:focus { top: 12px; }
+
+/* ============================================================
+   Signature motifs
+   ============================================================ */
+
+/* Gerbang / arch — bingkai pintu (top rounded) */
+.arch-top { border-top-left-radius: 999px; border-top-right-radius: 999px; }
+.pintu-frame {
+  border: 1.5px solid var(--border-medium);
+  border-top-left-radius: 999px; border-top-right-radius: 999px;
+}
+
+/* Blueprint grid — "denah web" */
+.u-grid {
+  background-image:
+    linear-gradient(to right, rgb(20 19 15 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(20 19 15 / 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.u-grid-fade {
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+          mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* Marquee (kategori/kepercayaan) */
+@keyframes marquee-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee-x 34s linear infinite; }
+
+/* ---- Legacy utilities (dipertahankan agar komponen lama tetap jalan) ---- */
+.bg-gradient-brand { background: var(--gradient-primary); }
+.bg-gradient-success { background: var(--gradient-success); }
+.bg-gradient-warning { background: var(--gradient-warning); }
+.bg-gradient-neutral { background: var(--gradient-neutral); }
+
+.text-gradient-brand {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.border-brand { border-color: var(--border-primary); }
+.border-light { border-color: var(--border-light); }
+.border-medium { border-color: var(--border-medium); }
+
+.card-base {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+.card-base:hover { box-shadow: var(--card-shadow-hover); }
+
+.btn-primary { background-color: var(--btn-primary-bg); color: var(--btn-primary-text); transition: all .25s ease; }
+.btn-primary:hover { background-color: var(--btn-primary-hover); }
+.btn-secondary { background-color: var(--btn-secondary-bg); color: var(--btn-secondary-text); transition: all .25s ease; }
+.btn-secondary:hover { background-color: var(--btn-secondary-hover); }
+
+.pattern-dots {
+  background-image: radial-gradient(var(--pattern-dots) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@keyframes blob {
+  0% { transform: translate(0px, 0px) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+.animate-blob { animation: blob 7s infinite; }
+.animation-delay-2000 { animation-delay: 2s; }
+.animation-delay-4000 { animation-delay: 4s; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.reveal { animation: fade-up .6s cubic-bezier(.22,.61,.36,1) both; }
+
+/* ---- Respect reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
