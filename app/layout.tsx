@@ -19,7 +19,7 @@ const bricolage = Bricolage_Grotesque({
 const Header = dynamic(() => import('./components/Header'))
 const Footer = dynamic(() => import('./components/Footer'))
 
-const SITE = 'https://pintuweb.id'
+const SITE = 'https://pintuweb.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),

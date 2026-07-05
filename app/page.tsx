@@ -13,7 +13,7 @@ import CTABand from './components/CTABand'
 import FAQ from './components/FAQ'
 import { faqItems } from './lib/faqData'
 
-const SITE = 'https://pintuweb.id'
+const SITE = 'https://pintuweb.com'
 
 const faqJsonLd = {
   '@context': 'https://schema.org',

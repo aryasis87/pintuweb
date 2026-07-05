@@ -99,7 +99,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-white/10 py-7 sm:flex-row">
-          <p className="text-sm text-white/50">© {year} PintuWeb — pintuweb.id. Semua hak dilindungi.</p>
+          <p className="text-sm text-white/50">© {year} PintuWeb — pintuweb.com. Semua hak dilindungi.</p>
           <p className="text-sm text-white/50">Dibuat dengan ❤️ di Trenggalek untuk seluruh Indonesia.</p>
         </div>
       </div>

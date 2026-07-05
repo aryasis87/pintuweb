@@ -26,9 +26,9 @@ export async function POST(req: NextRequest) {
       item_details: itemDetails,
       customer_details: customerDetails,
       callbacks: {
-        finish: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://pintuweb.id'}/paket?status=success`,
-        error: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://pintuweb.id'}/paket?status=error`,
-        pending: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://pintuweb.id'}/paket?status=pending`,
+        finish: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://pintuweb.com'}/paket?status=success`,
+        error: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://pintuweb.com'}/paket?status=error`,
+        pending: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://pintuweb.com'}/paket?status=pending`,
       },
     }
 

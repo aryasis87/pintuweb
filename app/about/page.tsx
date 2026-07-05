@@ -18,11 +18,11 @@ export const metadata: Metadata = {
     title: 'Tentang Kami',
     description:
       'PintuWeb adalah mitra digital terpercaya untuk UMKM dan startup. Fokus pada desain elegan, performa cepat, dan solusi berbasis kebutuhan bisnis.',
-    url: 'https://pintuweb.id/about',
+    url: 'https://pintuweb.com/about',
     siteName: 'PintuWeb',
     images: [
       {
-        url: 'https://pintuweb.id/images/og/about.jpg',
+        url: 'https://pintuweb.com/images/og/about.jpg',
         width: 1200,
         height: 630,
         alt: 'Tentang Tim PintuWeb',
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
     site: '@pintuweb', // Aktifkan jika akun Twitter tersedia
   },
   alternates: {
-    canonical: 'https://pintuweb.id/about',
+    canonical: 'https://pintuweb.com/about',
   },
   other: {
     'application/ld+json': JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'PintuWeb',
-      url: 'https://pintuweb.id',
-      logo: 'https://pintuweb.id/logo.png',
+      url: 'https://pintuweb.com',
+      logo: 'https://pintuweb.com/logo.png',
       description:
         'PintuWeb adalah studio digital asal Indonesia yang berfokus pada jasa pembuatan website profesional untuk UMKM dan startup.',
       foundingDate: '2024',
@@ -65,10 +65,10 @@ export const metadata: Metadata = {
         '@type': 'ContactPoint',
         contactType: 'Customer Support',
         telephone: '+62-813-3990-8765',
-        url: 'https://pintuweb.id/contact',
+        url: 'https://pintuweb.com/contact',
       },
       sameAs: [
-        'https://pintuweb.id',
+        'https://pintuweb.com',
         'https://wa.me/6281339908765'
       ],
     }),

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     title: 'Profil Founder – PintuWeb',
     description:
       'Sanzy adalah programmer & pendiri PintuWeb, fokus pada solusi web berkualitas tinggi untuk bisnis lokal.',
-    url: 'https://pintuweb.id/owner',
+    url: 'https://pintuweb.com/owner',
     siteName: 'PintuWeb',
     images: [
       {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     site: '@pintuweb',
   },
   alternates: {
-    canonical: 'https://pintuweb.id/owner',
+    canonical: 'https://pintuweb.com/owner',
   },
   other: {
     'application/ld+json': JSON.stringify({
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
       worksFor: {
         '@type': 'Organization',
         name: 'PintuWeb',
-        url: 'https://pintuweb.id',
+        url: 'https://pintuweb.com',
       },
-      url: 'https://pintuweb.id/owner',
+      url: 'https://pintuweb.com/owner',
       sameAs: [
         'https://linkedin.com/in/namalinkedin',
         'https://github.com/yourgithub',

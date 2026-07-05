@@ -15,17 +15,17 @@ export const metadata: Metadata = {
     'Support website setelah launching'
   ],
   alternates: {
-    canonical: 'https://pintuweb.id/faq',
+    canonical: 'https://pintuweb.com/faq',
   },
   openGraph: {
     title: 'FAQ – PintuWeb',
     description:
       'Temukan jawaban atas pertanyaan umum seputar layanan pembuatan website profesional dari PintuWeb.',
-    url: 'https://pintuweb.id/faq',
+    url: 'https://pintuweb.com/faq',
     siteName: 'PintuWeb',
     images: [
       {
-        url: 'https://pintuweb.id/images/og-image.jpg',
+        url: 'https://pintuweb.com/images/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Banner FAQ PintuWeb',

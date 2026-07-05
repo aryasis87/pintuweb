@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: 'Layanan',
     description:
       'PintuWeb menyediakan layanan pembuatan website yang elegan, cepat, dan kredibel. Cocok untuk UMKM, startup, dan instansi di seluruh Indonesia.',
-    url: 'https://pintuweb.id/services',
+    url: 'https://pintuweb.com/services',
     siteName: 'PintuWeb',
     images: [
       {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     site: '@pintuweb',
   },
   alternates: {
-    canonical: 'https://pintuweb.id/services',
+    canonical: 'https://pintuweb.com/services',
   },
   other: {
     'application/ld+json': JSON.stringify({
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
       provider: {
         '@type': 'Organization',
         name: 'PintuWeb',
-        url: 'https://pintuweb.id',
-        logo: 'https://pintuweb.id/logo.png',
+        url: 'https://pintuweb.com',
+        logo: 'https://pintuweb.com/logo.png',
       },
       areaServed: {
         '@type': 'Country',
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
       },
       description:
         'PintuWeb menawarkan layanan pembuatan website elegan dan cepat untuk UMKM, startup, dan instansi di Indonesia. Termasuk SEO, landing page, dan support rutin.',
-      url: 'https://pintuweb.id/services',
+      url: 'https://pintuweb.com/services',
     }),
   },
 }
