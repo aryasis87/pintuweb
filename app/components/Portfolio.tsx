@@ -11,13 +11,13 @@ type Gateway = {
 
 // Galeri live — setiap "pintu" membuka puluhan demo asli (screenshot & tautan nyata)
 const GATEWAYS: Gateway[] = [
-  { title: 'Landing Page', tagline: 'Halaman yang menjual — webinar, sales, promo', count: '17 demo', href: 'https://portal-landing.vercel.app', image: '/images/portal-landing.jpg' },
+  { title: 'Landing Page', tagline: 'Halaman yang menjual — webinar, sales, promo', count: '17 demo', href: 'https://portal-landing-seven.vercel.app', image: '/images/portal-landing.jpg' },
   { title: 'Link in Bio', tagline: 'Satu tautan untuk semua kanalmu', count: '12 demo', href: 'https://portal-bio-neon.vercel.app', image: '/images/portal-bio.jpg' },
   { title: 'Kontes Desain', tagline: 'Beragam konsep untuk satu brief', count: '9 entri', href: 'https://portal-kontes.vercel.app', image: '/images/portal-kontes.jpg' },
-  { title: 'Undangan Digital', tagline: 'Undangan online elegan untuk momen spesial', count: '8 tema', href: 'https://portal-undangan.vercel.app', image: '/images/portal-undangan.jpg' },
-  { title: 'Portfolio Pribadi', tagline: 'Personal branding yang berkesan', count: '7 varian', href: 'https://portal-porto.vercel.app', image: '/images/portal-porto.jpg' },
+  { title: 'Undangan Digital', tagline: 'Undangan online elegan untuk momen spesial', count: '8 tema', href: 'https://portal-undangan-eta.vercel.app', image: '/images/portal-undangan.jpg' },
+  { title: 'Portfolio Pribadi', tagline: 'Personal branding yang berkesan', count: '7 varian', href: 'https://portal-porto-neon.vercel.app', image: '/images/portal-porto.jpg' },
   { title: 'Reservasi & Booking', tagline: 'Sistem pemesanan online multi-industri', count: '5 sistem', href: 'https://portal-reservasi-nu.vercel.app', image: '/images/portal-reservasi.jpg' },
-  { title: 'Properti', tagline: 'Marketplace & katalog properti', count: '4 varian', href: 'https://portal-properti.vercel.app', image: '/images/portal-properti.jpg' },
+  { title: 'Properti', tagline: 'Marketplace & katalog properti', count: '4 varian', href: 'https://portal-properti-nu.vercel.app', image: '/images/portal-properti.jpg' },
   { title: 'To-Do & Produktivitas', tagline: 'Aplikasi web untuk kelola tugas', count: '3 aplikasi', href: 'https://portal-todo.vercel.app', image: '/images/portal-todo.jpg' },
 ]
 
