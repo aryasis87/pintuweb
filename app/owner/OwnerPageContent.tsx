@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'PintuWeb',
     images: [
       {
-        url: '/images/owner-og.jpg',
+        url: '/images/og-pintuweb.png',
         width: 1200,
         height: 630,
         alt: 'Foto Owner PintuWeb',
@@ -51,10 +51,7 @@ export const metadata: Metadata = {
         url: 'https://pintuweb.com',
       },
       url: 'https://pintuweb.com/owner',
-      sameAs: [
-        'https://linkedin.com/in/namalinkedin',
-        'https://github.com/yourgithub',
-      ],
+      sameAs: ['https://github.com/aryasis87'],
     }),
   },
 }

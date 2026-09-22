@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: 'PintuWeb',
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: '/images/og-pintuweb.png',
         width: 1200,
         height: 630,
         alt: 'Layanan PintuWeb',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
         '@type': 'Organization',
         name: 'PintuWeb',
         url: 'https://pintuweb.com',
-        logo: 'https://pintuweb.com/logo.png',
+        logo: 'https://pintuweb.com/images/logo.webp',
       },
       areaServed: {
         '@type': 'Country',

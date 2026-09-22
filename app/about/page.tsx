@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'PintuWeb',
     images: [
       {
-        url: 'https://pintuweb.com/images/og/about.jpg',
+        url: 'https://pintuweb.com/images/og-pintuweb.png',
         width: 1200,
         height: 630,
         alt: 'Tentang Tim PintuWeb',
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
       '@type': 'Organization',
       name: 'PintuWeb',
       url: 'https://pintuweb.com',
-      logo: 'https://pintuweb.com/logo.png',
+      logo: 'https://pintuweb.com/images/logo.webp',
       description:
         'PintuWeb adalah studio digital asal Indonesia yang berfokus pada jasa pembuatan website profesional untuk UMKM dan startup.',
       foundingDate: '2024',

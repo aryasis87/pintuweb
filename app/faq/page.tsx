@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: 'PintuWeb',
     images: [
       {
-        url: 'https://pintuweb.com/images/og-image.jpg',
+        url: 'https://pintuweb.com/images/og-pintuweb.png',
         width: 1200,
         height: 630,
         alt: 'Banner FAQ PintuWeb',

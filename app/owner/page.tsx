@@ -1,12 +1,11 @@
 'use client'
 
 import {
-  Linkedin,
+  Github,
   ArrowRight,
   Calendar,
   MessageCircle,
 } from 'lucide-react'
-import Image from 'next/image'
 
 export default function OwnerPageContent() {
   return (
@@ -24,31 +23,25 @@ export default function OwnerPageContent() {
             </p>
             <div className="flex items-center gap-4">
               <a
-                href="https://linkedin.com/in/namalinkedin"
+                href="https://github.com/aryasis87"
                 className="inline-flex items-center gap-2 text-blue-600 font-medium hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Linkedin size={20} /> LinkedIn Saya
-              </a>
-              <a
-                href="https://github.com/yourgithub"
-                className="text-gray-600 hover:text-gray-900 text-sm underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
+                <Github size={20} /> Lihat karya saya di GitHub
               </a>
             </div>
           </div>
           <div className="flex justify-center">
-            <Image
-              src="/images/owner.jpg"
-              alt="Foto Owner"
-              width={320}
-              height={320}
-              className="rounded-2xl shadow-lg object-cover"
-            />
+            <div
+              role="img"
+              aria-label="Monogram Sanzy, founder PintuWeb"
+              className="w-full max-w-[320px] aspect-square rounded-2xl shadow-lg
+                         bg-gradient-to-br from-blue-700 to-blue-500
+                         flex items-center justify-center"
+            >
+              <span className="text-[140px] font-extrabold leading-none text-white/95 select-none">S</span>
+            </div>
           </div>
         </div>
       </section>
