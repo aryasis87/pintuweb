@@ -1,4 +1,4 @@
-const TECH = ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel', 'Framer Motion', 'PostgreSQL', 'Node.js', 'Midtrans']
+const TECH = ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel', 'Framer Motion', 'PostgreSQL', 'Node.js']
 
 export default function TechMarquee() {
   return (

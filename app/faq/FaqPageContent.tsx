@@ -135,7 +135,7 @@ const faqs = [
   {
     category: 'technical',
     question: 'Apakah bisa integrasi dengan third-party services?',
-    answer: 'Tentu! Kami bisa integrasikan dengan payment gateway (Midtrans, Xendit), Google Analytics, Facebook Pixel, email marketing (Mailchimp), WhatsApp API, dan berbagai tools bisnis lainnya.',
+    answer: 'Tentu! Kami bisa integrasikan dengan payment gateway, Google Analytics, Facebook Pixel, email marketing (Mailchimp), WhatsApp API, dan berbagai tools bisnis lainnya.',
     tags: ['integrasi', 'third-party', 'api']
   },
   {
