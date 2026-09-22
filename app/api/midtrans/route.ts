@@ -1,10 +1,22 @@
 // app/api/midtrans/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
-const MIDTRANS_SERVER_KEY = process.env.MIDTRANS_SERVER_KEY!
-const MIDTRANS_API_URL = 'https://app.midtrans.com/snap/v1/transactions'
+const MIDTRANS_SERVER_KEY = process.env.MIDTRANS_SERVER_KEY
+// Satu saklar untuk server & klien: tanpa 'true' eksplisit, semua jalan di sandbox (tidak memotong uang).
+const IS_PRODUCTION = process.env.NEXT_PUBLIC_MIDTRANS_IS_PRODUCTION === 'true'
+const MIDTRANS_API_URL = IS_PRODUCTION
+  ? 'https://app.midtrans.com/snap/v1/transactions'
+  : 'https://app.sandbox.midtrans.com/snap/v1/transactions'
 
 export async function POST(req: NextRequest) {
+  if (!MIDTRANS_SERVER_KEY) {
+    console.error('MIDTRANS_SERVER_KEY belum diset di environment')
+    return NextResponse.json(
+      { error: 'Pembayaran belum dikonfigurasi' },
+      { status: 503 }
+    )
+  }
+
   try {
     const body = await req.json()
     const { orderId, amount, customerDetails, itemDetails } = body

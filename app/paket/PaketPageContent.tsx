@@ -159,7 +159,9 @@ export default function PaketPageContent() {
     }
     const script = document.createElement('script')
     script.id = 'midtrans-snap-script'
-    script.src = process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL || 'https://app.midtrans.com/snap/snap.js'
+    script.src = process.env.NEXT_PUBLIC_MIDTRANS_IS_PRODUCTION === 'true'
+      ? 'https://app.midtrans.com/snap/snap.js'
+      : 'https://app.sandbox.midtrans.com/snap/snap.js'
     script.setAttribute('data-client-key', process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || '')
     script.async = true
     script.onload = () => setSnapLoaded(true)
