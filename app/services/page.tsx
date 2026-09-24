@@ -42,28 +42,35 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://pintuweb.com/services',
   },
-  other: {
-    'application/ld+json': JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      serviceType: 'Jasa Pembuatan Website Profesional',
-      provider: {
-        '@type': 'Organization',
-        name: 'PintuWeb',
-        url: 'https://pintuweb.com',
-        logo: 'https://pintuweb.com/images/logo.webp',
-      },
-      areaServed: {
-        '@type': 'Country',
-        name: 'Indonesia',
-      },
-      description:
-        'PintuWeb menawarkan layanan pembuatan website elegan dan cepat untuk UMKM, startup, dan instansi di Indonesia. Termasuk SEO, landing page, dan support rutin.',
-      url: 'https://pintuweb.com/services',
-    }),
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Jasa Pembuatan Website Profesional',
+  provider: {
+    '@type': 'Organization',
+    name: 'PintuWeb',
+    url: 'https://pintuweb.com',
+    logo: 'https://pintuweb.com/images/logo.webp',
   },
+  areaServed: {
+    '@type': 'Country',
+    name: 'Indonesia',
+  },
+  description:
+    'PintuWeb menawarkan layanan pembuatan website elegan dan cepat untuk UMKM, startup, dan instansi di Indonesia. Termasuk SEO, landing page, dan support rutin.',
+  url: 'https://pintuweb.com/services',
 }
 
 export default function ServicesPage() {
-  return <ServicesPageContent />
+  return (
+<>
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+  />
+  <ServicesPageContent />
+</>
+  )
 }

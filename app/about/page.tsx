@@ -41,40 +41,47 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://pintuweb.com/about',
   },
-  other: {
-    'application/ld+json': JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'PintuWeb',
-      url: 'https://pintuweb.com',
-      logo: 'https://pintuweb.com/images/logo.webp',
-      description:
-        'PintuWeb adalah studio digital asal Indonesia yang berfokus pada jasa pembuatan website profesional untuk UMKM dan startup.',
-      foundingDate: '2024',
-      founder: {
-        '@type': 'Person',
-        name: 'Tim PintuWeb',
-      },
-      address: {
-        '@type': 'PostalAddress',
-        addressLocality: 'Trenggalek',
-        addressRegion: 'Jawa Timur',
-        addressCountry: 'ID',
-      },
-      contactPoint: {
-        '@type': 'ContactPoint',
-        contactType: 'Customer Support',
-        telephone: '+62-813-3990-8765',
-        url: 'https://pintuweb.com/contact',
-      },
-      sameAs: [
-        'https://pintuweb.com',
-        'https://wa.me/6281339908765'
-      ],
-    }),
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'PintuWeb',
+  url: 'https://pintuweb.com',
+  logo: 'https://pintuweb.com/images/logo.webp',
+  description:
+    'PintuWeb adalah studio digital asal Indonesia yang berfokus pada jasa pembuatan website profesional untuk UMKM dan startup.',
+  foundingDate: '2024',
+  founder: {
+    '@type': 'Person',
+    name: 'Tim PintuWeb',
   },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Trenggalek',
+    addressRegion: 'Jawa Timur',
+    addressCountry: 'ID',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'Customer Support',
+    telephone: '+62-813-3990-8765',
+    url: 'https://pintuweb.com/contact',
+  },
+  sameAs: [
+    'https://pintuweb.com',
+    'https://wa.me/6281339908765'
+  ],
 }
 
 export default function AboutPage() {
-  return <AboutPageContent />
+  return (
+<>
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+  />
+  <AboutPageContent />
+</>
+  )
 }

@@ -41,48 +41,55 @@ export const metadata: Metadata = {
       'Jawaban lengkap seputar biaya, waktu pengerjaan, revisi, dan sistem kerja PintuWeb.',
     site: '@pintuweb', // Aktifkan jika tersedia
   },
-  other: {
-    'application/ld+json': JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: [
-        {
-          '@type': 'Question',
-          name: 'Berapa lama proses pembuatan website di PintuWeb?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Rata-rata durasi pengerjaan website adalah 2–4 minggu, tergantung kompleksitas dan kesiapan konten.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Apakah ada revisi selama proses?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Ya, kami menyediakan revisi pada tahap desain dan konten sebelum website diluncurkan.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Berapa biaya jasa pembuatan website?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Biaya tergantung pada fitur dan tingkat customisasi. Hubungi kami untuk konsultasi dan estimasi gratis.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'Apakah ada dukungan pasca launching?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Kami menyediakan support dan maintenance selama 30 hari setelah website live.',
-          },
-        },
-      ],
-    }),
-  },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Berapa lama proses pembuatan website di PintuWeb?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Rata-rata durasi pengerjaan website adalah 2–4 minggu, tergantung kompleksitas dan kesiapan konten.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Apakah ada revisi selama proses?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Ya, kami menyediakan revisi pada tahap desain dan konten sebelum website diluncurkan.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Berapa biaya jasa pembuatan website?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Biaya tergantung pada fitur dan tingkat customisasi. Hubungi kami untuk konsultasi dan estimasi gratis.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Apakah ada dukungan pasca launching?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Kami menyediakan support dan maintenance selama 30 hari setelah website live.',
+      },
+    },
+  ],
 }
 
 export default function FaqPage() {
-  return <FaqPageContent />
+  return (
+<>
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+  />
+  <FaqPageContent />
+</>
+  )
 }
