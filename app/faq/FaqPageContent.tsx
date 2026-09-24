@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { PRICE_SUMMARY, PAYMENT_SUMMARY } from '../lib/packages'
 import { 
   ChevronDown, 
   Search, 
@@ -65,13 +66,13 @@ const faqs = [
   {
     category: 'pricing',
     question: 'Berapa biaya pembuatan website?',
-    answer: 'Paket Starter: Rp200k (1 halaman). Paket Bisnis: Rp1.5jt (5 halaman + hosting). Paket Custom: Rp3.5jt+ (unlimited fitur). Harga sudah termasuk design, development, dan basic SEO. Tidak ada biaya tersembunyi.',
+    answer: PRICE_SUMMARY,
     tags: ['harga', 'biaya', 'paket']
   },
   {
     category: 'pricing',
     question: 'Bagaimana sistem pembayarannya?',
-    answer: 'Paket Starter: 100% di awal. Paket Bisnis & Custom: 50% DP untuk mulai, 50% setelah selesai. Kami terima transfer bank, e-wallet (OVO, GoPay, DANA), atau QRIS. Invoice akan dikirim sebelum pembayaran.',
+    answer: PAYMENT_SUMMARY,
     tags: ['pembayaran', 'dp', 'invoice']
   },
   {

@@ -1,5 +1,7 @@
 // app/layout.tsx
 import './globals.css'
+import { PACKAGES } from './lib/packages'
+import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Bricolage_Grotesque } from 'next/font/google'
 import dynamic from 'next/dynamic'
@@ -124,12 +126,19 @@ const jsonLd = {
       serviceType: 'Jasa Pembuatan Website',
       provider: { '@id': `${SITE}/#organization` },
       areaServed: 'Indonesia',
-      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '15', bestRating: '5', worstRating: '1' },
-      offers: [
-        { '@type': 'Offer', name: 'Paket Starter', price: '200000', priceCurrency: 'IDR' },
-        { '@type': 'Offer', name: 'Paket Business Pro', price: '1500000', priceCurrency: 'IDR' },
-        { '@type': 'Offer', name: 'Paket Enterprise', price: '3500000', priceCurrency: 'IDR' },
-      ],
+      offers: PACKAGES.map((p) => ({
+        '@type': 'Offer',
+        name: `Paket ${p.title}`,
+        url: `${SITE}/paket`,
+        priceCurrency: 'IDR',
+        price: p.minPrice,
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          priceCurrency: 'IDR',
+          minPrice: p.minPrice,
+          ...(p.openEnded ? {} : { maxPrice: p.maxPrice }),
+        },
+      })),
     },
   ],
 }
@@ -146,6 +155,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Analytics />
       </body>
     </html>
   )

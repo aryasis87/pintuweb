@@ -7,7 +7,6 @@ import {
   Users, 
   Sparkles, 
   Target,
-  Star,
   CheckCircle2,
   MessageCircle,
   ArrowRight
@@ -36,19 +35,16 @@ export default function AboutPageContent() {
               <div className="text-sm text-slate-600">Proyek Selesai</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-700 mb-1">100%</div>
-              <div className="text-sm text-slate-600">Kepuasan Klien</div>
+              <div className="text-3xl font-bold text-blue-700 mb-1">65</div>
+              <div className="text-sm text-slate-600">Situs Demo Live</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-700 mb-1">24H</div>
               <div className="text-sm text-slate-600">Response Time</div>
             </div>
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 mb-1">
-                <span className="text-3xl font-bold text-blue-700">4.9</span>
-                <Star size={20} className="text-yellow-400 fill-current" />
-              </div>
-              <div className="text-sm text-slate-600">Rating Klien</div>
+              <div className="text-3xl font-bold text-blue-700 mb-1">8</div>
+              <div className="text-sm text-slate-600">Kategori Website</div>
             </div>
           </div>
         </div>
@@ -72,7 +68,7 @@ export default function AboutPageContent() {
               untuk masa depan digital klien kami.
             </p>
             <p className="text-lg leading-relaxed">
-              Dengan pengalaman menyelesaikan 15+ proyek dan tingkat kepuasan klien 100%, 
+              Dengan pengalaman menyelesaikan 15+ proyek dan 65 situs demo yang bisa Anda coba langsung, 
               kami terus berinovasi untuk memberikan yang terbaik bagi setiap bisnis yang mempercayai kami.
             </p>
           </div>

@@ -8,7 +8,6 @@ import Portfolio from './components/Portfolio'
 import WhyUs from './components/WhyUs'
 import StatsBand from './components/StatsBand'
 import Pricing from './components/Pricing'
-import Testimonials from './components/Testimonials'
 import CTABand from './components/CTABand'
 import FAQ from './components/FAQ'
 import { faqItems } from './lib/faqData'
@@ -48,7 +47,6 @@ export default function HomePage() {
         <WhyUs />
         <StatsBand />
         <section id="pricing"><Pricing /></section>
-        <Testimonials />
         <CTABand />
         <section id="faq"><FAQ /></section>
       </main>

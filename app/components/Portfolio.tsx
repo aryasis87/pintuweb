@@ -1,4 +1,7 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { PACKAGES, formatRupiah } from '../lib/packages'
+import { DEMOS } from '../lib/demos'
 import { ArrowUpRight, LayoutGrid, Gauge, Smartphone, SearchCheck } from 'lucide-react'
 
 type Gateway = {
@@ -21,8 +24,10 @@ const GATEWAYS: Gateway[] = [
   { title: 'To-Do & Produktivitas', tagline: 'Aplikasi web untuk kelola tugas', count: '3 aplikasi', href: 'https://portal-todo.vercel.app', image: '/images/portal-todo.jpg' },
 ]
 
+const MIN_PRICE = Math.min(...PACKAGES.map((p) => p.minPrice))
+
 const STATS = [
-  { icon: LayoutGrid, v: '65+', l: 'Demo Live' },
+  { icon: LayoutGrid, v: `${DEMOS.length}`, l: 'Demo Live' },
   { icon: Gauge, v: '95+', l: 'Skor Performa' },
   { icon: Smartphone, v: '100%', l: 'Mobile Ready' },
   { icon: SearchCheck, v: 'SEO', l: 'Optimized' },
@@ -106,12 +111,20 @@ export default function Portfolio() {
             <h3 className="text-lg font-bold text-[color:var(--text-primary)]">Mau website seperti ini untuk bisnismu?</h3>
             <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Pilih gaya yang kamu suka, kami sesuaikan dengan brand-mu.</p>
           </div>
-          <a
-            href="/paket"
-            className="btn-primary inline-flex shrink-0 items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
-          >
-            Mulai dari Rp200rb <ArrowUpRight size={16} />
-          </a>
+          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+            <Link
+              href="/demo"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3.5 text-sm font-semibold text-[color:var(--primary-700)] transition-all hover:-translate-y-0.5 hover:shadow-md"
+            >
+              Lihat {DEMOS.length} demo <ArrowUpRight size={16} />
+            </Link>
+            <Link
+              href="/paket"
+              className="btn-primary inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              Mulai dari {formatRupiah(MIN_PRICE)} <ArrowUpRight size={16} />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

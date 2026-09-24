@@ -1,23 +1,25 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Phone, Menu, X, ShieldCheck, Sparkles } from 'lucide-react'
 
 const NAV = [
-  { label: 'Layanan', href: '#services', id: 'services' },
-  { label: 'Showcase', href: '#portfolio', id: 'portfolio' },
+  { label: 'Layanan', href: '/#services', id: 'services' },
+  { label: 'Demo', href: '/demo', id: 'demo' },
   { label: 'Harga', href: '/paket', id: 'pricing' },
-  { label: 'FAQ', href: '#faq', id: 'faq' },
-  { label: 'Kontak', href: '#contact', id: 'contact' },
+  { label: 'FAQ', href: '/#faq', id: 'faq' },
+  { label: 'Kontak', href: '/kontak', id: 'kontak' },
 ]
-const sectionIds = ['hero', 'services', 'portfolio', 'pricing', 'faq', 'contact']
+const sectionIds = ['hero', 'services', 'pricing', 'faq']
 
 const WA =
   'https://wa.me/6281339908765?text=Halo%20PintuWeb%2C%20saya%20mau%20konsultasi%20pembuatan%20website.'
 
 export default function Header() {
+  const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const [visible, setVisible] = useState(true)
   const [scrolled, setScrolled] = useState(false)
@@ -90,7 +92,7 @@ export default function Header() {
           {/* Desktop nav */}
           <nav aria-label="Navigasi utama" className="hidden items-center gap-1 lg:flex">
             {NAV.map((n) => {
-              const isActive = active === n.id
+              const isActive = pathname === '/' ? active === n.id : !n.href.startsWith('/#') && pathname.startsWith(n.href)
               const cls = `relative rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
                 isActive
                   ? 'text-[color:var(--primary-700)]'

@@ -1,50 +1,23 @@
 'use client'
 import { useState } from 'react'
-import { Check, Zap, Award, Sparkles, ArrowRight, ShieldCheck, Clock, Star, ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
+import { Check, Zap, Award, Sparkles, ArrowRight, ShieldCheck, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
+import { PACKAGES, formatRupiah, priceRange, waLink, type Paket } from '../lib/packages'
 
-type Pkg = {
-  title: string
-  subtitle: string
-  price: string
-  originalPrice: string
-  duration: string
-  badge: string
-  features: string[]
-  highlights: string[]
-  recommended: boolean
-  icon: React.ReactNode
+const ICONS: Record<string, React.ReactNode> = {
+  'landing-page': <Zap className="h-5 w-5" />,
+  'standar-umkm': <Award className="h-5 w-5" />,
+  'toko-online-simple': <Sparkles className="h-5 w-5" />,
 }
 
-const packages: Pkg[] = [
-  {
-    title: 'Starter', subtitle: 'Sempurna untuk landing page',
-    price: 'Rp200.000', originalPrice: 'Rp350.000', duration: 'sekali bayar', badge: 'Hemat 43%',
-    features: ['1 halaman website premium', 'Desain modern & mobile responsive', 'Performance score 95+ (Google)', 'SEO optimized untuk ranking', 'Integrasi WhatsApp & sosial media', 'Loading speed < 3 detik', 'Proses super cepat: 1–2 hari'],
-    highlights: ['UMKM', 'Portfolio', 'Landing produk'], recommended: false, icon: <Zap className="h-5 w-5" />,
-  },
-  {
-    title: 'Business Pro', subtitle: 'Pilihan terpopuler untuk bisnis',
-    price: 'Rp1.500.000', originalPrice: 'Rp2.500.000', duration: 'termasuk hosting 1 tahun', badge: 'Paling Populer',
-    features: ['5+ halaman website profesional', 'Custom design sesuai brand', 'Advanced SEO & Google Analytics', 'Integrasi multi-platform', 'Contact form & Google Maps', 'SSL certificate & keamanan', 'GRATIS domain + hosting 1 tahun', 'Training kelola konten', '30 hari garansi & support'],
-    highlights: ['Company profile', 'E-commerce basic', 'Jasa & layanan'], recommended: true, icon: <Award className="h-5 w-5" />,
-  },
-  {
-    title: 'Enterprise', subtitle: 'Solusi lengkap bisnis besar',
-    price: 'Rp3.500.000', originalPrice: 'Rp5.000.000', duration: 'paket lengkap', badge: 'Premium',
-    features: ['Halaman unlimited & custom', 'Fitur & integrasi advanced', 'E-commerce + payment gateway', 'Dashboard admin & CMS', 'Integrasi API & tools pihak ketiga', 'Analytics & reporting lengkap', 'Priority support 24/7', 'Maintenance & manajemen server', '90 hari garansi penuh'],
-    highlights: ['Startup scale-up', 'Website korporat', 'Sistem kompleks'], recommended: false, icon: <Sparkles className="h-5 w-5" />,
-  },
-]
+const packages = PACKAGES.filter((p) => p.featured)
 
 const TRUST = [
-  { icon: Star, label: '4.9/5 rating' },
   { icon: ShieldCheck, label: '100% garansi' },
   { icon: Clock, label: 'Support 24 jam' },
 ]
 
-const wa = (t: string) => `https://wa.me/6281339908765?text=${encodeURIComponent(`Halo PintuWeb, saya tertarik Paket ${t}. Boleh info lebih lanjut?`)}`
-
-function Card({ p }: { p: Pkg }) {
+function Card({ p }: { p: Paket }) {
   return (
     <div className="relative flex h-full flex-col">
       {p.badge && (
@@ -53,13 +26,13 @@ function Card({ p }: { p: Pkg }) {
         </span>
       )}
       <div className={`flex h-full flex-col rounded-3xl bg-white p-6 sm:p-8 ${p.recommended ? 'border-2 border-[color:var(--primary-700)] shadow-[0_20px_50px_-20px_rgba(43,57,212,0.4)]' : 'border border-[color:var(--border-light)] shadow-sm'}`}>
-        <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${p.recommended ? 'bg-[color:var(--primary-100)] text-[color:var(--primary-700)]' : 'bg-[color:var(--neutral-100)] text-[color:var(--text-tertiary)]'}`}>{p.icon}</span>
+        <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${p.recommended ? 'bg-[color:var(--primary-100)] text-[color:var(--primary-700)]' : 'bg-[color:var(--neutral-100)] text-[color:var(--text-tertiary)]'}`}>{ICONS[p.slug]}</span>
         <h3 className="mt-4 text-xl font-bold text-[color:var(--text-primary)]">{p.title}</h3>
         <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{p.subtitle}</p>
         <div className="mt-5">
-          <span className="text-4xl font-extrabold text-[color:var(--text-primary)]">{p.price}</span>
-          <span className="ml-2 text-base text-[color:var(--text-muted)] line-through">{p.originalPrice}</span>
-          <p className="mt-1 text-xs text-[color:var(--text-muted)]">{p.duration}</p>
+          <span className="text-sm text-[color:var(--text-tertiary)]">mulai </span>
+          <span className="text-4xl font-extrabold text-[color:var(--text-primary)]">{formatRupiah(p.minPrice)}</span>
+          <p className="mt-1 text-xs text-[color:var(--text-muted)]">Kisaran {priceRange(p)} · termasuk domain & SSL</p>
         </div>
         <div className="mt-5">
           <p className="mb-2 text-xs font-semibold text-[color:var(--text-secondary)]">Cocok untuk:</p>
@@ -70,7 +43,7 @@ function Card({ p }: { p: Pkg }) {
           </div>
         </div>
         <ul className="mt-6 flex-1 space-y-3">
-          {p.features.map((f) => (
+          {p.features.slice(0, 6).map((f) => (
             <li key={f} className="flex items-start gap-2.5 text-sm text-[color:var(--text-secondary)]">
               <Check size={17} strokeWidth={2.5} className={`mt-0.5 shrink-0 ${p.recommended ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--success-600)]'}`} />
               <span>{f}</span>
@@ -78,7 +51,7 @@ function Card({ p }: { p: Pkg }) {
           ))}
         </ul>
         <a
-          href={wa(p.title)}
+          href={waLink(p.title)}
           target="_blank"
           rel="noopener noreferrer"
           className={`mt-7 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all hover:-translate-y-0.5 ${p.recommended ? 'btn-primary shadow-md hover:shadow-lg' : 'bg-[color:var(--text-primary)] text-white hover:bg-[color:var(--neutral-800)]'}`}
@@ -159,6 +132,15 @@ export default function Pricing() {
               <ChevronRight size={18} />
             </button>
           </div>
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link
+            href="/paket"
+            className="inline-flex items-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3 text-sm font-semibold text-[color:var(--primary-700)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          >
+            Lihat semua {PACKAGES.length} paket <ArrowRight size={15} />
+          </Link>
         </div>
 
         {/* Guarantees */}

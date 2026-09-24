@@ -2,100 +2,7 @@
 
 import { useState } from 'react'
 import { CheckCircle, Star, MessageCircle } from 'lucide-react'
-
-const packages = [
-  {
-    title: 'Landing Page',
-    price: 'Rp600.000 – Rp1.200.000',
-    basePrice: 600000,
-    badge: 'Starter',
-    badgeColor: 'green',
-    features: [
-      '1 halaman promosi yang fokus konversi',
-      'Desain modern & mobile-friendly',
-      'Free domain .com/.xyz + SSL 1 tahun',
-      'Optimasi kecepatan & SEO dasar',
-      'Form kontak + tombol WhatsApp',
-      'Waktu pengerjaan cepat: 1–3 hari',
-      'Bonus: CDN & maintenance 1 bulan',
-    ],
-  },
-  {
-    title: 'Standar UMKM',
-    price: 'Rp1.500.000 – Rp2.500.000',
-    basePrice: 1500000,
-    badge: 'Bisnis',
-    badgeColor: 'blue',
-    features: [
-      '3–5 halaman lengkap (Home, Profil, Layanan, Blog, Kontak)',
-      'Desain profesional & responsif',
-      'Domain .com + hosting + SSL',
-      'Form kontak, WhatsApp & Google Maps',
-      'Basic copywriting & setup SEO on-page',
-      '2× revisi desain',
-      'Maintenance & security support 1–3 bulan',
-    ],
-  },
-  {
-    title: 'Toko Online Simple',
-    price: 'Rp2.500.000 – Rp3.500.000',
-    basePrice: 2500000,
-    badge: 'Premium',
-    badgeColor: 'red',
-    features: [
-      'Katalog produk hingga 20 item',
-      'Checkout via WhatsApp (langsung order)',
-      'Kategori produk & banner promo',
-      'Desain responsif + performa cepat',
-      'CMS ringan – mudah update produk',
-      '2× revisi tampilan/konten',
-      'Domain + hosting + SSL sudah termasuk',
-    ],
-  },
-  {
-    title: 'Website Custom',
-    price: 'Rp3.500.000 – Rp6.000.000+',
-    basePrice: 3500000,
-    badge: 'Custom',
-    badgeColor: 'purple',
-    features: [
-      'Desain & layout full custom',
-      'Jumlah halaman & fitur fleksibel',
-      'Integrasi API, booking, formulir kompleks',
-      'Framework modern (Next.js, Tailwind, dsb.)',
-      'UX consultation & optimasi performa',
-      'Maintenance & support teknis 3 bulan',
-      'Cocok untuk startup & instansi',
-    ],
-  },
-  {
-    title: 'Toko Online Full',
-    price: 'Rp4.500.000 – Rp7.500.000',
-    basePrice: 4500000,
-    features: [
-      'Keranjang belanja & sistem checkout lengkap',
-      'Integrasi payment gateway',
-      'Ongkir otomatis (via RajaOngkir)',
-      'Dashboard admin – kelola produk & pesanan',
-      'Desain mobile-first, loading cepat & SEO-ready',
-      'Maintenance & support 3–6 bulan',
-      'Domain + hosting + SSL premium',
-    ],
-  },
-  {
-    title: 'Portofolio / Personal Branding',
-    price: 'Rp1.500.000 – Rp2.500.000',
-    basePrice: 1500000,
-    features: [
-      'Halaman Tentang, Karya, Blog & Kontak',
-      'Desain clean & profesional',
-      'CTA ke WhatsApp, LinkedIn, IG, dsb.',
-      'SEO dasar & struktur heading rapi',
-      'Domain + hosting + SSL 1 tahun',
-      'Ideal untuk freelancer & kreator',
-    ],
-  },
-]
+import { PACKAGES, priceRange, formatRupiah } from '../lib/packages'
 
 const getBadgeColor = (color: string) => {
   switch (color) {
@@ -116,9 +23,6 @@ export default function PaketPageContent() {
     )
   }
 
-  const formatRupiah = (amount: number) =>
-    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount)
-
   return (
     <main className="bg-gray-50 py-28 px-4 lg:px-8">
 
@@ -137,7 +41,7 @@ export default function PaketPageContent() {
 
       {/* Grid Paket */}
       <div className="max-w-screen-xl mx-auto grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {packages.map((pkg, idx) => {
+        {PACKAGES.map((pkg, idx) => {
           const cleanTitle = pkg.title.split('–')[0].trim()
           const waMsg = encodeURIComponent(
             `Halo, saya tertarik dengan paket "${cleanTitle}". Boleh minta info lebih lanjut?`
@@ -158,7 +62,7 @@ export default function PaketPageContent() {
                   className={`absolute top-0 right-0
                     text-white text-xs font-semibold uppercase
                     px-3 py-1 rounded-tr-2xl rounded-bl-xl z-10
-                    ${getBadgeColor(pkg.badgeColor || '')}`}
+                    ${getBadgeColor(pkg.badgeColor ?? '')}`}
                 >
                   {pkg.badge}
                 </div>
@@ -168,10 +72,10 @@ export default function PaketPageContent() {
                 <h2 className="text-xl font-semibold text-gray-800 mb-2">{pkg.title}</h2>
                 <p className="mb-1">
                   <span className="text-gray-500 text-sm">Mulai dari </span>
-                  <span className="text-blue-600 font-bold">{pkg.price}</span>
+                  <span className="text-blue-600 font-bold">{priceRange(pkg)}</span>
                 </p>
                 <p className="text-xs text-gray-500 mb-4">
-                  DP mulai {formatRupiah(Math.round(pkg.basePrice * 0.5))}
+                  DP mulai {formatRupiah(Math.round(pkg.minPrice * 0.5))}
                 </p>
 
                 <ul className="space-y-3 flex-1">

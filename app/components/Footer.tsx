@@ -10,11 +10,12 @@ const CONTACTS = [
 ]
 
 const LINKS = [
-  { label: 'Layanan', href: '#services' },
-  { label: 'Showcase', href: '#portfolio' },
+  { label: 'Layanan', href: '/#services' },
+  { label: 'Galeri Demo', href: '/demo' },
   { label: 'Harga & Paket', href: '/paket' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'FAQ', href: '/#faq' },
   { label: 'Tentang', href: '/about' },
+  { label: 'Kontak', href: '/kontak' },
 ]
 
 export default function Footer() {

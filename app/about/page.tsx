@@ -66,7 +66,7 @@ const jsonLd = {
     '@type': 'ContactPoint',
     contactType: 'Customer Support',
     telephone: '+62-813-3990-8765',
-    url: 'https://pintuweb.com/contact',
+    url: 'https://pintuweb.com/kontak',
   },
   sameAs: [
     'https://pintuweb.com',
