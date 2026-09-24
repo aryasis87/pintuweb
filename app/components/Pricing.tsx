@@ -13,8 +13,8 @@ const ICONS: Record<string, React.ReactNode> = {
 const packages = PACKAGES.filter((p) => p.featured)
 
 const TRUST = [
-  { icon: ShieldCheck, label: '100% garansi' },
-  { icon: Clock, label: 'Support 24 jam' },
+  { icon: ShieldCheck, label: 'Garansi bug 30 hari' },
+  { icon: Clock, label: 'Respon di hari kerja' },
 ]
 
 function Card({ p }: { p: Paket }) {
@@ -148,15 +148,15 @@ export default function Pricing() {
           <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6">
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--success-100)]"><ShieldCheck size={20} className="text-[color:var(--success-700)]" /></span>
             <div>
-              <h3 className="font-bold text-[color:var(--text-primary)]">Jaminan 100% uang kembali</h3>
-              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Tidak puas dengan hasilnya? Kami kembalikan 100% dalam 7 hari setelah website selesai.</p>
+              <h3 className="font-bold text-[color:var(--text-primary)]">Bayar 50% di awal saja</h3>
+              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Pelunasan 50% baru dibayar setelah website selesai dan Anda setujui.</p>
             </div>
           </div>
           <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6">
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--primary-100)]"><Clock size={20} className="text-[color:var(--primary-700)]" /></span>
             <div>
-              <h3 className="font-bold text-[color:var(--text-primary)]">Support seumur hidup</h3>
-              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Maintenance, update konten, dan troubleshooting kapan saja via WhatsApp.</p>
+              <h3 className="font-bold text-[color:var(--text-primary)]">Maintenance sesuai paket</h3>
+              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Maintenance 1–6 bulan sesuai paket, plus garansi perbaikan bug gratis 30 hari setelah website live.</p>
             </div>
           </div>
         </div>

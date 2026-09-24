@@ -83,9 +83,9 @@ const faqs = [
   },
   {
     category: 'pricing',
-    question: 'Apakah bisa refund jika tidak puas?',
-    answer: 'Ya, kami berikan garansi 100% money back dalam 7 hari jika hasil tidak sesuai brief atau ekspektasi. Setelah approval design dan development dimulai, refund 50%. Kami berkomitmen pada kepuasan klien.',
-    tags: ['refund', 'garansi', 'jaminan']
+    question: 'Bagaimana kalau saya tidak cocok dengan hasilnya?',
+    answer: 'Desain Anda setujui dulu sebelum development dimulai, dengan jatah revisi sesuai paket. Pelunasan 50% baru dibayar setelah website selesai dan Anda setujui — jadi Anda tidak membayar penuh untuk hasil yang belum sesuai.',
+    tags: ['revisi', 'pembayaran', 'jaminan']
   },
 
   // Process Questions
@@ -142,7 +142,7 @@ const faqs = [
   {
     category: 'technical',
     question: 'Bagaimana keamanan website dijamin?',
-    answer: 'Kami implement SSL certificate, security headers, input validation, XSS protection, dan regular security updates. Backup otomatis dan monitoring uptime 99.9%. Data klien dienkripsi dan tidak pernah dibagikan ke pihak ketiga.',
+    answer: 'Kami pasang SSL (HTTPS), security headers, validasi input, dan proteksi XSS, serta memperbarui dependensi secara berkala selama masa maintenance. Kode tersimpan di repository Git sehingga bisa dipulihkan kapan pun. Data klien tidak pernah dibagikan ke pihak ketiga.',
     tags: ['keamanan', 'security', 'ssl']
   },
 
@@ -150,13 +150,13 @@ const faqs = [
   {
     category: 'support',
     question: 'Apakah tersedia layanan support setelah website live?',
-    answer: 'Ya! Support gratis 30 hari untuk bug fixes, minor updates, dan troubleshooting. Setelah itu bisa lanjut paket maintenance bulanan atau per-request. Support via WhatsApp dengan response time < 24 jam.',
+    answer: 'Ya! Support gratis 30 hari untuk bug fixes, minor updates, dan troubleshooting. Setelah itu bisa lanjut paket maintenance bulanan atau per-request. Support via WhatsApp dengan respon kurang dari 24 jam di hari kerja.',
     tags: ['support', 'maintenance', 'after-sales']
   },
   {
     category: 'support',
     question: 'Bagaimana jika website saya bermasalah atau down?',
-    answer: 'Tim teknis kami monitoring uptime 24/7. Jika ada issue, kami langsung handle dan informasikan via WhatsApp. Backup harian otomatis sehingga data aman. Average uptime 99.9% dengan recovery time < 1 jam.',
+    answer: 'Kabari kami via WhatsApp — kami tangani secepatnya di jam kerja, dan selama garansi 30 hari perbaikannya gratis. Kode setiap website tersimpan di repository Git, sehingga versi sebelumnya selalu bisa dipulihkan.',
     tags: ['troubleshooting', 'uptime', 'recovery']
   },
   {
@@ -264,8 +264,8 @@ export default function FaqPageContent() {
               <div className="text-sm text-slate-600">Questions Answered</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-slate-900 mb-1">24/7</div>
-              <div className="text-sm text-slate-600">Support Available</div>
+              <div className="text-2xl font-bold text-slate-900 mb-1">30 hari</div>
+              <div className="text-sm text-slate-600">Garansi Bug Gratis</div>
             </div>
           </div>
         </div>
@@ -561,7 +561,7 @@ export default function FaqPageContent() {
             </div>
             <div className="flex items-center gap-2">
               <Shield size={16} />
-              <span>Garansi 100%</span>
+              <span>Garansi 30 hari</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock size={16} />
@@ -569,7 +569,7 @@ export default function FaqPageContent() {
             </div>
             <div className="flex items-center gap-2">
               <Star size={16} />
-              <span>Support lifetime</span>
+              <span>DP 50%</span>
             </div>
           </div>
         </div>

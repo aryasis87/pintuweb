@@ -39,8 +39,8 @@ export default function AboutPageContent() {
               <div className="text-sm text-slate-600">Situs Demo Live</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-700 mb-1">24H</div>
-              <div className="text-sm text-slate-600">Response Time</div>
+              <div className="text-3xl font-bold text-blue-700 mb-1">&lt;24 jam</div>
+              <div className="text-sm text-slate-600">Respon di Hari Kerja</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-700 mb-1">8</div>
@@ -241,7 +241,7 @@ export default function AboutPageContent() {
               <CheckCircle2 size={24} className="text-green-600 shrink-0 mt-1" />
               <div>
                 <h4 className="font-semibold text-slate-900 mb-2">Support Berkelanjutan</h4>
-                <p className="text-slate-600">Garansi 30 hari dan support lifetime via WhatsApp 24/7.</p>
+                <p className="text-slate-600">Garansi 30 hari, maintenance sesuai paket, dan konsultasi via WhatsApp di jam kerja.</p>
               </div>
             </div>
           </div>
@@ -282,7 +282,7 @@ export default function AboutPageContent() {
           <div className="flex flex-wrap justify-center items-center gap-6 mt-8 text-sm text-blue-100">
             <span>✓ Response dalam 1 jam</span>
             <span>✓ Konsultasi gratis</span>
-            <span>✓ Garansi kepuasan</span>
+            <span>✓ Garansi 30 hari</span>
           </div>
         </div>
       </section>

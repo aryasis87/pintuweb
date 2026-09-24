@@ -5,7 +5,7 @@ const COMPARE = [
   { label: 'Skor performa Google 90+ & loading cepat', us: true, them: false },
   { label: 'SEO on-page siap ranking sejak awal', us: true, them: false },
   { label: 'Full ownership: source code, domain, hosting', us: true, them: false },
-  { label: 'Garansi 30 hari + support seumur hidup', us: true, them: false },
+  { label: 'Garansi 30 hari + maintenance sesuai paket', us: true, them: false },
   { label: 'Progres real-time via WhatsApp', us: true, them: false },
 ]
 

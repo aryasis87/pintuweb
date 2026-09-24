@@ -63,7 +63,7 @@ export default function ServicesPageContent() {
               icon: <RefreshCcw size={36} className="text-blue-600" />,
               title: 'Maintenance & Support',
               desc: 'Pemeliharaan rutin agar website tetap aman, cepat, dan bebas error.',
-              bullets: ['Backup otomatis', 'Monitoring uptime', 'Dukungan teknis'],
+              bullets: ['Backup & pemulihan versi', 'Update keamanan berkala', 'Dukungan teknis'],
             },
             {
               icon: <Sparkles size={36} className="text-blue-600" />,
