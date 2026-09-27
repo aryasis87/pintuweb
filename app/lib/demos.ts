@@ -78,7 +78,7 @@ export const DEMOS: Demo[] = [
   { slug: "propertia", name: "Propertia", tagline: "Temukan Rumah Impianmu", category: 'properti', url: "https://properti-propertia.vercel.app" },
   { slug: "classic-todo", name: "Hari Ini", tagline: "Daftar Tugas Minimal & Fokus", category: 'todo', url: "https://todo-classic.vercel.app" },
   { slug: "kanban-board", name: "TaskFlow", tagline: "Papan Kanban Produktif", category: 'todo', url: "https://todo-kanban-one.vercel.app" },
-  { slug: "task-manager", name: "TaskFlow", tagline: "Task Manager Lengkap", category: 'todo', url: "https://todo-manager-ivory-seven.vercel.app" },
+  { slug: "task-manager", name: "Tuntas", tagline: "Task Manager Lengkap", category: 'todo', url: "https://todo-manager-ivory-seven.vercel.app" },
   { slug: "absorber-dickson", name: "EthyleneAbsorber", tagline: "Konsep Korporat", category: 'kontes', url: "https://absorber-dickson.vercel.app" },
   { slug: "absorber-divine", name: "EthyleneAbsorber", tagline: "Konsep Divine", category: 'kontes', url: "https://absorber-divine.vercel.app" },
   { slug: "absorber-premium", name: "EthyleneAbsorber", tagline: "Konsep Premium", category: 'kontes', url: "https://absorber-premium.vercel.app" },
