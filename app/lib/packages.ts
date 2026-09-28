@@ -2,6 +2,10 @@
 // Dipakai /paket, bagian harga di beranda, dan JSON-LD di layout —
 // ubah harga di sini saja supaya ketiganya tidak pernah berselisih.
 
+import { WA_NUMBER } from './site'
+
+export { WA_NUMBER }
+
 export type Paket = {
   slug: string
   title: string
@@ -15,6 +19,8 @@ export type Paket = {
   featured?: boolean
   recommended?: boolean
   subtitle: string
+  /** perkiraan waktu pengerjaan setelah konten lengkap */
+  duration: string
   highlights: string[]
   features: string[]
 }
@@ -29,6 +35,7 @@ export const PACKAGES: Paket[] = [
     badgeColor: 'green',
     featured: true,
     subtitle: 'Satu halaman promosi yang fokus konversi',
+    duration: '1–3 hari kerja',
     highlights: ['Promosi produk', 'Event', 'Kampanye iklan'],
     features: [
       '1 halaman promosi yang fokus konversi',
@@ -36,7 +43,6 @@ export const PACKAGES: Paket[] = [
       'Free domain .com/.xyz + SSL 1 tahun',
       'Optimasi kecepatan & SEO dasar',
       'Form kontak + tombol WhatsApp',
-      'Waktu pengerjaan cepat: 1–3 hari',
       'Bonus: CDN & maintenance 1 bulan',
     ],
   },
@@ -50,6 +56,7 @@ export const PACKAGES: Paket[] = [
     featured: true,
     recommended: true,
     subtitle: 'Pilihan terpopuler untuk bisnis',
+    duration: '3–5 hari kerja',
     highlights: ['Company profile', 'Jasa & layanan', 'UMKM'],
     features: [
       '3–5 halaman lengkap (Home, Profil, Layanan, Blog, Kontak)',
@@ -70,6 +77,7 @@ export const PACKAGES: Paket[] = [
     badgeColor: 'red',
     featured: true,
     subtitle: 'Mulai jualan online tanpa ribet',
+    duration: '1–2 minggu',
     highlights: ['Katalog produk', 'Order via WhatsApp', 'Toko ritel'],
     features: [
       'Katalog produk hingga 20 item',
@@ -90,6 +98,7 @@ export const PACKAGES: Paket[] = [
     badge: 'Custom',
     badgeColor: 'purple',
     subtitle: 'Desain & fitur sepenuhnya sesuai kebutuhan',
+    duration: '1–2 minggu, tergantung fitur',
     highlights: ['Startup', 'Instansi', 'Sistem khusus'],
     features: [
       'Desain & layout full custom',
@@ -107,6 +116,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 4500000,
     maxPrice: 7500000,
     subtitle: 'Toko online lengkap dengan dashboard admin',
+    duration: '1–2 minggu, tergantung fitur',
     highlights: ['E-commerce', 'Ongkir otomatis', 'Kelola pesanan'],
     features: [
       'Keranjang belanja & sistem checkout lengkap',
@@ -124,6 +134,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 1500000,
     maxPrice: 2500000,
     subtitle: 'Etalase karya untuk freelancer & kreator',
+    duration: '3–5 hari kerja',
     highlights: ['Freelancer', 'Kreator', 'Profesional'],
     features: [
       'Halaman Tentang, Karya, Blog & Kontak',
@@ -145,8 +156,6 @@ export const formatRupiah = (n: number) =>
 export const priceRange = (p: Paket) =>
   `${formatRupiah(p.minPrice)} – ${formatRupiah(p.maxPrice)}${p.openEnded ? '+' : ''}`
 
-export const WA_NUMBER = '6281339908765'
-
 export const waLink = (paket: string) =>
   `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
     `Halo PintuWeb, saya tertarik dengan paket "${paket}". Boleh minta info lebih lanjut?`
@@ -156,6 +165,11 @@ export const waLink = (paket: string) =>
 export const PRICE_SUMMARY =
   `Harga mulai ${PACKAGES.map((p) => `${formatRupiah(p.minPrice)} untuk ${p.title}`).join(', ')}. ` +
   'Rincian fitur tiap paket ada di halaman Paket. Semua harga sudah termasuk desain, development, dan SEO dasar.'
+
+/** Biaya setelah tahun pertama — wajib tampil di halaman harga (bukan hanya di FAQ). */
+export const RENEWAL_SUMMARY =
+  'Domain & hosting yang termasuk paket berlaku untuk tahun pertama. Mulai tahun kedua, perpanjangannya sekitar ' +
+  'Rp300.000–Rp500.000 per tahun tergantung paket, dan kami kabari sebelum jatuh tempo.'
 
 export const PAYMENT_SUMMARY =
   'Semua paket: DP 50% untuk memulai, pelunasan 50% setelah website selesai dan Anda setujui. ' +

@@ -12,8 +12,7 @@ import CTABand from './components/CTABand'
 import FAQ from './components/FAQ'
 import { faqItems } from './lib/faqData'
 
-const SITE = 'https://pintuweb.com'
-
+// Semua pertanyaan dirender di bagian FAQ (sebagian tersembunyi di balik tab), jadi schema cocok dengan isi.
 const faqJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -22,16 +21,6 @@ const faqJsonLd = {
     name: f.question,
     acceptedAnswer: { '@type': 'Answer', text: f.answer },
   })),
-}
-
-const breadcrumbJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE },
-    { '@type': 'ListItem', position: 2, name: 'Harga & Paket', item: `${SITE}/paket` },
-    { '@type': 'ListItem', position: 3, name: 'Layanan', item: `${SITE}/services` },
-  ],
 }
 
 export default function HomePage() {
@@ -51,7 +40,6 @@ export default function HomePage() {
         <section id="faq"><FAQ /></section>
       </main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
     </>
   )
 }

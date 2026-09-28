@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Mail, PhoneCall, MapPin, Clock, MessageCircle, ArrowUpRight } from 'lucide-react'
+import { EMAIL, LOCATION, WA_DISPLAY, WA_NUMBER, wa } from '../lib/site'
 
 const CONTACTS = [
-  { icon: PhoneCall, title: 'Telepon / WhatsApp', value: '+62 813 3990 8765', link: 'https://wa.me/6281339908765' },
-  { icon: Mail, title: 'Email', value: 'sanzystore@gmail.com', link: 'mailto:sanzystore@gmail.com' },
-  { icon: MapPin, title: 'Lokasi', value: 'Trenggalek, Jawa Timur', sub: 'Melayani seluruh Indonesia' },
+  { icon: PhoneCall, title: 'Telepon / WhatsApp', value: WA_DISPLAY, link: `https://wa.me/${WA_NUMBER}` },
+  { icon: Mail, title: 'Email', value: EMAIL, link: `mailto:${EMAIL}` },
+  { icon: MapPin, title: 'Lokasi', value: LOCATION, sub: 'Melayani seluruh Indonesia' },
   { icon: Clock, title: 'Jam Operasional', value: 'Senin – Sabtu', sub: '09.00 – 17.00 WIB' },
 ]
 
@@ -13,7 +14,9 @@ const LINKS = [
   { label: 'Layanan', href: '/#services' },
   { label: 'Galeri Demo', href: '/demo' },
   { label: 'Harga & Paket', href: '/paket' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Kebijakan Privasi', href: '/kebijakan-privasi' },
+  { label: 'Syarat & Ketentuan', href: '/syarat-ketentuan' },
   { label: 'Tentang', href: '/about' },
   { label: 'Kontak', href: '/kontak' },
 ]
@@ -47,7 +50,7 @@ export default function Footer() {
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <a
-                href="https://wa.me/6281339908765?text=Halo%20PintuWeb%2C%20saya%20mau%20konsultasi%20website."
+                href={wa('Halo PintuWeb, saya mau konsultasi website.')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--accent-300)] px-7 py-3.5 font-semibold text-[color:var(--text-primary)] shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[color:var(--accent-200)]"

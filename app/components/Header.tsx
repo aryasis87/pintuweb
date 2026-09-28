@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Phone, Menu, X, ShieldCheck, Sparkles } from 'lucide-react'
+import { WA_DISPLAY, wa } from '../lib/site'
 
 const NAV = [
   { label: 'Layanan', href: '/#services', id: 'services' },
@@ -15,8 +16,7 @@ const NAV = [
 ]
 const sectionIds = ['hero', 'services', 'pricing', 'faq']
 
-const WA =
-  'https://wa.me/6281339908765?text=Halo%20PintuWeb%2C%20saya%20mau%20konsultasi%20pembuatan%20website.'
+const WA = wa('Halo PintuWeb, saya mau konsultasi pembuatan website.')
 
 export default function Header() {
   const pathname = usePathname()
@@ -171,7 +171,7 @@ export default function Header() {
             <Phone size={18} /> Konsultasi Gratis
           </a>
           <p className="pt-3 text-center text-sm text-[color:var(--text-tertiary)]">
-            Respon cepat • <span className="font-medium text-[color:var(--text-primary)]">+62 813 3990 8765</span>
+            Respon di hari kerja • <span className="font-medium text-[color:var(--text-primary)]">{WA_DISPLAY}</span>
           </p>
         </div>
       </div>

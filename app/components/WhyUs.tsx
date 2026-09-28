@@ -2,7 +2,7 @@ import { Check, X, Gauge, Search, Palette, Headphones, ShieldCheck, Rocket } fro
 
 const COMPARE = [
   { label: 'Desain custom sesuai brand (bukan template)', us: true, them: false },
-  { label: 'Skor performa Google 90+ & loading cepat', us: true, them: false },
+  { label: 'Target skor PageSpeed 90+ & loading cepat', us: true, them: false },
   { label: 'SEO on-page siap ranking sejak awal', us: true, them: false },
   { label: 'Full ownership: source code, domain, hosting', us: true, them: false },
   { label: 'Garansi 30 hari + maintenance sesuai paket', us: true, them: false },
@@ -11,11 +11,11 @@ const COMPARE = [
 
 const REASONS = [
   { icon: Palette, title: 'Desain berkarakter', desc: 'Bukan template daur ulang — tiap website punya identitas sendiri.' },
-  { icon: Gauge, title: 'Ngebut & ringan', desc: 'Dibangun dengan Next.js; rata-rata skor performa 95+.' },
+  { icon: Gauge, title: 'Ngebut & ringan', desc: 'Dibangun dengan Next.js dan dioptimalkan untuk skor PageSpeed 90+.' },
   { icon: Search, title: 'Ramah Google', desc: 'Struktur SEO, metadata, dan sitemap rapi sejak hari pertama.' },
-  { icon: Headphones, title: 'Support responsif', desc: 'Respon cepat via WhatsApp, bahkan setelah proyek selesai.' },
+  { icon: Headphones, title: 'Support responsif', desc: 'Respon di hari kerja lewat WhatsApp, bahkan setelah proyek selesai.' },
   { icon: ShieldCheck, title: 'Aman & bergaransi', desc: 'SSL, backup, dan garansi 30 hari untuk ketenangan hatimu.' },
-  { icon: Rocket, title: 'Cepat online', desc: 'Landing page 1–2 hari, website bisnis 3–5 hari kerja.' },
+  { icon: Rocket, title: 'Cepat online', desc: 'Landing page 1–3 hari kerja, website bisnis 3–5 hari kerja.' },
 ]
 
 export default function WhyUs() {

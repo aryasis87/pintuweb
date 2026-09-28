@@ -2,18 +2,18 @@
 
 import { useState } from 'react'
 import { MessageCircle, Mail, PhoneCall, MapPin, Clock } from 'lucide-react'
-import { PACKAGES, WA_NUMBER } from '../lib/packages'
+import { PACKAGES } from '../lib/packages'
+import { EMAIL, HOURS, LOCATION, WA_DISPLAY, WA_NUMBER } from '../lib/site'
 
-const EMAIL = 'sanzystore@gmail.com'
 
 type Form = { nama: string; usaha: string; paket: string; demo: string; pesan: string }
 const EMPTY: Form = { nama: '', usaha: '', paket: '', demo: '', pesan: '' }
 
 const INFO = [
-  { icon: PhoneCall, title: 'WhatsApp', value: '+62 813 3990 8765', href: `https://wa.me/${WA_NUMBER}` },
+  { icon: PhoneCall, title: 'WhatsApp', value: WA_DISPLAY, href: `https://wa.me/${WA_NUMBER}` },
   { icon: Mail, title: 'Email', value: EMAIL, href: `mailto:${EMAIL}` },
-  { icon: MapPin, title: 'Lokasi', value: 'Trenggalek, Jawa Timur', sub: 'Melayani seluruh Indonesia' },
-  { icon: Clock, title: 'Jam operasional', value: 'Senin – Sabtu', sub: '09.00 – 17.00 WIB' },
+  { icon: MapPin, title: 'Lokasi', value: LOCATION, sub: 'Melayani seluruh Indonesia' },
+  { icon: Clock, title: 'Jam operasional', value: HOURS.split(', ')[0], sub: HOURS.split(', ')[1] },
 ]
 
 function compose(f: Form) {
@@ -110,7 +110,7 @@ export default function ContactForm() {
               {errors.pesan && <p id="pesan-err" className={err}>{errors.pesan}</p>}
             </div>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <button type="submit" className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-green-600 px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-green-700">
+              <button type="submit" className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[color:var(--success-700)] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[color:var(--success-800)]">
                 <MessageCircle size={17} /> Kirim via WhatsApp
               </button>
               <button type="button" onClick={sendEmail} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3.5 text-sm font-semibold text-[color:var(--text-primary)] transition hover:-translate-y-0.5 hover:shadow-md">

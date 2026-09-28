@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PACKAGES, formatRupiah } from '../lib/packages'
 import { DEMOS } from '../lib/demos'
+import { PERF_TARGET } from '../lib/site'
 import { ArrowUpRight, LayoutGrid, Gauge, Smartphone, SearchCheck } from 'lucide-react'
 
 type Gateway = {
@@ -28,7 +29,7 @@ const MIN_PRICE = Math.min(...PACKAGES.map((p) => p.minPrice))
 
 const STATS = [
   { icon: LayoutGrid, v: `${DEMOS.length}`, l: 'Demo Live' },
-  { icon: Gauge, v: '95+', l: 'Skor Performa' },
+  { icon: Gauge, v: PERF_TARGET, l: 'Target PageSpeed' },
   { icon: Smartphone, v: '100%', l: 'Mobile Ready' },
   { icon: SearchCheck, v: 'SEO', l: 'Optimized' },
 ]
@@ -72,7 +73,6 @@ export default function Portfolio() {
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col focus:outline-none"
-              aria-label={`Buka galeri ${g.title} (${g.count})`}
             >
               {/* Arch-framed preview */}
               <div className="pintu-frame relative overflow-hidden bg-white p-1.5 shadow-sm transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-[var(--card-shadow-hover)] group-focus-visible:-translate-y-1.5">

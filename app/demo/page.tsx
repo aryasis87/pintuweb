@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import DemoGallery from './DemoGallery'
 import { DEMOS } from '../lib/demos'
 
-const SITE = 'https://pintuweb.com'
+import { SITE } from '../lib/site'
 
 export const metadata: Metadata = {
   title: `Galeri Demo — ${DEMOS.length} Website Nyata`,

@@ -159,23 +159,20 @@ export default function Services() {
           </div>
 
           {/* Dots Indicator */}
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center mt-4">
             {services.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`transition-all duration-300 rounded-full ${
-                  index === currentSlide 
-                    ? 'w-8 h-2' 
-                    : 'w-2 h-2'
-                }`}
-                style={{
-                  backgroundColor: index === currentSlide 
-                    ? 'var(--primary-700)' 
-                    : 'var(--neutral-300)'
-                }}
-                aria-label={`Go to slide ${index + 1}`}
-              />
+                className="grid h-11 min-w-11 place-items-center"
+                aria-label={`Layanan ${index + 1}`}
+                aria-current={index === currentSlide}
+              >
+                <span
+                  className={`block rounded-full transition-all duration-300 ${index === currentSlide ? 'w-8 h-2' : 'w-2 h-2'}`}
+                  style={{ backgroundColor: index === currentSlide ? 'var(--primary-700)' : 'var(--neutral-400)' }}
+                />
+              </button>
             ))}
           </div>
         </div>

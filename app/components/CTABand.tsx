@@ -1,6 +1,7 @@
 import { MessageCircle, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { wa } from '../lib/site'
 
-const WA = 'https://wa.me/6281339908765?text=Halo%20PintuWeb%2C%20saya%20mau%20konsultasi%20gratis%20soal%20website.'
+const WA = wa('Halo PintuWeb, saya mau konsultasi gratis soal website.')
 
 const POINTS = ['Konsultasi gratis, tanpa komitmen', 'Respon cepat via WhatsApp', 'Garansi & harga transparan']
 

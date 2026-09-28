@@ -10,12 +10,19 @@ type Filter = 'semua' | DemoCategory
 const LABEL = Object.fromEntries(DEMO_CATEGORIES.map((c) => [c.id, c.label])) as Record<DemoCategory, string>
 
 export default function DemoGallery() {
-  const [filter, setFilter] = useState<Filter>('semua')
+  const [filter, setFilterState] = useState<Filter>('semua')
+  // Filter tercermin di hash URL (/demo#undangan) supaya halaman lain bisa menautkan ke kategori tertentu.
+  const setFilter = (f: Filter) => {
+    setFilterState(f)
+    history.replaceState(null, '', f === 'semua' ? location.pathname : `#${f}`)
+  }
   const [failed, setFailed] = useState<Set<string>>(() => new Set())
   const markFailed = (slug: string) => setFailed((prev) => new Set(prev).add(slug))
 
   // Gambar yang sudah gagal sebelum hydration tidak memicu onError — tangkap di sini.
   useEffect(() => {
+    const h = location.hash.slice(1)
+    if (DEMO_CATEGORIES.some((c) => c.id === h)) setFilterState(h as DemoCategory)
     document.querySelectorAll<HTMLImageElement>('img[data-demo]').forEach((img) => {
       if (img.complete && img.naturalWidth === 0) markFailed(img.dataset.demo!)
     })
@@ -57,11 +64,11 @@ export default function DemoGallery() {
         {/* Filter */}
         <div role="group" aria-label="Saring berdasarkan kategori" className="mt-10 flex flex-wrap justify-center gap-2">
           <button type="button" onClick={() => setFilter('semua')} aria-pressed={filter === 'semua'} className={chip(filter === 'semua')}>
-            Semua <span className="opacity-70">{DEMOS.length}</span>
+            Semua <span className="font-normal">{DEMOS.length}</span>
           </button>
           {DEMO_CATEGORIES.map((c) => (
             <button key={c.id} type="button" onClick={() => setFilter(c.id)} aria-pressed={filter === c.id} className={chip(filter === c.id)}>
-              {c.label} <span className="opacity-70">{counts[c.id]}</span>
+              {c.label} <span className="font-normal">{counts[c.id]}</span>
             </button>
           ))}
         </div>

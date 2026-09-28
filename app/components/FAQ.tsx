@@ -1,293 +1,152 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { ChevronDown, HelpCircle, Search, Shield, ArrowRight, MessageCircle } from 'lucide-react'
-import { faqCategories, faqItems } from '../lib/faqData'
+import { useMemo, useState } from 'react'
+import Link from 'next/link'
+import { ChevronDown, Search, MessageCircle, ArrowRight } from 'lucide-react'
+import { faqCategories, faqItems, type FaqCategoryId } from '../lib/faqData'
+import { wa } from '../lib/site'
 
-export default function FAQ() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
-  const [activeCategory, setActiveCategory] = useState<string>('general')
-  const [searchQuery, setSearchQuery] = useState<string>('')
+type Props = {
+  /** 'home' = bagian di beranda (judul h2 + tautan ke /faq); 'page' = isi halaman /faq (judul h1 ada di halaman). */
+  variant?: 'home' | 'page'
+}
 
-  const filteredFAQs = useMemo(() => {
-    let filtered = faqItems.filter(item => item.category === activeCategory)
-    
-    if (searchQuery) {
-      filtered = filtered.filter(item => 
-        item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
-    }
-    
-    return filtered
-  }, [activeCategory, searchQuery])
+/**
+ * Semua pertanyaan & jawaban selalu ada di HTML (<details>), sehingga JSON-LD FAQPage
+ * cocok dengan isi yang terlihat. Kategori & pencarian hanya menyembunyikan item.
+ */
+export default function FAQ({ variant = 'home' }: Props) {
+  const [category, setCategory] = useState<FaqCategoryId | 'all'>(variant === 'page' ? 'all' : 'general')
+  const [query, setQuery] = useState('')
 
-  const toggle = (index: number) => {
-    setActiveIndex(index === activeIndex ? null : index)
-  }
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return faqItems.map(
+      (item) =>
+        (category === 'all' || item.category === category) &&
+        (!q || item.question.toLowerCase().includes(q) || item.answer.toLowerCase().includes(q)),
+    )
+  }, [category, query])
+  const count = visible.filter(Boolean).length
 
-  const handleCategoryChange = (categoryId: string) => {
-    setActiveCategory(categoryId)
-    setActiveIndex(null)
-    setSearchQuery('')
-  }
+  const tabs = [{ id: 'all' as const, name: 'Semua' }, ...faqCategories]
+  // Di beranda pertanyaan berada di bawah h2 bagian FAQ; di /faq langsung di bawah h1.
+  const Q = variant === 'page' ? 'h2' : 'h3'
 
   return (
-    <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 overflow-hidden bg-gradient-to-br from-[var(--surface-primary)] to-white">
-      
-      {/* Background Elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 pattern-dots"></div>
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10">
-        
-        {/* Header Section - Mobile Optimized */}
-        <div className="text-center mb-8 sm:mb-12 md:mb-16">
-          <div className="inline-flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 px-3 sm:px-4 py-1.5 sm:py-2 card-base rounded-full">
-            <Shield size={14} className="sm:w-4 sm:h-4" style={{ color: 'var(--primary-700)' }} />
-            <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Frequently Asked Questions</span>
+    <section
+      aria-labelledby={variant === 'home' ? 'faq-title' : undefined}
+      className="relative overflow-hidden py-16 sm:py-20 lg:py-24"
+      style={{ backgroundColor: 'var(--surface-primary)' }}
+    >
+      <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
+      <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6">
+        {variant === 'home' && (
+          <div className="mb-10 text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-light)] bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-[color:var(--primary-700)]">
+              Pertanyaan Umum
+            </span>
+            <h2 id="faq-title" className="mt-5 text-3xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-4xl">
+              Punya <span className="text-[color:var(--primary-700)]">pertanyaan?</span>
+            </h2>
+            <p className="mt-4 text-base text-[color:var(--text-tertiary)] sm:text-lg">
+              Jawaban untuk hal yang paling sering ditanyakan sebelum memesan website.
+            </p>
           </div>
+        )}
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 px-2" style={{ color: 'var(--text-primary)' }}>
-            Punya <span style={{ color: 'var(--primary-700)' }}>Pertanyaan?</span>
-          </h2>
-          
-          <p className="text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-4" style={{ color: 'var(--text-tertiary)' }}>
-            Temukan jawaban untuk pertanyaan yang paling sering ditanyakan ke kami.
-          </p>
+        {/* Pencarian */}
+        <div className="relative mx-auto mb-6 max-w-md">
+          <Search size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
+          <label htmlFor={`faq-search-${variant}`} className="sr-only">Cari pertanyaan</label>
+          <input
+            id={`faq-search-${variant}`}
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Cari pertanyaan…"
+            className="w-full rounded-xl border border-[color:var(--border-light)] bg-white py-3 pl-11 pr-4 text-sm text-[color:var(--text-primary)] shadow-sm outline-none transition focus:border-[color:var(--primary-600)] sm:text-base"
+          />
         </div>
 
-        {/* Search Bar - Mobile Optimized */}
-        <div className="relative mb-8 sm:mb-10 md:mb-12">
-          <div className="relative max-w-md mx-auto">
-            <Search size={18} className="sm:w-5 sm:h-5 absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
-            <input
-              type="text"
-              placeholder="Cari pertanyaan..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-3 sm:py-4 card-base rounded-xl focus:outline-none focus:ring-2 transition-all duration-300 text-sm sm:text-base"
-              style={{ 
-                color: 'var(--text-primary)'
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Category Filter - Mobile Optimized with Horizontal Scroll */}
-        <div className="mb-8 sm:mb-10 md:mb-12">
-          <div className="flex md:flex-wrap md:justify-center gap-2 sm:gap-3 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-            {faqCategories.map((category) => {
-              const IconComponent = category.icon
-              const isActive = activeCategory === category.id
-              
+        {/* Kategori */}
+        <div className="-mx-4 mb-8 overflow-x-auto px-4 pb-1 scrollbar-hide" role="group" aria-label="Kategori pertanyaan">
+          <div className="flex w-max gap-2 sm:mx-auto">
+            {tabs.map((t) => {
+              const active = category === t.id
               return (
                 <button
-                  key={category.id}
-                  onClick={() => handleCategoryChange(category.id)}
-                  className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 text-xs sm:text-sm ${
-                    isActive
-                      ? 'shadow-md sm:shadow-lg transform scale-105'
-                      : ''
+                  key={t.id}
+                  type="button"
+                  onClick={() => setCategory(t.id)}
+                  aria-pressed={active}
+                  className={`min-h-11 whitespace-nowrap rounded-xl border px-4 text-sm font-semibold transition ${
+                    active
+                      ? 'border-[color:var(--primary-700)] bg-[color:var(--primary-700)] text-white shadow-sm'
+                      : 'border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] hover:border-[color:var(--primary-300)] hover:text-[color:var(--primary-700)]'
                   }`}
-                  style={{
-                    backgroundColor: isActive ? 'var(--primary-700)' : 'white',
-                    color: isActive ? 'var(--text-on-primary)' : 'var(--text-secondary)',
-                    border: '1px solid',
-                    borderColor: isActive ? 'var(--primary-700)' : 'var(--border-light)',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.borderColor = 'var(--primary-300)'
-                      e.currentTarget.style.color = 'var(--primary-700)'
-                      e.currentTarget.style.backgroundColor = 'var(--primary-50)'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.borderColor = 'var(--border-light)'
-                      e.currentTarget.style.color = 'var(--text-secondary)'
-                      e.currentTarget.style.backgroundColor = 'white'
-                    }
-                  }}
                 >
-                  <IconComponent size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  <span>{category.name}</span>
+                  {t.name}
                 </button>
               )
             })}
           </div>
         </div>
 
-        {/* FAQ Items - Mobile Optimized */}
-        <div className="space-y-3 sm:space-y-4 mb-12 sm:mb-16">
-          {filteredFAQs.length > 0 ? (
-            filteredFAQs.map((item, index) => {
-              const isOpen = index === activeIndex
-              const currentCategory = faqCategories.find(cat => cat.id === item.category)
-              const CategoryIcon = currentCategory?.icon || HelpCircle
-
-              return (
-                <div
-                  key={`${item.category}-${index}`}
-                  className={`rounded-xl sm:rounded-2xl border transition-all duration-300 overflow-hidden ${
-                    isOpen
-                      ? 'shadow-md sm:shadow-lg'
-                      : 'card-base hover:shadow-md'
-                  }`}
-                  style={{
-                    backgroundColor: isOpen ? 'var(--primary-50)' : 'white',
-                    borderColor: isOpen ? 'var(--primary-200)' : 'var(--border-light)',
-                  }}
-                >
-                  <button
-                    onClick={() => toggle(index)}
-                    className="w-full flex items-start gap-3 sm:gap-4 text-left px-4 sm:px-6 py-4 sm:py-6 focus:outline-none group"
-                    aria-expanded={isOpen}
-                    aria-controls={`faq-content-${index}`}
-                  >
-                    {/* Category Icon */}
-                    <div className={`shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center mt-0.5 transition-colors`}
-                    style={{
-                      backgroundColor: isOpen ? 'var(--primary-600)' : 'var(--neutral-100)',
-                      color: isOpen ? 'var(--text-on-primary)' : 'var(--text-tertiary)'
-                    }}>
-                      <CategoryIcon size={16} className="sm:w-[18px] sm:h-[18px]" />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <h3 className={`text-sm sm:text-base md:text-lg font-semibold mb-2 pr-2 sm:pr-4 transition-colors leading-snug`}
-                      style={{
-                        color: isOpen ? 'var(--primary-900)' : 'var(--text-primary)'
-                      }}>
-                        {item.question}
-                      </h3>
-
-                      {/* Tags - Responsive */}
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-2">
-                        {item.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className={`text-xs px-2 py-0.5 sm:py-1 rounded-full`}
-                          style={{
-                            backgroundColor: isOpen ? 'var(--primary-200)' : 'var(--neutral-100)',
-                            color: isOpen ? 'var(--primary-800)' : 'var(--text-tertiary)'
-                          }}>
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Answer - Mobile Optimized */}
-                      {isOpen && (
-                        <div
-                          id={`faq-content-${index}`}
-                          className="overflow-hidden"
-                        >
-                          <div className="pt-3 sm:pt-4 border-t mt-3 sm:mt-4" style={{ borderColor: 'var(--primary-200)' }}>
-                            <p className="leading-relaxed text-xs sm:text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
-                              {item.answer}
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Toggle Icon */}
-                    <div className={`shrink-0 transition-all duration-300 ${
-                      isOpen ? 'rotate-180' : ''
-                    }`}
-                    style={{
-                      color: isOpen ? 'var(--primary-600)' : 'var(--text-muted)'
-                    }}>
-                      <ChevronDown size={18} className="sm:w-5 sm:h-5" />
-                    </div>
-                  </button>
-                </div>
-              )
-            })
-          ) : (
-            <div className="text-center py-8 sm:py-12 px-4">
-              <HelpCircle size={40} className="sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4" style={{ color: 'var(--neutral-300)' }} />
-              <h3 className="text-base sm:text-lg font-semibold mb-2" style={{ color: 'var(--text-tertiary)' }}>
-                Tidak menemukan jawaban yang dicari?
-              </h3>
-              <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{ color: 'var(--text-muted)' }}>
-                Coba kata kunci lain atau hubungi kami langsung untuk bantuan personal.
+        {/* Daftar — semua item selalu dirender */}
+        <div className="space-y-3">
+          {faqItems.map((item, i) => (
+            <details
+              key={item.question}
+              hidden={!visible[i]}
+              className="group rounded-2xl border border-[color:var(--border-light)] bg-white shadow-sm open:border-[color:var(--primary-200)] open:bg-[color:var(--primary-50)]"
+            >
+              <summary className="flex cursor-pointer list-none items-start gap-4 px-5 py-4 text-left sm:px-6 sm:py-5 [&::-webkit-details-marker]:hidden">
+                <Q className="flex-1 text-base font-semibold leading-snug text-[color:var(--text-primary)] sm:text-lg">{item.question}</Q>
+                <ChevronDown size={20} className="mt-0.5 shrink-0 text-[color:var(--text-muted)] transition-transform group-open:rotate-180 group-open:text-[color:var(--primary-700)]" aria-hidden="true" />
+              </summary>
+              <p className="border-t border-[color:var(--primary-200)] px-5 pb-5 pt-4 text-sm leading-relaxed text-[color:var(--text-secondary)] sm:px-6 sm:text-base">
+                {item.answer}
               </p>
-              <a
-                href="https://wa.me/6281339908765?text=Halo%2C%20saya%20punya%20pertanyaan%20yang%20tidak%20ada%20di%20FAQ."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 btn-primary px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base transition-colors"
-              >
-                <MessageCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
-                Tanya Langsung
-              </a>
-            </div>
-          )}
+            </details>
+          ))}
         </div>
 
-        {/* CTA Section - Mobile Optimized */}
-        <div className="text-center rounded-xl sm:rounded-2xl p-6 sm:p-8 md:p-12 text-white relative overflow-hidden bg-gradient-neutral">
-          
-          {/* Background Pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 pattern-dots"></div>
-          </div>
+        {count === 0 && (
+          <p className="py-10 text-center text-[color:var(--text-tertiary)]" role="status">
+            Tidak ada pertanyaan yang cocok. Coba kata lain, atau tanyakan langsung lewat WhatsApp.
+          </p>
+        )}
 
-          <div className="relative z-10">
-            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">
-              Masih Ada Pertanyaan Lain?
-            </h3>
-            <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto px-2" style={{ color: 'var(--neutral-300)' }}>
-              Kami siap membantu menjawab pertanyaan spesifik tentang projek Anda. 
+        {/* Ajakan */}
+        <div className="relative mt-12 overflow-hidden rounded-3xl bg-[color:var(--text-primary)] p-8 text-center text-white sm:p-10">
+          <div className="pointer-events-none absolute inset-0 u-grid opacity-[0.08]" aria-hidden="true" />
+          <div className="relative">
+            <p className="text-xl font-bold sm:text-2xl" style={{ fontFamily: 'var(--font-display)' }}>Masih ada pertanyaan?</p>
+            <p className="mx-auto mt-2 max-w-lg text-sm text-[color:var(--text-on-dark)] sm:text-base">
+              Tanyakan langsung soal proyek Anda. Konsultasinya gratis.
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center">
+            <div className="mt-6 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
               <a
-                href="https://wa.me/6281339908765?text=Halo%2C%20saya%20ingin%20konsultasi%20tentang%20pembuatan%20website."
+                href={wa('Halo PintuWeb, saya punya pertanyaan soal pembuatan website.')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                style={{ 
-                  backgroundColor: 'white', 
-                  color: 'var(--text-primary)' 
-                }}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[color:var(--text-primary)] transition hover:-translate-y-0.5"
               >
-                <MessageCircle size={18} className="sm:w-5 sm:h-5" />
-                Hubungi Sekarang
-                <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <MessageCircle size={18} aria-hidden="true" /> Tanya lewat WhatsApp
               </a>
-              
-              <a
-                href="/faq"
-                className="inline-flex items-center justify-center gap-2 border-2 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base transition-all duration-300"
-                style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent'
-                }}
-              >
-                Lihat FAQ Lengkap
-              </a>
+              {variant === 'home' && (
+                <Link
+                  href="/faq"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                >
+                  Lihat semua pertanyaan <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              )}
             </div>
           </div>
-        </div>        
+        </div>
       </div>
-
-      {/* Custom Scrollbar Hide */}
-      <style jsx>{`
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   )
 }

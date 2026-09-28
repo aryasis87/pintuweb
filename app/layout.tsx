@@ -1,6 +1,8 @@
 // app/layout.tsx
 import './globals.css'
 import { PACKAGES } from './lib/packages'
+import { EMAIL, FOUNDED_YEAR, SITE } from './lib/site'
+import { DEMOS } from './lib/demos'
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Inter, Bricolage_Grotesque } from 'next/font/google'
@@ -21,8 +23,6 @@ const bricolage = Bricolage_Grotesque({
 const Header = dynamic(() => import('./components/Header'))
 const Footer = dynamic(() => import('./components/Footer'))
 
-const SITE = 'https://pintuweb.com'
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: '%s | PintuWeb',
   },
   description:
-    'PintuWeb adalah pintu menuju website impianmu. Jasa pembuatan website profesional, cepat, SEO-friendly, dan berperforma tinggi untuk UMKM, startup, dan personal brand. Lihat 65+ demo langsung.',
+    `Jasa pembuatan website profesional, cepat, dan SEO-friendly untuk UMKM, startup, dan personal brand sejak ${FOUNDED_YEAR}. Harga transparan, lihat ${DEMOS.length} demo langsung.`,
   applicationName: 'PintuWeb',
   authors: [{ name: 'PintuWeb' }],
   creator: 'PintuWeb',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'PintuWeb — Jasa Pembuatan Website Profesional & Cepat',
     description:
-      'Pintu menuju website impianmu. Website modern, cepat, dan SEO-friendly untuk UMKM, startup, hingga personal brand. Lihat 65+ demo langsung.',
+      `Pintu menuju website impianmu. Website modern, cepat, dan SEO-friendly untuk UMKM, startup, hingga personal brand. Lihat ${DEMOS.length} demo langsung.`,
     url: SITE,
     siteName: 'PintuWeb',
     locale: 'id_ID',
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'PintuWeb — Jasa Pembuatan Website Profesional',
-    description: 'Pintu menuju website impianmu. Website cepat, modern, dan SEO-friendly. Lihat 65+ demo langsung.',
+    description: `Pintu menuju website impianmu. Website cepat, modern, dan SEO-friendly. Lihat ${DEMOS.length} demo langsung.`,
     images: ['/images/og-pintuweb.png'],
   },
   icons: {
@@ -104,6 +104,9 @@ const jsonLd = {
       url: SITE,
       logo: `${SITE}/images/logo.webp`,
       description: 'Jasa pembuatan website profesional, cepat, dan SEO-friendly.',
+      foundingDate: `${FOUNDED_YEAR}`,
+      email: EMAIL,
+      sameAs: ['https://github.com/aryasis87'],
       areaServed: 'ID',
       address: { '@type': 'PostalAddress', addressRegion: 'Jawa Timur', addressLocality: 'Trenggalek', addressCountry: 'ID' },
       contactPoint: {

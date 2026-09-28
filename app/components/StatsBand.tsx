@@ -1,8 +1,12 @@
+import { DEMOS } from '../lib/demos'
+import { CATEGORY_COUNT, CLIENT_PROJECTS, FOUNDED_YEAR } from '../lib/site'
+
+// Fakta yang bisa dibuktikan; semua dari lib/site.ts & lib/demos.ts.
 const STATS = [
-  { v: '73', l: 'Website diluncurkan' },
-  { v: '8', l: 'Kategori industri' },
-  { v: '95+', l: 'Skor performa Google' },
-  { v: '100%', l: 'Mobile-friendly' },
+  { v: CLIENT_PROJECTS, l: 'Proyek klien selesai' },
+  { v: `${DEMOS.length}`, l: 'Demo live yang bisa dicoba' },
+  { v: `${CATEGORY_COUNT}`, l: 'Kategori website' },
+  { v: `${FOUNDED_YEAR}`, l: 'Berdiri sejak' },
 ]
 
 export default function StatsBand() {

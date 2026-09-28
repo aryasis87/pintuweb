@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const SITE = 'https://pintuweb.com'
+import { SITE } from './lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/about', priority: 0.7, freq: 'monthly' },
     { path: '/faq', priority: 0.6, freq: 'monthly' },
     { path: '/owner', priority: 0.5, freq: 'yearly' },
+    { path: '/kebijakan-privasi', priority: 0.2, freq: 'yearly' },
+    { path: '/syarat-ketentuan', priority: 0.2, freq: 'yearly' },
   ]
   return routes.map((r) => ({
     url: `${SITE}${r.path}`,

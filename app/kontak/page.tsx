@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import ContactForm from './ContactForm'
 
-const SITE = 'https://pintuweb.com'
+import { SITE } from '../lib/site'
 
 export const metadata: Metadata = {
   title: 'Kontak — Konsultasi Website Gratis',
