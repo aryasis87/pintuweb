@@ -1,17 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Mail, PhoneCall, MapPin, Clock, MessageCircle, ArrowUpRight } from 'lucide-react'
-import { EMAIL, LOCATION, WA_DISPLAY, WA_NUMBER, wa } from '../lib/site'
+import { EMAIL, HOURS, LOCATION, RESPONSE, WA_DISPLAY, WA_NUMBER, wa } from '../lib/site'
 
 const CONTACTS = [
   { icon: PhoneCall, title: 'Telepon / WhatsApp', value: WA_DISPLAY, link: `https://wa.me/${WA_NUMBER}` },
   { icon: Mail, title: 'Email', value: EMAIL, link: `mailto:${EMAIL}` },
   { icon: MapPin, title: 'Lokasi', value: LOCATION, sub: 'Melayani seluruh Indonesia' },
-  { icon: Clock, title: 'Jam Operasional', value: 'Senin – Sabtu', sub: '09.00 – 17.00 WIB' },
+  { icon: Clock, title: 'Jam Operasional', value: HOURS.split(', ')[0], sub: HOURS.split(', ')[1] },
 ]
 
 const LINKS = [
-  { label: 'Layanan', href: '/#services' },
+  { label: 'Layanan', href: '/services' },
   { label: 'Galeri Demo', href: '/demo' },
   { label: 'Harga & Paket', href: '/paket' },
   { label: 'FAQ', href: '/faq' },
@@ -41,11 +41,11 @@ export default function Footer() {
               </span>
             </div>
 
-            <h2 className="mt-6 text-3xl font-extrabold leading-tight sm:text-4xl">
-              Siap bikin bisnismu <span className="text-[color:var(--accent-300)]">tampil online?</span>
+            <h2 className="mt-6 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+              Ketuk pintunya — <span className="text-[color:var(--accent-300)]">website impianmu menunggu.</span>
             </h2>
             <p className="mt-4 max-w-md text-white/70">
-              Konsultasi gratis, respon cepat. Ceritakan kebutuhanmu — kami buka pintunya.
+              Ceritakan kebutuhanmu, konsultasinya gratis. {RESPONSE}.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">

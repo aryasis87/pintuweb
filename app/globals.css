@@ -184,6 +184,34 @@ h1, h2, h3, h4 {
     linear-gradient(to bottom, rgb(20 19 15 / 0.035) 1px, transparent 1px);
   background-size: 44px 44px;
 }
+/* Varian untuk latar gelap (bagian Cara Kerja, kartu biru) */
+.u-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Hero: pintu bergantian membuka demo lain. Lapisan pertama diam di bawah; lapisan 2..n
+   memudar di atasnya dengan jeda 4 dtk (siklus 16 dtk). Gerak dikurangi = lapisan pertama saja. */
+@keyframes door-cycle {
+  0% { opacity: 0; transform: scale(1.03); }
+  4% { opacity: 1; transform: none; }
+  25% { opacity: 1; transform: none; }
+  29% { opacity: 0; }
+  100% { opacity: 0; }
+}
+.door-slide { opacity: 0; animation: door-cycle 16s ease-out infinite both; }
+
+/* Keterangan tiap pintu: tampil 4 dtk lalu tersembunyi, tanpa fase transparan.
+   Jeda negatif (i*4 - 16 dtk) membuat semua sudah berjalan sejak awal dengan fase berbeda. */
+@keyframes door-cap-cycle {
+  0%, 24.9% { visibility: visible; }
+  25%, 100% { visibility: hidden; }
+}
+.door-cap { visibility: hidden; animation: door-cap-cycle 16s linear infinite; }
+.door-cap:first-of-type { visibility: visible; }
+
 .u-grid-fade {
   -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
           mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
@@ -250,6 +278,8 @@ h1, h2, h3, h4 {
     transition-duration: .001ms !important;
     scroll-behavior: auto !important;
   }
+  /* Pintu hero diam di demo pertama beserta keterangannya */
+  .door-cap { animation: none; }
 }
 
 /* Gulir horizontal tanpa bilah gulir (tab kategori FAQ di ponsel) */

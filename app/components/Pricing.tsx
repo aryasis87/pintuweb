@@ -4,13 +4,10 @@ import Link from 'next/link'
 import { ArrowRight, ShieldCheck, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import { PACKAGES } from '../lib/packages'
 import PackageCard from './PackageCard'
+import SectionHead from './SectionHead'
+import { GUARANTEE_DAYS } from '../lib/site'
 
 const packages = PACKAGES.filter((p) => p.featured)
-
-const TRUST = [
-  { icon: ShieldCheck, label: 'Garansi bug 30 hari' },
-  { icon: Clock, label: 'Respon di hari kerja' },
-]
 
 export default function Pricing() {
   const [slide, setSlide] = useState(0)
@@ -22,29 +19,16 @@ export default function Pricing() {
     <section aria-labelledby="pricing-title" className="relative overflow-hidden py-16 sm:py-20 lg:py-24" style={{ backgroundColor: 'var(--surface-primary)' }}>
       <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-light)] bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-[color:var(--primary-700)]">
-            Harga Transparan
-          </span>
-          <h2 id="pricing-title" className="mt-5 text-3xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-4xl lg:text-5xl">
-            Pilih paket yang <span className="text-[color:var(--primary-700)]">tepat</span>
-          </h2>
-          <p className="mt-5 text-base leading-relaxed text-[color:var(--text-tertiary)] sm:text-lg">
-            Semua paket sudah termasuk desain profesional dan SEO dasar. Satu-satunya biaya berkala, perpanjangan domain &amp; hosting mulai tahun kedua, kami sebutkan sejak awal.
-          </p>
-        </div>
-
-        {/* Trust row */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-          {TRUST.map((t) => (
-            <span key={t.label} className="inline-flex items-center gap-2 text-sm text-[color:var(--text-tertiary)]">
-              <t.icon size={16} className="text-[color:var(--primary-700)]" /> {t.label}
-            </span>
-          ))}
-        </div>
+        <SectionHead
+          no="05"
+          eyebrow="Harga transparan"
+          id="pricing-title"
+          title={<>Pilih paket yang <span className="text-[color:var(--primary-700)]">tepat.</span></>}
+          lead="Semua paket sudah termasuk desain profesional dan SEO dasar. Satu-satunya biaya berkala, perpanjangan domain & hosting mulai tahun kedua, kami sebutkan sejak awal."
+        />
 
         {/* Desktop grid */}
-        <div className="mt-14 hidden gap-6 lg:grid lg:grid-cols-3 lg:items-stretch">
+        <div className="mt-16 hidden gap-6 lg:grid lg:grid-cols-3 lg:items-stretch">
           {packages.map((p) => (
             <div key={p.title} className={p.recommended ? 'lg:-mt-3' : ''}>
               <PackageCard p={p} maxFeatures={6} />
@@ -106,7 +90,7 @@ export default function Pricing() {
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--primary-100)]"><Clock size={20} className="text-[color:var(--primary-700)]" /></span>
             <div>
               <h3 className="font-bold text-[color:var(--text-primary)]">Maintenance sesuai paket</h3>
-              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Maintenance 1–6 bulan sesuai paket, plus garansi perbaikan bug gratis 30 hari setelah website live.</p>
+              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Maintenance 1–6 bulan sesuai paket, plus garansi perbaikan bug gratis {GUARANTEE_DAYS} hari setelah website live.</p>
             </div>
           </div>
         </div>

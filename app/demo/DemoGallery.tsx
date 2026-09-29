@@ -37,7 +37,7 @@ export default function DemoGallery() {
   const shown = filter === 'semua' ? DEMOS : DEMOS.filter((d) => d.category === filter)
 
   const chip = (active: boolean) =>
-    `inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+    `inline-flex min-h-10 items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
       active
         ? 'border-[color:var(--primary-700)] bg-[color:var(--primary-700)] text-white'
         : 'border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] hover:border-[color:var(--primary-700)] hover:text-[color:var(--primary-700)]'
@@ -62,7 +62,9 @@ export default function DemoGallery() {
         </div>
 
         {/* Filter */}
-        <div role="group" aria-label="Saring berdasarkan kategori" className="mt-10 flex flex-wrap justify-center gap-2">
+        {/* Ponsel: satu baris yang bisa digeser; layar lebar: membungkus di tengah */}
+        <div className="-mx-4 mt-10 overflow-x-auto px-4 pb-1 scrollbar-hide sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0">
+        <div role="group" aria-label="Saring berdasarkan kategori" className="flex w-max gap-2 sm:w-auto sm:flex-wrap sm:justify-center">
           <button type="button" onClick={() => setFilter('semua')} aria-pressed={filter === 'semua'} className={chip(filter === 'semua')}>
             Semua <span className="font-normal">{DEMOS.length}</span>
           </button>
@@ -72,56 +74,58 @@ export default function DemoGallery() {
             </button>
           ))}
         </div>
+        </div>
 
         <p className="sr-only" aria-live="polite">
           Menampilkan {shown.length} demo{filter === 'semua' ? '' : ` kategori ${LABEL[filter]}`}
         </p>
 
         {/* Grid */}
-        <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-6 lg:grid-cols-3">
           {shown.map((d) => (
             <li key={d.slug}>
               <a
                 href={d.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[color:var(--border-light)] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary-700)]"
-                aria-label={`Buka demo ${d.name} di tab baru`}
+                className="group flex h-full flex-col overflow-hidden rounded-xl border sm:rounded-2xl border-[color:var(--border-light)] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary-700)]"
               >
                 <div className="relative aspect-[1200/630] overflow-hidden bg-[color:var(--neutral-100)]">
                   {failed.has(d.slug) ? (
                     // Cadangan bila gambar situs demo gagal dimuat (situsnya lambat/terblokir)
                     <div className="grid h-full w-full place-items-center bg-gradient-to-br from-[color:var(--primary-700)] to-[color:var(--primary-500)] p-6 text-center">
-                      <span className="text-2xl font-extrabold text-white">{d.name}</span>
+                      <span className="text-base font-extrabold text-white sm:text-2xl">{d.name}</span>
                     </div>
                   ) : (
                     <>
-                      {/* Gambar dari domain demo masing-masing; tidak dilewatkan ke optimizer Next. */}
+                      {/* Thumbnail lokal yang sudah diperkecil (lib/demos.ts); tidak perlu optimizer Next. */}
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={demoImage(d)}
                         alt={`Tampilan ${d.name}`}
-                        width={1200}
-                        height={630}
+                        width={720}
+                        height={378}
                         loading="lazy"
                         decoding="async"
+                        fetchPriority="low"
                         data-demo={d.slug}
                         onError={() => markFailed(d.slug)}
                         className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       />
                     </>
                   )}
-                  <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[color:var(--primary-700)] shadow-sm">
+                  <span className="absolute left-2 top-2 hidden rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold sm:left-3 sm:top-3 sm:block text-[color:var(--primary-700)] shadow-sm">
                     {LABEL[d.category]}
                   </span>
                 </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h2 className="flex items-start justify-between gap-2 text-base font-bold text-[color:var(--text-primary)]">
+                <div className="flex flex-1 flex-col p-3 sm:p-5">
+                  <h2 className="flex items-start justify-between gap-2 text-sm font-bold sm:text-base text-[color:var(--text-primary)]">
                     {d.name}
                     <ArrowUpRight size={16} className="mt-0.5 shrink-0 text-[color:var(--text-muted)] transition-colors group-hover:text-[color:var(--primary-700)]" />
                   </h2>
-                  {d.tagline && <p className="mt-1 text-sm leading-snug text-[color:var(--text-tertiary)]">{d.tagline}</p>}
-                  <p className="mt-auto pt-4 text-xs text-[color:var(--text-muted)]">{d.url.replace('https://', '')}</p>
+                  {d.tagline && <p className="mt-1 line-clamp-2 text-xs leading-snug text-[color:var(--text-tertiary)] sm:text-sm">{d.tagline}</p>}
+                  <span className="sr-only">(buka di tab baru)</span>
+                  <p className="mt-auto hidden pt-4 text-xs text-[color:var(--text-muted)] sm:block">{d.url.replace('https://', '')}</p>
                 </div>
               </a>
             </li>

@@ -6,15 +6,17 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { Phone, Menu, X, ShieldCheck, Sparkles } from 'lucide-react'
 import { WA_DISPLAY, wa } from '../lib/site'
+import { DEMOS } from '../lib/demos'
 
+// Semua tautan menuju halaman sungguhan (bukan jangkar beranda), jadi berfungsi dari halaman mana pun.
 const NAV = [
-  { label: 'Layanan', href: '/#services', id: 'services' },
-  { label: 'Demo', href: '/demo', id: 'demo' },
-  { label: 'Harga', href: '/paket', id: 'pricing' },
-  { label: 'FAQ', href: '/#faq', id: 'faq' },
-  { label: 'Kontak', href: '/kontak', id: 'kontak' },
+  { label: 'Layanan', href: '/services' },
+  { label: 'Demo', href: '/demo' },
+  { label: 'Harga', href: '/paket' },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Tentang', href: '/about' },
+  { label: 'Kontak', href: '/kontak' },
 ]
-const sectionIds = ['hero', 'services', 'pricing', 'faq']
 
 const WA = wa('Halo PintuWeb, saya mau konsultasi pembuatan website.')
 
@@ -23,7 +25,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [visible, setVisible] = useState(true)
   const [scrolled, setScrolled] = useState(false)
-  const [active, setActive] = useState<string | null>('hero')
 
   const lastY = useRef(0)
   const ticking = useRef(false)
@@ -36,13 +37,6 @@ export default function Header() {
         const y = window.scrollY
         setVisible(y < 80 || y < lastY.current)
         setScrolled(y > 16)
-        for (const id of sectionIds) {
-          const el = document.getElementById(id)
-          if (el) {
-            const r = el.getBoundingClientRect()
-            if (r.top <= 120 && r.bottom >= 120) { setActive(id); break }
-          }
-        }
         lastY.current = y
         ticking.current = false
       })
@@ -92,7 +86,7 @@ export default function Header() {
           {/* Desktop nav */}
           <nav aria-label="Navigasi utama" className="hidden items-center gap-1 lg:flex">
             {NAV.map((n) => {
-              const isActive = pathname === '/' ? active === n.id : !n.href.startsWith('/#') && pathname.startsWith(n.href)
+              const isActive = pathname.startsWith(n.href)
               const cls = `relative rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
                 isActive
                   ? 'text-[color:var(--primary-700)]'
@@ -102,7 +96,7 @@ export default function Header() {
                 <span className="absolute inset-x-3.5 -bottom-0.5 h-0.5 rounded-full bg-[color:var(--primary-700)]" />
               ) : null
               return n.href.startsWith('/') ? (
-                <Link key={n.label} href={n.href} className={cls} aria-current={isActive ? 'true' : undefined}>{n.label}{dot}</Link>
+                <Link key={n.label} href={n.href} className={cls} aria-current={isActive ? 'page' : undefined}>{n.label}{dot}</Link>
               ) : (
                 <a key={n.label} href={n.href} className={cls} aria-current={isActive ? 'true' : undefined}>{n.label}{dot}</a>
               )
@@ -111,11 +105,11 @@ export default function Header() {
 
           {/* Right */}
           <div className="hidden items-center gap-4 md:flex">
-            <div className="flex items-center gap-2 text-xs text-[color:var(--text-tertiary)]">
+            <div className="hidden items-center gap-2 text-xs text-[color:var(--text-tertiary)] xl:flex">
               <ShieldCheck size={15} className="text-[color:var(--success-600)]" />
               <span className="font-medium">Garansi &amp; Support</span>
             </div>
-            <div className="h-5 w-px bg-[color:var(--border-medium)]" />
+            <div className="hidden h-5 w-px bg-[color:var(--border-medium)] xl:block" />
             <a
               href={WA}
               target="_blank"
@@ -150,7 +144,7 @@ export default function Header() {
         <div className="space-y-1 px-4 py-5 sm:px-6">
           <div className="mb-3 flex items-center justify-center gap-2 rounded-xl bg-[color:var(--surface-primary)] py-2.5 text-sm">
             <Sparkles size={16} className="text-[color:var(--accent-500)]" />
-            <span className="font-semibold text-[color:var(--text-secondary)]">65+ demo siap dilihat langsung</span>
+            <span className="font-semibold text-[color:var(--text-secondary)]">{DEMOS.length} demo siap dilihat langsung</span>
           </div>
           <nav aria-label="Navigasi mobile" className="space-y-1">
             {NAV.map((n) =>

@@ -1,5 +1,6 @@
 // Dibuat dari 65 situs demo yang live di akun Vercel aryasis87.
-// Judul diambil dari <title> tiap situs; gambar = og.jpg milik situs itu sendiri.
+// Judul diambil dari <title> tiap situs; gambar = og.jpg milik situs itu sendiri, diperkecil
+// jadi public/demos/<slug>.webp (720x378) supaya galeri ringan dan tidak bergantung pada 65 domain lain.
 
 export type DemoCategory = 'landing' | 'undangan' | 'linkinbio' | 'portfolio' | 'reservasi' | 'properti' | 'todo' | 'kontes'
 
@@ -90,4 +91,4 @@ export const DEMOS: Demo[] = [
   { slug: "crave-noir", name: "Positive Crave", tagline: "Konsep Noir", category: 'kontes', url: "https://crave-noir.vercel.app" },
 ]
 
-export const demoImage = (d: Demo) => `${d.url}/og.jpg`
+export const demoImage = (d: Demo) => `/demos/${d.slug}.webp`
