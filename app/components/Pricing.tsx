@@ -2,36 +2,43 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, ShieldCheck, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
-import { PACKAGES } from '../lib/packages'
-import PackageCard from './PackageCard'
+import PackageCard, { type CardData, type CardLabels } from './PackageCard'
 import SectionHead from './SectionHead'
-import { GUARANTEE_DAYS } from '../lib/site'
+import { HlText } from './Bits'
+import type { Hl } from '../i18n/dict/id'
 
-const packages = PACKAGES.filter((p) => p.featured)
+export type PricingText = {
+  eyebrow: string
+  title: Hl
+  lead: string
+  prev: string
+  next: string
+  /** mis. "Paket" — dirangkai dengan nomor urut di tombol titik */
+  nth: string
+  seeAll: string
+  depositTitle: string
+  depositBody: string
+  maintTitle: string
+  maintBody: string
+}
 
-export default function Pricing() {
+export default function Pricing({ cards, labels, t, pricingHref, note }: { cards: CardData[]; labels: CardLabels; t: PricingText; pricingHref: string; note?: string }) {
   const [slide, setSlide] = useState(0)
   const [tsX, setTsX] = useState(0)
-  const next = () => setSlide((s) => (s + 1) % packages.length)
-  const prev = () => setSlide((s) => (s - 1 + packages.length) % packages.length)
+  const next = () => setSlide((s) => (s + 1) % cards.length)
+  const prev = () => setSlide((s) => (s - 1 + cards.length) % cards.length)
 
   return (
     <section aria-labelledby="pricing-title" className="relative overflow-hidden py-16 sm:py-20 lg:py-24" style={{ backgroundColor: 'var(--surface-primary)' }}>
       <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <SectionHead
-          no="05"
-          eyebrow="Harga transparan"
-          id="pricing-title"
-          title={<>Pilih paket yang <span className="text-[color:var(--primary-700)]">tepat.</span></>}
-          lead="Semua paket sudah termasuk desain profesional dan SEO dasar. Satu-satunya biaya berkala, perpanjangan domain & hosting mulai tahun kedua, kami sebutkan sejak awal."
-        />
+        <SectionHead no="05" eyebrow={t.eyebrow} id="pricing-title" title={<HlText parts={t.title} />} lead={t.lead} />
 
         {/* Desktop grid */}
         <div className="mt-16 hidden gap-6 lg:grid lg:grid-cols-3 lg:items-stretch">
-          {packages.map((p) => (
-            <div key={p.title} className={p.recommended ? 'lg:-mt-3' : ''}>
-              <PackageCard p={p} maxFeatures={6} />
+          {cards.map((p) => (
+            <div key={p.slug} className={p.recommended ? 'lg:-mt-3' : ''}>
+              <PackageCard p={p} labels={labels} maxFeatures={6} />
             </div>
           ))}
         </div>
@@ -41,40 +48,42 @@ export default function Pricing() {
           <div
             className="relative overflow-hidden pt-4"
             onTouchStart={(e) => setTsX(e.touches[0].clientX)}
-            onTouchEnd={(e) => { const d = tsX - e.changedTouches[0].clientX; if (d > 60) next(); if (d < -60) prev() }}
+            onTouchEnd={(e) => {
+              const d = tsX - e.changedTouches[0].clientX
+              if (d > 60) next()
+              if (d < -60) prev()
+            }}
           >
             <div className="flex transition-transform duration-300 ease-out" style={{ transform: `translateX(-${slide * 100}%)` }}>
-              {packages.map((p) => (
-                <div key={p.title} className="w-full shrink-0 px-1">
-                  <PackageCard p={p} maxFeatures={6} />
+              {cards.map((p) => (
+                <div key={p.slug} className="w-full shrink-0 px-1">
+                  <PackageCard p={p} labels={labels} maxFeatures={6} />
                 </div>
               ))}
             </div>
           </div>
           <div className="mt-6 flex items-center justify-center gap-4">
-            <button onClick={prev} aria-label="Paket sebelumnya" className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] shadow-sm">
+            <button onClick={prev} aria-label={t.prev} className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] shadow-sm">
               <ChevronLeft size={18} />
             </button>
             <div className="flex">
-              {packages.map((_, i) => (
-                <button key={i} onClick={() => setSlide(i)} aria-label={`Paket ${i + 1}`} aria-current={i === slide} className="grid h-11 min-w-11 place-items-center">
+              {cards.map((_, i) => (
+                <button key={i} onClick={() => setSlide(i)} aria-label={`${t.nth} ${i + 1}`} aria-current={i === slide} className="grid h-11 min-w-11 place-items-center">
                   <span className={`block h-2 rounded-full transition-all ${i === slide ? 'w-7 bg-[color:var(--primary-700)]' : 'w-2 bg-[color:var(--neutral-400)]'}`} />
                 </button>
               ))}
             </div>
-            <button onClick={next} aria-label="Paket berikutnya" className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] shadow-sm">
+            <button onClick={next} aria-label={t.next} className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] shadow-sm">
               <ChevronRight size={18} />
             </button>
           </div>
         </div>
 
         <div className="mt-10 text-center">
-          <Link
-            href="/paket"
-            className="inline-flex items-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3 text-sm font-semibold text-[color:var(--primary-700)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-          >
-            Lihat semua {PACKAGES.length} paket <ArrowRight size={15} />
+          <Link href={pricingHref} className="inline-flex items-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3 text-sm font-semibold text-[color:var(--primary-700)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            {t.seeAll} <ArrowRight size={15} />
           </Link>
+          {note && <p className="mt-4 text-xs text-[color:var(--text-tertiary)]">{note}</p>}
         </div>
 
         {/* Guarantees */}
@@ -82,15 +91,15 @@ export default function Pricing() {
           <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6">
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--success-100)]"><ShieldCheck size={20} className="text-[color:var(--success-700)]" /></span>
             <div>
-              <h3 className="font-bold text-[color:var(--text-primary)]">Bayar 50% di awal saja</h3>
-              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Pelunasan 50% baru dibayar setelah website selesai dan Anda setujui.</p>
+              <h3 className="font-bold text-[color:var(--text-primary)]">{t.depositTitle}</h3>
+              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{t.depositBody}</p>
             </div>
           </div>
           <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6">
             <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--primary-100)]"><Clock size={20} className="text-[color:var(--primary-700)]" /></span>
             <div>
-              <h3 className="font-bold text-[color:var(--text-primary)]">Maintenance sesuai paket</h3>
-              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">Maintenance 1–6 bulan sesuai paket, plus garansi perbaikan bug gratis {GUARANTEE_DAYS} hari setelah website live.</p>
+              <h3 className="font-bold text-[color:var(--text-primary)]">{t.maintTitle}</h3>
+              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{t.maintBody}</p>
             </div>
           </div>
         </div>

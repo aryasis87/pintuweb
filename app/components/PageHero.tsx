@@ -5,12 +5,14 @@ type Props = {
   title: ReactNode
   lead?: ReactNode
   children?: ReactNode
+  /** true bila ada jejak navigasi di atasnya (jarak atas lebih kecil) */
+  tight?: boolean
 }
 
 /** Pembuka halaman dalam: grid cetak biru + lengkung gerbang, selaras dengan Hero beranda. */
-export default function PageHero({ eyebrow, title, lead, children }: Props) {
+export default function PageHero({ eyebrow, title, lead, children, tight = false }: Props) {
   return (
-    <section className="relative overflow-hidden pb-14 pt-28 sm:pb-16 sm:pt-32">
+    <section className={`relative overflow-hidden pb-14 sm:pb-16 ${tight ? 'pt-8 sm:pt-10' : 'pt-28 sm:pt-32'}`}>
       <div className="pointer-events-none absolute inset-0 u-grid u-grid-fade" aria-hidden="true" />
       <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[color:var(--primary-200)] opacity-40 blur-3xl" aria-hidden="true" />
       {/* Lengkung gerbang sebagai tanda tangan halaman */}

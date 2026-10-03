@@ -55,6 +55,22 @@ Project ini ter-link ke Vercel (`.vercel/`, tidak di-commit). Deploy produksi di
 vercel deploy --prod
 ```
 
+## Multibahasa & SEO/GEO (sejak 3 Okt 2026)
+
+- **Bahasa:** Indonesia (utama, tanpa awalan), Inggris `/en`, Melayu `/ms`. Semua halaman ada di `app/[lang]/`;
+  `next.config.ts` menulis ulang URL publik (`/paket`, `/en/pricing`, `/ms/harga`) ke folder internal dan
+  mengalihkan alamat internal ke alamat publiknya. Peta segmen per bahasa: `app/i18n/routes.ts`.
+- **Teks:** `app/i18n/dict/*` (antarmuka), `app/i18n/pages/*` (per halaman), `app/content/*` (layanan, FAQ,
+  kamus, legal, teks paket & demo). Angka bisnis tetap hanya dari `app/lib/site.ts` & `app/lib/packages.ts`.
+- **Artikel:** Markdown di `content/articles/{id,en}/`. Penanda `{{from:slug}}`, `{{price:slug}}`, `{{max:slug}}`,
+  `{{duration:slug}}`, `{{renewal}}`, `{{pricetable}}`, dll. diisi dari packages.ts saat build. Pasangkan terjemahan
+  lewat `key` di frontmatter dan daftarkan slugnya di `app/i18n/slugs.ts`.
+- **SEO teknis:** hreflang + x-default di setiap halaman & sitemap, JSON-LD (ProfessionalService, WebPage,
+  BreadcrumbList, Service, FAQPage, BlogPosting, DefinedTermSet), RSS (`/artikel/rss`, `/en/articles/rss`),
+  `/llms.txt` & `/llms-full.txt`, robots.txt yang mengizinkan perayap AI, gambar OG per halaman (`/api/og`).
+- **Setelah deploy:** `node scripts/indexnow.mjs` untuk memberi tahu Bing & mesin IndexNow lain.
+  Kode verifikasi Google Search Console / Bing bisa diisi lewat env `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION`.
+
 ## Portal demo
 
 Setiap kategori demo punya katalognya sendiri:

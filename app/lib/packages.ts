@@ -166,10 +166,13 @@ export const PRICE_SUMMARY =
   `Harga mulai ${PACKAGES.map((p) => `${formatRupiah(p.minPrice)} untuk ${p.title}`).join(', ')}. ` +
   'Rincian fitur tiap paket ada di halaman Paket. Semua harga sudah termasuk desain, development, dan SEO dasar.'
 
+/** Kisaran biaya perpanjangan domain + hosting per tahun mulai tahun kedua (Rupiah). */
+export const RENEWAL_PER_YEAR = { min: 300000, max: 500000 }
+
 /** Biaya setelah tahun pertama — wajib tampil di halaman harga (bukan hanya di FAQ). */
 export const RENEWAL_SUMMARY =
   'Domain & hosting yang termasuk paket berlaku untuk tahun pertama. Mulai tahun kedua, perpanjangannya sekitar ' +
-  'Rp300.000–Rp500.000 per tahun tergantung paket, dan kami kabari sebelum jatuh tempo.'
+  `${formatRupiah(RENEWAL_PER_YEAR.min)}–${formatRupiah(RENEWAL_PER_YEAR.max)} per tahun tergantung paket, dan kami kabari sebelum jatuh tempo.`
 
 export const PAYMENT_SUMMARY =
   'Semua paket: DP 50% untuk memulai, pelunasan 50% setelah website selesai dan Anda setujui. ' +

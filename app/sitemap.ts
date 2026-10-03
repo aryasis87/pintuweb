@@ -1,34 +1,56 @@
 import type { MetadataRoute } from 'next'
-
 import { SITE } from './lib/site'
+import { PORTALS } from './lib/portals'
+import { LANG_INFO } from './i18n/config'
+import { SEGMENTS, langsOf, urlOf, type DocRef, type PageKey } from './i18n/routes'
+import { SERVICE_KEYS, ARTICLE_KEYS } from './i18n/slugs'
+import { getArticle } from './content/articles'
+import { LEGAL_UPDATED_ISO } from './content/legal'
+
+// Setiap URL dicantumkan beserta semua versi bahasanya (hreflang + x-default),
+// dengan tanggal perubahan isi yang sebenarnya — bukan tanggal build.
+const CONTENT_UPDATED = '2026-10-03'
+
+type Entry = { ref: DocRef; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency']; modified: string }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date()
-  const routes: { path: string; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
-    { path: '/', priority: 1.0, freq: 'weekly' },
-    { path: '/paket', priority: 0.9, freq: 'weekly' },
-    { path: '/demo', priority: 0.8, freq: 'weekly' },
-    // Portal katalog (project terpisah, diteruskan lewat rewrites di next.config.ts)
-    { path: '/landing-page', priority: 0.8, freq: 'monthly' },
-    { path: '/link-in-bio', priority: 0.8, freq: 'monthly' },
-    { path: '/kontes-desain', priority: 0.8, freq: 'monthly' },
-    { path: '/undangan-digital', priority: 0.8, freq: 'monthly' },
-    { path: '/website-portofolio', priority: 0.8, freq: 'monthly' },
-    { path: '/website-reservasi', priority: 0.8, freq: 'monthly' },
-    { path: '/website-properti', priority: 0.8, freq: 'monthly' },
-    { path: '/aplikasi-to-do', priority: 0.8, freq: 'monthly' },
-    { path: '/kontak', priority: 0.7, freq: 'yearly' },
-    { path: '/services', priority: 0.8, freq: 'monthly' },
-    { path: '/about', priority: 0.7, freq: 'monthly' },
-    { path: '/faq', priority: 0.6, freq: 'monthly' },
-    { path: '/owner', priority: 0.5, freq: 'yearly' },
-    { path: '/kebijakan-privasi', priority: 0.2, freq: 'yearly' },
-    { path: '/syarat-ketentuan', priority: 0.2, freq: 'yearly' },
-  ]
-  return routes.map((r) => ({
-    url: `${SITE}${r.path}`,
-    lastModified: now,
-    changeFrequency: r.freq,
-    priority: r.priority,
-  }))
+  const PRIORITY: Partial<Record<PageKey, [number, Entry['freq']]>> = {
+    home: [1.0, 'weekly'],
+    pricing: [0.9, 'monthly'],
+    services: [0.9, 'monthly'],
+    demo: [0.8, 'weekly'],
+    articles: [0.7, 'weekly'],
+    faq: [0.7, 'monthly'],
+    about: [0.6, 'monthly'],
+    contact: [0.6, 'yearly'],
+    glossary: [0.6, 'monthly'],
+    founder: [0.5, 'yearly'],
+    privacy: [0.2, 'yearly'],
+    terms: [0.2, 'yearly'],
+  }
+
+  const entries: Entry[] = (Object.keys(SEGMENTS) as PageKey[]).map((key) => {
+    const [priority, freq] = PRIORITY[key] ?? [0.5, 'monthly']
+    const modified = key === 'privacy' || key === 'terms' ? LEGAL_UPDATED_ISO : CONTENT_UPDATED
+    return { ref: { key } as DocRef, priority, freq, modified }
+  })
+  for (const service of SERVICE_KEYS) entries.push({ ref: { key: 'services', service }, priority: 0.8, freq: 'monthly', modified: CONTENT_UPDATED })
+  for (const article of ARTICLE_KEYS) {
+    const a = getArticle('id', article)
+    entries.push({ ref: { key: 'articles', article }, priority: 0.7, freq: 'monthly', modified: a.updated })
+  }
+
+  const out: MetadataRoute.Sitemap = []
+  for (const e of entries) {
+    const langs = langsOf(e.ref)
+    const languages: Record<string, string> = Object.fromEntries(langs.map((l) => [LANG_INFO[l].hreflang, urlOf(l, e.ref)]))
+    languages['x-default'] = urlOf(langs.includes('id') ? 'id' : langs[0], e.ref)
+    for (const l of langs) {
+      out.push({ url: urlOf(l, e.ref), lastModified: e.modified, changeFrequency: e.freq, priority: l === 'id' ? e.priority : Math.round(e.priority * 0.9 * 10) / 10, alternates: { languages } })
+    }
+  }
+
+  // Portal katalog (zona terpisah, berbahasa Indonesia).
+  for (const p of PORTALS) out.push({ url: `${SITE}/${p.path}`, lastModified: CONTENT_UPDATED, changeFrequency: 'monthly', priority: 0.8 })
+  return out
 }
