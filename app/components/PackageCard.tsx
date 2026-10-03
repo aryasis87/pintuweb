@@ -1,4 +1,4 @@
-import { Check, Zap, Award, Sparkles, Code2, ShoppingCart, UserRound, ArrowRight, Clock } from 'lucide-react'
+import { Check, Zap, Award, Sparkles, Code2, ShoppingCart, UserRound, ArrowRight, Clock, Link2, Mail, CalendarRange, CalendarCheck, Home, Building2, LayoutDashboard, Palette } from 'lucide-react'
 
 const ICONS: Record<string, React.ReactNode> = {
   'landing-page': <Zap className="h-5 w-5" aria-hidden="true" />,
@@ -7,6 +7,14 @@ const ICONS: Record<string, React.ReactNode> = {
   'website-custom': <Code2 className="h-5 w-5" aria-hidden="true" />,
   'toko-online-full': <ShoppingCart className="h-5 w-5" aria-hidden="true" />,
   portofolio: <UserRound className="h-5 w-5" aria-hidden="true" />,
+  'link-in-bio': <Link2 className="h-5 w-5" aria-hidden="true" />,
+  'undangan-digital': <Mail className="h-5 w-5" aria-hidden="true" />,
+  'situs-acara': <CalendarRange className="h-5 w-5" aria-hidden="true" />,
+  'sistem-reservasi': <CalendarCheck className="h-5 w-5" aria-hidden="true" />,
+  'website-properti': <Home className="h-5 w-5" aria-hidden="true" />,
+  'marketplace-properti': <Building2 className="h-5 w-5" aria-hidden="true" />,
+  'aplikasi-web': <LayoutDashboard className="h-5 w-5" aria-hidden="true" />,
+  'konsep-desain': <Palette className="h-5 w-5" aria-hidden="true" />,
 }
 
 export type { CardData, CardLabels } from './cards'
@@ -17,8 +25,8 @@ type Props = {
   labels: CardLabels
   /** jumlah fitur yang ditampilkan; undefined = semua */
   maxFeatures?: number
-  /** tingkat judul kartu (h2 di halaman paket, h3 di beranda) */
-  as?: 'h2' | 'h3'
+  /** tingkat judul kartu (h3 di halaman paket & beranda, h4 di halaman layanan) */
+  as?: 'h2' | 'h3' | 'h4'
 }
 
 /** Kartu paket bersama untuk beranda & halaman paket — satu desain, satu sumber data. */

@@ -4,6 +4,9 @@ import { JsonLd } from '../../components/Bits'
 import { categoriesFor, demosFor, getDict, getPages, isLang, type Lang } from '../../i18n'
 import { path, urlOf } from '../../i18n/routes'
 import { pageGraph, pageMeta } from '../../i18n/seo'
+import { packagesFor } from '../../i18n/facts'
+import { PACKAGE_FOR_CATEGORY } from '../../lib/portals'
+import type { DemoCategory } from '../../lib/demos'
 
 type Params = { params: Promise<{ lang: string }> }
 
@@ -21,10 +24,13 @@ export default async function DemoPage({ params }: Params) {
   const p = getPages(lang).demo
   const demos = demosFor(lang)
   const n = demos.length
+  const pk = packagesFor(lang)
+  const fromByCat = Object.fromEntries(Object.entries(PACKAGE_FOR_CATEGORY).map(([c, slug]) => [c, pk.find((x) => x.slug === slug)!.priceFrom])) as Record<DemoCategory, string>
 
   // Templat {n}/{cat}/{name} diisi di klien, supaya fungsi kamus tidak perlu dikirim ke browser.
   const t: DemoGalleryText = {
     badge: p.badge,
+    from: d.common.from,
     h1: p.h1(n),
     lead: p.lead,
     note: d.common.demoLangNote,
@@ -63,7 +69,7 @@ export default async function DemoPage({ params }: Params) {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <DemoGallery demos={demos} categories={categoriesFor(lang)} t={t} contactHref={path(lang, 'contact')} pricingHref={path(lang, 'pricing')} />
+      <DemoGallery demos={demos} categories={categoriesFor(lang)} t={t} contactHref={path(lang, 'contact')} pricingHref={path(lang, 'pricing')} fromByCat={fromByCat} />
     </>
   )
 }

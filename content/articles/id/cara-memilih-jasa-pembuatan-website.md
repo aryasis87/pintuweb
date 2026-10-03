@@ -58,7 +58,7 @@ Contoh live lebih jujur daripada gambar mockup. *PintuWeb: {{demos}} demo bisa d
 Jangan hanya percaya klaim. Buka salah satu contoh di [PageSpeed Insights](https://pagespeed.web.dev/) dan lihat sendiri hasilnya. *PintuWeb: target skor PageSpeed {{perf}} — target, bukan klaim rata-rata.*
 
 **11. Apakah SEO dasar sudah termasuk?**
-Minimal: judul dan deskripsi halaman, sitemap, HTTPS, struktur heading, dan tampilan ramah ponsel. *PintuWeb: termasuk di setiap paket, ditambah structured data.*
+Minimal: judul dan deskripsi halaman, sitemap, HTTPS, struktur heading, dan tampilan ramah ponsel. *PintuWeb: termasuk di setiap paket website, ditambah structured data.*
 
 ## Setelah online
 

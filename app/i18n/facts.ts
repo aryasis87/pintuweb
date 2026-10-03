@@ -1,9 +1,10 @@
 // Kalimat fakta bisnis per bahasa. Angka & kontak tetap dari lib/site.ts dan lib/packages.ts
 // (satu-satunya sumber); di sini hanya cara menuliskannya.
-import { GUARANTEE_DAYS, HOURS, LOCATION, RESPONSE } from '../lib/site'
-import { PACKAGES, PAYMENT_SUMMARY, RENEWAL_PER_YEAR, RENEWAL_SUMMARY, type Paket } from '../lib/packages'
+import { GUARANTEE_DAYS, HOURS, LOCATION, PERF_TARGET, RESPONSE } from '../lib/site'
+import { DEMOS } from '../lib/demos'
+import { ADDONS, PACKAGES, PAYMENT_SUMMARY, RENEWAL_BIO_PER_YEAR, RENEWAL_PER_YEAR, RENEWAL_SUMMARY, type Paket } from '../lib/packages'
 import { LANG_INFO, type Lang } from './config'
-import { PACKAGE_TEXT } from '../content/packages-text'
+import { ADDON_TEXT, PACKAGE_TEXT } from '../content/packages-text'
 
 type Facts = {
   hours: string
@@ -41,7 +42,10 @@ const FACTS: Record<Lang, Facts> = {
       'We accept Indonesian bank transfer, e-wallets (OVO, GoPay, DANA) and QRIS. The invoice is sent before you pay.',
     renewal:
       'The domain and hosting included in a package cover the first year. From the second year, renewal costs roughly ' +
-      `${money('en', RENEWAL_PER_YEAR.min)}–${money('en', RENEWAL_PER_YEAR.max).replace('IDR ', '')} per year depending on the package, and we remind you before it is due.`,
+      `${money('en', RENEWAL_PER_YEAR.min)}–${money('en', RENEWAL_PER_YEAR.max).replace('IDR ', '')} per year for websites and ` +
+      `${money('en', RENEWAL_BIO_PER_YEAR.min)}–${money('en', RENEWAL_BIO_PER_YEAR.max).replace('IDR ', '')} for link-in-bio pages; ` +
+      'for systems and web apps with a database, the cost is stated in the quote. Digital invitations stay active for 12 months ' +
+      'with no renewal fee. We remind you before anything is due.',
     guarantee: `Bugs and technical issues are fixed free of charge for ${GUARANTEE_DAYS} days after launch. After that, maintenance follows your package (1–6 months) and can be extended.`,
   },
   ms: {
@@ -56,7 +60,10 @@ const FACTS: Record<Lang, Facts> = {
       'Kami menerima pindahan bank Indonesia, e-dompet (OVO, GoPay, DANA) dan QRIS. Invois dihantar sebelum pembayaran.',
     renewal:
       'Domain dan hosting dalam pakej sah untuk tahun pertama. Mulai tahun kedua, kos pembaharuan sekitar ' +
-      `${money('ms', RENEWAL_PER_YEAR.min)}–${money('ms', RENEWAL_PER_YEAR.max).replace('IDR ', '')} setahun bergantung pada pakej, dan kami maklumkan sebelum tarikh luput.`,
+      `${money('ms', RENEWAL_PER_YEAR.min)}–${money('ms', RENEWAL_PER_YEAR.max).replace('IDR ', '')} setahun untuk laman web dan ` +
+      `${money('ms', RENEWAL_BIO_PER_YEAR.min)}–${money('ms', RENEWAL_BIO_PER_YEAR.max).replace('IDR ', '')} untuk link in bio; ` +
+      'untuk sistem & aplikasi web dengan pangkalan data, kosnya dinyatakan dalam sebut harga. Kad jemputan digital aktif 12 bulan ' +
+      'tanpa kos pembaharuan. Kami maklumkan sebelum tarikh luput.',
     guarantee: `Pepijat dan masalah teknikal dibaiki secara percuma selama ${GUARANTEE_DAYS} hari selepas laman web dilancarkan. Selepas itu penyelenggaraan mengikut pakej (1–6 bulan) dan boleh dilanjutkan.`,
   },
 }
@@ -97,4 +104,49 @@ export function waPackageText(lang: Lang, title: string) {
   if (lang === 'en') return `Hello PintuWeb, I'm interested in the "${title}" package. Could you tell me more?`
   if (lang === 'ms') return `Hai PintuWeb, saya berminat dengan pakej "${title}". Boleh kongsikan maklumat lanjut?`
   return `Halo PintuWeb, saya tertarik dengan paket "${title}". Boleh minta info lebih lanjut?`
+}
+
+/** Biaya tambahan per bahasa (angka dari ADDONS di packages.ts). */
+export function addonsFor(lang: Lang) {
+  return ADDONS.map((a) => {
+    const t = ADDON_TEXT[lang][a.slug]
+    return { ...a, title: t.title, unit: t.unit, range: `${money(lang, a.minPrice)} – ${money(lang, a.maxPrice)}` }
+  })
+}
+
+/**
+ * Mengisi penanda harga/fakta di teks (artikel, halaman layanan):
+ * {{from:slug}} {{price:slug}} {{max:slug}} {{duration:slug}} {{renewal}} {{guarantee}} {{demos}} {{perf}} {{pricetable}}.
+ * Penanda yang tidak dikenal menggagalkan build supaya tidak ada angka yang lolos tanpa sumber.
+ */
+export function fillFacts(lang: Lang, s: string): string {
+  const pk = packagesFor(lang)
+  const bySlug = (slug: string) => {
+    const p = pk.find((x) => x.slug === slug)
+    if (!p) throw new Error(`Paket tidak dikenal: ${slug}`)
+    return p
+  }
+  const renewal =
+    lang === 'id'
+      ? `${money('id', RENEWAL_PER_YEAR.min)}–${money('id', RENEWAL_PER_YEAR.max)}`
+      : `${money(lang, RENEWAL_PER_YEAR.min)}–${money(lang, RENEWAL_PER_YEAR.max).replace('IDR ', '')}`
+  const head = lang === 'id' ? ['Paket', 'Kisaran harga', 'Pengerjaan', 'Cocok untuk'] : ['Package', 'Price range', 'Turnaround', 'Best for']
+  const table = [
+    `| ${head.join(' | ')} |`,
+    `|${head.map(() => '---').join('|')}|`,
+    ...pk.map((p) => `| ${p.title} | ${p.priceRange} | ${p.duration} | ${p.highlights.join(', ')} |`),
+  ].join('\n')
+  const out = s
+    .replace(/\{\{pricetable\}\}/g, table)
+    .replace(/\{\{from:([a-z-]+)\}\}/g, (_, slug) => bySlug(slug).priceFrom)
+    .replace(/\{\{price:([a-z-]+)\}\}/g, (_, slug) => bySlug(slug).priceRange)
+    .replace(/\{\{max:([a-z-]+)\}\}/g, (_, slug) => money(lang, bySlug(slug).maxPrice))
+    .replace(/\{\{duration:([a-z-]+)\}\}/g, (_, slug) => bySlug(slug).duration)
+    .replace(/\{\{renewal\}\}/g, renewal)
+    .replace(/\{\{guarantee\}\}/g, String(GUARANTEE_DAYS))
+    .replace(/\{\{demos\}\}/g, String(DEMOS.length))
+    .replace(/\{\{perf\}\}/g, PERF_TARGET)
+  const left = out.match(/\{\{[^}]+\}\}/)
+  if (left) throw new Error(`Penanda tak dikenal: ${left[0]}`)
+  return out
 }

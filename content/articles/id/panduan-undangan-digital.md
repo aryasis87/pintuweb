@@ -61,7 +61,7 @@ Banyak keluarga memakai keduanya: undangan digital untuk sebagian besar tamu, da
 
 ### Berapa harga undangan digital di PintuWeb?
 
-Harga mengikuti tema dan fitur yang dipilih. Kirim kebutuhan Anda lewat WhatsApp dan kami kirim penawaran tertulis sebelum pengerjaan dimulai. Detail layanannya ada di halaman [Undangan Digital](/services/undangan-digital).
+Mulai {{from:undangan-digital}} untuk undangan dari tema galeri (kisaran {{price:undangan-digital}}, selesai {{duration:undangan-digital}}), dan mulai {{from:situs-acara}} untuk situs acara atau desain khusus. Undangan aktif 12 bulan tanpa biaya perpanjangan. Detail layanannya ada di halaman [Undangan Digital](/services/undangan-digital).
 
 ### Apakah tamu perlu memasang aplikasi?
 

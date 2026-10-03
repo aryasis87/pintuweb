@@ -9,7 +9,7 @@ takeaways:
 - A domain is your website's address (yourbusiness.com); hosting is the server that stores and serves the content. You need both, and both are rented yearly.
 - Under PANDI's policy, .co.id is for businesses operating in Indonesia and requires a business identification number (NIB) and an ID card, while .biz.id is for micro, small and medium enterprises.
 - The domain must be registered in your or your business's name, not the developer's.
-- At PintuWeb, the first year of domain and hosting is included; renewal from the second year is roughly {{renewal}} per year.
+- At PintuWeb, the first year of domain and hosting is included in website packages; renewal from the second year is roughly {{renewal}} per year.
 sources:
 - PANDI — Domain Name Registration Policy, version 9.0 | https://pandi.id/public/files/2024/10/kebijakan-pendaftaran-nama-domain-versi-9-0-bilingual-new-1729151599.pdf
 ---
@@ -53,7 +53,7 @@ For .biz.id, .my.id and .web.id, PANDI's policy lists no specific documents, tho
 
 ## How much does it cost?
 
-At PintuWeb, the domain and hosting for the first year are included in every package. From the second year, renewal costs roughly {{renewal}} per year depending on the package, and we remind you before it is due. Package details are on the [Pricing](/en/pricing) page.
+At PintuWeb, the domain and hosting for the first year are included in every website package (digital invitations use a personal link and need no domain). From the second year, renewal costs roughly {{renewal}} per year depending on the package, and we remind you before it is due. Package details are on the [Pricing](/en/pricing) page.
 
 ## Frequently asked questions
 

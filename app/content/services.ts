@@ -310,7 +310,7 @@ export const SERVICES: Service[] = [
   {
     key: 'website-custom',
     icon: 'Code2',
-    packages: ['website-custom'],
+    packages: ['sistem-reservasi', 'website-properti', 'marketplace-properti', 'aplikasi-web', 'website-custom'],
     demoCategories: ['reservasi', 'properti', 'todo'],
     demoSlugs: ['restoran', 'klinik', 'hotel', 'lumora', 'homigo', 'kanban-board'],
     articles: ['pilih-jasa', 'biaya'],
@@ -329,7 +329,7 @@ export const SERVICES: Service[] = [
         short: 'Sistem reservasi, katalog properti, aplikasi web, atau fitur khusus lain sesuai kebutuhan bisnis.',
         suits: 'Startup, instansi, sistem khusus',
         faq: [
-          { q: 'Bagaimana harga website custom ditentukan?', a: 'Dari ruang lingkup: jumlah halaman, fitur, integrasi, dan peran pengguna. Kisaran paket Website Custom tercantum di tabel harga; angka pastinya ada di penawaran tertulis yang Anda setujui sebelum pengerjaan.' },
+          { q: 'Bagaimana harga website custom ditentukan?', a: 'Dari ruang lingkup: jumlah halaman, fitur, integrasi, dan peran pengguna. Sistem reservasi mulai {{from:sistem-reservasi}}, website properti mulai {{from:website-properti}}, aplikasi web mulai {{from:aplikasi-web}}, dan website custom mulai {{from:website-custom}}; angka pastinya ada di penawaran tertulis yang Anda setujui sebelum pengerjaan.' },
           { q: 'Apakah bisa terhubung dengan sistem yang sudah saya pakai?', a: 'Bisa, selama sistem tersebut menyediakan API atau cara pertukaran data. Kami cek dokumentasinya dulu sebelum menjanjikan integrasi.' },
           { q: 'Siapa pemilik kodenya?', a: 'Anda. Setelah pelunasan, source code, akses hosting, domain, dan database diserahkan sepenuhnya.' },
           { q: 'Apakah ada dukungan setelah website online?', a: `Ya, ada garansi perbaikan bug dan maintenance & support teknis 3 bulan di paket Website Custom, yang bisa diperpanjang.` },
@@ -349,7 +349,7 @@ export const SERVICES: Service[] = [
         short: 'Booking systems, property catalogues, web apps or other bespoke features for your business.',
         suits: 'Start-ups, institutions, bespoke systems',
         faq: [
-          { q: 'How is the price of a custom website decided?', a: 'By scope: the number of pages, features, integrations and user roles. The Custom Website package range is shown in the price table; the exact figure is in the written quote you approve before work starts.' },
+          { q: 'How is the price of a custom website decided?', a: 'By scope: the number of pages, features, integrations and user roles. Booking systems start at {{from:sistem-reservasi}}, property websites at {{from:website-properti}}, web apps at {{from:aplikasi-web}} and custom websites at {{from:website-custom}}; the exact figure is in the written quote you approve before work starts.' },
           { q: 'Can it connect to a system I already use?', a: 'Yes, as long as that system offers an API or another way to exchange data. We check its documentation before promising an integration.' },
           { q: 'Who owns the code?', a: 'You do. Once the final payment is made, the source code, hosting, domain and database access are handed over in full.' },
           { q: 'Is there support after launch?', a: 'Yes, there is a bug-fix guarantee and 3 months of maintenance and technical support in the Custom Website package, which can be extended.' },
@@ -369,7 +369,7 @@ export const SERVICES: Service[] = [
         short: 'Sistem tempahan, katalog hartanah, aplikasi web atau ciri khas lain mengikut keperluan perniagaan.',
         suits: 'Syarikat pemula, institusi, sistem khas',
         faq: [
-          { q: 'Bagaimanakah harga laman web tersuai ditentukan?', a: 'Berdasarkan skop: bilangan halaman, ciri, integrasi dan peranan pengguna. Julat pakej Laman Web Tersuai tertera dalam jadual harga; angka tepatnya dalam sebut harga bertulis yang anda luluskan sebelum kerja bermula.' },
+          { q: 'Bagaimanakah harga laman web tersuai ditentukan?', a: 'Berdasarkan skop: bilangan halaman, ciri, integrasi dan peranan pengguna. Sistem tempahan bermula {{from:sistem-reservasi}}, laman web hartanah {{from:website-properti}}, aplikasi web {{from:aplikasi-web}} dan laman web tersuai {{from:website-custom}}; angka tepatnya dalam sebut harga bertulis yang anda luluskan sebelum kerja bermula.' },
           { q: 'Bolehkah ia disambungkan dengan sistem yang saya gunakan?', a: 'Boleh, selagi sistem itu menyediakan API atau cara pertukaran data. Kami semak dokumentasinya dahulu sebelum menjanjikan integrasi.' },
           { q: 'Siapakah pemilik kodnya?', a: 'Anda. Selepas bayaran penuh, kod sumber, akses hosting, domain dan pangkalan data diserahkan sepenuhnya.' },
           { q: 'Adakah sokongan selepas pelancaran?', a: 'Ya, terdapat jaminan pembaikan pepijat serta penyelenggaraan & sokongan teknikal 3 bulan dalam pakej Laman Web Tersuai, yang boleh dilanjutkan.' },
@@ -380,7 +380,7 @@ export const SERVICES: Service[] = [
   {
     key: 'undangan-digital',
     icon: 'Mail',
-    packages: [],
+    packages: ['undangan-digital', 'situs-acara'],
     demoCategories: ['undangan'],
     articles: ['undangan'],
     text: {
@@ -392,14 +392,14 @@ export const SERVICES: Service[] = [
         lead: 'Undangan digital adalah undangan acara berbentuk halaman web yang dikirim lewat tautan — biasanya melalui WhatsApp. Tamu bisa melihat waktu dan lokasi acara, membuka peta, mengonfirmasi kehadiran (RSVP), dan menyimpan tanggalnya dari satu tautan.',
         intro: [
           'Delapan tema di galeri kami dibuat dengan karakter berbeda, bukan satu desain yang diganti warna: pernikahan, lamaran, khitanan, aqiqah, ulang tahun, wisuda, reuni, hingga situs acara korporat dengan agenda dan pendaftaran peserta.',
-          'Fitur yang bisa dipilih antara lain amplop pembuka, hitung mundur, peta lokasi, galeri foto, musik latar, dan formulir RSVP. Harga mengikuti tema dan fitur yang Anda pilih, dan kami kirim penawaran tertulis lebih dulu.',
+          'Fitur yang bisa dipilih antara lain amplop pembuka, hitung mundur, peta lokasi, galeri foto, musik latar, dan formulir RSVP. Undangan dari tema galeri mulai {{from:undangan-digital}}; untuk acara kantor atau desain khusus, paket Situs Acara mulai {{from:situs-acara}}.',
         ],
         forWho: ['Pasangan yang menyiapkan pernikahan atau lamaran', 'Keluarga yang mengadakan khitanan atau aqiqah', 'Panitia reuni, wisuda, dan ulang tahun', 'Perusahaan yang mengadakan konferensi, peluncuran, atau gathering', 'Siapa pun yang ingin undangan mudah dibagikan lewat WhatsApp'],
         includes: ['Halaman undangan dengan tautan sendiri', 'Detail acara: tanggal, waktu, dan lokasi dengan peta', 'Hitung mundur menuju acara', 'Formulir konfirmasi kehadiran (RSVP)', 'Galeri foto dan musik latar (opsional)', 'Tampilan yang nyaman di layar ponsel kecil'],
         short: 'Undangan berbentuk website untuk pernikahan, khitanan, wisuda, reuni, hingga acara kantor.',
         suits: 'Pernikahan, keluarga, acara kantor',
         faq: [
-          { q: 'Berapa harga undangan digital?', a: 'Harga mengikuti tema dan fitur yang Anda pilih (misalnya RSVP, galeri, atau musik). Kirim kebutuhan Anda lewat WhatsApp dan kami berikan penawaran tertulis sebelum pengerjaan dimulai.' },
+          { q: 'Berapa harga undangan digital?', a: 'Mulai {{from:undangan-digital}} untuk undangan dari tema galeri (kisaran {{price:undangan-digital}}, selesai {{duration:undangan-digital}}), dan mulai {{from:situs-acara}} untuk situs acara atau desain khusus. Undangan aktif 12 bulan tanpa biaya perpanjangan.' },
           { q: 'Apakah nama dan foto di contoh undangan itu asli?', a: 'Tidak. Nama, foto, dan data di contoh undangan kami fiktif; saat dipesan, semuanya diganti dengan data acara Anda.' },
           { q: 'Bagaimana cara membagikan undangannya?', a: 'Cukup kirim tautannya lewat WhatsApp, media sosial, atau email. Tamu membukanya di browser tanpa perlu memasang aplikasi.' },
           { q: 'Apakah undangan digital bisa menggantikan undangan cetak?', a: 'Untuk banyak acara bisa, terutama tamu yang jauh. Sebagian keluarga tetap mencetak beberapa undangan untuk orang tua atau tamu kehormatan; keduanya bisa berjalan bersamaan.' },
@@ -413,14 +413,14 @@ export const SERVICES: Service[] = [
         lead: 'A digital invitation is an event invitation in the form of a web page that you share as a link — usually over WhatsApp. From one link, guests can see the time and place, open the map, confirm attendance (RSVP) and save the date.',
         intro: [
           'The eight themes in our gallery each have a distinct character rather than one design in different colours: a wedding, an engagement, two Indonesian family celebrations (khitanan and aqiqah), a birthday, a graduation, a reunion and a corporate event site with an agenda and attendee registration.',
-          'Optional features include an opening envelope, a countdown, a location map, a photo gallery, background music and an RSVP form. The price depends on the theme and features you choose, and we send a written quote first.',
+          'Optional features include an opening envelope, a countdown, a location map, a photo gallery, background music and an RSVP form. An invitation from our theme gallery starts at {{from:undangan-digital}}; for corporate events or a bespoke design, the Event Website package starts at {{from:situs-acara}}.',
         ],
         forWho: ['Couples planning a wedding or engagement', 'Families hosting a celebration', 'Organisers of reunions, graduations and birthdays', 'Companies holding conferences, launches or gatherings', 'Anyone who wants an invitation that is easy to share on WhatsApp'],
         includes: ['An invitation page with its own link', 'Event details: date, time and location with a map', 'A countdown to the event', 'An attendance confirmation (RSVP) form', 'Photo gallery and background music (optional)', 'A layout that is comfortable on small phone screens'],
         short: 'Invitations as websites for weddings, family events, graduations, reunions and corporate events.',
         suits: 'Weddings, family & corporate events',
         faq: [
-          { q: 'How much does a digital invitation cost?', a: 'The price depends on the theme and features you choose (for example RSVP, a gallery or music). Send your requirements over WhatsApp and we will give you a written quote before work starts.' },
+          { q: 'How much does a digital invitation cost?', a: 'From {{from:undangan-digital}} for an invitation from our theme gallery (range {{price:undangan-digital}}, ready in {{duration:undangan-digital}}), and from {{from:situs-acara}} for an event website or bespoke design. Invitations stay active for 12 months with no renewal fee.' },
           { q: 'Are the names and photos in the examples real?', a: 'No. The names, photos and details in our example invitations are fictional; when you order, everything is replaced with your event details.' },
           { q: 'How do I share the invitation?', a: 'Just send the link over WhatsApp, social media or email. Guests open it in their browser without installing an app.' },
           { q: 'Can a digital invitation replace a printed one?', a: 'For many events it can, especially for guests who live far away. Some families still print a few invitations for elders or guests of honour; both can work together.' },
@@ -434,14 +434,14 @@ export const SERVICES: Service[] = [
         lead: 'Kad jemputan digital ialah jemputan majlis berbentuk halaman web yang dihantar melalui pautan — biasanya melalui WhatsApp. Daripada satu pautan, tetamu boleh melihat masa dan lokasi, membuka peta, mengesahkan kehadiran (RSVP) dan menyimpan tarikhnya.',
         intro: [
           'Lapan tema dalam galeri kami mempunyai watak berbeza, bukan satu reka bentuk yang ditukar warna: perkahwinan, pertunangan, majlis berkhatan, akikah, hari jadi, konvokesyen, reunion hingga laman acara korporat dengan agenda dan pendaftaran peserta.',
-          'Ciri pilihan termasuk sampul pembuka, kiraan detik, peta lokasi, galeri foto, muzik latar dan borang RSVP. Harga mengikut tema dan ciri yang anda pilih, dan kami hantar sebut harga bertulis terlebih dahulu.',
+          'Ciri pilihan termasuk sampul pembuka, kiraan detik, peta lokasi, galeri foto, muzik latar dan borang RSVP. Jemputan daripada tema galeri bermula {{from:undangan-digital}}; untuk acara korporat atau reka bentuk khas, pakej Laman Acara bermula {{from:situs-acara}}.',
         ],
         forWho: ['Pasangan yang merancang perkahwinan atau pertunangan', 'Keluarga yang mengadakan majlis', 'Penganjur reunion, konvokesyen dan hari jadi', 'Syarikat yang mengadakan persidangan, pelancaran atau perhimpunan', 'Sesiapa yang mahu jemputan mudah dikongsi melalui WhatsApp'],
         includes: ['Halaman jemputan dengan pautan sendiri', 'Butiran majlis: tarikh, masa dan lokasi dengan peta', 'Kiraan detik menuju majlis', 'Borang pengesahan kehadiran (RSVP)', 'Galeri foto dan muzik latar (pilihan)', 'Paparan yang selesa di skrin telefon kecil'],
         short: 'Jemputan berbentuk laman web untuk perkahwinan, majlis keluarga, konvokesyen, reunion dan acara korporat.',
         suits: 'Perkahwinan, keluarga, korporat',
         faq: [
-          { q: 'Berapakah harga kad jemputan digital?', a: 'Harga mengikut tema dan ciri yang anda pilih (contohnya RSVP, galeri atau muzik). Hantar keperluan anda melalui WhatsApp dan kami berikan sebut harga bertulis sebelum kerja bermula.' },
+          { q: 'Berapakah harga kad jemputan digital?', a: 'Dari {{from:undangan-digital}} untuk jemputan daripada tema galeri (julat {{price:undangan-digital}}, siap dalam {{duration:undangan-digital}}), dan dari {{from:situs-acara}} untuk laman acara atau reka bentuk khas. Jemputan aktif 12 bulan tanpa kos pembaharuan.' },
           { q: 'Adakah nama dan foto dalam contoh itu asli?', a: 'Tidak. Nama, foto dan data dalam contoh jemputan kami adalah rekaan; apabila ditempah, semuanya diganti dengan butiran majlis anda.' },
           { q: 'Bagaimana cara berkongsi jemputan?', a: 'Hantar sahaja pautannya melalui WhatsApp, media sosial atau e-mel. Tetamu membukanya dalam pelayar tanpa perlu memasang aplikasi.' },
           { q: 'Bolehkah jemputan digital menggantikan kad bercetak?', a: 'Untuk banyak majlis boleh, terutamanya tetamu yang jauh. Sesetengah keluarga tetap mencetak beberapa kad untuk orang tua atau tetamu kehormat; kedua-duanya boleh digunakan bersama.' },
@@ -452,7 +452,7 @@ export const SERVICES: Service[] = [
   {
     key: 'link-in-bio',
     icon: 'Link2',
-    packages: [],
+    packages: ['link-in-bio'],
     demoCategories: ['linkinbio'],
     articles: ['website-vs-sosmed'],
     text: {
@@ -464,7 +464,7 @@ export const SERVICES: Service[] = [
         lead: 'Halaman link in bio adalah satu halaman web yang ditautkan dari bio Instagram atau TikTok dan berisi semua tujuan penting: WhatsApp, toko, jadwal, karya, atau formulir pemesanan. Versi buatan sendiri bisa memakai domain dan desain merek Anda, serta memuat fitur yang tidak ada di layanan link in bio umum.',
         intro: [
           'Dua belas contoh di galeri kami menunjukkan seberapa jauh halaman ini bisa berkembang: papan menu warung yang menampilkan status buka sesuai jam WIB, pre-order kedai kopi, jadwal tur band dengan pemilih tiket, toko stiker, hingga halaman komisi ilustrator.',
-          'Harga mengikuti jumlah halaman dan fitur yang Anda perlukan; kami kirim penawaran tertulis setelah mendengar kebutuhan Anda.',
+          'Paket Link in Bio mulai {{from:link-in-bio}} dan selesai {{duration:link-in-bio}}; halaman atau fitur tambahan dihitung di penawaran tertulis.',
         ],
         forWho: ['Kreator konten dan influencer', 'Kafe, warung, dan usaha kuliner dengan pre-order', 'Musisi, band, dan penyelenggara acara', 'Ilustrator, penulis, dan pekerja kreatif', 'UMKM yang aktif berjualan lewat Instagram atau TikTok'],
         includes: ['Halaman dengan domain dan desain sesuai merek', 'Tombol WhatsApp dan tautan ke semua kanal Anda', 'Fitur sesuai kebutuhan: menu, pre-order, jadwal, toko, atau formulir', 'Tampilan yang cepat dibuka di ponsel', 'SEO dasar sehingga nama Anda bisa ditemukan di Google'],
@@ -472,7 +472,7 @@ export const SERVICES: Service[] = [
         suits: 'Kreator, kafe, musisi',
         faq: [
           { q: 'Apa bedanya dengan layanan link in bio gratis?', a: 'Layanan gratis biasanya hanya berisi daftar tombol dengan tampilan terbatas. Halaman buatan sendiri bisa memakai domain Anda, desain sesuai merek, dan fitur khusus seperti menu, pre-order, atau jadwal — dan kontennya sepenuhnya milik Anda.' },
-          { q: 'Berapa harganya?', a: 'Tergantung jumlah halaman dan fitur. Ceritakan kebutuhan Anda lewat WhatsApp dan kami kirim penawaran tertulis sebelum mulai.' },
+          { q: 'Berapa harganya?', a: 'Mulai {{from:link-in-bio}} untuk satu halaman dengan satu fitur khusus (kisaran {{price:link-in-bio}}), sudah termasuk domain .my.id/.biz.id dan hosting tahun pertama. Halaman atau fitur tambahan dihitung di penawaran tertulis sebelum mulai.' },
           { q: 'Apakah bisa dipakai untuk Instagram dan TikTok sekaligus?', a: 'Bisa. Tautannya sama untuk semua platform, jadi cukup dipasang di bio masing-masing akun.' },
         ],
       },
@@ -484,7 +484,7 @@ export const SERVICES: Service[] = [
         lead: 'A link-in-bio page is a single web page linked from your Instagram or TikTok bio that holds every important destination: WhatsApp, your shop, your schedule, your work or an order form. A custom version can use your own domain and brand design, with features generic link-in-bio services do not offer.',
         intro: [
           'The twelve examples in our gallery show how far such a page can go: a food stall menu board that shows whether it is open based on Indonesian time, coffee-shop pre-orders, a band tour schedule with a ticket picker, a sticker shop and an illustrator commission page.',
-          'The price depends on the number of pages and features you need; we send a written quote after hearing your requirements.',
+          'The Link in Bio package starts at {{from:link-in-bio}} and is ready in {{duration:link-in-bio}}; extra pages or features are priced in the written quote.',
         ],
         forWho: ['Content creators and influencers', 'Cafés, food stalls and food businesses taking pre-orders', 'Musicians, bands and event organisers', 'Illustrators, writers and creative workers', 'Small businesses selling actively on Instagram or TikTok'],
         includes: ['A page on your own domain with your brand design', 'A WhatsApp button and links to all your channels', 'Features as needed: menu, pre-orders, schedule, shop or forms', 'Fast loading on phones', 'Basic SEO so your name can be found on Google'],
@@ -492,7 +492,7 @@ export const SERVICES: Service[] = [
         suits: 'Creators, cafés, musicians',
         faq: [
           { q: 'How is this different from a free link-in-bio service?', a: 'Free services usually offer a list of buttons with limited styling. A custom page can use your domain, your brand design and special features such as a menu, pre-orders or a schedule — and the content is entirely yours.' },
-          { q: 'How much does it cost?', a: 'It depends on the number of pages and features. Tell us what you need over WhatsApp and we will send a written quote before starting.' },
+          { q: 'How much does it cost?', a: 'From {{from:link-in-bio}} for one page with one special feature (range {{price:link-in-bio}}), including a .my.id/.biz.id domain and first-year hosting. Extra pages or features are priced in the written quote before we start.' },
           { q: 'Can I use it for Instagram and TikTok at the same time?', a: 'Yes. The link is the same on every platform, so you simply add it to each account bio.' },
         ],
       },
@@ -504,7 +504,7 @@ export const SERVICES: Service[] = [
         lead: 'Halaman link in bio ialah satu halaman web yang dipautkan dari bio Instagram atau TikTok dan mengandungi semua destinasi penting: WhatsApp, kedai, jadual, karya atau borang pesanan. Versi tersuai boleh menggunakan domain dan reka bentuk jenama anda, serta ciri yang tiada dalam perkhidmatan link in bio biasa.',
         intro: [
           'Dua belas contoh dalam galeri kami menunjukkan sejauh mana halaman ini boleh berkembang: papan menu gerai yang memaparkan status buka mengikut waktu Indonesia, pra-tempahan kedai kopi, jadual jelajah kumpulan muzik dengan pemilih tiket, kedai pelekat hingga halaman komisen ilustrator.',
-          'Harga bergantung pada bilangan halaman dan ciri yang anda perlukan; kami hantar sebut harga bertulis selepas mendengar keperluan anda.',
+          'Pakej Link in Bio bermula {{from:link-in-bio}} dan siap dalam {{duration:link-in-bio}}; halaman atau ciri tambahan dikira dalam sebut harga bertulis.',
         ],
         forWho: ['Pencipta kandungan dan pempengaruh', 'Kafe, gerai dan perniagaan makanan dengan pra-tempahan', 'Pemuzik, kumpulan muzik dan penganjur acara', 'Ilustrator, penulis dan pekerja kreatif', 'PKS yang aktif berniaga melalui Instagram atau TikTok'],
         includes: ['Halaman dengan domain dan reka bentuk mengikut jenama', 'Butang WhatsApp dan pautan ke semua saluran anda', 'Ciri mengikut keperluan: menu, pra-tempahan, jadual, kedai atau borang', 'Paparan yang pantas dibuka di telefon', 'SEO asas supaya nama anda boleh ditemui di Google'],
@@ -512,7 +512,7 @@ export const SERVICES: Service[] = [
         suits: 'Pencipta, kafe, pemuzik',
         faq: [
           { q: 'Apakah bezanya dengan perkhidmatan link in bio percuma?', a: 'Perkhidmatan percuma biasanya hanya senarai butang dengan paparan terhad. Halaman tersuai boleh menggunakan domain anda, reka bentuk jenama dan ciri khas seperti menu, pra-tempahan atau jadual — dan kandungannya milik anda sepenuhnya.' },
-          { q: 'Berapakah harganya?', a: 'Bergantung pada bilangan halaman dan ciri. Ceritakan keperluan anda melalui WhatsApp dan kami hantar sebut harga bertulis sebelum bermula.' },
+          { q: 'Berapakah harganya?', a: 'Dari {{from:link-in-bio}} untuk satu halaman dengan satu ciri khas (julat {{price:link-in-bio}}), termasuk domain .my.id/.biz.id dan hosting tahun pertama. Halaman atau ciri tambahan dikira dalam sebut harga bertulis sebelum bermula.' },
           { q: 'Bolehkah digunakan untuk Instagram dan TikTok sekali gus?', a: 'Boleh. Pautannya sama untuk semua platform, jadi cukup dipasang di bio setiap akaun.' },
         ],
       },

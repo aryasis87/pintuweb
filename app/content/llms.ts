@@ -2,7 +2,7 @@
 import { CLIENT_PROJECTS, EMAIL, FOUNDED_YEAR, GUARANTEE_DAYS, PERF_TARGET, SITE, WA_DISPLAY } from '../lib/site'
 import { DEMOS } from '../lib/demos'
 import { PORTALS } from '../lib/portals'
-import { facts, packagesFor } from '../i18n/facts'
+import { addonsFor, facts, packagesFor } from '../i18n/facts'
 import { getDict, getPages } from '../i18n'
 import { urlOf, type PageKey } from '../i18n/routes'
 import { SERVICES } from './services'
@@ -37,6 +37,10 @@ export function llmsDoc(full: boolean) {
     '## Packages (IDR)',
     '',
     ...pkEn.map((p, i) => `- ${p.title} (${pkId[i].title}): ${p.priceRange}; turnaround ${p.duration}; ${p.subtitle}`),
+    '',
+    'Optional extras (IDR):',
+    '',
+    ...addonsFor('en').map((a) => `- ${a.title}: ${a.range} ${a.unit}`),
     '',
     '## Services',
     '',

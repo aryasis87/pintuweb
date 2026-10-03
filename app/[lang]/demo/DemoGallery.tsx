@@ -15,6 +15,8 @@ export type DemoGalleryText = {
   note: string
   filterAria: string
   all: string
+  /** mis. 'mulai' — diikuti harga mulai kategori demo */
+  from: string
   /** templat dengan {n} dan {cat} */
   showingAll: string
   showingCat: string
@@ -28,7 +30,7 @@ export type DemoGalleryText = {
 
 const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''))
 
-export default function DemoGallery({ demos, categories, t, contactHref, pricingHref }: { demos: Demo[]; categories: { id: DemoCategory; label: string }[]; t: DemoGalleryText; contactHref: string; pricingHref: string }) {
+export default function DemoGallery({ demos, categories, t, contactHref, pricingHref, fromByCat }: { demos: Demo[]; categories: { id: DemoCategory; label: string }[]; t: DemoGalleryText; contactHref: string; pricingHref: string; fromByCat: Record<DemoCategory, string> }) {
   const label = Object.fromEntries(categories.map((c) => [c.id, c.label])) as Record<DemoCategory, string>
   const [filter, setFilterState] = useState<Filter>('semua')
   // Filter tercermin di hash URL (/demo#undangan) supaya halaman lain bisa menautkan ke kategori tertentu.
@@ -141,7 +143,8 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
                   </h2>
                   {d.tagline && <p className="mt-1 line-clamp-2 text-xs leading-snug text-[color:var(--text-tertiary)] sm:text-sm">{d.tagline}</p>}
                   <span className="sr-only">{t.newTab}</span>
-                  <p className="mt-auto hidden pt-4 text-xs text-[color:var(--text-muted)] sm:block">{d.url.replace('https://', '')}</p>
+                  <p className="mt-auto pt-3 text-xs font-semibold text-[color:var(--primary-700)] sm:pt-4 sm:text-sm">{t.from} {fromByCat[d.category]}</p>
+                  <p className="mt-0.5 hidden text-xs text-[color:var(--text-muted)] sm:block">{d.url.replace('https://', '')}</p>
                 </div>
               </a>
             </li>

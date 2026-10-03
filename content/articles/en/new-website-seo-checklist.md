@@ -79,4 +79,4 @@ Not for normal (organic) results. Google Ads are paid and shown separately from 
 
 ### Do PintuWeb websites already meet this checklist?
 
-The technical and on-page parts — HTTPS, mobile-friendly design, a sitemap, meta tags, structured data and a PageSpeed score target of {{perf}} — are included in every package. If you would like help setting up Search Console or a Google Business Profile, ask during your consultation.
+The technical and on-page parts — HTTPS, mobile-friendly design, a sitemap, meta tags, structured data and a PageSpeed score target of {{perf}} — are included in every website package. If you would like help setting up Search Console or a Google Business Profile, ask during your consultation.

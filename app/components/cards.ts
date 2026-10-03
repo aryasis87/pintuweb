@@ -7,6 +7,7 @@ import { wa } from '../lib/site'
 /** Data kartu yang sudah siap tampil (string saja, aman dikirim ke komponen klien). */
 export type CardData = {
   slug: string
+  group: string
   title: string
   subtitle: string
   badge?: string
@@ -28,6 +29,7 @@ export function cardsFor(lang: Lang, filter?: (slug: string, featured?: boolean)
     .filter((p) => (filter ? filter(p.slug, p.featured) : true))
     .map((p) => ({
       slug: p.slug,
+      group: p.group,
       title: p.title,
       subtitle: p.subtitle,
       badge: p.badge,

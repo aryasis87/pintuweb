@@ -9,7 +9,7 @@ takeaways:
 - Domain adalah alamat website (namausaha.com); hosting adalah server yang menyimpan dan menayangkan isinya. Keduanya dibutuhkan dan disewa per tahun.
 - Menurut kebijakan PANDI, .co.id diperuntukkan bagi badan usaha dengan syarat NIB dan KTP, sedangkan .biz.id diperuntukkan bagi UMKM.
 - Domain harus terdaftar atas nama Anda atau usaha Anda, bukan atas nama pembuat website.
-- Di PintuWeb, domain dan hosting tahun pertama sudah termasuk paket; perpanjangan mulai tahun kedua sekitar {{renewal}} per tahun.
+- Di PintuWeb, domain dan hosting tahun pertama sudah termasuk di paket website; perpanjangan mulai tahun kedua sekitar {{renewal}} per tahun.
 sources:
 - PANDI — Kebijakan Pendaftaran Nama Domain versi 9.0 | https://pandi.id/public/files/2024/10/kebijakan-pendaftaran-nama-domain-versi-9-0-bilingual-new-1729151599.pdf
 ---
@@ -53,7 +53,7 @@ Untuk .biz.id, .my.id, dan .web.id, kebijakan PANDI tidak mencantumkan dokumen k
 
 ## Berapa biayanya?
 
-Di PintuWeb, domain dan hosting untuk tahun pertama sudah termasuk dalam semua paket. Mulai tahun kedua, perpanjangannya sekitar {{renewal}} per tahun tergantung paket, dan kami mengabari sebelum jatuh tempo. Rincian paket ada di halaman [Paket & Harga](/paket).
+Di PintuWeb, domain dan hosting untuk tahun pertama sudah termasuk dalam setiap paket website (undangan digital memakai tautan pribadi sehingga tidak perlu domain). Mulai tahun kedua, perpanjangannya sekitar {{renewal}} per tahun tergantung paket, dan kami mengabari sebelum jatuh tempo. Rincian paket ada di halaman [Paket & Harga](/paket).
 
 ## Pertanyaan yang sering diajukan
 

@@ -168,7 +168,7 @@ const ms: Dict = {
   pricing: {
     eyebrow: 'Harga telus',
     title: ['Pilih pakej yang ', 'tepat.'] as Hl,
-    lead: 'Semua pakej sudah termasuk reka bentuk profesional dan SEO asas. Satu-satunya kos berkala — pembaharuan domain & hosting mulai tahun kedua — kami nyatakan sejak awal.',
+    lead: 'Semua pakej sudah termasuk reka bentuk profesional; pakej laman web juga merangkumi SEO asas. Satu-satunya kos berkala — pembaharuan domain & hosting mulai tahun kedua — kami nyatakan sejak awal.',
     prev: 'Pakej sebelumnya',
     next: 'Pakej seterusnya',
     nth: (i: number) => `Pakej ${i}`,

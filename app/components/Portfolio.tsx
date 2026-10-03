@@ -2,9 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 import { DEMOS, type DemoCategory } from '../lib/demos'
-import { PORTALS } from '../lib/portals'
+import { PACKAGE_FOR_CATEGORY, PORTALS } from '../lib/portals'
 import { getDict } from '../i18n'
-import { minPrice, money } from '../i18n/facts'
+import { minPrice, money, packagesFor } from '../i18n/facts'
 import { path } from '../i18n/routes'
 import type { Lang } from '../i18n/config'
 import SectionHead from './SectionHead'
@@ -15,7 +15,10 @@ const n = (c: DemoCategory) => DEMOS.filter((d) => d.category === c).length
 
 // Galeri live — setiap "pintu" membuka portal katalog di pintuweb.com/<path> (zona Next terpisah, berbahasa Indonesia).
 export default function Portfolio({ lang }: { lang: Lang }) {
-  const t = getDict(lang).portfolio
+  const d = getDict(lang)
+  const t = d.portfolio
+  const pk = packagesFor(lang)
+  const fromOf = (c: DemoCategory) => pk.find((x) => x.slug === PACKAGE_FOR_CATEGORY[c])!.priceFrom
   return (
     <section aria-labelledby="showcase-title" className="relative overflow-hidden py-16 sm:py-20 lg:py-24" style={{ backgroundColor: 'var(--surface-primary)' }}>
       <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
@@ -50,6 +53,7 @@ export default function Portfolio({ lang }: { lang: Lang }) {
                     <ArrowUpRight size={16} className="shrink-0 text-[color:var(--text-muted)] transition-colors group-hover:text-[color:var(--primary-700)]" />
                   </h3>
                   <p className="mt-1 hidden text-sm leading-snug text-[color:var(--text-tertiary)] sm:block">{g.tagline}</p>
+                  <p className="mt-1.5 text-xs font-semibold text-[color:var(--primary-700)] sm:text-sm">{d.common.from} {fromOf(p.category)}</p>
                 </div>
               </a>
             )

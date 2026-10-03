@@ -6,13 +6,14 @@ date: 2026-10-03
 updated: 2026-10-03
 tags: website cost, pricing, Indonesia
 takeaways:
-- At PintuWeb, a website costs from {{from:landing-page}} for a one-page landing page up to {{max:toko-online-full}} for a full online store, including design, development, first-year domain and hosting, and basic SEO.
+- At PintuWeb, business websites start at {{from:landing-page}} (landing page), a full online store costs {{price:toko-online-full}}, and systems such as booking or web apps start at {{from:sistem-reservasi}}, including design, build, first-year domain and hosting, and basic SEO.
+- Small projects such as digital invitations ({{from:undangan-digital}}) and link-in-bio pages ({{from:link-in-bio}}) also have fixed prices rather than "ask us".
 - The only recurring cost is domain and hosting renewal, roughly {{renewal}} per year from the second year.
 - Price depends mainly on the number of pages, features (such as online payments) and how custom the design is.
 - Before comparing prices, make sure the domain and code become yours and there is a written guarantee.
 ---
 
-**In 2026, a website in Indonesia costs anything from a few hundred thousand rupiah for a single promotional page to several million rupiah for an online store with automatic payments.** At PintuWeb, prices start at {{from:landing-page}} for a landing page and go up to {{max:toko-online-full}} for a full online store. Those figures include design, development, the first year of domain and hosting, and basic SEO. All prices are in Indonesian Rupiah (IDR).
+**In 2026, a website in Indonesia costs anything from a few hundred thousand rupiah for a simple single page to tens of millions of rupiah for a marketplace with many users.** At PintuWeb, business websites start at {{from:landing-page}} for a landing page, a full online store costs {{price:toko-online-full}}, and a property marketplace starts at {{from:marketplace-properti}}. Those figures include design, development, the first year of domain and hosting, and basic SEO. All prices are in Indonesian Rupiah (IDR).
 
 This article breaks down the price of each type of website, what pushes the price up or down, and the costs people tend to forget when budgeting.
 

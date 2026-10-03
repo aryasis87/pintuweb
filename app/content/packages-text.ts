@@ -1,6 +1,6 @@
 // Teks paket dalam bahasa Inggris & Melayu. Harga dan slug TIDAK ada di sini —
 // keduanya selalu dari lib/packages.ts.
-import type { Paket } from '../lib/packages'
+import type { Paket, PaketGroup } from '../lib/packages'
 
 type PaketText = Pick<Paket, 'title' | 'subtitle' | 'duration' | 'highlights' | 'features'> & { badge?: string }
 
@@ -57,7 +57,7 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Custom Website',
       badge: 'Custom',
       subtitle: 'Design and features built entirely around your needs',
-      duration: '1–2 weeks, depending on features',
+      duration: '2–6 weeks, depending on features',
       highlights: ['Start-ups', 'Institutions', 'Bespoke systems'],
       features: [
         'Fully custom design & layout',
@@ -72,7 +72,7 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'toko-online-full': {
       title: 'Full Online Store',
       subtitle: 'A complete online store with an admin dashboard',
-      duration: '1–2 weeks, depending on features',
+      duration: '2–3 weeks',
       highlights: ['E-commerce', 'Automatic shipping rates', 'Order management'],
       features: [
         'Shopping cart & full checkout',
@@ -96,6 +96,122 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
         'Basic SEO & a tidy heading structure',
         'Domain + hosting + SSL for 1 year',
         'Ideal for freelancers & creators',
+      ],
+    },
+    'link-in-bio': {
+      title: "Link in Bio",
+      subtitle: "One bio link with your own design & features",
+      duration: "1–3 working days",
+      highlights: ["Creators","Cafés & food stalls","Musicians"],
+      features: [
+        "One link-in-bio page in your brand style",
+        "WhatsApp button & links to all your channels",
+        "One special feature: menu, pre-orders, schedule or catalogue",
+        ".my.id/.biz.id domain + hosting for 1 year",
+        "Fast on phones & basic SEO",
+        "1 round of revisions",
+      ],
+    },
+    'undangan-digital': {
+      title: "Digital Invitation",
+      subtitle: "A website invitation from our theme gallery, filled with your event details",
+      duration: "1–2 working days",
+      highlights: ["Weddings","Family celebrations","Birthdays & graduations"],
+      features: [
+        "A theme from our invitation gallery, tailored to your event",
+        "Event details + location map button",
+        "Countdown & attendance confirmation (RSVP)",
+        "Photo gallery & background music (optional)",
+        "Personal link active for 12 months, no renewal fee",
+        "1 round of detail changes",
+      ],
+    },
+    'situs-acara': {
+      title: "Event Website & Custom Invitation",
+      subtitle: "A bespoke design for large or corporate events",
+      duration: "3–7 working days",
+      highlights: ["Corporate events","Seminars & conferences","Premium weddings"],
+      features: [
+        "A bespoke invitation/event site design, not a ready-made theme",
+        "Agenda, speakers or programme",
+        "Attendee registration/RSVP with data export",
+        "Your own domain (optional)",
+        "Active for 12 months",
+        "2 rounds of revisions",
+      ],
+    },
+    'sistem-reservasi': {
+      title: "Online Booking System",
+      subtitle: "Book tables, rooms, doctor appointments or courts",
+      duration: "2–4 weeks",
+      highlights: ["Restaurants & cafés","Clinics","Hotels & courts"],
+      features: [
+        "Automatic availability calendar & time slots",
+        "Booking form + confirmation via WhatsApp/email",
+        "Admin dashboard for schedules & bookings",
+        "Rules for opening hours, capacity and pricing",
+        "Optional online deposit via a payment gateway",
+        "Domain + hosting + SSL for 1 year",
+        "3 months of maintenance & support",
+      ],
+    },
+    'website-properti': {
+      title: "Property Website",
+      subtitle: "A listings catalogue for an agent or developer",
+      duration: "2–3 weeks",
+      highlights: ["Property agents","Housing developers","Rentals & boarding houses"],
+      features: [
+        "Listings with location, price and type filters",
+        "Detail pages + photo gallery & map",
+        "Viewing request / ask-the-agent form",
+        "Admin panel to manage listings",
+        "SEO for every listing",
+        "Domain + hosting + SSL for 1 year",
+        "3 months of maintenance & support",
+      ],
+    },
+    'marketplace-properti': {
+      title: "Property Marketplace",
+      subtitle: "A multi-agent portal: many listers, one place to search",
+      duration: "4–8 weeks",
+      highlights: ["Property portals","Agent networks","Proptech start-ups"],
+      features: [
+        "Agent & owner accounts to post listings",
+        "Listing moderation by an admin",
+        "Advanced search & filters, compare listings",
+        "Agent profile pages",
+        "Lead forms & notifications",
+        "Domain + hosting + SSL for 1 year",
+        "6 months of maintenance & support",
+      ],
+    },
+    'aplikasi-web': {
+      title: "Web App",
+      subtitle: "A work app: tasks, kanban, calendar or internal data",
+      duration: "2–4 weeks",
+      highlights: ["Small teams","Internal operations","Start-ups"],
+      features: [
+        "Sign-in & user roles",
+        "Manage data: add, edit, delete, search",
+        "Kanban, calendar or report views as needed",
+        "Data export (CSV/Excel)",
+        "Responsive on phones",
+        "Hosting + database for 1 year",
+        "3 months of maintenance & support",
+      ],
+    },
+    'konsep-desain': {
+      title: "Website Design Concepts",
+      subtitle: "Several live concepts for one brief — pick the best",
+      duration: "1–2 weeks",
+      highlights: ["Rebranding","Pitching","Design contests"],
+      features: [
+        "3–5 distinct design concepts for one brief",
+        "Live, clickable pages — not just images",
+        "The visual direction of each concept explained",
+        "The chosen concept can continue into a website package",
+        "1 round of revisions on the chosen concept",
+        "Right to use the design once paid in full",
       ],
     },
   },
@@ -151,7 +267,7 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Laman Web Tersuai',
       badge: 'Tersuai',
       subtitle: 'Reka bentuk & ciri sepenuhnya mengikut keperluan',
-      duration: '1–2 minggu, bergantung pada ciri',
+      duration: '2–6 minggu, bergantung pada ciri',
       highlights: ['Syarikat pemula', 'Institusi', 'Sistem khas'],
       features: [
         'Reka bentuk & susun atur tersuai sepenuhnya',
@@ -166,7 +282,7 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'toko-online-full': {
       title: 'Kedai Online Penuh',
       subtitle: 'Kedai dalam talian lengkap dengan papan pemuka admin',
-      duration: '1–2 minggu, bergantung pada ciri',
+      duration: '2–3 minggu',
       highlights: ['E-dagang', 'Kos penghantaran automatik', 'Urus pesanan'],
       features: [
         'Troli beli-belah & proses pembayaran lengkap',
@@ -192,5 +308,165 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
         'Sesuai untuk pekerja bebas & pencipta kandungan',
       ],
     },
+    'link-in-bio': {
+      title: "Link in Bio",
+      subtitle: "Satu pautan bio dengan reka bentuk & ciri sendiri",
+      duration: "1–3 hari bekerja",
+      highlights: ["Pencipta kandungan","Kafe & gerai","Pemuzik"],
+      features: [
+        "Satu halaman link in bio mengikut jenama",
+        "Butang WhatsApp & pautan ke semua saluran",
+        "Satu ciri khas: menu, pra-tempahan, jadual atau katalog",
+        "Domain .my.id/.biz.id + hosting 1 tahun",
+        "Pantas di telefon & SEO asas",
+        "1× semakan",
+      ],
+    },
+    'undangan-digital': {
+      title: "Kad Jemputan Digital",
+      subtitle: "Jemputan laman web daripada tema galeri, diisi butiran majlis anda",
+      duration: "1–2 hari bekerja",
+      highlights: ["Perkahwinan","Majlis keluarga","Hari jadi & konvokesyen"],
+      features: [
+        "Tema daripada galeri jemputan, disesuaikan dengan majlis",
+        "Butiran majlis + butang peta lokasi",
+        "Kiraan detik & pengesahan kehadiran (RSVP)",
+        "Galeri foto & muzik latar (pilihan)",
+        "Pautan peribadi aktif 12 bulan, tanpa kos pembaharuan",
+        "1× semakan butiran",
+      ],
+    },
+    'situs-acara': {
+      title: "Laman Acara & Jemputan Tersuai",
+      subtitle: "Reka bentuk khas untuk majlis besar atau acara korporat",
+      duration: "3–7 hari bekerja",
+      highlights: ["Acara korporat","Seminar & persidangan","Perkahwinan premium"],
+      features: [
+        "Reka bentuk jemputan/laman acara khas, bukan tema siap",
+        "Agenda, penceramah atau atur cara",
+        "Pendaftaran peserta/RSVP dengan eksport data",
+        "Domain sendiri (pilihan)",
+        "Aktif 12 bulan",
+        "2× semakan",
+      ],
+    },
+    'sistem-reservasi': {
+      title: "Sistem Tempahan Dalam Talian",
+      subtitle: "Tempah meja, bilik, temu janji doktor atau gelanggang",
+      duration: "2–4 minggu",
+      highlights: ["Restoran & kafe","Klinik","Hotel & gelanggang"],
+      features: [
+        "Kalendar & slot ketersediaan automatik",
+        "Borang tempahan + pengesahan melalui WhatsApp/e-mel",
+        "Papan pemuka admin untuk jadual & tempahan",
+        "Peraturan waktu operasi, kapasiti dan harga",
+        "Pilihan deposit dalam talian melalui gerbang pembayaran",
+        "Domain + hosting + SSL 1 tahun",
+        "Penyelenggaraan & sokongan 3 bulan",
+      ],
+    },
+    'website-properti': {
+      title: "Laman Web Hartanah",
+      subtitle: "Katalog penyenaraian untuk ejen atau pemaju",
+      duration: "2–3 minggu",
+      highlights: ["Ejen hartanah","Pemaju perumahan","Rumah sewa & bilik"],
+      features: [
+        "Penyenaraian dengan penapis lokasi, harga dan jenis",
+        "Halaman butiran + galeri foto & peta",
+        "Borang jadual lawatan / tanya ejen",
+        "Panel admin untuk mengurus penyenaraian",
+        "SEO untuk setiap penyenaraian",
+        "Domain + hosting + SSL 1 tahun",
+        "Penyelenggaraan & sokongan 3 bulan",
+      ],
+    },
+    'marketplace-properti': {
+      title: "Pasaran Hartanah",
+      subtitle: "Portal berbilang ejen: ramai pemasang, satu tempat mencari",
+      duration: "4–8 minggu",
+      highlights: ["Portal hartanah","Rangkaian ejen","Syarikat pemula proptech"],
+      features: [
+        "Akaun ejen & pemilik untuk memasang penyenaraian",
+        "Moderasi penyenaraian oleh admin",
+        "Carian & penapis lanjutan, bandingkan penyenaraian",
+        "Halaman profil ejen",
+        "Borang prospek & pemberitahuan",
+        "Domain + hosting + SSL 1 tahun",
+        "Penyelenggaraan & sokongan 6 bulan",
+      ],
+    },
+    'aplikasi-web': {
+      title: "Aplikasi Web",
+      subtitle: "Aplikasi kerja: tugasan, kanban, kalendar atau data dalaman",
+      duration: "2–4 minggu",
+      highlights: ["Pasukan kecil","Operasi dalaman","Syarikat pemula"],
+      features: [
+        "Log masuk & peranan pengguna",
+        "Urus data: tambah, ubah, padam, cari",
+        "Paparan kanban, kalendar atau laporan mengikut keperluan",
+        "Eksport data (CSV/Excel)",
+        "Responsif di telefon",
+        "Hosting + pangkalan data 1 tahun",
+        "Penyelenggaraan & sokongan 3 bulan",
+      ],
+    },
+    'konsep-desain': {
+      title: "Konsep Reka Bentuk Laman Web",
+      subtitle: "Beberapa konsep langsung untuk satu taklimat, pilih yang terbaik",
+      duration: "1–2 minggu",
+      highlights: ["Penjenamaan semula","Pembentangan","Peraduan reka bentuk"],
+      features: [
+        "3–5 konsep reka bentuk berbeza untuk satu taklimat",
+        "Halaman langsung yang boleh diklik, bukan sekadar gambar",
+        "Penerangan hala tuju visual setiap konsep",
+        "Konsep terpilih boleh diteruskan ke pakej laman web",
+        "1× semakan pada konsep terpilih",
+        "Hak guna reka bentuk selepas bayaran penuh",
+      ],
+    },
+  },
+}
+
+/** Nama kelompok paket di halaman harga. */
+export const PACKAGE_GROUP_TEXT: Record<'id' | 'en' | 'ms', Record<PaketGroup, { title: string; lead: string }>> = {
+  id: {
+    bisnis: { title: 'Website bisnis', lead: 'Halaman promosi dan company profile untuk UMKM & usaha jasa.' },
+    toko: { title: 'Toko online', lead: 'Dari katalog dengan order WhatsApp sampai toko lengkap dengan pembayaran otomatis.' },
+    personal: { title: 'Personal & acara', lead: 'Link in bio, undangan digital, situs acara, dan portofolio.' },
+    sistem: { title: 'Sistem & aplikasi web', lead: 'Reservasi, properti, aplikasi kerja, dan website dengan fitur khusus.' },
+    desain: { title: 'Desain', lead: 'Konsep desain live untuk satu brief sebelum dibangun penuh.' },
+  },
+  en: {
+    bisnis: { title: 'Business websites', lead: 'Promotional pages and company profiles for small and service businesses.' },
+    toko: { title: 'Online stores', lead: 'From a catalogue with WhatsApp orders to a full store with automatic payments.' },
+    personal: { title: 'Personal & events', lead: 'Link in bio, digital invitations, event sites and portfolios.' },
+    sistem: { title: 'Systems & web apps', lead: 'Booking, property, work apps and websites with bespoke features.' },
+    desain: { title: 'Design', lead: 'Live design concepts for one brief before the full build.' },
+  },
+  ms: {
+    bisnis: { title: 'Laman web perniagaan', lead: 'Halaman promosi dan profil syarikat untuk PKS & perniagaan perkhidmatan.' },
+    toko: { title: 'Kedai dalam talian', lead: 'Daripada katalog dengan pesanan WhatsApp hingga kedai lengkap dengan pembayaran automatik.' },
+    personal: { title: 'Peribadi & acara', lead: 'Link in bio, kad jemputan digital, laman acara dan portfolio.' },
+    sistem: { title: 'Sistem & aplikasi web', lead: 'Tempahan, hartanah, aplikasi kerja dan laman web dengan ciri khas.' },
+    desain: { title: 'Reka bentuk', lead: 'Konsep reka bentuk langsung untuk satu taklimat sebelum dibina sepenuhnya.' },
+  },
+}
+
+/** Nama & satuan biaya tambahan. */
+export const ADDON_TEXT: Record<'id' | 'en' | 'ms', Record<string, { title: string; unit: string }>> = {
+  id: {
+    halaman: { title: 'Halaman tambahan', unit: 'per halaman' },
+    maintenance: { title: 'Maintenance lanjutan', unit: 'per bulan' },
+    artikel: { title: 'Artikel blog SEO', unit: 'per artikel' },
+  },
+  en: {
+    halaman: { title: 'Extra page', unit: 'per page' },
+    maintenance: { title: 'Ongoing maintenance', unit: 'per month' },
+    artikel: { title: 'SEO blog article', unit: 'per article' },
+  },
+  ms: {
+    halaman: { title: 'Halaman tambahan', unit: 'setiap halaman' },
+    maintenance: { title: 'Penyelenggaraan lanjutan', unit: 'sebulan' },
+    artikel: { title: 'Artikel blog SEO', unit: 'setiap artikel' },
   },
 }

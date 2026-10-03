@@ -79,4 +79,4 @@ Tidak untuk hasil pencarian biasa (organik). Iklan Google Ads berbayar dan tampi
 
 ### Apakah website buatan PintuWeb sudah memenuhi checklist ini?
 
-Bagian teknis dan on-page — HTTPS, ramah ponsel, sitemap, meta tag, structured data, dan target skor PageSpeed {{perf}} — sudah termasuk di setiap paket. Bila Anda butuh bantuan mendaftarkan Search Console atau Google Business Profile, tanyakan saat konsultasi.
+Bagian teknis dan on-page — HTTPS, ramah ponsel, sitemap, meta tag, structured data, dan target skor PageSpeed {{perf}} — sudah termasuk di setiap paket website. Bila Anda butuh bantuan mendaftarkan Search Console atau Google Business Profile, tanyakan saat konsultasi.

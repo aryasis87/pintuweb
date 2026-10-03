@@ -2,6 +2,18 @@
 // sendiri dengan basePath = path di sini; next.config.ts meneruskan permintaannya. Isinya berbahasa Indonesia.
 import type { DemoCategory } from './demos'
 
+/** Paket harga untuk tiap kategori demo/portal (slug di lib/packages.ts). */
+export const PACKAGE_FOR_CATEGORY: Record<DemoCategory, string> = {
+  landing: 'landing-page',
+  linkinbio: 'link-in-bio',
+  kontes: 'konsep-desain',
+  undangan: 'undangan-digital',
+  portfolio: 'portofolio',
+  reservasi: 'sistem-reservasi',
+  properti: 'website-properti',
+  todo: 'aplikasi-web',
+}
+
 export const PORTALS: { path: string; origin: string; category: DemoCategory; image: string }[] = [
   { path: 'landing-page', origin: 'https://portal-landing-seven.vercel.app', category: 'landing', image: '/images/galeri/landing.jpg' },
   { path: 'link-in-bio', origin: 'https://portal-bio-neon.vercel.app', category: 'linkinbio', image: '/images/galeri/bio.jpg' },

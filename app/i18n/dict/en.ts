@@ -168,7 +168,7 @@ const en: Dict = {
   pricing: {
     eyebrow: 'Transparent pricing',
     title: ['Choose the package ', 'that fits.'] as Hl,
-    lead: 'Every package includes professional design and basic SEO. The only recurring cost — domain & hosting renewal from the second year — is stated up front.',
+    lead: 'Every package includes professional design, and website packages include basic SEO. The only recurring cost — domain & hosting renewal from the second year — is stated up front.',
     prev: 'Previous package',
     next: 'Next package',
     nth: (i: number) => `Package ${i}`,

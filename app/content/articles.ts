@@ -3,10 +3,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { Marked, type Token, type Tokens } from 'marked'
-import { DEMOS } from '../lib/demos'
-import { GUARANTEE_DAYS, PERF_TARGET } from '../lib/site'
-import { RENEWAL_PER_YEAR } from '../lib/packages'
-import { money, packagesFor } from '../i18n/facts'
+import { fillFacts } from '../i18n/facts'
 import { ARTICLE_LANGS, type Lang } from '../i18n/config'
 import { ARTICLE_SLUGS, type ArticleKey } from '../i18n/slugs'
 
@@ -65,37 +62,7 @@ function parseFrontmatter(raw: string) {
   return { data, body: m[2] }
 }
 
-function fill(lang: Lang, s: string) {
-  const pk = packagesFor(lang)
-  const bySlug = (slug: string) => {
-    const p = pk.find((x) => x.slug === slug)
-    if (!p) throw new Error(`Paket tidak dikenal di artikel: ${slug}`)
-    return p
-  }
-  const renewal =
-    lang === 'id'
-      ? `${money('id', RENEWAL_PER_YEAR.min)}–${money('id', RENEWAL_PER_YEAR.max)}`
-      : `${money(lang, RENEWAL_PER_YEAR.min)}–${money(lang, RENEWAL_PER_YEAR.max).replace('IDR ', '')}`
-  const head = lang === 'id' ? ['Paket', 'Kisaran harga', 'Pengerjaan', 'Cocok untuk'] : ['Package', 'Price range', 'Turnaround', 'Best for']
-  const table = [
-    `| ${head.join(' | ')} |`,
-    `|${head.map(() => '---').join('|')}|`,
-    ...pk.map((p) => `| ${p.title} | ${p.priceRange} | ${p.duration} | ${p.highlights.join(', ')} |`),
-  ].join('\n')
-  const out = s
-    .replace(/\{\{pricetable\}\}/g, table)
-    .replace(/\{\{from:([a-z-]+)\}\}/g, (_, slug) => bySlug(slug).priceFrom)
-    .replace(/\{\{price:([a-z-]+)\}\}/g, (_, slug) => bySlug(slug).priceRange)
-    .replace(/\{\{max:([a-z-]+)\}\}/g, (_, slug) => money(lang, bySlug(slug).maxPrice))
-    .replace(/\{\{duration:([a-z-]+)\}\}/g, (_, slug) => bySlug(slug).duration)
-    .replace(/\{\{renewal\}\}/g, renewal)
-    .replace(/\{\{guarantee\}\}/g, String(GUARANTEE_DAYS))
-    .replace(/\{\{demos\}\}/g, String(DEMOS.length))
-    .replace(/\{\{perf\}\}/g, PERF_TARGET)
-  const left = out.match(/\{\{[^}]+\}\}/)
-  if (left) throw new Error(`Penanda tak dikenal: ${left[0]}`)
-  return out
-}
+const fill = fillFacts
 
 const FAQ_HEADING = /^(pertanyaan yang sering diajukan|frequently asked questions)$/i
 

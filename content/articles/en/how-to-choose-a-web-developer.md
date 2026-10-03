@@ -58,7 +58,7 @@ Live examples are more honest than mock-up images. *PintuWeb: {{demos}} demos ar
 Do not just take their word for it. Run one of their examples through [PageSpeed Insights](https://pagespeed.web.dev/) and see for yourself. *PintuWeb: a PageSpeed score target of {{perf}} — a target, not an average claim.*
 
 **11. Is basic SEO included?**
-At minimum: page titles and descriptions, a sitemap, HTTPS, a heading structure and a mobile-friendly layout. *PintuWeb: included in every package, plus structured data.*
+At minimum: page titles and descriptions, a sitemap, HTTPS, a heading structure and a mobile-friendly layout. *PintuWeb: included in every website package, plus structured data.*
 
 ## After launch
 

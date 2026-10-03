@@ -6,13 +6,14 @@ date: 2026-10-03
 updated: 2026-10-03
 tags: biaya website, harga website, UMKM
 takeaways:
-- Di PintuWeb, biaya membuat website mulai {{from:landing-page}} (landing page) sampai {{max:toko-online-full}} (toko online lengkap), sudah termasuk desain, development, domain & hosting tahun pertama, dan SEO dasar.
+- Di PintuWeb, website bisnis mulai {{from:landing-page}} (landing page), toko online lengkap {{price:toko-online-full}}, dan sistem seperti reservasi atau aplikasi web mulai {{from:sistem-reservasi}}; harga sudah termasuk desain, pengerjaan, domain & hosting tahun pertama, dan SEO dasar.
+- Proyek kecil seperti undangan digital ({{from:undangan-digital}}) dan link in bio ({{from:link-in-bio}}) juga punya harga tetap, bukan "tanya dulu".
 - Biaya berkala yang pasti ada hanya perpanjangan domain dan hosting, sekitar {{renewal}} per tahun mulai tahun kedua.
 - Harga terutama ditentukan oleh jumlah halaman, fitur (misalnya pembayaran online), dan seberapa custom desainnya.
 - Sebelum membandingkan harga, pastikan domain dan kode menjadi milik Anda serta ada garansi tertulis.
 ---
 
-**Biaya membuat website di 2026 berkisar dari ratusan ribu rupiah untuk satu halaman promosi sampai beberapa juta rupiah untuk toko online dengan pembayaran otomatis.** Di PintuWeb, harga dimulai {{from:landing-page}} untuk landing page dan paling tinggi {{max:toko-online-full}} untuk toko online lengkap. Angka itu sudah mencakup desain, pengembangan, domain dan hosting tahun pertama, serta SEO dasar.
+**Biaya membuat website di 2026 berkisar dari ratusan ribu rupiah untuk satu halaman sederhana sampai puluhan juta rupiah untuk marketplace dengan banyak pengguna.** Di PintuWeb, website bisnis dimulai {{from:landing-page}} untuk landing page, toko online lengkap {{price:toko-online-full}}, dan marketplace properti mulai {{from:marketplace-properti}}. Angka itu sudah mencakup desain, pengembangan, domain dan hosting tahun pertama, serta SEO dasar.
 
 Artikel ini merinci harga per jenis website, faktor yang membuat harga naik atau turun, dan biaya yang sering terlupa saat menyusun anggaran.
 

@@ -170,7 +170,7 @@ const id = {
   pricing: {
     eyebrow: 'Harga transparan',
     title: ['Pilih paket yang ', 'tepat.'] as Hl,
-    lead: 'Semua paket sudah termasuk desain profesional dan SEO dasar. Satu-satunya biaya berkala, perpanjangan domain & hosting mulai tahun kedua, kami sebutkan sejak awal.',
+    lead: 'Semua paket sudah termasuk desain profesional; paket website juga mencakup SEO dasar. Satu-satunya biaya berkala, perpanjangan domain & hosting mulai tahun kedua, kami sebutkan sejak awal.',
     prev: 'Paket sebelumnya',
     next: 'Paket berikutnya',
     nth: (i: number) => `Paket ${i}`,

@@ -6,6 +6,9 @@ import PageHero from '../../../components/PageHero'
 import { Breadcrumbs, HlText, JsonLd } from '../../../components/Bits'
 import { SERVICES, serviceOf } from '../../../content/services'
 import { SERVICE_ICONS, serviceFrom } from '../../../content/service-utils'
+import { fillFacts } from '../../../i18n/facts'
+import { cardsFor } from '../../../components/cards'
+import PackageCard from '../../../components/PackageCard'
 import { articlesIn } from '../../../content/articles'
 import { faqJsonLd } from '../../../content/faq'
 import { categoriesFor, demosFor, getDict, getPages, isLang, LANG_INFO, type Lang } from '../../../i18n'
@@ -46,7 +49,9 @@ export default async function ServicePage({ params }: Params) {
   if (!r) notFound()
   const lang: Lang = r.lang
   const s = r.service
-  const t = s.text[lang]
+  const raw = s.text[lang]
+  const fill = (x: string) => fillFacts(lang, x)
+  const t = { ...raw, lead: fill(raw.lead), intro: raw.intro.map(fill), includes: raw.includes?.map(fill), faq: raw.faq.map((q) => ({ q: q.q, a: fill(q.a) })) }
   const d = getDict(lang)
   const p = getPages(lang).service
   const Icon = SERVICE_ICONS[s.icon]
@@ -55,7 +60,9 @@ export default async function ServicePage({ params }: Params) {
   const url = urlOf(lang, ref)
 
   // Fitur: dari paket (packages.ts) bila ada, selain itu dari daftar khusus layanan.
-  const features = from ? Array.from(new Set(from.list.flatMap((pk) => pk.features))) : t.includes ?? []
+  // Kartu paket milik layanan ini (string siap tampil, sama persis dengan halaman Paket).
+  const { cards, labels } = cardsFor(lang, (slug) => s.packages.includes(slug))
+  const ordered = s.packages.map((slug) => cards.find((c) => c.slug === slug)!).filter(Boolean)
 
   // Contoh demo: slug pilihan, atau semua demo pada kategori layanan (maks. 6).
   const demos = demosFor(lang)
@@ -140,62 +147,66 @@ export default async function ServicePage({ params }: Params) {
         </div>
       </section>
 
-      {/* Yang didapat + harga */}
-      <section aria-labelledby="included-title" className="relative overflow-hidden py-16 sm:py-20" style={{ backgroundColor: 'var(--surface-primary)' }}>
+      {/* Harga & paket: tabel ringkas (mudah dikutip) + kartu paket lengkap */}
+      <section aria-labelledby="pricing-title" className="relative overflow-hidden py-16 sm:py-20" style={{ backgroundColor: 'var(--surface-primary)' }}>
         <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
-        <div className="relative z-10 mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-2">
-          <div>
-            <h2 id="included-title" className="text-2xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{p.included}</h2>
-            <ul className="mt-6 grid gap-3">
-              {features.map((f) => (
-                <li key={f} className="flex items-start gap-3 rounded-2xl border border-[color:var(--border-light)] bg-white px-4 py-3 text-[color:var(--text-secondary)]">
-                  <Check size={17} strokeWidth={2.5} className="mt-0.5 shrink-0 text-[color:var(--primary-700)]" aria-hidden="true" />
-                  <span>{f}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="text-2xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{p.pricing}</h2>
-            {from ? (
-              <>
-                <div className="table-wrap mt-6 rounded-3xl border border-[color:var(--border-light)] bg-white shadow-sm" role="region" tabIndex={0} aria-label={p.pricingCaption(t.name)}>
-                  <table className="w-full min-w-[30rem] text-left text-sm">
-                    <caption className="sr-only">{p.pricingCaption(t.name)}</caption>
-                    <thead className="bg-[color:var(--surface-primary)] text-[color:var(--text-secondary)]">
-                      <tr>
-                        <th scope="col" className="px-5 py-4 font-semibold">{p.colPackage}</th>
-                        <th scope="col" className="px-5 py-4 font-semibold">{p.colRange}</th>
-                        <th scope="col" className="px-5 py-4 font-semibold">{p.colDeposit}</th>
-                        <th scope="col" className="px-5 py-4 font-semibold">{p.colTime}</th>
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+          <h2 id="pricing-title" className="text-2xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{p.pricing}</h2>
+          {from ? (
+            <>
+              <div className="table-wrap mt-6 rounded-3xl border border-[color:var(--border-light)] bg-white shadow-sm" role="region" tabIndex={0} aria-label={p.pricingCaption(t.name)}>
+                <table className="w-full min-w-[30rem] text-left text-sm">
+                  <caption className="sr-only">{p.pricingCaption(t.name)}</caption>
+                  <thead className="bg-[color:var(--surface-primary)] text-[color:var(--text-secondary)]">
+                    <tr>
+                      <th scope="col" className="px-5 py-4 font-semibold">{p.colPackage}</th>
+                      <th scope="col" className="px-5 py-4 font-semibold">{p.colRange}</th>
+                      <th scope="col" className="px-5 py-4 font-semibold">{p.colDeposit}</th>
+                      <th scope="col" className="px-5 py-4 font-semibold">{p.colTime}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[color:var(--border-light)]">
+                    {ordered.map((pk) => (
+                      <tr key={pk.slug}>
+                        <th scope="row" className="px-5 py-4 font-semibold text-[color:var(--text-primary)]">{pk.title}</th>
+                        <td className="px-5 py-4 text-[color:var(--text-primary)]">{pk.priceRange}</td>
+                        <td className="px-5 py-4 text-[color:var(--text-secondary)]">{pk.deposit}</td>
+                        <td className="px-5 py-4 text-[color:var(--text-secondary)]">{pk.duration}</td>
                       </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[color:var(--border-light)]">
-                      {from.list.map((pk) => (
-                        <tr key={pk.slug}>
-                          <th scope="row" className="px-5 py-4 font-semibold text-[color:var(--text-primary)]">{pk.title}</th>
-                          <td className="px-5 py-4 text-[color:var(--text-primary)]">{pk.priceRange}</td>
-                          <td className="px-5 py-4 text-[color:var(--text-secondary)]">{pk.deposit}</td>
-                          <td className="px-5 py-4 text-[color:var(--text-secondary)]">{pk.duration}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                {d.common.priceNote && <p className="mt-3 text-xs text-[color:var(--text-tertiary)]">{d.common.priceNote}</p>}
-                <Link href={path(lang, 'pricing')} className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
-                  {p.seePricing} <ArrowRight size={15} aria-hidden="true" />
-                </Link>
-              </>
-            ) : (
-              <div className="mt-6 rounded-3xl border border-[color:var(--border-light)] bg-white p-6 shadow-sm">
-                <p className="leading-relaxed text-[color:var(--text-secondary)]">{p.priceOnRequest}</p>
-                <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm">
-                  <MessageCircle size={17} aria-hidden="true" /> {d.common.consultFree}
-                </a>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            )}
-          </div>
+              {d.common.priceNote && <p className="mt-3 text-xs text-[color:var(--text-tertiary)]">{d.common.priceNote}</p>}
+
+              <h3 className="mt-12 text-xl font-extrabold text-[color:var(--text-primary)]">{p.included}</h3>
+              <div className={`mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 ${ordered.length > 2 ? 'lg:grid-cols-3' : ''}`}>
+                {ordered.map((c) => (
+                  <PackageCard key={c.slug} p={c} labels={labels} as="h4" />
+                ))}
+              </div>
+              <Link href={path(lang, 'pricing')} className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
+                {p.seePricing} <ArrowRight size={15} aria-hidden="true" />
+              </Link>
+            </>
+          ) : (
+            <div className="mt-6 max-w-2xl rounded-3xl border border-[color:var(--border-light)] bg-white p-6 shadow-sm">
+              {t.includes && (
+                <ul className="mb-5 space-y-2">
+                  {t.includes.map((x) => (
+                    <li key={x} className="flex items-start gap-2.5 text-[color:var(--text-secondary)]">
+                      <Check size={17} strokeWidth={2.5} className="mt-0.5 shrink-0 text-[color:var(--primary-700)]" aria-hidden="true" />
+                      <span>{x}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <p className="leading-relaxed text-[color:var(--text-secondary)]">{p.priceOnRequest}</p>
+              <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm">
+                <MessageCircle size={17} aria-hidden="true" /> {d.common.consultFree}
+              </a>
+            </div>
+          )}
         </div>
       </section>
 

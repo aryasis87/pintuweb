@@ -61,7 +61,7 @@ Many families use both: a digital invitation for most guests and a few printed i
 
 ### How much does a digital invitation cost at PintuWeb?
 
-The price depends on the theme and features you choose. Send your requirements over WhatsApp and we will send a written quote before work starts. Service details are on the [Digital Invitation](/en/services/digital-invitation) page.
+From {{from:undangan-digital}} for an invitation from our theme gallery (range {{price:undangan-digital}}, ready in {{duration:undangan-digital}}), and from {{from:situs-acara}} for an event website or bespoke design. Invitations stay active for 12 months with no renewal fee. Service details are on the [Digital Invitation](/en/services/digital-invitation) page.
 
 ### Do guests need to install an app?
 
