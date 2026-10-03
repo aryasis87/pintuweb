@@ -58,11 +58,11 @@ vercel deploy --prod
 ## Portal demo
 
 Setiap kategori demo punya katalognya sendiri:
-[PortalLanding](https://portal-landing-seven.vercel.app) ·
-[PortalBio](https://portal-bio-neon.vercel.app) ·
-[PortalKontes](https://portal-kontes.vercel.app) ·
-[PortalUndangan](https://portal-undangan-eta.vercel.app) ·
-[PortalPorto](https://portal-porto-neon.vercel.app) ·
-[PortalReservasi](https://portal-reservasi-nu.vercel.app) ·
-[PortalProperti](https://portal-properti-nu.vercel.app) ·
-[PortalTodo](https://portal-todo.vercel.app)
+[PortalLanding](https://www.pintuweb.com/landing-page) ·
+[PortalBio](https://www.pintuweb.com/link-in-bio) ·
+[PortalKontes](https://www.pintuweb.com/kontes-desain) ·
+[PortalUndangan](https://www.pintuweb.com/undangan-digital) ·
+[PortalPorto](https://www.pintuweb.com/website-portofolio) ·
+[PortalReservasi](https://www.pintuweb.com/website-reservasi) ·
+[PortalProperti](https://www.pintuweb.com/website-properti) ·
+[PortalTodo](https://www.pintuweb.com/aplikasi-to-do)

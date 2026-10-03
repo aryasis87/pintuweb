@@ -12,7 +12,14 @@ const securityHeaders = [
 // Portal katalog tayang di bawah domain ini (multi-zone). Tiap portal tetap project
 // Vercel sendiri dengan basePath = path di sini; PintuWeb hanya meneruskan permintaannya.
 const PORTALS: Record<string, string> = {
+  "landing-page": "https://portal-landing-seven.vercel.app",
+  "link-in-bio": "https://portal-bio-neon.vercel.app",
+  "kontes-desain": "https://portal-kontes.vercel.app",
   "undangan-digital": "https://portal-undangan-eta.vercel.app",
+  "website-portofolio": "https://portal-porto-neon.vercel.app",
+  "website-reservasi": "https://portal-reservasi-nu.vercel.app",
+  "website-properti": "https://portal-properti-nu.vercel.app",
+  "aplikasi-to-do": "https://portal-todo.vercel.app",
 };
 
 const nextConfig: NextConfig = {

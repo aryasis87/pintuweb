@@ -18,14 +18,14 @@ const n = (c: DemoCategory) => DEMOS.filter((d) => d.category === c).length
 
 // Galeri live — setiap "pintu" membuka puluhan demo asli (screenshot & tautan nyata)
 const GATEWAYS: Gateway[] = [
-  { title: 'Landing Page', tagline: 'Halaman yang menjual — webinar, sales, promo', count: `${n('landing')} demo`, href: 'https://portal-landing-seven.vercel.app', image: '/images/galeri/landing.jpg' },
-  { title: 'Link in Bio', tagline: 'Satu tautan untuk semua kanalmu', count: `${n('linkinbio')} demo`, href: 'https://portal-bio-neon.vercel.app', image: '/images/galeri/bio.jpg' },
-  { title: 'Kontes Desain', tagline: 'Beragam konsep untuk satu brief', count: `${n('kontes')} entri`, href: 'https://portal-kontes.vercel.app', image: '/images/galeri/kontes.jpg' },
+  { title: 'Landing Page', tagline: 'Halaman yang menjual — webinar, sales, promo', count: `${n('landing')} demo`, href: '/landing-page', image: '/images/galeri/landing.jpg' },
+  { title: 'Link in Bio', tagline: 'Satu tautan untuk semua kanalmu', count: `${n('linkinbio')} demo`, href: '/link-in-bio', image: '/images/galeri/bio.jpg' },
+  { title: 'Kontes Desain', tagline: 'Beragam konsep untuk satu brief', count: `${n('kontes')} entri`, href: '/kontes-desain', image: '/images/galeri/kontes.jpg' },
   { title: 'Undangan Digital', tagline: 'Undangan online elegan untuk momen spesial', count: `${n('undangan')} tema`, href: '/undangan-digital', image: '/images/galeri/undangan.jpg' },
-  { title: 'Portfolio Pribadi', tagline: 'Personal branding yang berkesan', count: `${n('portfolio')} varian`, href: 'https://portal-porto-neon.vercel.app', image: '/images/galeri/porto.jpg' },
-  { title: 'Reservasi & Booking', tagline: 'Sistem pemesanan online multi-industri', count: `${n('reservasi')} sistem`, href: 'https://portal-reservasi-nu.vercel.app', image: '/images/galeri/reservasi.jpg' },
-  { title: 'Properti', tagline: 'Marketplace & katalog properti', count: `${n('properti')} varian`, href: 'https://portal-properti-nu.vercel.app', image: '/images/galeri/properti.jpg' },
-  { title: 'To-Do & Produktivitas', tagline: 'Aplikasi web untuk kelola tugas', count: `${n('todo')} aplikasi`, href: 'https://portal-todo.vercel.app', image: '/images/galeri/todo.jpg' },
+  { title: 'Portfolio Pribadi', tagline: 'Personal branding yang berkesan', count: `${n('portfolio')} varian`, href: '/website-portofolio', image: '/images/galeri/porto.jpg' },
+  { title: 'Reservasi & Booking', tagline: 'Sistem pemesanan online multi-industri', count: `${n('reservasi')} sistem`, href: '/website-reservasi', image: '/images/galeri/reservasi.jpg' },
+  { title: 'Properti', tagline: 'Marketplace & katalog properti', count: `${n('properti')} varian`, href: '/website-properti', image: '/images/galeri/properti.jpg' },
+  { title: 'To-Do & Produktivitas', tagline: 'Aplikasi web untuk kelola tugas', count: `${n('todo')} aplikasi`, href: '/aplikasi-to-do', image: '/images/galeri/todo.jpg' },
 ]
 
 const MIN_PRICE = Math.min(...PACKAGES.map((p) => p.minPrice))
