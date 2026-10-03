@@ -8,6 +8,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/', priority: 1.0, freq: 'weekly' },
     { path: '/paket', priority: 0.9, freq: 'weekly' },
     { path: '/demo', priority: 0.8, freq: 'weekly' },
+    // Portal katalog (project terpisah, diteruskan lewat rewrites di next.config.ts)
+    { path: '/undangan-digital', priority: 0.8, freq: 'monthly' },
     { path: '/kontak', priority: 0.7, freq: 'yearly' },
     { path: '/services', priority: 0.8, freq: 'monthly' },
     { path: '/about', priority: 0.7, freq: 'monthly' },

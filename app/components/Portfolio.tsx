@@ -21,7 +21,7 @@ const GATEWAYS: Gateway[] = [
   { title: 'Landing Page', tagline: 'Halaman yang menjual — webinar, sales, promo', count: `${n('landing')} demo`, href: 'https://portal-landing-seven.vercel.app', image: '/images/galeri/landing.jpg' },
   { title: 'Link in Bio', tagline: 'Satu tautan untuk semua kanalmu', count: `${n('linkinbio')} demo`, href: 'https://portal-bio-neon.vercel.app', image: '/images/galeri/bio.jpg' },
   { title: 'Kontes Desain', tagline: 'Beragam konsep untuk satu brief', count: `${n('kontes')} entri`, href: 'https://portal-kontes.vercel.app', image: '/images/galeri/kontes.jpg' },
-  { title: 'Undangan Digital', tagline: 'Undangan online elegan untuk momen spesial', count: `${n('undangan')} tema`, href: 'https://portal-undangan-eta.vercel.app', image: '/images/galeri/undangan.jpg' },
+  { title: 'Undangan Digital', tagline: 'Undangan online elegan untuk momen spesial', count: `${n('undangan')} tema`, href: '/undangan-digital', image: '/images/galeri/undangan.jpg' },
   { title: 'Portfolio Pribadi', tagline: 'Personal branding yang berkesan', count: `${n('portfolio')} varian`, href: 'https://portal-porto-neon.vercel.app', image: '/images/galeri/porto.jpg' },
   { title: 'Reservasi & Booking', tagline: 'Sistem pemesanan online multi-industri', count: `${n('reservasi')} sistem`, href: 'https://portal-reservasi-nu.vercel.app', image: '/images/galeri/reservasi.jpg' },
   { title: 'Properti', tagline: 'Marketplace & katalog properti', count: `${n('properti')} varian`, href: 'https://portal-properti-nu.vercel.app', image: '/images/galeri/properti.jpg' },
@@ -50,8 +50,7 @@ export default function Portfolio() {
             <a
               key={g.title}
               href={g.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              {...(g.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className="group flex flex-col focus:outline-none"
             >
               {/* Arch-framed preview */}
