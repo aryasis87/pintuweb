@@ -18,6 +18,8 @@ const { rewrites: langRewrites, redirects: langRedirects } = routingRules();
 const notId = ["_next", "_vercel", "api", "id(?:/|$)", "en(?:/|$)", "ms(?:/|$)"].join("|");
 
 const nextConfig: NextConfig = {
+  // Font TTF untuk gambar OG dibaca lewat fs saat runtime: pastikan ikut terbundel.
+  outputFileTracingIncludes: { "/api/og": ["./app/api/og/fonts/**"] },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

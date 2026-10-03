@@ -89,7 +89,7 @@ export default function Pricing({ cards, labels, t, pricingHref, note }: { cards
         {/* Guarantees */}
         <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--success-100)]"><ShieldCheck size={20} className="text-[color:var(--success-700)]" /></span>
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--accent-100)]"><ShieldCheck size={20} className="text-[color:var(--primary-700)]" /></span>
             <div>
               <h3 className="font-bold text-[color:var(--text-primary)]">{t.depositTitle}</h3>
               <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{t.depositBody}</p>

@@ -131,7 +131,7 @@ export default async function ServicePage({ params }: Params) {
             <ul className="mt-5 space-y-3">
               {t.forWho.map((w) => (
                 <li key={w} className="flex items-start gap-2.5 text-[color:var(--text-secondary)]">
-                  <Check size={17} strokeWidth={2.5} className="mt-1 shrink-0 text-[color:var(--success-700)]" aria-hidden="true" />
+                  <Check size={17} strokeWidth={2.5} className="mt-1 shrink-0 text-[color:var(--primary-700)]" aria-hidden="true" />
                   <span>{w}</span>
                 </li>
               ))}

@@ -34,7 +34,7 @@ export default function Portfolio({ lang }: { lang: Lang }) {
                 <div className="pintu-frame relative overflow-hidden bg-white p-1.5 shadow-sm transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-[var(--card-shadow-hover)] group-focus-visible:-translate-y-1.5">
                   <div className="arch-top relative aspect-[4/5] overflow-hidden">
                     <Image src={p.image} alt={t.previewAlt(g.title)} fill sizes="(min-width: 1024px) 270px, 50vw" className="object-cover object-top transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(20,19,15,0.72)] via-[rgba(20,19,15,0.12)] to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[rgba(12,24,52,0.72)] via-[rgba(12,24,52,0.12)] to-transparent" />
                     <span className="absolute bottom-2 left-2 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[color:var(--primary-700)] shadow-sm sm:bottom-3 sm:left-3">
                       {n(p.category)} {t.unit[p.category]}
                     </span>

@@ -43,7 +43,7 @@ export default async function OwnerPage({ params }: Params) {
             </a>
           </div>
           <div className="flex justify-center">
-            <div className="pintu-frame w-full max-w-[300px] bg-white p-2 shadow-[0_30px_60px_-24px_rgba(20,19,15,0.35)]">
+            <div className="pintu-frame w-full max-w-[300px] bg-white p-2 shadow-[0_30px_60px_-24px_rgba(15,29,58,0.35)]">
               <div role="img" aria-label={p.monogram} className="arch-top grid aspect-[4/5] w-full place-items-center bg-gradient-brand">
                 <span className="select-none text-[120px] font-extrabold leading-none text-white/95" style={{ fontFamily: 'var(--font-display)' }}>S</span>
               </div>

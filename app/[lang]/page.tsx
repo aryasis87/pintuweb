@@ -11,7 +11,7 @@ import { faqProps, pricingProps } from '../components/props'
 import { faqJsonLd } from '../content/faq'
 import { DEMOS } from '../lib/demos'
 import { LANG_INFO, getDict, isLang, type Lang } from '../i18n'
-import { pageGraph, pageMeta } from '../i18n/seo'
+import { ogHome, pageGraph, pageMeta } from '../i18n/seo'
 import { urlOf } from '../i18n/routes'
 
 type Params = { params: Promise<{ lang: string }> }
@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     absoluteTitle: true,
     description: t.homeDescription(DEMOS.length),
     ogDescription: t.ogHomeDescription(DEMOS.length),
+    image: ogHome(lang),
   })
 }
 

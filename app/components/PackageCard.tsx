@@ -31,7 +31,7 @@ export default function PackageCard({ p, labels, maxFeatures, as: Heading = 'h3'
           {p.badge}
         </span>
       )}
-      <div className={`flex h-full flex-col rounded-3xl bg-white p-6 sm:p-8 ${p.recommended ? 'border-2 border-[color:var(--primary-700)] shadow-[0_20px_50px_-20px_rgba(43,57,212,0.4)]' : 'border border-[color:var(--border-light)] shadow-sm'}`}>
+      <div className={`flex h-full flex-col rounded-3xl bg-white p-6 sm:p-8 ${p.recommended ? 'border-2 border-[color:var(--primary-700)] shadow-[0_20px_50px_-20px_rgba(38,70,156,0.35)]' : 'border border-[color:var(--border-light)] shadow-sm'}`}>
         <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${p.recommended ? 'bg-[color:var(--primary-100)] text-[color:var(--primary-700)]' : 'bg-[color:var(--neutral-100)] text-[color:var(--text-tertiary)]'}`}>{ICONS[p.slug]}</span>
         <Heading className="mt-4 text-xl font-bold text-[color:var(--text-primary)]">{p.title}</Heading>
         <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{p.subtitle}</p>
@@ -54,7 +54,7 @@ export default function PackageCard({ p, labels, maxFeatures, as: Heading = 'h3'
         <ul className="mt-6 flex-1 space-y-3">
           {features.map((f) => (
             <li key={f} className="flex items-start gap-2.5 text-sm text-[color:var(--text-secondary)]">
-              <Check size={17} strokeWidth={2.5} aria-hidden="true" className={`mt-0.5 shrink-0 ${p.recommended ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--success-700)]'}`} />
+              <Check size={17} strokeWidth={2.5} aria-hidden="true" className={`mt-0.5 shrink-0 ${p.recommended ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--primary-600)]'}`} />
               <span>{f}</span>
             </li>
           ))}

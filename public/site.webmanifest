@@ -4,8 +4,8 @@
   "description": "Pintu menuju website impianmu. Website cepat, modern, dan SEO-friendly.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fffdf9",
-  "theme_color": "#2b39d4",
+  "background_color": "#ffffff",
+  "theme_color": "#26469c",
   "lang": "id",
   "icons": [
     { "src": "/images/favicon-32x32.png", "sizes": "32x32", "type": "image/png" },

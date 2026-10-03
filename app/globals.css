@@ -3,46 +3,47 @@
 /* ============================================================
    PintuWeb — Design System
    Identitas: "Pintu menuju website impianmu"
-   Ink hangat + kertas + cobalt, aksen amber, motif gerbang/arch
+   Biru elegan (sapphire) + putih sebagai warna utama; navy untuk teks & bagian gelap,
+   biru es sebagai aksen tipis. Motif gerbang/arch & grid cetak biru tetap.
    ============================================================ */
 
 :root {
-  /* Background & Foreground (warm, premium) */
-  --background: #fffdf9;
-  --foreground: #14130f;
+  /* Background & Foreground — putih bersih, tinta navy */
+  --background: #ffffff;
+  --foreground: #0f1b33;
 
-  /* Brand — Cobalt (primary) */
-  --primary-50: #f1f3ff;
-  --primary-100: #e5e8ff;
-  --primary-200: #ccd3ff;
-  --primary-300: #a7b3ff;
-  --primary-400: #7d8cfb;
-  --primary-500: #5867f2;
-  --primary-600: #3f4ee6;
-  --primary-700: #2b39d4;
-  --primary-800: #212ba6;
-  --primary-900: #1a2170;
+  /* Brand — Biru elegan / sapphire (primary) */
+  --primary-50: #f3f6fd;
+  --primary-100: #e4ebfa;
+  --primary-200: #cad8f5;
+  --primary-300: #a3bcec;
+  --primary-400: #7397df;
+  --primary-500: #4c74cf;
+  --primary-600: #3459b8;
+  --primary-700: #26469c;
+  --primary-800: #1f3a80;
+  --primary-900: #192f66;
 
-  /* Secondary — deep indigo (for classy monochrome gradients) */
-  --secondary-50: #f1f2ff;
-  --secondary-100: #e5e6fb;
-  --secondary-200: #cdd0f7;
-  --secondary-300: #a9adef;
-  --secondary-400: #8084e4;
-  --secondary-500: #5f63d6;
-  --secondary-600: #4a4ec2;
-  --secondary-700: #3a3d9e;
-  --secondary-800: #2c2e78;
-  --secondary-900: #1f2158;
+  /* Secondary — navy dalam (gradien monokrom biru) */
+  --secondary-50: #f2f5fb;
+  --secondary-100: #e2e8f4;
+  --secondary-200: #c3cfe6;
+  --secondary-300: #97a9cf;
+  --secondary-400: #6a80b2;
+  --secondary-500: #4b6195;
+  --secondary-600: #364a7b;
+  --secondary-700: #273a66;
+  --secondary-800: #1b2c52;
+  --secondary-900: #13203e;
 
-  /* Accent — warm amber (signature, sparingly) */
-  --accent-50: #fdf6e9;
-  --accent-100: #f9e7c2;
-  --accent-200: #f2cf85;
-  --accent-300: #ebb54c;
-  --accent-400: #e29e28;
-  --accent-500: #c9861a;
-  --accent-600: #a56a14;
+  /* Accent — biru es (tanda tangan halus, dipakai seperlunya) */
+  --accent-50: #f0f6ff;
+  --accent-100: #dde9ff;
+  --accent-200: #bcd5ff;
+  --accent-300: #93bbff;
+  --accent-400: #6a9cf4;
+  --accent-500: #3f78d8;
+  --accent-600: #2f5fb4;
 
   /* Success */
   --success-50: #f0fdf4;  --success-100: #dcfce7; --success-200: #bbf7d0;
@@ -59,33 +60,33 @@
   --error-300: #fca5a5; --error-400: #f87171; --error-500: #ef4444;
   --error-600: #dc2626; --error-700: #b91c1c; --error-800: #991b1b; --error-900: #7f1d1d;
 
-  /* Neutral — warm greige (bukan slate dingin) */
-  --neutral-50: #faf8f4;
-  --neutral-100: #f3f0e9;
-  --neutral-200: #e7e2d7;
-  --neutral-300: #d2ccbe;
-  --neutral-400: #a8a294;
-  --neutral-500: #7c766a;
-  --neutral-600: #5c574d;
-  --neutral-700: #423e37;
-  --neutral-800: #2a2823;
-  --neutral-900: #1a1813;
+  /* Neutral — slate kebiruan (dingin, selaras dengan biru) */
+  --neutral-50: #f7f9fc;
+  --neutral-100: #eef2f8;
+  --neutral-200: #dfe5ef;
+  --neutral-300: #c6cfdf;
+  --neutral-400: #95a1b7;
+  --neutral-500: #67748b;
+  --neutral-600: #4b576d;
+  --neutral-700: #344056;
+  --neutral-800: #1b2a48;
+  --neutral-900: #0f1d3a;
 
-  /* Gradients (monokrom klasik, bukan biru-ungu generik) */
+  /* Gradients (monokrom biru: sapphire -> navy) */
   --gradient-primary: linear-gradient(135deg, var(--primary-700), var(--secondary-800));
   --gradient-success: linear-gradient(135deg, var(--success-500), var(--success-600));
   --gradient-warning: linear-gradient(135deg, var(--accent-400), var(--accent-600));
-  --gradient-neutral: linear-gradient(135deg, var(--neutral-800), var(--neutral-900));
+  --gradient-neutral: linear-gradient(135deg, #15284f, #0b1630);
 
-  /* Surfaces */
-  --surface-primary: #f6f1e8;
+  /* Surfaces — putih & biru sangat muda */
+  --surface-primary: #f4f7fc;
   --surface-secondary: var(--primary-50);
   --surface-success: var(--success-50);
   --surface-warning: var(--accent-50);
   --surface-error: var(--error-50);
 
   /* Borders */
-  --border-light: #ece7dc;
+  --border-light: #e3e9f3;
   --border-medium: var(--neutral-300);
   --border-dark: var(--neutral-400);
   --border-primary: var(--primary-200);
@@ -93,20 +94,20 @@
   --border-warning: var(--accent-200);
   --border-error: var(--error-200);
 
-  /* Text */
-  --text-primary: #14130f;
-  --text-secondary: #45413a;
-  --text-tertiary: #6b665c;
-  --text-quaternary: #736d60;
-  --text-muted: #6f695b;
+  /* Text — tinta navy */
+  --text-primary: #0f1b33;
+  --text-secondary: #2c3850;
+  --text-tertiary: #4d5b74;
+  --text-quaternary: #56637b;
+  --text-muted: #58657d;
   --text-on-primary: #ffffff;
-  --text-on-dark: #f6f1e8;
+  --text-on-dark: #e6edf9;
 
   /* Component */
   --card-bg: #ffffff;
   --card-border: var(--border-light);
-  --card-shadow: 0 1px 2px 0 rgb(20 19 15 / 0.04), 0 4px 16px -6px rgb(20 19 15 / 0.08);
-  --card-shadow-hover: 0 12px 32px -10px rgb(20 19 15 / 0.16), 0 4px 8px -4px rgb(43 57 212 / 0.10);
+  --card-shadow: 0 1px 2px 0 rgb(15 29 58 / 0.04), 0 4px 16px -6px rgb(15 29 58 / 0.08);
+  --card-shadow-hover: 0 12px 32px -10px rgb(15 29 58 / 0.16), 0 4px 8px -4px rgb(38 70 156 / 0.12);
 
   /* Buttons */
   --btn-primary-bg: var(--primary-700);
@@ -180,8 +181,8 @@ h1, h2, h3, h4 {
 /* Blueprint grid — "denah web" */
 .u-grid {
   background-image:
-    linear-gradient(to right, rgb(20 19 15 / 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(20 19 15 / 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgb(38 70 156 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(38 70 156 / 0.045) 1px, transparent 1px);
   background-size: 44px 44px;
 }
 /* Varian untuk latar gelap (bagian Cara Kerja, kartu biru) */

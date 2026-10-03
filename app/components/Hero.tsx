@@ -103,7 +103,7 @@ export default function Hero({ lang }: { lang: Lang }) {
         {/* Visual — pintu (arch) yang bergantian membuka demo asli */}
         <div className="relative hidden lg:block">
           <div className="relative mx-auto max-w-md">
-            <div className="pintu-frame relative bg-white p-2 shadow-[0_30px_60px_-24px_rgba(20,19,15,0.35)]">
+            <div className="pintu-frame relative bg-white p-2 shadow-[0_30px_60px_-24px_rgba(15,29,58,0.35)]">
               <div className="arch-top relative h-[30rem] overflow-hidden bg-[color:var(--neutral-100)]">
                 {doors.map((d, i) => (
                   <div key={d.slug} className={`absolute inset-0 ${i ? 'door-slide' : ''}`} style={i ? { animationDelay: `${i * 4}s` } : undefined}>

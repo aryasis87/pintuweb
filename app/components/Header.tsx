@@ -109,7 +109,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
       <div
         className={`transition-all duration-300 ${
           scrolled
-            ? 'bg-[color:var(--background)]/85 backdrop-blur-xl border-b border-[color:var(--border-light)] shadow-[0_4px_20px_-12px_rgba(20,19,15,0.25)]'
+            ? 'bg-[color:var(--background)]/85 backdrop-blur-xl border-b border-[color:var(--border-light)] shadow-[0_4px_20px_-12px_rgba(15,29,58,0.25)]'
             : 'bg-transparent'
         }`}
       >
@@ -152,7 +152,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
             <LangSwitch lang={lang} label={t.language} notAvailable={t.notAvailable} />
             <div className="hidden h-5 w-px bg-[color:var(--border-medium)] xl:block" />
             <div className="hidden items-center gap-2 text-xs text-[color:var(--text-tertiary)] 2xl:flex">
-              <ShieldCheck size={15} className="text-[color:var(--success-600)]" />
+              <ShieldCheck size={15} className="text-[color:var(--primary-600)]" />
               <span className="font-medium">{t.guarantee}</span>
             </div>
             <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md xl:px-5">

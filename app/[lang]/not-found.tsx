@@ -21,7 +21,7 @@ export default function NotFound() {
       <div className="pointer-events-none absolute inset-0 u-grid u-grid-fade" aria-hidden="true" />
       <div className="relative z-10 mx-auto max-w-xl px-4 text-center sm:px-6">
         {/* Pintu yang tertutup */}
-        <div className="pintu-frame mx-auto grid h-44 w-36 place-items-end bg-white p-2 shadow-[0_24px_48px_-24px_rgba(20,19,15,0.35)]" aria-hidden="true">
+        <div className="pintu-frame mx-auto grid h-44 w-36 place-items-end bg-white p-2 shadow-[0_24px_48px_-24px_rgba(15,29,58,0.35)]" aria-hidden="true">
           <div className="arch-top grid h-full w-full place-items-center bg-[color:var(--surface-primary)]">
             <span className="text-4xl font-extrabold text-[color:var(--primary-700)]" style={{ fontFamily: 'var(--font-display)' }}>404</span>
           </div>

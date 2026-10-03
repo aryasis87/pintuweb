@@ -81,7 +81,7 @@ export default function Footer({ lang }: { lang: Lang }) {
                 href={wa(t.footer.waText)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[color:var(--accent-300)] px-7 py-3.5 font-semibold text-[color:var(--text-primary)] shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[color:var(--accent-200)]"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 font-semibold text-[color:var(--primary-800)] shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[color:var(--primary-50)]"
               >
                 <MessageCircle size={18} /> {t.footer.chat}
               </a>

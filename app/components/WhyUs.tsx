@@ -35,8 +35,8 @@ export default function WhyUs({ lang }: { lang: Lang }) {
                   <tr key={label}>
                     <th scope="row" className="px-5 py-4 text-sm font-normal text-[color:var(--text-secondary)] sm:px-7">{label}</th>
                     <td className="px-2 py-4 text-center">
-                      <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-[color:var(--success-100)]">
-                        <Check size={15} className="text-[color:var(--success-700)]" strokeWidth={3} aria-hidden="true" />
+                      <span className="inline-grid h-6 w-6 place-items-center rounded-full bg-[color:var(--primary-100)]">
+                        <Check size={15} className="text-[color:var(--primary-700)]" strokeWidth={3} aria-hidden="true" />
                       </span>
                       <span className="sr-only">{t.yes}</span>
                     </td>

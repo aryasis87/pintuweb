@@ -124,7 +124,7 @@ export default async function AboutPage({ params }: Params) {
               const Icon = whyIcons[i]
               return (
                 <div key={w.title} className="flex gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6 shadow-sm">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--success-100)]"><Icon size={20} className="text-[color:var(--success-700)]" aria-hidden="true" /></span>
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--primary-100)]"><Icon size={20} className="text-[color:var(--primary-700)]" aria-hidden="true" /></span>
                   <div>
                     <h3 className="font-bold text-[color:var(--text-primary)]">{w.title}</h3>
                     <p className="mt-1 text-[color:var(--text-tertiary)]">{w.body}</p>
