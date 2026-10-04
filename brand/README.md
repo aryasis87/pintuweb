@@ -44,3 +44,13 @@ Dibuat dengan `brand/logo-kit.js` (4 Okt 2026); jalankan ulang bila tanda atau w
 - `d-browser`: jendela browser berisi pintu, tulisan huruf kapital
 
 Dibuat dengan `brand/logo-alternatif.js`. Konsep yang dipilih bisa dijadikan logo utama: situs, favicon, ikon aplikasi, dan gambar OG lalu diperbarui mengikutinya.
+
+## Variasi dari logo sekarang
+
+`variasi/perbandingan.png` berisi lima variasi yang tetap berangkat dari lengkung pintu (dibuat dengan `brand/logo-variasi.js`), masing-masing dengan `svg/` dan `png/`:
+
+- `1-garis`: lengkung satu goresan + gagang pintu, tulisan tipis
+- `2-ubin`: pintu kecil di ubin membulat, daun pintu terbuka
+- `3-lorong`: tiga lengkung mengecil ke dalam; "Pintu" + "Web" dua warna
+- `4-pintu-ganda`: dua daun pintu terbuka dengan cahaya di tengah; tulisan huruf kecil
+- `5-kursor`: pintu terang dengan kursor yang "mengeklik" masuk
