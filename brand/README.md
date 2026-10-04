@@ -33,3 +33,14 @@ Tanda pintu berbentuk lengkung dengan daun pintu yang sedikit terbuka, ditambah 
 - Ukuran terkecil: logo mendatar lebar 96 px (layar) / 25 mm (cetak); di bawah itu pakai `pintuweb-ikon`.
 
 Dibuat dengan `brand/logo-kit.js` (4 Okt 2026); jalankan ulang bila tanda atau warna berubah. Font Inter berlisensi SIL OFL 1.1.
+
+## Konsep alternatif (untuk dibandingkan)
+
+`alternatif/perbandingan.png` menjajarkan empat konsep baru dengan logo sekarang (di latar putih, latar gelap, ikon, dan favicon 32 px). Tiap konsep punya `svg/` dan `png/` sendiri (`pintuweb-logo`, `pintuweb-logo-putih`, `pintuweb-ikon`):
+
+- `a-gapura`: gerbang candi bentar yang terbelah, jalan masuk di tengah
+- `b-huruf-n`: tulisan "pintuweb" dengan huruf n berbentuk pintu
+- `c-pintu-cahaya`: pintu terbuka dengan cahaya jatuh ke lantai; "Pintu" + "Web" dua warna
+- `d-browser`: jendela browser berisi pintu, tulisan huruf kapital
+
+Dibuat dengan `brand/logo-alternatif.js`. Konsep yang dipilih bisa dijadikan logo utama: situs, favicon, ikon aplikasi, dan gambar OG lalu diperbarui mengikutinya.

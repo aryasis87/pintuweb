@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const opentype = require('opentype.js')
-const root = process.argv[2]
+const root = path.resolve(process.argv[2] || '.')
 const sharp = require(path.join(root, 'node_modules/sharp'))
 const font = opentype.loadSync(path.join(root, 'app/api/og/fonts/Inter-SemiBold.ttf'))
 const OUT = path.join(root, 'brand')
