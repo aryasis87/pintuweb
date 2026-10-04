@@ -32,4 +32,4 @@ Tanda pintu berbentuk lengkung dengan daun pintu yang sedikit terbuka, ditambah 
 - Jangan mengubah warna, merentangkan, memutar, atau memberi bayangan pada logo.
 - Ukuran terkecil: logo mendatar lebar 96 px (layar) / 25 mm (cetak); di bawah itu pakai `pintuweb-ikon`.
 
-Dibuat ulang dengan skrip `logo-kit.js` (scratchpad sesi desain, 4 Okt 2026). Font Inter berlisensi SIL OFL 1.1.
+Dibuat dengan `brand/logo-kit.js` (4 Okt 2026); jalankan ulang bila tanda atau warna berubah. Font Inter berlisensi SIL OFL 1.1.
