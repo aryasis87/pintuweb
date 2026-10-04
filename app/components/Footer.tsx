@@ -74,10 +74,10 @@ export default function Footer({ lang }: { lang: Lang }) {
             </div>
           </div>
 
-          <dl className="border-t border-white/40 lg:col-span-5 lg:mt-11">
+          <dl className="lg:col-span-5 lg:mt-11">
             {CONTACTS.map((c) => (
-              <div key={c.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-white/15 py-4 sm:grid-cols-[9rem_1fr]">
-                <dt className="kicker pt-0.5 text-white/65">{c.label}</dt>
+              <div key={c.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-white/10 py-4 first:pt-0 sm:grid-cols-[9rem_1fr]">
+                <dt className="pt-0.5 text-sm text-white/65">{c.label}</dt>
                 <dd className="min-w-0">
                   {c.link ? (
                     <a href={c.link} target="_blank" rel="noopener noreferrer" className="break-all text-white underline decoration-white/35 underline-offset-4 hover:decoration-white">
@@ -93,7 +93,7 @@ export default function Footer({ lang }: { lang: Lang }) {
           </dl>
         </div>
 
-        <nav aria-label={t.footer.linksAria} className="mt-20 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/15 pt-10 sm:grid-cols-4">
+        <nav aria-label={t.footer.linksAria} className="mt-20 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/10 pt-12 sm:grid-cols-4">
           {cols.map((c) => (
             <div key={c.title}>
               <p className="kicker text-[color:var(--accent-200)]">{c.title}</p>
@@ -113,7 +113,7 @@ export default function Footer({ lang }: { lang: Lang }) {
           ))}
         </nav>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-white/15 py-7 text-sm text-white/65 lg:flex-row lg:items-center lg:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-white/10 py-8 text-sm text-white/65 lg:flex-row lg:items-center lg:justify-between">
           <Logo tone="light" />
           <p>{t.footer.copyright(year)}</p>
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -127,9 +127,6 @@ export default function Footer({ lang }: { lang: Lang }) {
           <p>{t.footer.madeIn}</p>
         </div>
       </div>
-
-      {/* Nama merek raksasa penutup halaman. Hurufnya lewat pseudo-elemen (attr data-word): hiasan murni, tidak dibaca pembaca layar dan tidak diperiksa sebagai teks. */}
-      <div aria-hidden="true" data-word="PintuWeb" className="serif pointer-events-none mt-6 translate-y-[0.1em] select-none whitespace-nowrap px-4 text-center text-[21vw] leading-[0.8] tracking-[-0.045em] text-white/[0.06] before:content-[attr(data-word)] sm:mt-10 sm:px-6" />
     </footer>
   )
 }

@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 /* ============================================================
-   PintuWeb — sistem desain "cetak biru"
-   Biru elegan (sapphire) + putih. Judul serif Newsreader, teks Schibsted Grotesk,
-   label IBM Plex Mono. Garis rambut & tanda potong cetak menggantikan bayangan dan kartu
-   membulat; lengkung pintu tetap jadi tanda tangan.
+   PintuWeb — bersih & ramah
+   Biru elegan (sapphire) + putih. Judul serif Newsreader, teks Schibsted Grotesk.
+   Banyak ruang kosong, garis tipis seperlunya, sudut membulat lembut, tombol bulat.
+   Lengkung pintu tetap jadi tanda tangan.
    ============================================================ */
 
 :root {
@@ -74,8 +74,9 @@
   --border-light: #e3e9f3;
   --border-medium: var(--neutral-300);
   --border-primary: var(--primary-200);
-  /** garis tegas editorial (judul bagian, tabel harga) */
-  --rule: #0f1b33;
+  /** garis pemisah (dulu tinta tegas; kini tipis supaya tampilan lebih lapang) */
+  --rule: #e3e9f3;
+  --surface-soft: #f6f8fc;
 
   /* Teks */
   --text-primary: #0f1b33;
@@ -85,7 +86,7 @@
   --text-on-dark: #e6edf9;
 
   --card-bg: #ffffff;
-  --radius: 6px;
+  --radius: 16px;
 }
 
 @layer base {
@@ -126,17 +127,17 @@
 }
 
 @layer components {
-  /* Label kecil bergaya catatan gambar kerja */
-  .mono, .kicker {
-    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-weight: 500;
-  }
+  /* Label kecil: teks biasa yang tegas, bukan huruf kapital bergaya teknis */
   .kicker {
-    font-size: 0.75rem;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.875rem;
     line-height: 1.4;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0;
   }
+  /* Angka & keterangan kecil (dulu font mono; kini teks biasa). Bukan angka tabular: di Schibsted
+     tanda koma ikut selebar angka sehingga "1,5" tampak renggang. */
+  .mono { font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif; }
   .tnum { font-variant-numeric: tabular-nums; }
 
   .skip-link {
@@ -151,11 +152,11 @@
      Komponen dasar
      ============================================================ */
 
-  /* Tombol: persegi berujung kecil, tanpa bayangan; panah bergeser saat disentuh. */
+  /* Tombol bulat tanpa bayangan; panah bergeser saat disentuh. */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
-    min-height: 3rem; padding: .8rem 1.35rem;
-    border-radius: var(--radius);
+    min-height: 3rem; padding: .85rem 1.6rem;
+    border-radius: 999px;
     font-size: .9375rem; font-weight: 600; line-height: 1.2;
     transition: background-color .2s ease, color .2s ease, border-color .2s ease;
     text-align: center;
@@ -165,8 +166,8 @@
   .btn:hover .arw-ne, a:hover .arw-ne { transform: translate(2px, -2px); }
   .btn-solid { background: var(--primary-700); color: #fff; }
   .btn-solid:hover { background: var(--primary-800); }
-  .btn-line { border: 1px solid var(--rule); color: var(--text-primary); background: transparent; }
-  .btn-line:hover { background: var(--rule); color: #fff; }
+  .btn-line { border: 1px solid var(--border-medium); color: var(--text-primary); background: #fff; }
+  .btn-line:hover { border-color: var(--primary-700); color: var(--primary-700); background: var(--primary-50); }
   .btn-white { background: #fff; color: var(--primary-800); }
   .btn-white:hover { background: var(--primary-50); }
   .btn-ghost-dark { border: 1px solid rgb(255 255 255 / .35); color: #fff; }
@@ -190,21 +191,6 @@
   /* Panel datar bergaris rambut (pengganti kartu membulat berbayang) */
   .panel { background: #fff; border: 1px solid var(--border-light); border-radius: var(--radius); }
   .panel-tint { background: var(--surface-primary); border: 1px solid var(--border-light); border-radius: var(--radius); }
-
-  /* Tanda potong cetak di empat sudut — untuk gambar karya */
-  .crop { position: relative; }
-  .crop::before {
-    content: ''; position: absolute; inset: -12px; pointer-events: none; color: var(--crop, var(--neutral-400));
-    background:
-      linear-gradient(currentColor, currentColor) 0 12px / 8px 1px no-repeat,
-      linear-gradient(currentColor, currentColor) 12px 0 / 1px 8px no-repeat,
-      linear-gradient(currentColor, currentColor) 100% 12px / 8px 1px no-repeat,
-      linear-gradient(currentColor, currentColor) calc(100% - 12px) 0 / 1px 8px no-repeat,
-      linear-gradient(currentColor, currentColor) 0 calc(100% - 12px) / 8px 1px no-repeat,
-      linear-gradient(currentColor, currentColor) 12px 100% / 1px 8px no-repeat,
-      linear-gradient(currentColor, currentColor) 100% calc(100% - 12px) / 8px 1px no-repeat,
-      linear-gradient(currentColor, currentColor) calc(100% - 12px) 100% / 1px 8px no-repeat;
-  }
 
   /* Titik penuntun daftar harga: nama ........ harga */
   .leader { flex: 1; min-width: 1.5rem; align-self: end; margin-bottom: .42em; border-bottom: 1px dotted var(--neutral-400); }

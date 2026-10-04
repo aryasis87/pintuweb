@@ -151,12 +151,12 @@ export default async function PaketPage({ params }: Params) {
 
       <section aria-labelledby="info-title" className="py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-x-10 gap-y-5 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
-            <h2 id="info-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9 lg:col-start-4">
+          <div className="max-w-3xl">
+            <h2 id="info-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">
               <HlText parts={p.infoTitle} />
             </h2>
           </div>
-          <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-3 lg:ml-[calc(25%+0.6rem)]">
+          <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-3">
             {info.map((i, n) => (
               <div key={i.title} className="border-t border-[color:var(--border-medium)] pt-5">
                 <p className="mono text-xs text-[color:var(--primary-700)]">{String(n + 1).padStart(2, '0')}</p>
@@ -165,7 +165,7 @@ export default async function PaketPage({ params }: Params) {
               </div>
             ))}
           </div>
-          <div className="mt-12 flex flex-col gap-3 sm:flex-row lg:ml-[calc(25%+0.6rem)]">
+          <div className="mt-12 flex flex-col gap-3 sm:flex-row">
             <a href={wa(p.ctaWa)} target="_blank" rel="noopener noreferrer" className="btn btn-solid">
               {p.ctaConsult} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
             </a>

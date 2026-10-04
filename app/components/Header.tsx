@@ -36,11 +36,11 @@ export type HeaderProps = {
 function LangSwitch({ lang, label, notAvailable, onPick, big = false }: { lang: Lang; label: string; notAvailable: string; onPick?: () => void; big?: boolean }) {
   const pathname = toPublicPath(usePathname() ?? '/')
   return (
-    <div role="group" aria-label={label} className={`mono flex items-center ${big ? 'gap-1 text-sm' : 'text-xs'}`}>
+    <div role="group" aria-label={label} className={`flex items-center font-semibold ${big ? 'gap-1 text-[0.9375rem]' : 'text-[0.8125rem]'}`}>
       {LANGS.map((l, i) => {
         const href = switchPath(pathname, l)
         const info = LANG_INFO[l]
-        const base = `grid min-h-9 min-w-9 place-items-center px-1.5 tracking-[0.06em]`
+        const base = `grid min-h-9 min-w-9 place-items-center px-1.5`
         const sep = i > 0 ? <span aria-hidden="true" className="text-[color:var(--neutral-300)]">/</span> : null
         if (l === lang) {
           return (
@@ -148,7 +148,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
           </div>
 
           <button
-            className="mono -mr-2 inline-flex min-h-11 items-center gap-2.5 px-2 text-xs uppercase tracking-[0.08em] text-[color:var(--text-primary)] lg:hidden"
+            className="-mr-2 inline-flex min-h-11 items-center gap-2.5 rounded-full px-3 text-sm font-semibold text-[color:var(--text-primary)] lg:hidden"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? t.closeMenu : t.openMenu}
             aria-expanded={menuOpen}
@@ -181,8 +181,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
                       aria-current={isActive ? 'page' : undefined}
                       className="flex items-baseline gap-4 py-3.5"
                     >
-                      <span className="mono w-6 text-xs text-[color:var(--text-muted)]">{String(i + 1).padStart(2, '0')}</span>
-                      <span className={`serif text-[1.75rem] leading-tight ${isActive ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--text-primary)]'}`}>{n.label}</span>
+                                            <span className={`serif text-[1.75rem] leading-tight ${isActive ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--text-primary)]'}`}>{n.label}</span>
                     </Link>
                   </li>
                 )

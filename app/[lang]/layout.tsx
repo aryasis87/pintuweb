@@ -2,7 +2,7 @@
 import '../globals.css'
 import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
-import { IBM_Plex_Mono, Schibsted_Grotesk } from 'next/font/google'
+import { Schibsted_Grotesk } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import Header from '../components/Header'
@@ -33,7 +33,6 @@ const serifItalic = localFont({
   fallback: ['Georgia', 'serif'],
 })
 const sans = Schibsted_Grotesk({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
-const mono = IBM_Plex_Mono({ subsets: ['latin'], weight: '500', variable: '--font-mono', display: 'swap', preload: false })
 
 export const dynamicParams = false
 export const generateStaticParams = () => LANGS.map((lang) => ({ lang }))
@@ -99,7 +98,7 @@ export default async function LangLayout({ children, params }: { children: React
   ]
 
   return (
-    <html lang={LANG_INFO[lang].htmlLang} className={`${serif.variable} ${serifItalic.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang={LANG_INFO[lang].htmlLang} className={`${serif.variable} ${serifItalic.variable} ${sans.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <a href="#main-content" className="skip-link">{t.common.skip}</a>
         <Header

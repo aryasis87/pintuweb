@@ -143,13 +143,13 @@ export default async function ServicePage({ params }: Params) {
       {/* Harga & paket: tabel ringkas (mudah dikutip) + kartu paket lengkap */}
       <section aria-labelledby="pricing-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
-            <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">{p.colPackage}</p>
-            <h2 id="pricing-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9">{p.pricing}</h2>
+          <div className="max-w-3xl">
+            <p className="kicker text-[color:var(--primary-700)]">{p.colPackage}</p>
+            <h2 id="pricing-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.pricing}</h2>
           </div>
           {from ? (
             <>
-              <div className="table-wrap mt-10 lg:ml-[calc(25%+0.6rem)]" role="region" tabIndex={0} aria-label={p.pricingCaption(t.name)}>
+              <div className="table-wrap mt-10" role="region" tabIndex={0} aria-label={p.pricingCaption(t.name)}>
                 <table className="w-full min-w-[30rem] text-left">
                   <caption className="sr-only">{p.pricingCaption(t.name)}</caption>
                   <thead>
@@ -172,7 +172,7 @@ export default async function ServicePage({ params }: Params) {
                   </tbody>
                 </table>
               </div>
-              {d.common.priceNote && <p className="mt-3 text-xs text-[color:var(--text-tertiary)] lg:ml-[calc(25%+0.6rem)]">{d.common.priceNote}</p>}
+              {d.common.priceNote && <p className="mt-3 text-xs text-[color:var(--text-tertiary)]">{d.common.priceNote}</p>}
 
               <h3 className="kicker mt-14 text-[color:var(--text-primary)]">{p.included}</h3>
               <div className={`mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 ${ordered.length > 2 ? 'lg:grid-cols-3' : ''}`}>
@@ -185,7 +185,7 @@ export default async function ServicePage({ params }: Params) {
               </Link>
             </>
           ) : (
-            <div className="mt-10 max-w-2xl lg:ml-[calc(25%+0.6rem)]">
+            <div className="mt-10 max-w-2xl">
               {t.includes && (
                 <ul className="mb-6">
                   {t.includes.map((x) => (
@@ -208,16 +208,16 @@ export default async function ServicePage({ params }: Params) {
       {/* Cara kerja ringkas */}
       <section aria-labelledby="how-title" className="py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
-            <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">{d.process.eyebrow}</p>
-            <h2 id="how-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9">{p.process}</h2>
+          <div className="max-w-3xl">
+            <p className="kicker text-[color:var(--primary-700)]">{d.process.eyebrow}</p>
+            <h2 id="how-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.process}</h2>
           </div>
-          <ol className="mt-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:ml-[calc(25%+0.6rem)] lg:grid-cols-4">
+          <ol className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {d.process.steps.map((st, i) => (
-              <li key={st.title} className="border-t border-[color:var(--border-medium)] py-5">
-                <span className="serif text-[2rem] leading-none text-[color:var(--primary-700)]" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="mt-3 text-[1.3rem] text-[color:var(--text-primary)]">{st.title}</h3>
-                <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{st.desc}</p>
+              <li key={st.title}>
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-[color:var(--primary-700)] text-[0.9375rem] font-semibold text-white" aria-hidden="true">{i + 1}</span>
+                <h3 className="mt-5 text-[1.4rem] text-[color:var(--text-primary)]">{st.title}</h3>
+                <p className="mt-1.5 leading-relaxed text-[color:var(--text-tertiary)]">{st.desc}</p>
               </li>
             ))}
           </ol>
@@ -228,10 +228,10 @@ export default async function ServicePage({ params }: Params) {
       {shown.length > 0 && (
         <section aria-labelledby="demos-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
-              <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">Demo</p>
-              <div className="lg:col-span-9">
-                <h2 id="demos-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.demos}</h2>
+            <div className="max-w-3xl">
+              <p className="kicker text-[color:var(--primary-700)]">Demo</p>
+              <div>
+                <h2 id="demos-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.demos}</h2>
                 <p className="mt-3 max-w-2xl text-[color:var(--text-tertiary)]">{p.demosLead}</p>
                 {d.common.demoLangNote && <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{d.common.demoLangNote}</p>}
               </div>

@@ -78,9 +78,9 @@ export default async function AboutPage({ params }: Params) {
       {/* Visi, misi, fokus + nilai */}
       <section aria-labelledby="belief-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
-            <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">{p.eyebrow}</p>
-            <h2 id="belief-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9">
+          <div className="max-w-3xl">
+            <p className="kicker text-[color:var(--primary-700)]">{p.eyebrow}</p>
+            <h2 id="belief-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">
               <HlText parts={p.beliefTitle} />
             </h2>
           </div>
@@ -107,11 +107,11 @@ export default async function AboutPage({ params }: Params) {
       {/* Mengapa */}
       <section aria-labelledby="why-title" className="py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
-            <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">PintuWeb</p>
-            <h2 id="why-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9">{p.whyTitle}</h2>
+          <div className="max-w-3xl">
+            <p className="kicker text-[color:var(--primary-700)]">PintuWeb</p>
+            <h2 id="why-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.whyTitle}</h2>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-x-10 sm:grid-cols-2 lg:ml-[calc(25%+0.6rem)]">
+          <div className="mt-12 grid grid-cols-1 gap-x-10 sm:grid-cols-2">
             {p.why(landing, business, f.response).map((w, i) => (
               <div key={w.title} className="border-t border-[color:var(--border-medium)] py-6">
                 <p className="mono text-xs text-[color:var(--primary-700)]">{String(i + 1).padStart(2, '0')}</p>

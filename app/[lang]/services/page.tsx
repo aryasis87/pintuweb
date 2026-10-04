@@ -97,9 +97,9 @@ export default async function ServicesPage({ params }: Params) {
       {/* Tabel perbandingan — mudah dikutip mesin pencari & asisten AI */}
       <section aria-labelledby="compare-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
-            <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">{p.colPrice}</p>
-            <h2 id="compare-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9">
+          <div className="max-w-3xl">
+            <p className="kicker text-[color:var(--primary-700)]">{p.colPrice}</p>
+            <h2 id="compare-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">
               <HlText parts={p.compareTitle} />
             </h2>
           </div>

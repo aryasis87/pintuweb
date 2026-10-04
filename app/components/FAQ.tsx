@@ -57,11 +57,11 @@ export default function FAQ({ items, categories, t, waHref, faqHref, variant = '
   const home = variant === 'home'
 
   return (
-    <section id={home ? 'faq' : undefined} aria-labelledby={home ? 'faq-title' : undefined} className={home ? 'py-20 sm:py-28' : 'pb-20 pt-10 sm:pb-28'}>
+    <section id={home ? 'faq' : undefined} aria-labelledby={home ? 'faq-title' : undefined} className={home ? 'bg-[color:var(--surface-soft)] py-24 sm:py-32' : 'pb-20 pt-10 sm:pb-28'}>
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-10">
         {home ? (
           <div className="mb-12 lg:sticky lg:top-28 lg:col-span-4 lg:mb-0 lg:self-start">
-            <SectionHead stacked no="06" eyebrow={t.eyebrow} id="faq-title" title={<HlText parts={t.title} />} lead={t.lead} />
+            <SectionHead eyebrow={t.eyebrow} id="faq-title" title={<HlText parts={t.title} />} lead={t.lead} />
           </div>
         ) : (
           <div className="hidden lg:col-span-3 lg:block" aria-hidden="true" />

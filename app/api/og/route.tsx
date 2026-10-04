@@ -1,4 +1,4 @@
-// Gambar Open Graph 1200×630 dengan gaya situs: putih, garis tegas, judul serif Newsreader, label mono.
+// Gambar Open Graph 1200×630 dengan gaya situs: putih lapang, judul serif Newsreader, teks Schibsted Grotesk.
 //   /api/og?l=en&t=Judul      -> kartu judul halaman
 //   /api/og?v=home&l=id       -> kartu beranda (kalimat & angka dari kamus, lib/site.ts & lib/demos.ts)
 import { ImageResponse } from 'next/og'
@@ -18,14 +18,13 @@ const TAG: Record<Lang, string> = {
 
 const fonts = async () => {
   const dir = join(process.cwd(), 'app/api/og/fonts')
-  const [serif, serifItalic, sans, mono] = await Promise.all(
-    ['Newsreader-Medium.ttf', 'Newsreader-MediumItalic.ttf', 'SchibstedGrotesk-Regular.ttf', 'IBMPlexMono-Medium.ttf'].map((f) => readFile(join(dir, f))),
+  const [serif, serifItalic, sans] = await Promise.all(
+    ['Newsreader-Medium.ttf', 'Newsreader-MediumItalic.ttf', 'SchibstedGrotesk-Regular.ttf'].map((f) => readFile(join(dir, f))),
   )
   return [
     { name: 'Serif', data: serif, weight: 500 as const, style: 'normal' as const },
     { name: 'Serif', data: serifItalic, weight: 500 as const, style: 'italic' as const },
     { name: 'Sans', data: sans, weight: 400 as const, style: 'normal' as const },
-    { name: 'Mono', data: mono, weight: 500 as const, style: 'normal' as const },
   ]
 }
 
@@ -53,18 +52,17 @@ export async function GET(req: Request) {
     (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: C.white, padding: '56px 72px', fontFamily: 'Sans', position: 'relative' }}>
         {/* Pintu di kanan bawah: lengkung bergaris + ambang */}
-        <div style={{ position: 'absolute', right: 72, bottom: 128, width: 230, height: 330, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ position: 'absolute', right: 72, bottom: 128, width: 230, height: 330, display: 'flex', flexDirection: 'column', borderTopLeftRadius: 115, borderTopRightRadius: 115, overflow: 'hidden' }}>
           <div style={{ display: 'flex', flex: 1, borderTopLeftRadius: 115, borderTopRightRadius: 115, border: `2px solid ${C.line}`, padding: 6 }}>
             <div style={{ display: 'flex', flex: 1, borderTopLeftRadius: 109, borderTopRightRadius: 109, background: C.soft, alignItems: 'center', justifyContent: 'center' }}>
               <Mark size={120} color={C.blue} />
             </div>
           </div>
-          <div style={{ display: 'flex', height: 5, background: C.ink }} />
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 32, borderBottom: `2px solid ${C.ink}`, paddingBottom: 14, fontFamily: 'Mono', fontSize: 16, letterSpacing: 1, color: C.ink2 }}>
-          <span style={{ display: 'flex', color: C.ink }}>{d.hero.kicker.toUpperCase()}</span>
-          <span style={{ display: 'flex' }}>{home ? d.hero.meta(DEMOS.length).toUpperCase() : TAG[lang].toUpperCase()}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 32, fontSize: 22, color: C.ink2 }}>
+          <span style={{ display: 'flex', color: C.blue }}>{d.hero.kicker}</span>
+          <span style={{ display: 'flex' }}>{home ? d.hero.meta(DEMOS.length) : TAG[lang]}</span>
         </div>
 
         {home ? (
@@ -82,7 +80,7 @@ export async function GET(req: Request) {
             <Mark size={44} color={C.blue} />
             <span style={{ display: 'flex', fontFamily: 'Serif', fontSize: 40, color: C.ink, letterSpacing: -0.5 }}>PintuWeb</span>
           </div>
-          <span style={{ display: 'flex', fontFamily: 'Mono', fontSize: 20, color: C.ink2, letterSpacing: 1 }}>WWW.PINTUWEB.COM · {lang.toUpperCase()}</span>
+          <span style={{ display: 'flex', fontSize: 22, color: C.ink2 }}>www.pintuweb.com · {lang.toUpperCase()}</span>
         </div>
       </div>
     ),

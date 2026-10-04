@@ -28,7 +28,7 @@ type MetaInput = {
 }
 
 /** Naikkan bila desain gambar OG berubah, supaya perayap media sosial mengambil versi baru. */
-const OG_REV = 2
+const OG_REV = 3
 /** Gambar OG bergaya situs dari judul halaman (semua bahasa). */
 export const ogImage = (lang: Lang, title: string) => `${SITE}/api/og?l=${lang}&t=${encodeURIComponent(title)}&r=${OG_REV}`
 /** Kartu merek beranda; angkanya dirender dari lib/site.ts sehingga tidak pernah usang. */
