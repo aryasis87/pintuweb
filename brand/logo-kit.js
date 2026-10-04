@@ -1,5 +1,5 @@
 // Membuat paket logo PintuWeb: SVG (teks sudah jadi kurva) + PNG.
-// Jalankan dari folder proyek: npx -y -p opentype.js@1 node brand/logo-kit.js .   (opentype.js tidak dipasang permanen)
+// Jalankan dari folder proyek: npm i --no-save opentype.js@1 && node brand/logo-kit.js .
 const fs = require('fs')
 const path = require('path')
 const opentype = require('opentype.js')
