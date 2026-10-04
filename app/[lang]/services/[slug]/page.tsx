@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { Check, ArrowRight, ArrowUpRight, MessageCircle, ChevronDown } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import PageHero from '../../../components/PageHero'
 import { Breadcrumbs, HlText, JsonLd } from '../../../components/Bits'
 import { SERVICES, serviceOf } from '../../../content/services'
-import { SERVICE_ICONS, serviceFrom } from '../../../content/service-utils'
+import { serviceFrom } from '../../../content/service-utils'
 import { fillFacts } from '../../../i18n/facts'
 import { cardsFor } from '../../../components/cards'
 import PackageCard from '../../../components/PackageCard'
@@ -54,7 +54,6 @@ export default async function ServicePage({ params }: Params) {
   const t = { ...raw, lead: fill(raw.lead), intro: raw.intro.map(fill), includes: raw.includes?.map(fill), faq: raw.faq.map((q) => ({ q: q.q, a: fill(q.a) })) }
   const d = getDict(lang)
   const p = getPages(lang).service
-  const Icon = SERVICE_ICONS[s.icon]
   const from = serviceFrom(lang, s)
   const ref = { key: 'services' as const, service: s.key }
   const url = urlOf(lang, ref)
@@ -107,103 +106,99 @@ export default async function ServicePage({ params }: Params) {
         label={d.common.breadcrumb}
         items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.breadcrumbServices, href: path(lang, 'services') }, { name: t.name }]}
       />
-      <PageHero tight eyebrow={t.name} title={<HlText parts={t.h1} />} lead={t.lead}>
-        <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-          <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold shadow-md">
-            <MessageCircle size={17} aria-hidden="true" /> {d.common.consultFree}
-          </a>
-          {from && (
-            <span className="text-sm text-[color:var(--text-secondary)]">
-              {getPages(lang).services.from} <strong className="text-[color:var(--text-primary)]">{from.price}</strong> · {from.duration}
-            </span>
-          )}
-        </div>
+      <PageHero
+        tight
+        eyebrow={t.name}
+        title={<HlText parts={t.h1} mode="italic" tone="primary" />}
+        lead={t.lead}
+        aside={from ? <>{getPages(lang).services.from} {from.price} · {from.duration}</> : undefined}
+      >
+        <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="btn btn-solid mt-2">
+          {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
+        </a>
       </PageHero>
 
       {/* Pengantar + untuk siapa */}
-      <section className="pb-16 sm:pb-20">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-12">
-          <div className="space-y-4 text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:col-span-7">
-            {t.intro.map((para) => (
-              <p key={para}>{para}</p>
+      <section className="py-14 sm:py-20">
+        <div className="mx-auto grid grid-cols-1 max-w-6xl gap-x-10 gap-y-10 px-4 sm:px-6 lg:grid-cols-12">
+          <div className="space-y-5 text-[1.125rem] leading-relaxed text-[color:var(--text-secondary)] lg:col-span-7">
+            {t.intro.map((para, i) => (
+              <p key={para} className={i === 0 ? 'serif text-[1.45rem] leading-snug text-[color:var(--text-primary)]' : undefined}>{para}</p>
             ))}
           </div>
-          <div className="rounded-3xl border border-[color:var(--border-light)] bg-white p-6 shadow-sm lg:col-span-5 sm:p-7">
-            <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--primary-100)]">
-                <Icon size={20} className="text-[color:var(--primary-700)]" aria-hidden="true" />
-              </span>
-              <h2 className="text-lg font-bold text-[color:var(--text-primary)]">{p.forWho}</h2>
-            </div>
-            <ul className="mt-5 space-y-3">
+          <aside className="border-t border-[color:var(--rule)] pt-5 lg:col-span-4 lg:col-start-9">
+            <h2 className="kicker text-[color:var(--primary-700)]">{p.forWho}</h2>
+            <ul className="mt-3">
               {t.forWho.map((w) => (
-                <li key={w} className="flex items-start gap-2.5 text-[color:var(--text-secondary)]">
-                  <Check size={17} strokeWidth={2.5} className="mt-1 shrink-0 text-[color:var(--primary-700)]" aria-hidden="true" />
+                <li key={w} className="flex items-start gap-3 border-b border-[color:var(--border-light)] py-3 text-[0.9375rem] text-[color:var(--text-secondary)]">
+                  <span className="mt-[0.55em] h-[5px] w-[5px] shrink-0 bg-[color:var(--primary-700)]" aria-hidden="true" />
                   <span>{w}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </aside>
         </div>
       </section>
 
       {/* Harga & paket: tabel ringkas (mudah dikutip) + kartu paket lengkap */}
-      <section aria-labelledby="pricing-title" className="relative overflow-hidden py-16 sm:py-20" style={{ backgroundColor: 'var(--surface-primary)' }}>
-        <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
-        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 id="pricing-title" className="text-2xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{p.pricing}</h2>
+      <section aria-labelledby="pricing-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
+            <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">{p.colPackage}</p>
+            <h2 id="pricing-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9">{p.pricing}</h2>
+          </div>
           {from ? (
             <>
-              <div className="table-wrap mt-6 rounded-3xl border border-[color:var(--border-light)] bg-white shadow-sm" role="region" tabIndex={0} aria-label={p.pricingCaption(t.name)}>
-                <table className="w-full min-w-[30rem] text-left text-sm">
+              <div className="table-wrap mt-10 lg:ml-[calc(25%+0.6rem)]" role="region" tabIndex={0} aria-label={p.pricingCaption(t.name)}>
+                <table className="w-full min-w-[30rem] text-left">
                   <caption className="sr-only">{p.pricingCaption(t.name)}</caption>
-                  <thead className="bg-[color:var(--surface-primary)] text-[color:var(--text-secondary)]">
-                    <tr>
-                      <th scope="col" className="px-5 py-4 font-semibold">{p.colPackage}</th>
-                      <th scope="col" className="px-5 py-4 font-semibold">{p.colRange}</th>
-                      <th scope="col" className="px-5 py-4 font-semibold">{p.colDeposit}</th>
-                      <th scope="col" className="px-5 py-4 font-semibold">{p.colTime}</th>
+                  <thead>
+                    <tr className="kicker border-b border-[color:var(--rule)] text-[color:var(--text-tertiary)]">
+                      <th scope="col" className="py-3 pr-4 font-medium">{p.colPackage}</th>
+                      <th scope="col" className="px-4 py-3 font-medium">{p.colRange}</th>
+                      <th scope="col" className="px-4 py-3 font-medium">{p.colDeposit}</th>
+                      <th scope="col" className="py-3 pl-4 font-medium">{p.colTime}</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[color:var(--border-light)]">
+                  <tbody>
                     {ordered.map((pk) => (
-                      <tr key={pk.slug}>
-                        <th scope="row" className="px-5 py-4 font-semibold text-[color:var(--text-primary)]">{pk.title}</th>
-                        <td className="px-5 py-4 text-[color:var(--text-primary)]">{pk.priceRange}</td>
-                        <td className="px-5 py-4 text-[color:var(--text-secondary)]">{pk.deposit}</td>
-                        <td className="px-5 py-4 text-[color:var(--text-secondary)]">{pk.duration}</td>
+                      <tr key={pk.slug} className="border-b border-[color:var(--border-medium)]">
+                        <th scope="row" className="serif py-4 pr-4 text-[1.2rem] font-medium text-[color:var(--text-primary)]">{pk.title}</th>
+                        <td className="px-4 py-4 font-semibold text-[color:var(--text-primary)]">{pk.priceRange}</td>
+                        <td className="px-4 py-4 text-[color:var(--text-secondary)]">{pk.deposit}</td>
+                        <td className="py-4 pl-4 text-[color:var(--text-secondary)]">{pk.duration}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              {d.common.priceNote && <p className="mt-3 text-xs text-[color:var(--text-tertiary)]">{d.common.priceNote}</p>}
+              {d.common.priceNote && <p className="mt-3 text-xs text-[color:var(--text-tertiary)] lg:ml-[calc(25%+0.6rem)]">{d.common.priceNote}</p>}
 
-              <h3 className="mt-12 text-xl font-extrabold text-[color:var(--text-primary)]">{p.included}</h3>
-              <div className={`mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 ${ordered.length > 2 ? 'lg:grid-cols-3' : ''}`}>
+              <h3 className="kicker mt-14 text-[color:var(--text-primary)]">{p.included}</h3>
+              <div className={`mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 ${ordered.length > 2 ? 'lg:grid-cols-3' : ''}`}>
                 {ordered.map((c) => (
                   <PackageCard key={c.slug} p={c} labels={labels} as="h4" />
                 ))}
               </div>
-              <Link href={path(lang, 'pricing')} className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
-                {p.seePricing} <ArrowRight size={15} aria-hidden="true" />
+              <Link href={path(lang, 'pricing')} className="link mt-8 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold">
+                {p.seePricing} <ArrowRight size={15} className="arw" aria-hidden="true" />
               </Link>
             </>
           ) : (
-            <div className="mt-6 max-w-2xl rounded-3xl border border-[color:var(--border-light)] bg-white p-6 shadow-sm">
+            <div className="mt-10 max-w-2xl lg:ml-[calc(25%+0.6rem)]">
               {t.includes && (
-                <ul className="mb-5 space-y-2">
+                <ul className="mb-6">
                   {t.includes.map((x) => (
-                    <li key={x} className="flex items-start gap-2.5 text-[color:var(--text-secondary)]">
-                      <Check size={17} strokeWidth={2.5} className="mt-0.5 shrink-0 text-[color:var(--primary-700)]" aria-hidden="true" />
+                    <li key={x} className="flex items-start gap-3 border-b border-[color:var(--border-light)] py-3 text-[color:var(--text-secondary)]">
+                      <span className="mt-[0.55em] h-[5px] w-[5px] shrink-0 bg-[color:var(--primary-700)]" aria-hidden="true" />
                       <span>{x}</span>
                     </li>
                   ))}
                 </ul>
               )}
               <p className="leading-relaxed text-[color:var(--text-secondary)]">{p.priceOnRequest}</p>
-              <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="btn-primary mt-5 inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold shadow-sm">
-                <MessageCircle size={17} aria-hidden="true" /> {d.common.consultFree}
+              <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="btn btn-solid mt-6">
+                {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
               </a>
             </div>
           )}
@@ -211,15 +206,18 @@ export default async function ServicePage({ params }: Params) {
       </section>
 
       {/* Cara kerja ringkas */}
-      <section aria-labelledby="how-title" className="py-16 sm:py-20">
+      <section aria-labelledby="how-title" className="py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 id="how-title" className="text-2xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{p.process}</h2>
-          <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
+            <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">{d.process.eyebrow}</p>
+            <h2 id="how-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem] lg:col-span-9">{p.process}</h2>
+          </div>
+          <ol className="mt-10 grid grid-cols-1 gap-x-8 sm:grid-cols-2 lg:ml-[calc(25%+0.6rem)] lg:grid-cols-4">
             {d.process.steps.map((st, i) => (
-              <li key={st.title} className="rounded-2xl border border-[color:var(--border-light)] bg-white p-5">
-                <span className="font-[family-name:var(--font-display)] text-3xl font-extrabold text-[color:var(--accent-500)]" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="mt-2 font-bold text-[color:var(--text-primary)]">{st.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-[color:var(--text-tertiary)]">{st.desc}</p>
+              <li key={st.title} className="border-t border-[color:var(--border-medium)] py-5">
+                <span className="serif text-[2rem] leading-none text-[color:var(--primary-700)]" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="mt-3 text-[1.3rem] text-[color:var(--text-primary)]">{st.title}</h3>
+                <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{st.desc}</p>
               </li>
             ))}
           </ol>
@@ -228,36 +226,42 @@ export default async function ServicePage({ params }: Params) {
 
       {/* Contoh demo */}
       {shown.length > 0 && (
-        <section aria-labelledby="demos-title" className="relative overflow-hidden py-16 sm:py-20" style={{ backgroundColor: 'var(--surface-primary)' }}>
-          <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
-          <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-            <h2 id="demos-title" className="text-2xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{p.demos}</h2>
-            <p className="mt-2 max-w-2xl text-[color:var(--text-tertiary)]">{p.demosLead}</p>
-            {d.common.demoLangNote && <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{d.common.demoLangNote}</p>}
-            <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+        <section aria-labelledby="demos-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="grid grid-cols-1 gap-x-10 gap-y-4 border-t border-[color:var(--rule)] pt-5 lg:grid-cols-12">
+              <p className="kicker text-[color:var(--text-tertiary)] lg:col-span-3">Demo</p>
+              <div className="lg:col-span-9">
+                <h2 id="demos-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.demos}</h2>
+                <p className="mt-3 max-w-2xl text-[color:var(--text-tertiary)]">{p.demosLead}</p>
+                {d.common.demoLangNote && <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{d.common.demoLangNote}</p>}
+              </div>
+            </div>
+            <ul className="mt-12 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
               {shown.map((dm) => (
                 <li key={dm.slug}>
-                  <a href={dm.url} target="_blank" rel="noopener noreferrer" className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[color:var(--border-light)] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/demos/${dm.slug}.webp`} alt="" width={720} height={378} loading="lazy" decoding="async" className="aspect-[1200/630] w-full object-cover object-top" />
-                    <span className="flex flex-1 flex-col p-3 sm:p-4">
-                      <span className="flex items-start justify-between gap-2 text-sm font-bold text-[color:var(--text-primary)] sm:text-base">
-                        {dm.name}
-                        <ArrowUpRight size={16} className="mt-0.5 shrink-0 text-[color:var(--text-muted)] group-hover:text-[color:var(--primary-700)]" aria-hidden="true" />
-                      </span>
-                      <span className="mt-1 line-clamp-2 text-xs text-[color:var(--text-tertiary)] sm:text-sm">{dm.tagline}</span>
-                      <span className="sr-only">{d.common.newTab}</span>
+                  <a href={dm.url} target="_blank" rel="noopener noreferrer" className="group block">
+                    <span className="crop block">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={`/demos/${dm.slug}.webp`} alt="" width={720} height={378} loading="lazy" decoding="async" className="aspect-[1200/630] w-full border border-[color:var(--border-light)] object-cover object-top" />
                     </span>
+                    <span className="mt-4 flex items-start justify-between gap-3">
+                      <span className="min-w-0">
+                        <span className="serif block text-[1.35rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{dm.name}</span>
+                        <span className="mt-1 block text-[0.9375rem] text-[color:var(--text-tertiary)]">{dm.tagline}</span>
+                      </span>
+                      <ArrowUpRight size={17} className="arw-ne mt-1 shrink-0 text-[color:var(--primary-700)] transition-transform" aria-hidden="true" />
+                    </span>
+                    <span className="sr-only">{d.common.newTab}</span>
                   </a>
                 </li>
               ))}
             </ul>
             {portals.length > 0 && (
-              <ul className="mt-8 flex flex-wrap gap-3">
+              <ul className="mt-12 flex flex-wrap gap-3 border-t border-[color:var(--border-light)] pt-6">
                 {portals.map(({ c, portal, n }) => (
                   <li key={c}>
-                    <a href={`/${portal!.path}`} hrefLang="id" className="inline-flex items-center gap-1.5 rounded-xl border border-[color:var(--border-light)] bg-white px-4 py-2.5 text-sm font-semibold text-[color:var(--primary-700)] transition hover:-translate-y-0.5 hover:shadow-md">
-                      {p.portal(n, catLabel[c])} <ArrowRight size={15} aria-hidden="true" />
+                    <a href={`/${portal!.path}`} hrefLang="id" className="btn btn-line btn-sm">
+                      {p.portal(n, catLabel[c])} <ArrowRight size={15} className="arw" aria-hidden="true" />
                     </a>
                   </li>
                 ))}
@@ -268,17 +272,22 @@ export default async function ServicePage({ params }: Params) {
       )}
 
       {/* FAQ layanan */}
-      <section aria-labelledby="sfaq-title" className="py-16 sm:py-20">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <h2 id="sfaq-title" className="text-2xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{p.faq}</h2>
-          <div className="mt-8 space-y-3">
+      <section aria-labelledby="sfaq-title" className="py-16 sm:py-24">
+        <div className="mx-auto grid grid-cols-1 max-w-6xl gap-x-10 gap-y-8 px-4 sm:px-6 lg:grid-cols-12">
+          <div className="lg:col-span-3">
+            <h2 id="sfaq-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.4rem]">{p.faq}</h2>
+          </div>
+          <div className="border-t border-[color:var(--rule)] lg:col-span-9">
             {t.faq.map((f) => (
-              <details key={f.q} className="group rounded-2xl border border-[color:var(--border-light)] bg-white shadow-sm open:border-[color:var(--primary-200)] open:bg-[color:var(--primary-50)]">
-                <summary className="flex cursor-pointer list-none items-start gap-4 px-5 py-4 text-left sm:px-6 [&::-webkit-details-marker]:hidden">
-                  <h3 className="flex-1 font-semibold leading-snug text-[color:var(--text-primary)]">{f.q}</h3>
-                  <ChevronDown size={20} className="mt-0.5 shrink-0 text-[color:var(--text-muted)] transition-transform group-open:rotate-180" aria-hidden="true" />
+              <details key={f.q} className="group border-b border-[color:var(--border-light)]">
+                <summary className="flex cursor-pointer list-none items-start gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
+                  <h3 className="flex-1 text-[1.25rem] leading-snug text-[color:var(--text-primary)] group-open:text-[color:var(--primary-700)]">{f.q}</h3>
+                  <span aria-hidden="true" className="relative mt-2.5 h-3 w-3 shrink-0 text-[color:var(--text-tertiary)] transition-transform duration-300 group-open:rotate-45 group-open:text-[color:var(--primary-700)]">
+                    <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current" />
+                    <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-current" />
+                  </span>
                 </summary>
-                <p className="border-t border-[color:var(--primary-200)] px-5 pb-5 pt-4 leading-relaxed text-[color:var(--text-secondary)] sm:px-6">{f.a}</p>
+                <p className="max-w-2xl pb-6 pr-10 leading-relaxed text-[color:var(--text-secondary)]">{f.a}</p>
               </details>
             ))}
           </div>
@@ -286,30 +295,30 @@ export default async function ServicePage({ params }: Params) {
       </section>
 
       {/* Bacaan terkait + layanan lain */}
-      <section className="pb-16 sm:pb-20">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2">
+      <section className="pb-20 sm:pb-28">
+        <div className="mx-auto grid grid-cols-1 max-w-6xl gap-x-10 gap-y-12 px-4 sm:px-6 lg:grid-cols-12">
           {related.length > 0 && (
-            <div>
-              <h2 className="text-xl font-extrabold text-[color:var(--text-primary)]">{p.readArticles}</h2>
-              <ul className="mt-5 space-y-3">
+            <div className="lg:col-span-6">
+              <h2 className="kicker border-b border-[color:var(--rule)] pb-3 text-[color:var(--text-primary)]">{p.readArticles}</h2>
+              <ul>
                 {related.map((a) => (
-                  <li key={a.key}>
-                    <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="block rounded-2xl border border-[color:var(--border-light)] bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-md">
-                      <span className="font-semibold text-[color:var(--text-primary)]">{a.title}</span>
-                      <span className="mt-1 block text-sm text-[color:var(--text-tertiary)]">{a.description}</span>
+                  <li key={a.key} className="border-b border-[color:var(--border-light)]">
+                    <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="group block py-5">
+                      <span className="serif block text-[1.3rem] leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{a.title}</span>
+                      <span className="mt-1.5 block text-[0.9375rem] text-[color:var(--text-tertiary)]">{a.description}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
           )}
-          <div>
-            <h2 className="text-xl font-extrabold text-[color:var(--text-primary)]">{p.other}</h2>
-            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+          <div className={related.length > 0 ? 'lg:col-span-5 lg:col-start-8' : 'lg:col-span-6'}>
+            <h2 className="kicker border-b border-[color:var(--rule)] pb-3 text-[color:var(--text-primary)]">{p.other}</h2>
+            <ul>
               {others.map((o) => (
-                <li key={o.key}>
-                  <Link href={pathOf(lang, { key: 'services', service: o.key })} className="flex h-full items-center justify-between gap-3 rounded-2xl border border-[color:var(--border-light)] bg-white px-4 py-3 text-sm font-semibold text-[color:var(--text-secondary)] transition hover:border-[color:var(--primary-300)] hover:text-[color:var(--primary-700)]">
-                    {o.text[lang].name} <ArrowRight size={15} aria-hidden="true" className="shrink-0" />
+                <li key={o.key} className="border-b border-[color:var(--border-light)]">
+                  <Link href={pathOf(lang, { key: 'services', service: o.key })} className="group flex items-center justify-between gap-3 py-3.5 text-[0.9375rem] text-[color:var(--text-secondary)] hover:text-[color:var(--primary-700)]">
+                    {o.text[lang].name} <ArrowRight size={15} aria-hidden="true" className="arw shrink-0" />
                   </Link>
                 </li>
               ))}
@@ -319,16 +328,15 @@ export default async function ServicePage({ params }: Params) {
       </section>
 
       {/* Ajakan */}
-      <section className="px-4 pb-20 sm:px-6">
-        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl bg-gradient-brand px-6 py-14 text-center text-white sm:px-12">
-          <div className="pointer-events-none absolute inset-0 u-grid opacity-[0.08]" aria-hidden="true" />
-          <div className="relative">
-            <h2 className="text-3xl font-extrabold sm:text-4xl">{p.ctaTitle(t.name)}</h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-white/85">{p.ctaLead}</p>
-            <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="mt-8 inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-4 font-semibold text-[color:var(--primary-800)] shadow-lg transition hover:-translate-y-0.5">
-              <MessageCircle size={18} aria-hidden="true" /> {d.common.consultFree}
-            </a>
+      <section className="bg-[color:var(--primary-700)] py-16 text-white sm:py-20">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <h2 className="text-[2.2rem] leading-[1.08] sm:text-5xl">{p.ctaTitle(t.name)}</h2>
+            <p className="mt-4 text-lg text-white/85">{p.ctaLead}</p>
           </div>
+          <a href={wa(p.ctaWa(t.name))} target="_blank" rel="noopener noreferrer" className="btn btn-white shrink-0">
+            {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
+          </a>
         </div>
       </section>
 

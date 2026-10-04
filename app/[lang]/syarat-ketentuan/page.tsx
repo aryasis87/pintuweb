@@ -23,9 +23,11 @@ export default async function TermsPage({ params }: Params) {
     <main id="main-content">
       <Breadcrumbs label={d.common.breadcrumb} items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.termsTitle }]} />
       <PageHero tight eyebrow={p.eyebrow} title={p.termsTitle} lead={p.since(LEGAL_UPDATED[lang])} />
-      <article className="legal mx-auto max-w-3xl px-4 pb-20 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <article className="legal max-w-3xl pb-20 pt-12 lg:ml-[25%] lg:pl-2">
         <TermsBody lang={lang} />
       </article>
+      </div>
       <JsonLd
         data={pageGraph({
           lang,

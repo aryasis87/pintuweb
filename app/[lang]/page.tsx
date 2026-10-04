@@ -7,7 +7,7 @@ import WhyUs from '../components/WhyUs'
 import Pricing from '../components/Pricing'
 import FAQ from '../components/FAQ'
 import { JsonLd } from '../components/Bits'
-import { faqProps, pricingProps } from '../components/props'
+import { faqProps } from '../components/props'
 import { faqJsonLd } from '../content/faq'
 import { DEMOS } from '../lib/demos'
 import { LANG_INFO, getDict, isLang, type Lang } from '../i18n'
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   })
 }
 
-// Urutan: bukti dulu (karya nyata), lalu untuk siapa, cara kerja, alasan, harga, FAQ. Ajakan penutup ada di footer.
+// Urutan: pernyataan + deretan pintu, karya pilihan, untuk siapa, cara kerja, janji, papan harga, FAQ. Ajakan penutup ada di footer.
 export default async function HomePage({ params }: Params) {
   const lang = (await params).lang as Lang
   const t = getDict(lang)
@@ -39,13 +39,13 @@ export default async function HomePage({ params }: Params) {
   return (
     <>
       <main id="main-content">
-        <section id="hero" aria-label={t.common.home}><Hero lang={lang} /></section>
-        <section id="portfolio"><Portfolio lang={lang} /></section>
+        <Hero lang={lang} />
+        <Portfolio lang={lang} />
         <AudienceSection lang={lang} />
         <Process lang={lang} />
         <WhyUs lang={lang} />
-        <section id="pricing"><Pricing {...pricingProps(lang)} /></section>
-        <section id="faq"><FAQ {...faq} /></section>
+        <Pricing lang={lang} />
+        <FAQ {...faq} />
       </main>
       {/* Semua pertanyaan dirender di bagian FAQ (sebagian tersembunyi di balik tab), jadi schema cocok dengan isi. */}
       <JsonLd data={faqJsonLd(faq.items, LANG_INFO[lang].htmlLang)} />

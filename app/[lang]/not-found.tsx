@@ -2,7 +2,7 @@
 // Halaman 404 berbahasa sesuai URL (not-found tidak menerima params, jadi bahasa dibaca dari path).
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowRight, LayoutGrid, MessageCircle } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { WA_NUMBER } from '../lib/site'
 
 const TEXT = {
@@ -15,35 +15,35 @@ export default function NotFound() {
   const first = usePathname()?.split('/')[1]
   const t = TEXT[first === 'en' || first === 'ms' ? first : 'id']
   return (
-    <main id="main-content" className="relative flex min-h-[80vh] items-center overflow-hidden pb-20 pt-32">
+    <main id="main-content" className="pb-24 pt-32 sm:pt-40">
       <title>{`${t.title} | PintuWeb`}</title>
       <meta name="robots" content="noindex" />
-      <div className="pointer-events-none absolute inset-0 u-grid u-grid-fade" aria-hidden="true" />
-      <div className="relative z-10 mx-auto max-w-xl px-4 text-center sm:px-6">
-        {/* Pintu yang tertutup */}
-        <div className="pintu-frame mx-auto grid h-44 w-36 place-items-end bg-white p-2 shadow-[0_24px_48px_-24px_rgba(15,29,58,0.35)]" aria-hidden="true">
-          <div className="arch-top grid h-full w-full place-items-center bg-[color:var(--surface-primary)]">
-            <span className="text-4xl font-extrabold text-[color:var(--primary-700)]" style={{ fontFamily: 'var(--font-display)' }}>404</span>
+      <div className="mx-auto grid grid-cols-1 max-w-6xl items-end gap-x-10 gap-y-12 px-4 sm:px-6 md:grid-cols-12">
+        <div className="md:col-span-8">
+          <p className="kicker text-[color:var(--primary-700)]">404 · {t.title}</p>
+          <h1 className="mt-5 text-[2.8rem] leading-[1.02] text-[color:var(--text-primary)] sm:text-7xl">{t.h1}</h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--text-tertiary)]">{t.lead}</p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Link href={t.homeHref} className="btn btn-solid">
+              {t.home} <ArrowRight size={17} className="arw" aria-hidden="true" />
+            </Link>
+            <Link href={t.demosHref} className="btn btn-line">
+              {t.demos} <ArrowRight size={17} className="arw" aria-hidden="true" />
+            </Link>
           </div>
+          <a href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(t.waText)}`} target="_blank" rel="noopener noreferrer" className="link mt-6 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold">
+            {t.wa} <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
         </div>
-        <h1 className="mt-8 text-3xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-4xl">{t.h1}</h1>
-        <p className="mt-4 text-lg text-[color:var(--text-tertiary)]">{t.lead}</p>
-        <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
-          <Link href={t.homeHref} className="btn-primary inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold shadow-md">
-            {t.home} <ArrowRight size={16} aria-hidden="true" />
-          </Link>
-          <Link href={t.demosHref} className="inline-flex items-center justify-center gap-2 rounded-xl border border-[color:var(--border-medium)] bg-white px-6 py-3.5 text-sm font-semibold text-[color:var(--text-secondary)] transition hover:border-[color:var(--primary-700)] hover:text-[color:var(--primary-700)]">
-            <LayoutGrid size={16} aria-hidden="true" /> {t.demos}
-          </Link>
+        {/* Pintu yang masih tertutup */}
+        <div className="md:col-span-4" aria-hidden="true">
+          <div className="pintu-frame mx-auto w-44 bg-white p-[3px] md:ml-auto md:mr-0">
+            <div className="arch-top grid aspect-[5/7] place-items-center bg-[color:var(--surface-primary)]">
+              <span className="serif text-5xl text-[color:var(--primary-700)]">404</span>
+            </div>
+          </div>
+          <div className="mx-auto h-[3px] w-44 bg-[color:var(--rule)] md:ml-auto md:mr-0" />
         </div>
-        <a
-          href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(t.waText)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline"
-        >
-          <MessageCircle size={16} aria-hidden="true" /> {t.wa}
-        </a>
       </div>
     </main>
   )

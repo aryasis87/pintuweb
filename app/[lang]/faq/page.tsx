@@ -25,7 +25,7 @@ export default async function FaqPage({ params }: Params) {
   return (
     <main id="main-content">
       <Breadcrumbs label={d.common.breadcrumb} items={[{ name: d.common.home, href: path(lang, 'home') }, { name: d.nav.faq }]} />
-      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} />} lead={p.lead} />
+      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} mode="italic" tone="primary" />} lead={p.lead} />
       <FAQ {...faq} />
       {/* Dibangun dari data yang sama dengan yang tampil di halaman, jadi schema selalu cocok dengan isi. */}
       <JsonLd data={faqJsonLd(faq.items, LANG_INFO[lang].htmlLang)} />

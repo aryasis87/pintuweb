@@ -1,6 +1,5 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import { Mail, PhoneCall, MapPin, Clock, MessageCircle, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { EMAIL, WA_DISPLAY, WA_NUMBER, wa } from '../lib/site'
 import { PORTALS } from '../lib/portals'
 import { getDict } from '../i18n'
@@ -9,18 +8,19 @@ import { LANGS, LANG_INFO, type Lang } from '../i18n/config'
 import { hasPage, path, pathOf } from '../i18n/routes'
 import { SERVICES } from '../content/services'
 import { HlText } from './Bits'
+import { Logo } from './Logo'
 
-// Footer = peta tautan internal: semua layanan, galeri, sumber daya, dan halaman perusahaan di setiap halaman.
+// Footer = ajakan penutup + peta tautan internal (semua layanan, galeri, sumber daya, halaman perusahaan).
 export default function Footer({ lang }: { lang: Lang }) {
   const t = getDict(lang)
   const f = facts(lang)
   const year = new Date().getFullYear()
 
-  const CONTACTS = [
-    { icon: PhoneCall, title: t.footer.phone, value: WA_DISPLAY, link: `https://wa.me/${WA_NUMBER}` },
-    { icon: Mail, title: t.footer.email, value: EMAIL, link: `mailto:${EMAIL}` },
-    { icon: MapPin, title: t.footer.location, value: f.location, sub: f.serves },
-    { icon: Clock, title: t.footer.hours, value: f.hoursDays, sub: f.hoursTime },
+  const CONTACTS: { label: string; value: string; sub?: string; link?: string }[] = [
+    { label: t.footer.phone, value: WA_DISPLAY, link: `https://wa.me/${WA_NUMBER}` },
+    { label: t.footer.email, value: EMAIL, link: `mailto:${EMAIL}` },
+    { label: t.footer.location, value: f.location, sub: f.serves },
+    { label: t.footer.hours, value: f.hoursDays, sub: f.hoursTime },
   ]
 
   const cols: { title: string; links: { label: string; href: string; zone?: boolean }[] }[] = [
@@ -55,79 +55,56 @@ export default function Footer({ lang }: { lang: Lang }) {
   ]
 
   return (
-    <footer id="contact" className="relative overflow-hidden bg-gradient-neutral px-4 pt-16 text-white sm:px-6 lg:pt-20" aria-label={t.footer.aria}>
-      <div className="pointer-events-none absolute inset-0 u-grid opacity-[0.06]" aria-hidden="true" />
-
-      <div className="relative z-10 mx-auto max-w-6xl">
-        {/* CTA + contact */}
-        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <div className="flex items-center gap-2.5">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 ring-1 ring-white/15">
-                <Image src="/images/logo.webp" alt={t.header.logoAlt} width={26} height={26} unoptimized className="h-6 w-6 object-contain" />
-              </span>
-              <span className="font-[family-name:var(--font-display)] text-xl font-extrabold">
-                Pintu<span className="text-[color:var(--accent-300)]">Web</span>
-              </span>
-            </div>
-
-            <h2 className="mt-6 text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
-              <HlText parts={t.footer.title} tone="accent" />
+    <footer id="contact" className="relative overflow-hidden bg-[color:var(--navy)] text-white" aria-label={t.footer.aria}>
+      <div className="relative z-10 mx-auto max-w-6xl px-4 pt-20 sm:px-6 lg:pt-28">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-7">
+            <p className="kicker text-[color:var(--accent-200)]">{t.footer.kicker}</p>
+            <h2 className="mt-5 text-[2.5rem] leading-[1.05] sm:text-5xl lg:text-[3.6rem]">
+              <HlText parts={t.footer.title} mode="italic" tone="accent" />
             </h2>
-            <p className="mt-4 max-w-md text-white/70">{t.footer.lead(f.response)}</p>
-
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <a
-                href={wa(t.footer.waText)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 font-semibold text-[color:var(--primary-800)] shadow-lg transition-all hover:-translate-y-0.5 hover:bg-[color:var(--primary-50)]"
-              >
-                <MessageCircle size={18} /> {t.footer.chat}
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/75">{t.footer.lead(f.response)}</p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a href={wa(t.footer.waText)} target="_blank" rel="noopener noreferrer" className="btn btn-white">
+                {t.footer.chat} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
               </a>
-              <Link href={path(lang, 'pricing')} className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-white/10">
-                {t.footer.seePackages} <ArrowUpRight size={16} />
+              <Link href={path(lang, 'pricing')} className="btn btn-ghost-dark">
+                {t.footer.seePackages} <ArrowRight size={17} className="arw" aria-hidden="true" />
               </Link>
             </div>
           </div>
 
-          {/* Contact cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {CONTACTS.map((c) => {
-              const inner = (
-                <div className="flex h-full items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-5 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.1]">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[color:var(--accent-300)]/20 text-[color:var(--accent-300)]">
-                    <c.icon size={19} />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-white">{c.title}</p>
-                    <p className={`mt-0.5 text-sm ${c.link ? 'break-all text-[color:var(--accent-300)]' : 'text-white/70'}`}>{c.value}</p>
-                    {c.sub && <p className="mt-0.5 text-xs text-white/60">{c.sub}</p>}
-                  </div>
-                </div>
-              )
-              return c.link ? (
-                <a key={c.title} href={c.link} target="_blank" rel="noopener noreferrer" className="block">{inner}</a>
-              ) : (
-                <div key={c.title}>{inner}</div>
-              )
-            })}
-          </div>
+          <dl className="border-t border-white/40 lg:col-span-5 lg:mt-11">
+            {CONTACTS.map((c) => (
+              <div key={c.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-white/15 py-4 sm:grid-cols-[9rem_1fr]">
+                <dt className="kicker pt-0.5 text-white/65">{c.label}</dt>
+                <dd className="min-w-0">
+                  {c.link ? (
+                    <a href={c.link} target="_blank" rel="noopener noreferrer" className="break-all text-white underline decoration-white/35 underline-offset-4 hover:decoration-white">
+                      {c.value}
+                    </a>
+                  ) : (
+                    <span className="text-white">{c.value}</span>
+                  )}
+                  {c.sub && <span className="mt-0.5 block text-sm text-white/65">{c.sub}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        {/* Peta tautan */}
-        <nav aria-label={t.footer.linksAria} className="mt-14 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/10 pt-10 sm:grid-cols-4">
+        <nav aria-label={t.footer.linksAria} className="mt-20 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/15 pt-10 sm:grid-cols-4">
           {cols.map((c) => (
             <div key={c.title}>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[color:var(--accent-200)]">{c.title}</p>
-              <ul className="mt-3 space-y-2">
+              <p className="kicker text-[color:var(--accent-200)]">{c.title}</p>
+              <ul className="mt-4 space-y-2.5">
                 {c.links.map((l) => (
                   <li key={l.href}>
                     {l.zone ? (
                       // Portal = zona Next terpisah: tautan biasa, bukan navigasi klien.
-                      <a href={l.href} className="text-sm text-white/70 transition-colors hover:text-white">{l.label}</a>
+                      <a href={l.href} className="text-[0.9375rem] text-white/75 transition-colors hover:text-white">{l.label}</a>
                     ) : (
-                      <Link href={l.href} prefetch={false} className="text-sm text-white/70 transition-colors hover:text-white">{l.label}</Link>
+                      <Link href={l.href} prefetch={false} className="text-[0.9375rem] text-white/75 transition-colors hover:text-white">{l.label}</Link>
                     )}
                   </li>
                 ))}
@@ -136,20 +113,23 @@ export default function Footer({ lang }: { lang: Lang }) {
           ))}
         </nav>
 
-        {/* Bottom */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 py-7 lg:flex-row">
-          <p className="text-sm text-white/60">{t.footer.copyright(year)}</p>
-          <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-white/60">
+        <div className="mt-16 flex flex-col gap-4 border-t border-white/15 py-7 text-sm text-white/65 lg:flex-row lg:items-center lg:justify-between">
+          <Logo tone="light" />
+          <p>{t.footer.copyright(year)}</p>
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span>{t.footer.otherLangs}:</span>
             {LANGS.filter((l) => l !== lang).map((l) => (
-              <a key={l} href={path(l, 'home')} hrefLang={LANG_INFO[l].hreflang} lang={LANG_INFO[l].htmlLang} className="font-semibold text-white/80 underline-offset-4 hover:text-white hover:underline">
+              <a key={l} href={path(l, 'home')} hrefLang={LANG_INFO[l].hreflang} lang={LANG_INFO[l].htmlLang} className="text-white/85 underline decoration-white/30 underline-offset-4 hover:text-white">
                 {LANG_INFO[l].name}
               </a>
             ))}
           </p>
-          <p className="text-sm text-white/60">{t.footer.madeIn}</p>
+          <p>{t.footer.madeIn}</p>
         </div>
       </div>
+
+      {/* Nama merek raksasa penutup halaman. Hurufnya lewat pseudo-elemen (attr data-word): hiasan murni, tidak dibaca pembaca layar dan tidak diperiksa sebagai teks. */}
+      <div aria-hidden="true" data-word="PintuWeb" className="serif pointer-events-none mt-6 translate-y-[0.1em] select-none whitespace-nowrap px-4 text-center text-[21vw] leading-[0.8] tracking-[-0.045em] text-white/[0.06] before:content-[attr(data-word)] sm:mt-10 sm:px-6" />
     </footer>
   )
 }

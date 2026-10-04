@@ -1,106 +1,66 @@
-'use client'
-import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ShieldCheck, Clock, ChevronLeft, ChevronRight } from 'lucide-react'
-import PackageCard, { type CardData, type CardLabels } from './PackageCard'
+import { ArrowRight } from 'lucide-react'
+import { PACKAGES, PACKAGE_GROUPS } from '../lib/packages'
+import { PACKAGE_GROUP_TEXT } from '../content/packages-text'
+import { getDict } from '../i18n'
+import { moneyShort, packagesFor } from '../i18n/facts'
+import { path } from '../i18n/routes'
+import type { Lang } from '../i18n/config'
 import SectionHead from './SectionHead'
 import { HlText } from './Bits'
-import type { Hl } from '../i18n/dict/id'
 
-export type PricingText = {
-  eyebrow: string
-  title: Hl
-  lead: string
-  prev: string
-  next: string
-  /** mis. "Paket" — dirangkai dengan nomor urut di tombol titik */
-  nth: string
-  seeAll: string
-  depositTitle: string
-  depositBody: string
-  maintTitle: string
-  maintBody: string
-}
-
-export default function Pricing({ cards, labels, t, pricingHref, note }: { cards: CardData[]; labels: CardLabels; t: PricingText; pricingHref: string; note?: string }) {
-  const [slide, setSlide] = useState(0)
-  const [tsX, setTsX] = useState(0)
-  const next = () => setSlide((s) => (s + 1) % cards.length)
-  const prev = () => setSlide((s) => (s - 1 + cards.length) % cards.length)
+// Papan harga bergaya daftar menu: semua 14 paket, nama ...... kisaran harga. Server component
+// (tanpa JavaScript), setiap baris menaut ke kartu paketnya di halaman harga.
+export default function Pricing({ lang }: { lang: Lang }) {
+  const d = getDict(lang)
+  const t = d.pricing
+  const pk = packagesFor(lang)
+  const base = `${path(lang, 'pricing')}#`
+  const groups = PACKAGE_GROUPS.map((g) => ({ id: g, title: PACKAGE_GROUP_TEXT[lang][g].title, items: pk.filter((p) => p.group === g) }))
 
   return (
-    <section aria-labelledby="pricing-title" className="relative overflow-hidden py-16 sm:py-20 lg:py-24" style={{ backgroundColor: 'var(--surface-primary)' }}>
-      <div className="pointer-events-none absolute inset-0 u-grid opacity-60" aria-hidden="true" />
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
+    <section id="pricing" aria-labelledby="pricing-title" className="bg-[color:var(--surface-primary)] py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHead no="05" eyebrow={t.eyebrow} id="pricing-title" title={<HlText parts={t.title} />} lead={t.lead} />
 
-        {/* Desktop grid */}
-        <div className="mt-16 hidden gap-6 lg:grid lg:grid-cols-3 lg:items-stretch">
-          {cards.map((p) => (
-            <div key={p.slug} className={p.recommended ? 'lg:-mt-3' : ''}>
-              <PackageCard p={p} labels={labels} maxFeatures={6} />
+        <div className="mt-14 gap-x-14 lg:mt-16 lg:columns-2">
+          {groups.map((g) => (
+            <div key={g.id} className="mb-10 break-inside-avoid">
+              <h3 className="kicker flex items-baseline justify-between border-b border-[color:var(--rule)] pb-2 text-[color:var(--primary-700)]">
+                <span>{g.title}</span>
+                <span className="text-[color:var(--text-tertiary)]" aria-hidden="true">{t.colPrice}</span>
+              </h3>
+              <ul>
+                {g.items.map((p) => (
+                  <li key={p.slug} className="border-b border-[color:var(--border-light)]">
+                    <Link href={base + p.slug} className="group block py-3.5">
+                      <span className="flex items-baseline gap-3">
+                        <span className="serif text-[1.3rem] leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{p.title}</span>
+                        <span className="leader" aria-hidden="true" />
+                        <span className="shrink-0 text-[0.9375rem] font-semibold text-[color:var(--text-primary)]">{moneyShort(lang, p)}</span>
+                      </span>
+                      <span className="mono mt-1 block text-[0.6875rem] text-[color:var(--text-tertiary)]">{p.duration}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
 
-        {/* Mobile carousel */}
-        <div className="mt-12 lg:hidden">
-          <div
-            className="relative overflow-hidden pt-4"
-            onTouchStart={(e) => setTsX(e.touches[0].clientX)}
-            onTouchEnd={(e) => {
-              const d = tsX - e.changedTouches[0].clientX
-              if (d > 60) next()
-              if (d < -60) prev()
-            }}
-          >
-            <div className="flex transition-transform duration-300 ease-out" style={{ transform: `translateX(-${slide * 100}%)` }}>
-              {cards.map((p) => (
-                <div key={p.slug} className="w-full shrink-0 px-1">
-                  <PackageCard p={p} labels={labels} maxFeatures={6} />
-                </div>
-              ))}
-            </div>
+        <div className="mt-6 grid grid-cols-1 gap-8 border-t border-[color:var(--rule)] pt-8 sm:grid-cols-2 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <h3 className="kicker text-[color:var(--text-primary)]">{t.depositTitle}</h3>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{t.depositBody}</p>
           </div>
-          <div className="mt-6 flex items-center justify-center gap-4">
-            <button onClick={prev} aria-label={t.prev} className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] shadow-sm">
-              <ChevronLeft size={18} />
-            </button>
-            <div className="flex">
-              {cards.map((_, i) => (
-                <button key={i} onClick={() => setSlide(i)} aria-label={`${t.nth} ${i + 1}`} aria-current={i === slide} className="grid h-11 min-w-11 place-items-center">
-                  <span className={`block h-2 rounded-full transition-all ${i === slide ? 'w-7 bg-[color:var(--primary-700)]' : 'w-2 bg-[color:var(--neutral-400)]'}`} />
-                </button>
-              ))}
-            </div>
-            <button onClick={next} aria-label={t.next} className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] shadow-sm">
-              <ChevronRight size={18} />
-            </button>
+          <div className="lg:col-span-4">
+            <h3 className="kicker text-[color:var(--text-primary)]">{t.maintTitle}</h3>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{t.maintBody}</p>
           </div>
-        </div>
-
-        <div className="mt-10 text-center">
-          <Link href={pricingHref} className="inline-flex items-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3 text-sm font-semibold text-[color:var(--primary-700)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-            {t.seeAll} <ArrowRight size={15} />
-          </Link>
-          {note && <p className="mt-4 text-xs text-[color:var(--text-tertiary)]">{note}</p>}
-        </div>
-
-        {/* Guarantees */}
-        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--accent-100)]"><ShieldCheck size={20} className="text-[color:var(--primary-700)]" /></span>
-            <div>
-              <h3 className="font-bold text-[color:var(--text-primary)]">{t.depositTitle}</h3>
-              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{t.depositBody}</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-6">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--primary-100)]"><Clock size={20} className="text-[color:var(--primary-700)]" /></span>
-            <div>
-              <h3 className="font-bold text-[color:var(--text-primary)]">{t.maintTitle}</h3>
-              <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{t.maintBody}</p>
-            </div>
+          <div className="sm:col-span-2 lg:col-span-4 lg:text-right">
+            <Link href={path(lang, 'pricing')} className="btn btn-line w-full sm:w-auto">
+              {t.seeAll(PACKAGES.length)} <ArrowRight size={17} className="arw" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>

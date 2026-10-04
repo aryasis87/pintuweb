@@ -23,7 +23,6 @@ export type ServiceText = {
 
 export type Service = {
   key: ServiceKey
-  icon: 'Rocket' | 'Building2' | 'ShoppingBag' | 'UserRound' | 'Code2' | 'Mail' | 'Link2'
   packages: string[]
   demoCategories: DemoCategory[]
   demoSlugs?: string[]
@@ -34,7 +33,6 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     key: 'landing-page',
-    icon: 'Rocket',
     packages: ['landing-page'],
     demoCategories: ['landing'],
     articles: ['landing-vs-compro', 'biaya', 'seo-checklist'],
@@ -103,7 +101,6 @@ export const SERVICES: Service[] = [
   },
   {
     key: 'company-profile',
-    icon: 'Building2',
     packages: ['standar-umkm'],
     demoCategories: ['landing'],
     demoSlugs: ['cissycoffee', 'citarasa', 'woodora', 'rasanusantara'],
@@ -173,7 +170,6 @@ export const SERVICES: Service[] = [
   },
   {
     key: 'toko-online',
-    icon: 'ShoppingBag',
     packages: ['toko-online-simple', 'toko-online-full'],
     demoCategories: ['linkinbio', 'landing'],
     demoSlugs: ['jajan', 'vendra', 'luxeelectro', 'modewear'],
@@ -243,7 +239,6 @@ export const SERVICES: Service[] = [
   },
   {
     key: 'portofolio',
-    icon: 'UserRound',
     packages: ['portofolio'],
     demoCategories: ['portfolio'],
     articles: ['website-vs-sosmed', 'seo-checklist'],
@@ -309,7 +304,6 @@ export const SERVICES: Service[] = [
   },
   {
     key: 'website-custom',
-    icon: 'Code2',
     packages: ['sistem-reservasi', 'website-properti', 'marketplace-properti', 'aplikasi-web', 'website-custom'],
     demoCategories: ['reservasi', 'properti', 'todo'],
     demoSlugs: ['restoran', 'klinik', 'hotel', 'lumora', 'homigo', 'kanban-board'],
@@ -379,7 +373,6 @@ export const SERVICES: Service[] = [
   },
   {
     key: 'undangan-digital',
-    icon: 'Mail',
     packages: ['undangan-digital', 'situs-acara'],
     demoCategories: ['undangan'],
     articles: ['undangan'],
@@ -451,7 +444,6 @@ export const SERVICES: Service[] = [
   },
   {
     key: 'link-in-bio',
-    icon: 'Link2',
     packages: ['link-in-bio'],
     demoCategories: ['linkinbio'],
     articles: ['website-vs-sosmed'],

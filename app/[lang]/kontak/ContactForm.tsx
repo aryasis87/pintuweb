@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { MessageCircle, Mail, PhoneCall, MapPin, Clock } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import type { Hl } from '../../i18n/dict/id'
 
 type Form = { nama: string; usaha: string; paket: string; demo: string; pesan: string }
@@ -55,10 +55,10 @@ export default function ContactForm({ t, packages, waNumber, waDisplay, email, l
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({})
 
   const info = [
-    { icon: PhoneCall, title: t.infoWa, value: waDisplay, href: `https://wa.me/${waNumber}` },
-    { icon: Mail, title: t.infoEmail, value: email, href: `mailto:${email}` },
-    { icon: MapPin, title: t.infoLocation, value: location, sub: serves },
-    { icon: Clock, title: t.infoHours, value: hoursDays, sub: hoursTime },
+    { title: t.infoWa, value: waDisplay, href: `https://wa.me/${waNumber}` },
+    { title: t.infoEmail, value: email, href: `mailto:${email}` },
+    { title: t.infoLocation, value: location, sub: serves },
+    { title: t.infoHours, value: hoursDays, sub: hoursTime },
   ]
 
   const compose = () => {
@@ -97,31 +97,29 @@ export default function ContactForm({ t, packages, waNumber, waDisplay, email, l
   }
 
   const field =
-    'mt-1.5 w-full rounded-xl border border-[color:var(--border-light)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none transition focus:border-[color:var(--primary-700)] focus:ring-2 focus:ring-[color:var(--primary-100)]'
-  const label = 'text-sm font-semibold text-[color:var(--text-secondary)]'
-  const err = 'mt-1 text-xs font-medium text-red-600'
+    'mt-1 w-full border-0 border-b border-[color:var(--border-medium)] bg-transparent px-0 py-2.5 text-base text-[color:var(--text-primary)] outline-none transition-colors placeholder:text-[color:var(--text-muted)] focus:border-[color:var(--primary-700)]'
+  const label = 'kicker text-[color:var(--text-tertiary)]'
+  const err = 'mt-1.5 text-sm font-medium text-[color:var(--error-700)]'
 
   return (
-    <main id="main-content" className="relative overflow-hidden pb-20 pt-28 sm:pt-32" style={{ backgroundColor: 'var(--surface-primary)' }}>
-      <div className="pointer-events-none absolute inset-0 u-grid u-grid-fade opacity-60" aria-hidden="true" />
-
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-light)] bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-[color:var(--primary-700)]">
-            {t.badge}
-          </span>
-          <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-4xl lg:text-5xl">
-            {t.h1[0]}<span className="text-[color:var(--primary-700)]">{t.h1[1]}</span>
+    <main id="main-content" className="pb-20 pt-28 sm:pb-28 sm:pt-36">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-6 border-b border-[color:var(--rule)] pb-10 lg:grid-cols-12">
+          <p className="kicker text-[color:var(--primary-700)] lg:col-span-12">{t.badge}</p>
+          <h1 className="text-[2.6rem] leading-[1.03] text-[color:var(--text-primary)] sm:text-6xl lg:col-span-10 lg:text-[4.4rem]">
+            {t.h1[0]}
+            <em className="text-[color:var(--primary-700)]">{t.h1[1]}</em>
+            {t.h1[2] ?? ''}
           </h1>
-          <p className="mt-5 text-base leading-relaxed text-[color:var(--text-tertiary)] sm:text-lg">{t.lead}</p>
+          <p className="max-w-2xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:col-span-7 lg:text-[1.2rem]">{t.lead}</p>
         </div>
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+        <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-14 lg:grid-cols-12">
           {/* Form */}
-          <form onSubmit={sendWa} noValidate className="rounded-3xl border border-[color:var(--border-light)] bg-white p-6 shadow-sm sm:p-8">
-            <div className="grid gap-5 sm:grid-cols-2">
+          <form onSubmit={sendWa} noValidate className="lg:col-span-7">
+            <div className="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
               <div>
-                <label htmlFor="nama" className={label}>{t.name} <span aria-hidden="true" className="text-red-600">*</span></label>
+                <label htmlFor="nama" className={label}>{t.name} <span aria-hidden="true" className="text-[color:var(--error-700)]">*</span></label>
                 <input id="nama" autoComplete="name" value={f.nama} onChange={set('nama')} aria-invalid={!!errors.nama} aria-describedby={errors.nama ? 'nama-err' : undefined} className={field} />
                 {errors.nama && <p id="nama-err" className={err}>{errors.nama}</p>}
               </div>
@@ -143,42 +141,41 @@ export default function ContactForm({ t, packages, waNumber, waDisplay, email, l
                 <input id="demo" value={f.demo} onChange={set('demo')} className={field} placeholder={t.demoPh} />
               </div>
             </div>
-            <div className="mt-5">
-              <label htmlFor="pesan" className={label}>{t.message} <span aria-hidden="true" className="text-red-600">*</span></label>
-              <textarea id="pesan" rows={5} value={f.pesan} onChange={set('pesan')} aria-invalid={!!errors.pesan} aria-describedby={errors.pesan ? 'pesan-err' : undefined} className={field} placeholder={t.messagePh} />
+            <div className="mt-7">
+              <label htmlFor="pesan" className={label}>{t.message} <span aria-hidden="true" className="text-[color:var(--error-700)]">*</span></label>
+              <textarea id="pesan" rows={5} value={f.pesan} onChange={set('pesan')} aria-invalid={!!errors.pesan} aria-describedby={errors.pesan ? 'pesan-err' : undefined} className={`${field} resize-y`} placeholder={t.messagePh} />
               {errors.pesan && <p id="pesan-err" className={err}>{errors.pesan}</p>}
             </div>
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <button type="submit" className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[color:var(--success-700)] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-[color:var(--success-800)]">
-                <MessageCircle size={17} /> {t.sendWa}
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <button type="submit" className="btn btn-solid">
+                {t.sendWa} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
               </button>
-              <button type="button" onClick={sendEmail} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3.5 text-sm font-semibold text-[color:var(--text-primary)] transition hover:-translate-y-0.5 hover:shadow-md">
-                <Mail size={17} /> {t.sendEmail}
+              <button type="button" onClick={sendEmail} className="btn btn-line">
+                {t.sendEmail} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
               </button>
             </div>
-            <p className="mt-4 text-xs text-[color:var(--text-muted)]">{t.privacy}</p>
+            <p className="mt-5 max-w-lg text-sm text-[color:var(--text-tertiary)]">{t.privacy}</p>
           </form>
 
           {/* Info */}
-          <aside aria-label={t.infoAria} className="space-y-4">
-            {info.map((i) => {
-              const body = (
-                <>
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[color:var(--primary-100)] text-[color:var(--primary-700)]"><i.icon size={19} /></span>
-                  <span>
-                    <span className="block text-xs font-semibold uppercase tracking-wide text-[color:var(--text-muted)]">{i.title}</span>
-                    <span className="block font-bold text-[color:var(--text-primary)]">{i.value}</span>
-                    {i.sub && <span className="block text-sm text-[color:var(--text-tertiary)]">{i.sub}</span>}
-                  </span>
-                </>
-              )
-              const cls = 'flex items-start gap-4 rounded-2xl border border-[color:var(--border-light)] bg-white p-5'
-              return i.href ? (
-                <a key={i.title} href={i.href} target={i.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className={`${cls} transition hover:-translate-y-0.5 hover:shadow-md`}>{body}</a>
-              ) : (
-                <div key={i.title} className={cls}>{body}</div>
-              )
-            })}
+          <aside aria-label={t.infoAria} className="lg:col-span-4 lg:col-start-9">
+            <dl className="border-t border-[color:var(--rule)]">
+              {info.map((i) => (
+                <div key={i.title} className="border-b border-[color:var(--border-light)] py-4">
+                  <dt className="kicker text-[color:var(--text-tertiary)]">{i.title}</dt>
+                  <dd className="mt-1.5">
+                    {i.href ? (
+                      <a href={i.href} target={i.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="serif break-all text-[1.35rem] text-[color:var(--text-primary)] underline decoration-[color:var(--neutral-300)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:decoration-current">
+                        {i.value}
+                      </a>
+                    ) : (
+                      <span className="serif text-[1.35rem] text-[color:var(--text-primary)]">{i.value}</span>
+                    )}
+                    {i.sub && <span className="mt-0.5 block text-sm text-[color:var(--text-tertiary)]">{i.sub}</span>}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </aside>
         </div>
       </div>

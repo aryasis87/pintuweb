@@ -27,10 +27,12 @@ type MetaInput = {
   image?: string
 }
 
-/** Gambar OG bertema biru-putih dari judul halaman (semua bahasa). */
-export const ogImage = (lang: Lang, title: string) => `${SITE}/api/og?l=${lang}&t=${encodeURIComponent(title)}`
+/** Naikkan bila desain gambar OG berubah, supaya perayap media sosial mengambil versi baru. */
+const OG_REV = 2
+/** Gambar OG bergaya situs dari judul halaman (semua bahasa). */
+export const ogImage = (lang: Lang, title: string) => `${SITE}/api/og?l=${lang}&t=${encodeURIComponent(title)}&r=${OG_REV}`
 /** Kartu merek beranda; angkanya dirender dari lib/site.ts sehingga tidak pernah usang. */
-export const ogHome = (lang: Lang) => `${SITE}/api/og?v=home&l=${lang}`
+export const ogHome = (lang: Lang) => `${SITE}/api/og?v=home&l=${lang}&r=${OG_REV}`
 
 export function pageMeta(m: MetaInput): Metadata {
   const { canonical, languages } = alternatesOf(m.lang, m.ref)
@@ -70,7 +72,7 @@ export function siteGraph(lang: Lang) {
         '@id': ORG_ID,
         name: 'PintuWeb',
         url: SITE,
-        logo: { '@type': 'ImageObject', url: `${SITE}/images/logo.webp`, width: 512, height: 512 },
+        logo: { '@type': 'ImageObject', url: `${SITE}/images/logo-512.png`, width: 512, height: 512 },
         image: ogHome('id'),
         description: t.meta.orgDescription,
         slogan: t.header.tagline,

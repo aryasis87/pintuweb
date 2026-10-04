@@ -33,30 +33,33 @@ export default async function ArticlesPage({ params }: Params) {
   return (
     <main id="main-content">
       <Breadcrumbs label={d.common.breadcrumb} items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.eyebrow }]} />
-      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} />} lead={p.lead}>
-        <a href={`${path(lang, 'articles')}/rss`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
+      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} mode="italic" tone="primary" />} lead={p.lead}>
+        <a href={`${path(lang, 'articles')}/rss`} className="link mt-2 inline-flex items-center gap-1.5 text-[0.9375rem] font-semibold">
           <Rss size={15} aria-hidden="true" /> {p.rss}
         </a>
       </PageHero>
 
-      <section className="pb-20">
-        <ul className="mx-auto grid max-w-6xl gap-5 px-4 sm:px-6 md:grid-cols-2">
+      <section className="py-12 sm:py-16">
+        <ul className="mx-auto max-w-6xl px-4 sm:px-6">
           {list.map((a) => (
-            <li key={a.key}>
-              <article className="flex h-full flex-col rounded-3xl border border-[color:var(--border-light)] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-7">
-                <p className="text-xs font-semibold uppercase tracking-wide text-[color:var(--primary-700)]">{a.tags.slice(0, 2).join(' · ')}</p>
-                <h2 className="mt-3 text-xl font-bold leading-snug text-[color:var(--text-primary)]">
-                  <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="hover:text-[color:var(--primary-700)]">{a.title}</Link>
-                </h2>
-                <p className="mt-2 flex-1 leading-relaxed text-[color:var(--text-tertiary)]">{a.description}</p>
-                <p className="mt-5 flex flex-wrap items-center justify-between gap-3 text-sm text-[color:var(--text-tertiary)]">
-                  <span>
-                    <time dateTime={a.updated}>{fmtDate(lang, a.updated)}</time> · {p.read(a.minutes)}
-                  </span>
-                  <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="inline-flex items-center gap-1 font-semibold text-[color:var(--primary-700)]" aria-label={`${d.common.readMore}: ${a.title}`}>
-                    {d.common.readMore} <ArrowRight size={15} aria-hidden="true" />
-                  </Link>
+            <li key={a.key} className="border-b border-[color:var(--border-medium)]">
+              <article className="grid grid-cols-1 gap-x-10 gap-y-3 py-8 lg:grid-cols-12">
+                <p className="mono text-xs text-[color:var(--text-tertiary)] lg:col-span-2 lg:pt-2">
+                  <time dateTime={a.updated}>{fmtDate(lang, a.updated)}</time>
+                  <span className="block">{p.read(a.minutes)}</span>
                 </p>
+                <div className="lg:col-span-7">
+                  <h2 className="text-[1.75rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.1rem]">
+                    <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="hover:text-[color:var(--primary-700)]">{a.title}</Link>
+                  </h2>
+                  <p className="mt-3 max-w-2xl leading-relaxed text-[color:var(--text-tertiary)]">{a.description}</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-4 lg:col-span-3 lg:flex-col lg:items-end lg:pt-2">
+                  <p className="kicker text-[color:var(--primary-700)] lg:text-right">{a.tags.slice(0, 2).join(' · ')}</p>
+                  <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-[color:var(--primary-700)]" aria-label={`${d.common.readMore}: ${a.title}`}>
+                    {d.common.readMore} <ArrowRight size={15} className="arw" aria-hidden="true" />
+                  </Link>
+                </div>
               </article>
             </li>
           ))}

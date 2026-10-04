@@ -1,15 +1,16 @@
 {
   "name": "PintuWeb — Jasa Pembuatan Website Profesional",
   "short_name": "PintuWeb",
-  "description": "Pintu menuju website impianmu. Website cepat, modern, dan SEO-friendly.",
+  "description": "Studio web di Trenggalek sejak 2018. Website cepat dan siap SEO untuk UMKM, toko, dan personal brand.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#26469c",
   "lang": "id",
   "icons": [
-    { "src": "/images/favicon-32x32.png", "sizes": "32x32", "type": "image/png" },
-    { "src": "/images/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
-    { "src": "/images/logo.webp", "sizes": "512x512", "type": "image/webp", "purpose": "any" }
+    { "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/images/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/images/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
   ]
 }

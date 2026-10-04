@@ -2,7 +2,8 @@
 import '../globals.css'
 import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
-import { Inter, Bricolage_Grotesque } from 'next/font/google'
+import { IBM_Plex_Mono, Schibsted_Grotesk } from 'next/font/google'
+import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -13,8 +14,26 @@ import { LANGS, LANG_INFO, getDict, isLang, type Lang } from '../i18n'
 import { hasPage, path } from '../i18n/routes'
 import { siteGraph } from '../i18n/seo'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
-const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-display', display: 'swap', weight: ['600', '700', '800'] })
+// Judul: Newsreader 500 dengan sumbu optical size (dihost sendiri; Google tidak menyediakan berat tetap + opsz lewat next/font/google).
+const serif = localFont({
+  src: '../fonts/newsreader-500-opsz.woff2',
+  weight: '500',
+  variable: '--font-serif',
+  display: 'swap',
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
+})
+// Miring hanya untuk penekanan di beberapa judul: tidak dipramuat supaya tidak berebut dengan font utama.
+const serifItalic = localFont({
+  src: '../fonts/newsreader-500-italic.woff2',
+  weight: '500',
+  style: 'italic',
+  variable: '--font-serif-italic',
+  display: 'swap',
+  preload: false,
+  fallback: ['Georgia', 'serif'],
+})
+const sans = Schibsted_Grotesk({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
+const mono = IBM_Plex_Mono({ subsets: ['latin'], weight: '500', variable: '--font-mono', display: 'swap', preload: false })
 
 export const dynamicParams = false
 export const generateStaticParams = () => LANGS.map((lang) => ({ lang }))
@@ -80,7 +99,7 @@ export default async function LangLayout({ children, params }: { children: React
   ]
 
   return (
-    <html lang={LANG_INFO[lang].htmlLang} className={`${inter.variable} ${bricolage.variable}`} suppressHydrationWarning>
+    <html lang={LANG_INFO[lang].htmlLang} className={`${serif.variable} ${serifItalic.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <a href="#main-content" className="skip-link">{t.common.skip}</a>
         <Header

@@ -54,35 +54,35 @@ export default async function GlossaryPage({ params }: Params) {
   return (
     <main id="main-content">
       <Breadcrumbs label={d.common.breadcrumb} items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.eyebrow }]} />
-      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} />} lead={p.lead}>
-        <nav aria-label={p.jump} className="flex flex-wrap justify-center gap-1.5">
+      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} mode="italic" tone="primary" />} lead={p.lead}>
+        <nav aria-label={p.jump} className="mono -ml-2 mt-2 flex flex-wrap">
           {letters.map((l) => (
-            <a key={l} href={`#huruf-${l}`} className="grid h-9 min-w-9 place-items-center rounded-lg border border-[color:var(--border-light)] bg-white px-2 text-sm font-bold text-[color:var(--primary-700)] hover:border-[color:var(--primary-300)]">
+            <a key={l} href={`#huruf-${l}`} className="grid h-10 min-w-10 place-items-center text-sm text-[color:var(--text-secondary)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:underline">
               {l}
             </a>
           ))}
         </nav>
       </PageHero>
 
-      <section className="pb-20">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+      <section className="pb-20 pt-6">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           {letters.map((l) => (
-            <div key={l} id={`huruf-${l}`} className="scroll-mt-28">
-              <h2 className="mt-10 border-b border-[color:var(--border-medium)] pb-2 text-2xl font-extrabold text-[color:var(--primary-700)]">{l}</h2>
-              <dl className="divide-y divide-[color:var(--border-light)]">
+            <div key={l} id={`huruf-${l}`} className="mt-10 grid grid-cols-1 scroll-mt-28 gap-x-10 border-t border-[color:var(--rule)] first:mt-0 first:border-t-0 lg:grid-cols-12">
+              <h2 className="pt-3 text-[3rem] leading-none text-[color:var(--primary-700)] lg:col-span-3 lg:text-[4rem]">{l}</h2>
+              <dl className="divide-y divide-[color:var(--border-light)] lg:col-span-9">
                 {terms
                   .filter((t) => t.term[lang][0].toUpperCase() === l)
                   .map((t) => {
                     const see = t.see ? seeLabel(t.see) : null
                     return (
                       <div key={t.id} id={t.id} className="scroll-mt-28 py-5">
-                        <dt className="text-lg font-bold text-[color:var(--text-primary)]">
+                        <dt className="serif text-[1.4rem] leading-snug text-[color:var(--text-primary)]">
                           <dfn className="not-italic">{t.term[lang]}</dfn>
                         </dt>
-                        <dd className="mt-1.5 leading-relaxed text-[color:var(--text-secondary)]">
+                        <dd className="mt-1.5 max-w-2xl leading-relaxed text-[color:var(--text-secondary)]">
                           {t.def[lang]}
                           {see && t.see && (
-                            <Link href={pathOf(lang, t.see)} className="mt-2 flex w-fit items-center gap-1.5 text-sm font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
+                            <Link href={pathOf(lang, t.see)} className="link mt-2 flex w-fit items-center gap-1.5 text-sm font-semibold">
                               {p.related}: {see} <ArrowRight size={14} aria-hidden="true" />
                             </Link>
                           )}

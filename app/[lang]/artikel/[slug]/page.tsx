@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowRight, BookOpen, CheckCircle2, Clock, MessageCircle, UserRound } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { Breadcrumbs, JsonLd } from '../../../components/Bits'
 import { articlesIn, getArticle } from '../../../content/articles'
 import { faqJsonLd } from '../../../content/faq'
@@ -89,15 +89,17 @@ export default async function ArticlePage({ params }: Params) {
         items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.eyebrow, href: path(lang, 'articles') }, { name: a.title }]}
       />
 
-      <article className="mx-auto max-w-3xl px-4 pb-16 pt-8 sm:px-6 sm:pt-10">
-        <header>
-          <p className="text-xs font-semibold uppercase tracking-wide text-[color:var(--primary-700)]">{a.tags.join(' · ')}</p>
-          <h1 className="mt-4 text-3xl font-extrabold leading-[1.12] tracking-tight text-[color:var(--text-primary)] sm:text-5xl">{a.title}</h1>
-          <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-tertiary)]">{a.description}</p>
-          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 border-y border-[color:var(--border-light)] py-4 text-sm text-[color:var(--text-tertiary)]">
-            <span className="inline-flex items-center gap-1.5">
-              <UserRound size={15} aria-hidden="true" /> {p.by}{' '}
-              <Link href={path(lang, 'founder')} rel="author" className="font-semibold text-[color:var(--text-primary)] underline-offset-4 hover:underline">Sanzy</Link>
+      <article className="pb-16 pt-8 sm:pt-10">
+        <header className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="border-b border-[color:var(--rule)] pb-8">
+            <p className="kicker text-[color:var(--primary-700)]">{a.tags.join(' · ')}</p>
+            <h1 className="mt-5 max-w-4xl text-[2.4rem] leading-[1.05] text-[color:var(--text-primary)] sm:text-[3.4rem] lg:text-[4rem]">{a.title}</h1>
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{a.description}</p>
+          </div>
+          <div className="mono flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-[color:var(--border-light)] py-3 text-xs text-[color:var(--text-tertiary)]">
+            <span>
+              {p.by}{' '}
+              <Link href={path(lang, 'founder')} rel="author" className="text-[color:var(--text-primary)] underline underline-offset-4">Sanzy</Link>
             </span>
             <span>
               {p.published} <time dateTime={a.date}>{fmtDate(lang, a.date)}</time>
@@ -107,103 +109,105 @@ export default async function ArticlePage({ params }: Params) {
                 {p.updated} <time dateTime={a.updated}>{fmtDate(lang, a.updated)}</time>
               </span>
             )}
-            <span className="inline-flex items-center gap-1.5">
-              <Clock size={15} aria-hidden="true" /> {p.read(a.minutes)}
-            </span>
+            <span>{p.read(a.minutes)}</span>
+            {others.length > 0 && (
+              <span>
+                {p.alsoIn}{' '}
+                {others.map((l, i) => (
+                  <span key={l}>
+                    {i > 0 && ', '}
+                    <a href={pathOf(l, ref)} hrefLang={LANG_INFO[l].hreflang} lang={LANG_INFO[l].htmlLang} className="text-[color:var(--primary-700)] underline underline-offset-4">
+                      {LANG_INFO[l].name}
+                    </a>
+                  </span>
+                ))}
+              </span>
+            )}
           </div>
-          {others.length > 0 && (
-            <p className="mt-3 text-sm text-[color:var(--text-tertiary)]">
-              {p.alsoIn}{' '}
-              {others.map((l, i) => (
-                <span key={l}>
-                  {i > 0 && ', '}
-                  <a href={pathOf(l, ref)} hrefLang={LANG_INFO[l].hreflang} lang={LANG_INFO[l].htmlLang} className="font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
-                    {LANG_INFO[l].name}
-                  </a>
-                </span>
-              ))}
-            </p>
-          )}
         </header>
 
-        {/* Ringkasan di awal — mudah dibaca manusia & dikutip mesin jawaban */}
-        {a.takeaways.length > 0 && (
-          <aside aria-labelledby="takeaways-title" className="mt-8 rounded-3xl border border-[color:var(--primary-200)] bg-[color:var(--primary-50)] p-6 sm:p-7">
-            <h2 id="takeaways-title" className="flex items-center gap-2 text-lg font-bold text-[color:var(--text-primary)]">
-              <CheckCircle2 size={20} className="text-[color:var(--primary-700)]" aria-hidden="true" /> {p.takeaways}
-            </h2>
-            <ul className="mt-4 space-y-2.5">
-              {a.takeaways.map((t) => (
-                <li key={t} className="flex gap-2.5 leading-relaxed text-[color:var(--text-secondary)]">
-                  <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--primary-700)]" aria-hidden="true" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </aside>
-        )}
+        <div className="mx-auto mt-10 grid grid-cols-1 max-w-6xl gap-x-10 px-4 sm:px-6 lg:grid-cols-12">
+          {/* Kolom tepi: daftar isi (desktop menempel saat digulir) */}
+          <div className="lg:col-span-3">
+            {a.toc.length > 2 && (
+              <nav aria-labelledby="toc-title" className="mb-10 lg:sticky lg:top-28">
+                <h2 id="toc-title" className="kicker border-b border-[color:var(--rule)] pb-2 text-[color:var(--text-primary)]">{p.toc}</h2>
+                <ol className="mt-1">
+                  {a.toc.map((h, i) => (
+                    <li key={h.id} className="border-b border-[color:var(--border-light)]">
+                      <a href={`#${h.id}`} className="flex gap-3 py-2.5 text-sm leading-snug text-[color:var(--text-secondary)] hover:text-[color:var(--primary-700)]">
+                        <span className="mono text-[0.6875rem] text-[color:var(--text-tertiary)]">{String(i + 1).padStart(2, '0')}</span>
+                        {h.text}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )}
+          </div>
 
-        {/* Daftar isi */}
-        {a.toc.length > 2 && (
-          <nav aria-labelledby="toc-title" className="mt-8 rounded-2xl border border-[color:var(--border-light)] bg-white p-5">
-            <h2 id="toc-title" className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[color:var(--text-secondary)]">
-              <BookOpen size={16} aria-hidden="true" /> {p.toc}
-            </h2>
-            <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-[color:var(--text-secondary)] marker:text-[color:var(--primary-700)]">
-              {a.toc.map((h) => (
-                <li key={h.id}>
-                  <a href={`#${h.id}`} className="underline-offset-4 hover:text-[color:var(--primary-700)] hover:underline">{h.text}</a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        )}
+          <div className="min-w-0 lg:col-span-8 lg:col-start-5">
+            {/* Ringkasan di awal — mudah dibaca manusia & dikutip mesin jawaban */}
+            {a.takeaways.length > 0 && (
+              <aside aria-labelledby="takeaways-title" className="border-l-2 border-[color:var(--primary-700)] bg-[color:var(--surface-primary)] px-6 py-6 sm:px-7">
+                <h2 id="takeaways-title" className="kicker text-[color:var(--primary-700)]">{p.takeaways}</h2>
+                <ul className="mt-4 space-y-3">
+                  {a.takeaways.map((t) => (
+                    <li key={t} className="flex gap-3 leading-relaxed text-[color:var(--text-secondary)]">
+                      <span className="mt-[0.65em] h-[5px] w-[5px] shrink-0 bg-[color:var(--primary-700)]" aria-hidden="true" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+            )}
 
-        <div className="prose-article mt-10" dangerouslySetInnerHTML={{ __html: a.html }} />
+            <div className="prose-article mt-10" dangerouslySetInnerHTML={{ __html: a.html }} />
 
-        {a.sources.length > 0 && (
-          <section aria-labelledby="sources-title" className="mt-12 border-t border-[color:var(--border-light)] pt-8">
-            <h2 id="sources-title" className="text-lg font-bold text-[color:var(--text-primary)]">{p.sources}</h2>
-            <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-[color:var(--text-secondary)]">
-              {a.sources.map((s) => (
-                <li key={s.url}>
-                  <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-[color:var(--primary-700)] underline underline-offset-2">{s.title}</a>
-                </li>
-              ))}
-            </ol>
-          </section>
-        )}
+            {a.sources.length > 0 && (
+              <section aria-labelledby="sources-title" className="mt-14 border-t border-[color:var(--rule)] pt-6">
+                <h2 id="sources-title" className="kicker text-[color:var(--text-primary)]">{p.sources}</h2>
+                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm text-[color:var(--text-secondary)] marker:text-[color:var(--text-tertiary)]">
+                  {a.sources.map((s) => (
+                    <li key={s.url}>
+                      <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-[color:var(--primary-700)] underline underline-offset-2">{s.title}</a>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )}
+          </div>
+        </div>
       </article>
 
       {/* Ajakan */}
-      <section className="px-4 pb-16 sm:px-6">
-        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-3xl bg-gradient-brand px-6 py-12 text-center text-white sm:px-12">
-          <div className="pointer-events-none absolute inset-0 u-grid opacity-[0.08]" aria-hidden="true" />
-          <div className="relative">
-            <h2 className="text-2xl font-extrabold sm:text-3xl">{p.ctaTitle}</h2>
-            <p className="mx-auto mt-3 max-w-xl text-white/85">{p.ctaLead}</p>
-            <a href={wa(p.ctaWa(a.title))} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-semibold text-[color:var(--primary-800)] shadow-lg transition hover:-translate-y-0.5">
-              <MessageCircle size={18} aria-hidden="true" /> {d.common.consultFree}
-            </a>
+      <section className="bg-[color:var(--primary-700)] py-14 text-white sm:py-16">
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-2xl">
+            <h2 className="text-[2rem] leading-[1.1] sm:text-[2.6rem]">{p.ctaTitle}</h2>
+            <p className="mt-3 text-white/85">{p.ctaLead}</p>
           </div>
+          <a href={wa(p.ctaWa(a.title))} target="_blank" rel="noopener noreferrer" className="btn btn-white shrink-0">
+            {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
+          </a>
         </div>
       </section>
 
       {related.length > 0 && (
-        <section aria-labelledby="related-title" className="pb-20">
+        <section aria-labelledby="related-title" className="py-16 sm:py-20">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <div className="flex items-end justify-between gap-4">
-              <h2 id="related-title" className="text-2xl font-extrabold text-[color:var(--text-primary)]">{p.related}</h2>
+            <div className="flex items-end justify-between gap-4 border-b border-[color:var(--rule)] pb-3">
+              <h2 id="related-title" className="kicker text-[color:var(--text-primary)]">{p.related}</h2>
               <Link href={path(lang, 'articles')} className="inline-flex items-center gap-1 text-sm font-semibold text-[color:var(--primary-700)]">
-                {p.all} <ArrowRight size={15} aria-hidden="true" />
+                {p.all} <ArrowRight size={15} className="arw" aria-hidden="true" />
               </Link>
             </div>
-            <ul className="mt-6 grid gap-4 md:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-x-10 md:grid-cols-3">
               {related.map((r) => (
-                <li key={r.key}>
-                  <Link href={pathOf(lang, { key: 'articles', article: r.key })} className="flex h-full flex-col rounded-2xl border border-[color:var(--border-light)] bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-md">
-                    <span className="font-semibold leading-snug text-[color:var(--text-primary)]">{r.title}</span>
-                    <span className="mt-2 text-sm text-[color:var(--text-tertiary)]">{p.read(r.minutes)}</span>
+                <li key={r.key} className="border-b border-[color:var(--border-light)]">
+                  <Link href={pathOf(lang, { key: 'articles', article: r.key })} className="group block py-5">
+                    <span className="serif block text-[1.3rem] leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{r.title}</span>
+                    <span className="mono mt-2 block text-xs text-[color:var(--text-tertiary)]">{p.read(r.minutes)}</span>
                   </Link>
                 </li>
               ))}

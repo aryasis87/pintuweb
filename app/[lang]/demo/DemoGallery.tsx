@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { ArrowUpRight, LayoutGrid } from 'lucide-react'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import type { Demo, DemoCategory } from '../../lib/demos'
 import type { Hl } from '../../i18n/dict/id'
 
@@ -58,39 +58,39 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
 
   const shown = filter === 'semua' ? demos : demos.filter((d) => d.category === filter)
 
-  const chip = (active: boolean) =>
-    `inline-flex min-h-10 items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+  const tab = (active: boolean) =>
+    `inline-flex min-h-11 items-baseline gap-1.5 whitespace-nowrap px-2.5 py-2.5 text-[0.9375rem] transition-colors first:pl-0 ${
       active
-        ? 'border-[color:var(--primary-700)] bg-[color:var(--primary-700)] text-white'
-        : 'border-[color:var(--border-light)] bg-white text-[color:var(--text-secondary)] hover:border-[color:var(--primary-700)] hover:text-[color:var(--primary-700)]'
+        ? 'font-semibold text-[color:var(--text-primary)] underline decoration-[color:var(--primary-700)] decoration-2 underline-offset-[9px]'
+        : 'text-[color:var(--text-secondary)] hover:text-[color:var(--primary-700)]'
     }`
 
   return (
-    <main id="main-content" className="relative overflow-hidden pb-20 pt-28 sm:pt-32" style={{ backgroundColor: 'var(--surface-primary)' }}>
-      <div className="pointer-events-none absolute inset-0 u-grid u-grid-fade opacity-60" aria-hidden="true" />
-
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        {/* Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border-light)] bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-[color:var(--primary-700)]">
-            <LayoutGrid size={14} /> {t.badge}
-          </span>
-          <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-[color:var(--text-primary)] sm:text-4xl lg:text-5xl">
-            {t.h1[0]}<span className="text-[color:var(--primary-700)]">{t.h1[1]}</span>
+    <main id="main-content" className="pb-20 pt-28 sm:pb-28 sm:pt-36">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        {/* Kepala halaman */}
+        <div className="grid grid-cols-1 gap-x-10 gap-y-6 border-b border-[color:var(--rule)] pb-10 lg:grid-cols-12">
+          <p className="kicker text-[color:var(--primary-700)] lg:col-span-12">{t.badge}</p>
+          <h1 className="text-[2.6rem] leading-[1.03] text-[color:var(--text-primary)] sm:text-6xl lg:col-span-10 lg:text-[4.4rem]">
+            {t.h1[0]}
+            <em className="text-[color:var(--primary-700)]">{t.h1[1]}</em>
+            {t.h1[2] ?? ''}
           </h1>
-          <p className="mt-5 text-base leading-relaxed text-[color:var(--text-tertiary)] sm:text-lg">{t.lead}</p>
-          {t.note && <p className="mt-3 text-sm text-[color:var(--text-tertiary)]">{t.note}</p>}
+          <div className="lg:col-span-7">
+            <p className="text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{t.lead}</p>
+            {t.note && <p className="kicker mt-3 text-[color:var(--text-tertiary)]">{t.note}</p>}
+          </div>
         </div>
 
-        {/* Filter — ponsel: satu baris yang bisa digeser; layar lebar: membungkus di tengah */}
-        <div className="-mx-4 mt-10 overflow-x-auto px-4 pb-1 scrollbar-hide sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0">
-          <div role="group" aria-label={t.filterAria} className="flex w-max gap-2 sm:w-auto sm:flex-wrap sm:justify-center">
-            <button type="button" onClick={() => setFilter('semua')} aria-pressed={filter === 'semua'} className={chip(filter === 'semua')}>
-              {t.all} <span className="font-normal">{demos.length}</span>
+        {/* Filter — ponsel: satu baris yang bisa digeser; layar lebar: membungkus */}
+        <div className="scrollbar-hide -mx-4 mt-6 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
+          <div role="group" aria-label={t.filterAria} className="flex w-max gap-x-1 sm:w-auto sm:flex-wrap">
+            <button type="button" onClick={() => setFilter('semua')} aria-pressed={filter === 'semua'} className={tab(filter === 'semua')}>
+              {t.all} <span className="mono text-[0.6875rem] text-[color:var(--text-tertiary)]">{demos.length}</span>
             </button>
             {categories.map((c) => (
-              <button key={c.id} type="button" onClick={() => setFilter(c.id)} aria-pressed={filter === c.id} className={chip(filter === c.id)}>
-                {c.label} <span className="font-normal">{counts[c.id]}</span>
+              <button key={c.id} type="button" onClick={() => setFilter(c.id)} aria-pressed={filter === c.id} className={tab(filter === c.id)}>
+                {c.label} <span className="mono text-[0.6875rem] text-[color:var(--text-tertiary)]">{counts[c.id]}</span>
               </button>
             ))}
           </div>
@@ -101,20 +101,15 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
         </p>
 
         {/* Grid */}
-        <ul className="mt-8 grid grid-cols-2 gap-3 sm:mt-10 sm:gap-6 lg:grid-cols-3">
+        <ul className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((d) => (
             <li key={d.slug}>
-              <a
-                href={d.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex h-full flex-col overflow-hidden rounded-xl border border-[color:var(--border-light)] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--primary-700)] sm:rounded-2xl"
-              >
-                <div className="relative aspect-[1200/630] overflow-hidden bg-[color:var(--neutral-100)]">
+              <a href={d.url} target="_blank" rel="noopener noreferrer" className="group block">
+                <div className="relative aspect-[1200/630] overflow-hidden border border-[color:var(--border-light)] bg-[color:var(--neutral-100)]">
                   {failed.has(d.slug) ? (
                     // Cadangan bila gambar situs demo gagal dimuat (situsnya lambat/terblokir)
-                    <div className="grid h-full w-full place-items-center bg-gradient-to-br from-[color:var(--primary-700)] to-[color:var(--primary-500)] p-6 text-center">
-                      <span className="text-base font-extrabold text-white sm:text-2xl">{d.name}</span>
+                    <div className="grid h-full w-full place-items-center bg-[color:var(--navy)] p-6 text-center">
+                      <span className="serif text-2xl text-white">{d.name}</span>
                     </div>
                   ) : (
                     // Thumbnail lokal yang sudah diperkecil (lib/demos.ts); tidak perlu optimizer Next.
@@ -129,40 +124,40 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
                       fetchPriority="low"
                       data-demo={d.slug}
                       onError={() => markFailed(d.slug)}
-                      className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                     />
                   )}
-                  <span className="absolute left-2 top-2 hidden rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[color:var(--primary-700)] shadow-sm sm:left-3 sm:top-3 sm:block">
-                    {label[d.category]}
-                  </span>
                 </div>
-                <div className="flex flex-1 flex-col p-3 sm:p-5">
-                  <h2 className="flex items-start justify-between gap-2 text-sm font-bold text-[color:var(--text-primary)] sm:text-base">
+                <div className="mt-4">
+                  <p className="kicker text-[color:var(--text-tertiary)]">{label[d.category]}</p>
+                  <h2 className="mt-1.5 flex items-start justify-between gap-3 text-[1.45rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">
                     {d.name}
-                    <ArrowUpRight size={16} className="mt-0.5 shrink-0 text-[color:var(--text-muted)] transition-colors group-hover:text-[color:var(--primary-700)]" />
+                    <ArrowUpRight size={17} className="arw-ne mt-1 shrink-0 text-[color:var(--primary-700)] transition-transform" aria-hidden="true" />
                   </h2>
-                  {d.tagline && <p className="mt-1 line-clamp-2 text-xs leading-snug text-[color:var(--text-tertiary)] sm:text-sm">{d.tagline}</p>}
+                  {d.tagline && <p className="mt-1 text-[0.9375rem] leading-snug text-[color:var(--text-tertiary)]">{d.tagline}</p>}
                   <span className="sr-only">{t.newTab}</span>
-                  <p className="mt-auto pt-3 text-xs font-semibold text-[color:var(--primary-700)] sm:pt-4 sm:text-sm">{t.from} {fromByCat[d.category]}</p>
-                  <p className="mt-0.5 hidden text-xs text-[color:var(--text-muted)] sm:block">{d.url.replace('https://', '')}</p>
+                  <p className="mono mt-3 flex flex-wrap gap-x-3 border-t border-[color:var(--border-light)] pt-3 text-[0.6875rem] text-[color:var(--text-tertiary)]">
+                    <span className="text-[color:var(--text-primary)]">{t.from} {fromByCat[d.category]}</span>
+                    <span>{d.url.replace('https://', '')}</span>
+                  </p>
                 </div>
               </a>
             </li>
           ))}
         </ul>
 
-        {/* CTA */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-5 rounded-3xl border border-[color:var(--border-light)] bg-white p-7 text-center sm:flex-row sm:text-left">
-          <div>
-            <h2 className="text-lg font-bold text-[color:var(--text-primary)]">{t.ctaTitle}</h2>
-            <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{t.ctaLead}</p>
+        {/* Ajakan */}
+        <div className="mt-20 grid grid-cols-1 gap-6 border-t border-[color:var(--rule)] pt-8 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <h2 className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.4rem]">{t.ctaTitle}</h2>
+            <p className="mt-3 text-[color:var(--text-tertiary)]">{t.ctaLead}</p>
           </div>
-          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <Link href={contactHref} className="inline-flex items-center justify-center gap-2 rounded-xl border border-[color:var(--border-light)] bg-white px-6 py-3.5 text-sm font-semibold text-[color:var(--primary-700)] transition-all hover:-translate-y-0.5 hover:shadow-md">
+          <div className="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:justify-end">
+            <Link href={contactHref} className="btn btn-line">
               {t.contact}
             </Link>
-            <Link href={pricingHref} className="btn-primary inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg">
-              {t.seePricing} <ArrowUpRight size={16} />
+            <Link href={pricingHref} className="btn btn-solid">
+              {t.seePricing} <ArrowRight size={17} className="arw" aria-hidden="true" />
             </Link>
           </div>
         </div>

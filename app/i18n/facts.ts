@@ -81,6 +81,20 @@ export function money(lang: Lang, n: number) {
 export const moneyRange = (lang: Lang, p: Paket) =>
   `${money(lang, p.minPrice)} – ${money(lang, p.maxPrice)}${p.openEnded ? '+' : ''}`
 
+/** Angka ringkas untuk papan harga: "600 rb" / "1,2 jt" (id), "600k" / "1.2M" (en), "600 ribu" / "1.2 juta" (ms). */
+function compact(lang: Lang, n: number) {
+  const fmt = (v: number) => new Intl.NumberFormat(LANG_INFO[lang].intl, { maximumFractionDigits: 1 }).format(v)
+  const big = n >= 1_000_000
+  const v = fmt(big ? n / 1_000_000 : n / 1_000)
+  if (lang === 'id') return `${v} ${big ? 'jt' : 'rb'}`
+  if (lang === 'en') return `${v}${big ? 'M' : 'k'}`
+  return `${v} ${big ? 'juta' : 'ribu'}`
+}
+
+/** "Rp600 rb – 1,2 jt" (id) / "IDR 600k – 1.2M" (en) — mata uang sekali saja di depan. */
+export const moneyShort = (lang: Lang, p: Pick<Paket, 'minPrice' | 'maxPrice' | 'openEnded'>) =>
+  `${lang === 'id' ? 'Rp' : 'IDR '}${compact(lang, p.minPrice)} – ${compact(lang, p.maxPrice)}${p.openEnded ? '+' : ''}`
+
 /** Paket dengan teks sesuai bahasa; angka selalu dari PACKAGES. */
 export type LocalPaket = Paket & { priceFrom: string; priceRange: string; deposit: string }
 
