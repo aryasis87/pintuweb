@@ -2,8 +2,7 @@
 import '../globals.css'
 import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
-import { Schibsted_Grotesk } from 'next/font/google'
-import localFont from 'next/font/local'
+import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -14,25 +13,10 @@ import { LANGS, LANG_INFO, getDict, isLang, type Lang } from '../i18n'
 import { hasPage, path } from '../i18n/routes'
 import { siteGraph } from '../i18n/seo'
 
-// Judul: Newsreader 500 dengan sumbu optical size (dihost sendiri; Google tidak menyediakan berat tetap + opsz lewat next/font/google).
-const serif = localFont({
-  src: '../fonts/newsreader-500-opsz.woff2',
-  weight: '500',
-  variable: '--font-serif',
-  display: 'swap',
-  fallback: ['Georgia', 'Times New Roman', 'serif'],
-})
-// Miring hanya untuk penekanan di beberapa judul: tidak dipramuat supaya tidak berebut dengan font utama.
-const serifItalic = localFont({
-  src: '../fonts/newsreader-500-italic.woff2',
-  weight: '500',
-  style: 'italic',
-  variable: '--font-serif-italic',
-  display: 'swap',
-  preload: false,
-  fallback: ['Georgia', 'serif'],
-})
-const sans = Schibsted_Grotesk({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
+// Huruf bergaya Apple. Perangkat Apple memakai SF Pro bawaan sistem (-apple-system di globals.css;
+// SF Pro sendiri tidak boleh di-embed di web). Perangkat lain memakai Inter, padanan terbuka yang paling
+// dekat; sumbu optical size membuat judul besar memakai potongan "display" seperti SF Pro Display.
+const inter = Inter({ subsets: ['latin'], axes: ['opsz'], variable: '--font-inter', display: 'swap' })
 
 export const dynamicParams = false
 export const generateStaticParams = () => LANGS.map((lang) => ({ lang }))
@@ -98,7 +82,7 @@ export default async function LangLayout({ children, params }: { children: React
   ]
 
   return (
-    <html lang={LANG_INFO[lang].htmlLang} className={`${serif.variable} ${serifItalic.variable} ${sans.variable}`} suppressHydrationWarning>
+    <html lang={LANG_INFO[lang].htmlLang} className={inter.variable} suppressHydrationWarning>
       <body className="antialiased">
         <a href="#main-content" className="skip-link">{t.common.skip}</a>
         <Header

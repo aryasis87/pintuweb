@@ -102,7 +102,7 @@ export default async function PaketPage({ params }: Params) {
             <div className="lg:col-span-3">
               <div className="lg:sticky lg:top-28">
                 <p className="kicker text-[color:var(--primary-700)]">{String(gi + 1).padStart(2, '0')} · {p.count(g.cards.length)}</p>
-                <h2 id={`grup-${g.id}`} className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.4rem]">{g.title}</h2>
+                <h2 id={`grup-${g.id}`} className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.1rem]">{g.title}</h2>
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{g.lead}</p>
               </div>
             </div>
@@ -121,7 +121,7 @@ export default async function PaketPage({ params }: Params) {
       <section aria-labelledby="addons-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
         <div className="mx-auto grid grid-cols-1 max-w-6xl gap-x-10 gap-y-8 px-4 sm:px-6 lg:grid-cols-12">
           <div className="lg:col-span-3">
-            <h2 id="addons-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.4rem]">
+            <h2 id="addons-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.1rem]">
               <HlText parts={p.addonsTitle} />
             </h2>
             <p className="mt-3 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{p.addonsLead}</p>
@@ -138,7 +138,7 @@ export default async function PaketPage({ params }: Params) {
               <tbody>
                 {addons.map((a) => (
                   <tr key={a.slug} className="border-b border-[color:var(--border-medium)]">
-                    <th scope="row" className="serif py-5 pr-4 text-[1.3rem] font-medium text-[color:var(--text-primary)]">{a.title}</th>
+                    <th scope="row" className="display py-5 pr-4 text-[1.3rem] font-medium text-[color:var(--text-primary)]">{a.title}</th>
                     <td className="px-4 py-5 font-semibold text-[color:var(--text-primary)]">{a.range}</td>
                     <td className="py-5 pl-4 text-[color:var(--text-tertiary)]">{a.unit}</td>
                   </tr>
@@ -152,7 +152,7 @@ export default async function PaketPage({ params }: Params) {
       <section aria-labelledby="info-title" className="py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-3xl">
-            <h2 id="info-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">
+            <h2 id="info-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">
               <HlText parts={p.infoTitle} />
             </h2>
           </div>

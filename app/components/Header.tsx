@@ -181,7 +181,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
                       aria-current={isActive ? 'page' : undefined}
                       className="flex items-baseline gap-4 py-3.5"
                     >
-                                            <span className={`serif text-[1.75rem] leading-tight ${isActive ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--text-primary)]'}`}>{n.label}</span>
+                                            <span className={`display text-[1.5rem] leading-tight ${isActive ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--text-primary)]'}`}>{n.label}</span>
                     </Link>
                   </li>
                 )

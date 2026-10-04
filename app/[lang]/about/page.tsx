@@ -44,7 +44,7 @@ export default async function AboutPage({ params }: Params) {
           {stats.map((s) => (
             <div key={s.l} className="flex flex-col-reverse border-b border-[color:var(--border-light)] py-4 pr-4 sm:border-b-0 sm:border-r sm:pl-5 sm:first:pl-0 sm:last:border-r-0">
               <dt className="kicker mt-1 text-[color:var(--text-tertiary)]">{s.l}</dt>
-              <dd className="serif text-[2.6rem] leading-none text-[color:var(--text-primary)]">{s.v}</dd>
+              <dd className="display text-[2.25rem] leading-none text-[color:var(--text-primary)]">{s.v}</dd>
             </div>
           ))}
         </dl>
@@ -54,10 +54,10 @@ export default async function AboutPage({ params }: Params) {
       <section aria-labelledby="story-title" className="py-16 sm:py-24">
         <div className="mx-auto grid grid-cols-1 max-w-6xl items-start gap-x-10 gap-y-12 px-4 sm:px-6 lg:grid-cols-12">
           <div className="lg:col-span-6">
-            <h2 id="story-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.storyTitle}</h2>
+            <h2 id="story-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.storyTitle}</h2>
             <div className="mt-6 space-y-5 text-[1.0625rem] leading-relaxed text-[color:var(--text-secondary)]">
               {p.story(n).map((s, i) => (
-                <p key={s} className={i === 0 ? 'serif text-[1.4rem] leading-snug text-[color:var(--text-primary)]' : undefined}>{s}</p>
+                <p key={s} className={i === 0 ? 'text-[1.25rem] font-medium leading-snug text-[color:var(--text-primary)]' : undefined}>{s}</p>
               ))}
             </div>
           </div>
@@ -80,7 +80,7 @@ export default async function AboutPage({ params }: Params) {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <p className="kicker text-[color:var(--primary-700)]">{p.eyebrow}</p>
-            <h2 id="belief-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">
+            <h2 id="belief-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">
               <HlText parts={p.beliefTitle} />
             </h2>
           </div>
@@ -109,7 +109,7 @@ export default async function AboutPage({ params }: Params) {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <p className="kicker text-[color:var(--primary-700)]">PintuWeb</p>
-            <h2 id="why-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.whyTitle}</h2>
+            <h2 id="why-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.whyTitle}</h2>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-x-10 sm:grid-cols-2">
             {p.why(landing, business, f.response).map((w, i) => (

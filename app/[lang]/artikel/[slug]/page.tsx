@@ -93,7 +93,7 @@ export default async function ArticlePage({ params }: Params) {
         <header className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="border-b border-[color:var(--rule)] pb-8">
             <p className="kicker text-[color:var(--primary-700)]">{a.tags.join(' · ')}</p>
-            <h1 className="mt-5 max-w-4xl text-[2.4rem] leading-[1.05] text-[color:var(--text-primary)] sm:text-[3.4rem] lg:text-[4rem]">{a.title}</h1>
+            <h1 className="mt-5 max-w-4xl text-[2.2rem] leading-[1.1] text-[color:var(--text-primary)] sm:text-[2.9rem] lg:text-[3.25rem]">{a.title}</h1>
             <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{a.description}</p>
           </div>
           <div className="mono flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-[color:var(--border-light)] py-3 text-xs text-[color:var(--text-tertiary)]">
@@ -184,7 +184,7 @@ export default async function ArticlePage({ params }: Params) {
       <section className="bg-[color:var(--primary-700)] py-14 text-white sm:py-16">
         <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <h2 className="text-[2rem] leading-[1.1] sm:text-[2.6rem]">{p.ctaTitle}</h2>
+            <h2 className="text-[2rem] leading-[1.1] sm:text-[2.25rem]">{p.ctaTitle}</h2>
             <p className="mt-3 text-white/85">{p.ctaLead}</p>
           </div>
           <a href={wa(p.ctaWa(a.title))} target="_blank" rel="noopener noreferrer" className="btn btn-white shrink-0">
@@ -206,7 +206,7 @@ export default async function ArticlePage({ params }: Params) {
               {related.map((r) => (
                 <li key={r.key} className="border-b border-[color:var(--border-light)]">
                   <Link href={pathOf(lang, { key: 'articles', article: r.key })} className="group block py-5">
-                    <span className="serif block text-[1.3rem] leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{r.title}</span>
+                    <span className="display block text-[1.3rem] leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{r.title}</span>
                     <span className="mono mt-2 block text-xs text-[color:var(--text-tertiary)]">{p.read(r.minutes)}</span>
                   </Link>
                 </li>

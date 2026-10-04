@@ -2,7 +2,7 @@
 
 /* ============================================================
    PintuWeb — bersih & ramah
-   Biru elegan (sapphire) + putih. Judul serif Newsreader, teks Schibsted Grotesk.
+   Biru elegan (sapphire) + putih. Huruf bergaya Apple: SF Pro di perangkat Apple, Inter di lainnya.
    Banyak ruang kosong, garis tipis seperlunya, sudut membulat lembut, tombol bulat.
    Lengkung pintu tetap jadi tanda tangan.
    ============================================================ */
@@ -86,6 +86,11 @@
   --text-on-dark: #e6edf9;
 
   --card-bg: #ffffff;
+
+  /* Tumpukan huruf: SF Pro bawaan perangkat Apple (tidak di-embed — lisensinya tidak mengizinkan),
+     lalu Inter (next/font) untuk Windows/Android supaya tampilannya tetap seragam. */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--font-inter), 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', var(--font-inter), 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --radius: 16px;
 }
 
@@ -96,25 +101,26 @@
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
   body {
-    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
     background-color: var(--background);
     color: var(--foreground);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    font-feature-settings: 'ss01' 0;
   }
 
-  /* Judul serif: berat 500 dengan optical size otomatis — tipis & tajam di ukuran besar. */
-  h1, h2, h3, h4, .serif {
-    font-family: var(--font-serif), Georgia, 'Times New Roman', serif;
-    font-weight: 500;
+  /* Judul gaya Apple: semibold, jarak huruf rapat, optical size otomatis (potongan display di ukuran besar). */
+  h1, h2, h3, h4, .display {
+    font-family: var(--font-display);
+    font-weight: 600;
     font-optical-sizing: auto;
-    letter-spacing: -0.012em;
+    letter-spacing: -0.018em;
     text-wrap: balance;
   }
-  h1 { letter-spacing: -0.022em; }
-  em, .italic-serif { font-style: italic; }
-  h1 em, h2 em, h3 em, .serif em { font-family: var(--font-serif-italic), var(--font-serif), Georgia, serif; font-weight: 500; }
+  h1 { letter-spacing: -0.03em; }
+  h2 { letter-spacing: -0.024em; }
+  em { font-style: italic; }
+  /* Penekanan di judul cukup lewat warna (tanpa miring), seperti halaman produk Apple */
+  h1 em, h2 em, h3 em, .display em { font-style: normal; }
 
 
   ::selection { background: var(--primary-700); color: #fff; }
@@ -129,15 +135,14 @@
 @layer components {
   /* Label kecil: teks biasa yang tegas, bukan huruf kapital bergaya teknis */
   .kicker {
-    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.875rem;
     line-height: 1.4;
     font-weight: 600;
     letter-spacing: 0;
   }
-  /* Angka & keterangan kecil (dulu font mono; kini teks biasa). Bukan angka tabular: di Schibsted
-     tanda koma ikut selebar angka sehingga "1,5" tampak renggang. */
-  .mono { font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif; }
+  /* Angka & keterangan kecil (dulu font mono; kini teks biasa) */
+  .mono { font-family: var(--font-sans); }
   .tnum { font-variant-numeric: tabular-nums; }
 
   .skip-link {
@@ -257,7 +262,7 @@
   .prose-article th, .prose-article td { padding: .75rem .9rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border-light); }
   .prose-article thead th { color: var(--text-primary); font-weight: 600; }
   .prose-article tbody tr:last-child td { border-bottom: 0; }
-  .prose-article blockquote { border-left: 2px solid var(--primary-700); padding-left: 1.1rem; font-family: var(--font-serif), Georgia, serif; font-size: 1.3rem; line-height: 1.5; color: var(--text-primary); }
+  .prose-article blockquote { border-left: 2px solid var(--primary-700); padding-left: 1.1rem; font-size: 1.25rem; font-weight: 500; line-height: 1.5; color: var(--text-primary); }
   .prose-article code { background: var(--neutral-100); padding: .1em .35em; border-radius: 3px; font-size: .9em; }
 }
 

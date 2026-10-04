@@ -112,7 +112,7 @@ export default function FAQ({ items, categories, t, waHref, faqHref, variant = '
             {items.map((item, i) => (
               <details key={item.question} hidden={!visible[i]} className="group border-b border-[color:var(--border-light)]">
                 <summary className="flex cursor-pointer list-none items-start gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
-                  <Q className="flex-1 text-[1.25rem] leading-snug text-[color:var(--text-primary)] group-open:text-[color:var(--primary-700)] sm:text-[1.375rem]">{item.question}</Q>
+                  <Q className="flex-1 text-[1.0625rem] leading-snug text-[color:var(--text-primary)] group-open:text-[color:var(--primary-700)] sm:text-[1.1875rem]">{item.question}</Q>
                   <span aria-hidden="true" className="relative mt-2.5 h-3 w-3 shrink-0 text-[color:var(--text-tertiary)] transition-transform duration-300 group-open:rotate-45 group-open:text-[color:var(--primary-700)]">
                     <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current" />
                     <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-current" />

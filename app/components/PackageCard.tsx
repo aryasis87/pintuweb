@@ -23,13 +23,13 @@ export default function PackageCard({ p, labels, maxFeatures, as: Heading = 'h3'
         <span className="text-right normal-case tracking-normal text-[color:var(--text-tertiary)]">{p.duration}</span>
       </div>
 
-      <Heading className="mt-4 text-[1.75rem] leading-tight text-[color:var(--text-primary)]">{p.title}</Heading>
+      <Heading className="mt-4 text-[1.5rem] leading-tight text-[color:var(--text-primary)]">{p.title}</Heading>
       <p className="mt-1.5 text-[0.9375rem] text-[color:var(--text-tertiary)]">{p.subtitle}</p>
 
       <div className="mt-6 border-t border-[color:var(--border-light)] pt-5">
         <p className="flex items-baseline gap-2">
           <span className="kicker text-[color:var(--text-tertiary)]">{labels.from}</span>
-          <span className="serif text-[2.4rem] leading-none text-[color:var(--text-primary)]">{p.priceFrom}</span>
+          <span className="display text-[2rem] leading-none text-[color:var(--text-primary)]">{p.priceFrom}</span>
         </p>
         <p className="mono mt-2 text-[0.6875rem] leading-relaxed text-[color:var(--text-tertiary)]">
           {labels.range} {p.priceRange}

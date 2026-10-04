@@ -60,7 +60,7 @@ export default function Footer({ lang }: { lang: Lang }) {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             <p className="kicker text-[color:var(--accent-200)]">{t.footer.kicker}</p>
-            <h2 className="mt-5 text-[2.5rem] leading-[1.05] sm:text-5xl lg:text-[3.6rem]">
+            <h2 className="mt-5 text-[2.25rem] leading-[1.08] sm:text-[2.75rem] lg:text-[3.1rem]">
               <HlText parts={t.footer.title} mode="italic" tone="accent" />
             </h2>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/75">{t.footer.lead(f.response)}</p>

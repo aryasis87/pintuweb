@@ -20,7 +20,7 @@ export default function Process({ lang }: { lang: Lang }) {
                 <span className="relative grid h-10 w-10 place-items-center rounded-full bg-[color:var(--primary-700)] text-[0.9375rem] font-semibold text-white ring-8 ring-white" aria-hidden="true">
                   {i + 1}
                 </span>
-                <h3 className="mt-6 text-[1.6rem] leading-tight text-[color:var(--text-primary)]">{s.title}</h3>
+                <h3 className="mt-6 text-[1.375rem] leading-tight text-[color:var(--text-primary)]">{s.title}</h3>
                 <p className="mt-2 leading-relaxed text-[color:var(--text-tertiary)]">{s.desc}</p>
               </li>
             ))}

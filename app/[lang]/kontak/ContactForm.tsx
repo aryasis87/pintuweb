@@ -106,7 +106,7 @@ export default function ContactForm({ t, packages, waNumber, waDisplay, email, l
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-x-10 gap-y-6 border-b border-[color:var(--rule)] pb-10 lg:grid-cols-12">
           <p className="kicker text-[color:var(--primary-700)] lg:col-span-12">{t.badge}</p>
-          <h1 className="text-[2.6rem] leading-[1.03] text-[color:var(--text-primary)] sm:text-6xl lg:col-span-10 lg:text-[4.4rem]">
+          <h1 className="text-[2.4rem] leading-[1.06] text-[color:var(--text-primary)] sm:text-[3.25rem] lg:col-span-10 lg:text-[3.75rem]">
             {t.h1[0]}
             <em className="text-[color:var(--primary-700)]">{t.h1[1]}</em>
             {t.h1[2] ?? ''}
@@ -165,11 +165,11 @@ export default function ContactForm({ t, packages, waNumber, waDisplay, email, l
                   <dt className="kicker text-[color:var(--text-tertiary)]">{i.title}</dt>
                   <dd className="mt-1.5">
                     {i.href ? (
-                      <a href={i.href} target={i.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="serif break-all text-[1.35rem] text-[color:var(--text-primary)] underline decoration-[color:var(--neutral-300)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:decoration-current">
+                      <a href={i.href} target={i.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="display break-all text-[1.35rem] text-[color:var(--text-primary)] underline decoration-[color:var(--neutral-300)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:decoration-current">
                         {i.value}
                       </a>
                     ) : (
-                      <span className="serif text-[1.35rem] text-[color:var(--text-primary)]">{i.value}</span>
+                      <span className="display text-[1.35rem] text-[color:var(--text-primary)]">{i.value}</span>
                     )}
                     {i.sub && <span className="mt-0.5 block text-sm text-[color:var(--text-tertiary)]">{i.sub}</span>}
                   </dd>

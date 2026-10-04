@@ -9,13 +9,13 @@ export function LogoMark({ className = 'h-7 w-7', leaf = 0.45 }: { className?: s
   )
 }
 
-/** Logo lengkap: tanda + nama dalam serif. */
+/** Logo lengkap: tanda + nama (huruf judul situs). */
 export function Logo({ tone = 'ink' }: { tone?: 'ink' | 'light' }) {
   const light = tone === 'light'
   return (
     <span className="inline-flex items-center gap-2">
       <LogoMark className={`h-7 w-7 ${light ? 'text-[color:var(--accent-300)]' : 'text-[color:var(--primary-700)]'}`} />
-      <span className={`serif text-[1.4rem] leading-none tracking-[-0.02em] ${light ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>PintuWeb</span>
+      <span className={`display text-[1.25rem] leading-none tracking-[-0.025em] ${light ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>PintuWeb</span>
     </span>
   )
 }

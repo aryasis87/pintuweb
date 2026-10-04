@@ -123,7 +123,7 @@ export default async function ServicePage({ params }: Params) {
         <div className="mx-auto grid grid-cols-1 max-w-6xl gap-x-10 gap-y-10 px-4 sm:px-6 lg:grid-cols-12">
           <div className="space-y-5 text-[1.125rem] leading-relaxed text-[color:var(--text-secondary)] lg:col-span-7">
             {t.intro.map((para, i) => (
-              <p key={para} className={i === 0 ? 'serif text-[1.45rem] leading-snug text-[color:var(--text-primary)]' : undefined}>{para}</p>
+              <p key={para} className={i === 0 ? 'text-[1.25rem] font-medium leading-snug text-[color:var(--text-primary)]' : undefined}>{para}</p>
             ))}
           </div>
           <aside className="border-t border-[color:var(--rule)] pt-5 lg:col-span-4 lg:col-start-9">
@@ -145,7 +145,7 @@ export default async function ServicePage({ params }: Params) {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <p className="kicker text-[color:var(--primary-700)]">{p.colPackage}</p>
-            <h2 id="pricing-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.pricing}</h2>
+            <h2 id="pricing-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.pricing}</h2>
           </div>
           {from ? (
             <>
@@ -163,7 +163,7 @@ export default async function ServicePage({ params }: Params) {
                   <tbody>
                     {ordered.map((pk) => (
                       <tr key={pk.slug} className="border-b border-[color:var(--border-medium)]">
-                        <th scope="row" className="serif py-4 pr-4 text-[1.2rem] font-medium text-[color:var(--text-primary)]">{pk.title}</th>
+                        <th scope="row" className="display py-4 pr-4 text-[1.2rem] font-medium text-[color:var(--text-primary)]">{pk.title}</th>
                         <td className="px-4 py-4 font-semibold text-[color:var(--text-primary)]">{pk.priceRange}</td>
                         <td className="px-4 py-4 text-[color:var(--text-secondary)]">{pk.deposit}</td>
                         <td className="py-4 pl-4 text-[color:var(--text-secondary)]">{pk.duration}</td>
@@ -210,7 +210,7 @@ export default async function ServicePage({ params }: Params) {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <p className="kicker text-[color:var(--primary-700)]">{d.process.eyebrow}</p>
-            <h2 id="how-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.process}</h2>
+            <h2 id="how-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.process}</h2>
           </div>
           <ol className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {d.process.steps.map((st, i) => (
@@ -231,7 +231,7 @@ export default async function ServicePage({ params }: Params) {
             <div className="max-w-3xl">
               <p className="kicker text-[color:var(--primary-700)]">Demo</p>
               <div>
-                <h2 id="demos-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">{p.demos}</h2>
+                <h2 id="demos-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.demos}</h2>
                 <p className="mt-3 max-w-2xl text-[color:var(--text-tertiary)]">{p.demosLead}</p>
                 {d.common.demoLangNote && <p className="mt-1 text-sm text-[color:var(--text-tertiary)]">{d.common.demoLangNote}</p>}
               </div>
@@ -246,7 +246,7 @@ export default async function ServicePage({ params }: Params) {
                     </span>
                     <span className="mt-4 flex items-start justify-between gap-3">
                       <span className="min-w-0">
-                        <span className="serif block text-[1.35rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{dm.name}</span>
+                        <span className="display block text-[1.35rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{dm.name}</span>
                         <span className="mt-1 block text-[0.9375rem] text-[color:var(--text-tertiary)]">{dm.tagline}</span>
                       </span>
                       <ArrowUpRight size={17} className="arw-ne mt-1 shrink-0 text-[color:var(--primary-700)] transition-transform" aria-hidden="true" />
@@ -275,13 +275,13 @@ export default async function ServicePage({ params }: Params) {
       <section aria-labelledby="sfaq-title" className="py-16 sm:py-24">
         <div className="mx-auto grid grid-cols-1 max-w-6xl gap-x-10 gap-y-8 px-4 sm:px-6 lg:grid-cols-12">
           <div className="lg:col-span-3">
-            <h2 id="sfaq-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.4rem]">{p.faq}</h2>
+            <h2 id="sfaq-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.1rem]">{p.faq}</h2>
           </div>
           <div className="border-t border-[color:var(--rule)] lg:col-span-9">
             {t.faq.map((f) => (
               <details key={f.q} className="group border-b border-[color:var(--border-light)]">
                 <summary className="flex cursor-pointer list-none items-start gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
-                  <h3 className="flex-1 text-[1.25rem] leading-snug text-[color:var(--text-primary)] group-open:text-[color:var(--primary-700)]">{f.q}</h3>
+                  <h3 className="flex-1 text-[1.0625rem] leading-snug text-[color:var(--text-primary)] group-open:text-[color:var(--primary-700)] sm:text-[1.1875rem]">{f.q}</h3>
                   <span aria-hidden="true" className="relative mt-2.5 h-3 w-3 shrink-0 text-[color:var(--text-tertiary)] transition-transform duration-300 group-open:rotate-45 group-open:text-[color:var(--primary-700)]">
                     <span className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-current" />
                     <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-current" />
@@ -304,7 +304,7 @@ export default async function ServicePage({ params }: Params) {
                 {related.map((a) => (
                   <li key={a.key} className="border-b border-[color:var(--border-light)]">
                     <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="group block py-5">
-                      <span className="serif block text-[1.3rem] leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{a.title}</span>
+                      <span className="display block text-[1.3rem] leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{a.title}</span>
                       <span className="mt-1.5 block text-[0.9375rem] text-[color:var(--text-tertiary)]">{a.description}</span>
                     </Link>
                   </li>

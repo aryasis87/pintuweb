@@ -71,7 +71,7 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
         {/* Kepala halaman */}
         <div className="grid grid-cols-1 gap-x-10 gap-y-6 border-b border-[color:var(--rule)] pb-10 lg:grid-cols-12">
           <p className="kicker text-[color:var(--primary-700)] lg:col-span-12">{t.badge}</p>
-          <h1 className="text-[2.6rem] leading-[1.03] text-[color:var(--text-primary)] sm:text-6xl lg:col-span-10 lg:text-[4.4rem]">
+          <h1 className="text-[2.4rem] leading-[1.06] text-[color:var(--text-primary)] sm:text-[3.25rem] lg:col-span-10 lg:text-[3.75rem]">
             {t.h1[0]}
             <em className="text-[color:var(--primary-700)]">{t.h1[1]}</em>
             {t.h1[2] ?? ''}
@@ -109,7 +109,7 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
                   {failed.has(d.slug) ? (
                     // Cadangan bila gambar situs demo gagal dimuat (situsnya lambat/terblokir)
                     <div className="grid h-full w-full place-items-center bg-[color:var(--navy)] p-6 text-center">
-                      <span className="serif text-2xl text-white">{d.name}</span>
+                      <span className="display text-2xl text-white">{d.name}</span>
                     </div>
                   ) : (
                     // Thumbnail lokal yang sudah diperkecil (lib/demos.ts); tidak perlu optimizer Next.
@@ -149,7 +149,7 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
         {/* Ajakan */}
         <div className="mt-20 grid grid-cols-1 gap-6 border-t border-[color:var(--rule)] pt-8 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
-            <h2 className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.4rem]">{t.ctaTitle}</h2>
+            <h2 className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.1rem]">{t.ctaTitle}</h2>
             <p className="mt-3 text-[color:var(--text-tertiary)]">{t.ctaLead}</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:justify-end">

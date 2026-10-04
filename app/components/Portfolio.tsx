@@ -48,7 +48,7 @@ export default function Portfolio({ lang }: { lang: Lang }) {
                 <span className="mt-5 flex items-start justify-between gap-4">
                   <span className="min-w-0">
                     <span className="kicker block text-[color:var(--primary-700)]">{label[demo.category]}</span>
-                    <span className="serif mt-1.5 block text-[1.6rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{demo.name}</span>
+                    <span className="display mt-1.5 block text-[1.375rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{demo.name}</span>
                     <span className="mt-1 block text-[0.9375rem] text-[color:var(--text-tertiary)]">{demo.tagline}</span>
                   </span>
                   <span className="mt-7 inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-[color:var(--primary-700)]">

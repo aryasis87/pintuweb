@@ -2,8 +2,8 @@ import Link from 'next/link'
 import type { Hl } from '../i18n/dict/id'
 
 /**
- * Judul berpola [biasa, sorotan, sisa?]. Default polos (satu warna); 'italic' menyetel sorotan
- * miring serif — dipakai hemat (hero, pembuka halaman, footer), bukan di setiap judul.
+ * Judul berpola [biasa, sorotan, sisa?]. Default polos (satu warna); 'italic' memberi sorotan
+ * warna (di judul tampil tegak, lihat globals.css) — dipakai hemat: hero, pembuka halaman, footer.
  */
 export function HlText({ parts, mode = 'plain', tone = 'ink' }: { parts: Hl; mode?: 'plain' | 'italic'; tone?: 'ink' | 'primary' | 'accent' }) {
   if (mode === 'plain') return <>{parts.join('')}</>

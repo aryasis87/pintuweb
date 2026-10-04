@@ -11,7 +11,7 @@ import type { Lang } from '../i18n/config'
 
 const count = (c: DemoCategory) => DEMOS.filter((d) => d.category === c).length
 
-// Server component. Pembuka beranda: kalimat serif yang lapang, lalu "deretan pintu" —
+// Server component. Pembuka beranda: kalimat besar yang lapang, lalu "deretan pintu" —
 // delapan lengkung berisi tangkapan layar galeri asli di atas panel biru muda.
 export default function Hero({ lang }: { lang: Lang }) {
   const d = getDict(lang)
@@ -28,7 +28,7 @@ export default function Hero({ lang }: { lang: Lang }) {
           <span className="hidden sm:inline"> · {t.meta(DEMOS.length)}</span>
         </p>
 
-        <h1 className="mt-6 max-w-4xl text-[2.75rem] leading-[1.02] text-[color:var(--text-primary)] sm:text-6xl lg:text-[5.25rem]">
+        <h1 className="mt-6 max-w-5xl text-[2.6rem] leading-[1.04] text-[color:var(--text-primary)] sm:text-[3.5rem] lg:text-[4.5rem]">
           {t.title[0]}
           {/* frasa miring tidak dipotong di tengah ("pintu depan") */}
           <em className="whitespace-nowrap text-[color:var(--primary-700)]">{t.title[1]}</em>

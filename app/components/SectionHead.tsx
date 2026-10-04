@@ -10,13 +10,13 @@ type Props = {
   center?: boolean
 }
 
-// Kepala bagian yang lapang: label kecil, judul serif, satu paragraf pengantar.
+// Kepala bagian yang lapang: label kecil, judul semibold, satu paragraf pengantar.
 export default function SectionHead({ eyebrow, title, lead, id, tone = 'light', center = false }: Props) {
   const dark = tone === 'dark'
   return (
     <div className={`max-w-3xl ${center ? 'mx-auto text-center' : ''}`}>
       <p className={`kicker ${dark ? 'text-[color:var(--accent-200)]' : 'text-[color:var(--primary-700)]'}`}>{eyebrow}</p>
-      <h2 id={id} className={`mt-3 text-[2.1rem] leading-[1.1] sm:text-[2.6rem] lg:text-[3rem] ${dark ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>
+      <h2 id={id} className={`mt-3 text-[2rem] leading-[1.12] sm:text-[2.5rem] lg:text-[2.75rem] ${dark ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>
         {title}
       </h2>
       {lead && (

@@ -58,7 +58,7 @@ export default async function ServicesPage({ params }: Params) {
                 <li key={s.key} className="border-b border-[color:var(--border-medium)]">
                   <Link href={href} className="group grid grid-cols-1 gap-x-8 gap-y-2 py-7 sm:grid-cols-12 sm:items-baseline">
                     <span className="mono text-xs text-[color:var(--primary-700)] sm:col-span-1">{String(i + 1).padStart(2, '0')}</span>
-                    <h2 className="text-[1.9rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)] sm:col-span-5 sm:text-[2.2rem]">{s.text[lang].name}</h2>
+                    <h2 className="text-[1.6rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)] sm:col-span-5 sm:text-[1.85rem]">{s.text[lang].name}</h2>
                     <span className="text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)] sm:col-span-4">{s.text[lang].short}</span>
                     <span className="flex items-baseline justify-between gap-3 sm:col-span-2 sm:flex-col sm:items-end sm:gap-1">
                       <span className="mono text-xs text-[color:var(--text-secondary)] sm:text-right">
@@ -99,7 +99,7 @@ export default async function ServicesPage({ params }: Params) {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <p className="kicker text-[color:var(--primary-700)]">{p.colPrice}</p>
-            <h2 id="compare-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.6rem]">
+            <h2 id="compare-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">
               <HlText parts={p.compareTitle} />
             </h2>
           </div>
@@ -120,7 +120,7 @@ export default async function ServicesPage({ params }: Params) {
                   return (
                     <tr key={s.key} className="border-b border-[color:var(--border-medium)]">
                       <th scope="row" className="py-4 pr-4 font-medium">
-                        <Link href={pathOf(lang, { key: 'services', service: s.key })} className="serif text-[1.2rem] text-[color:var(--text-primary)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:underline">{s.text[lang].name}</Link>
+                        <Link href={pathOf(lang, { key: 'services', service: s.key })} className="display text-[1.2rem] text-[color:var(--text-primary)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:underline">{s.text[lang].name}</Link>
                       </th>
                       <td className="px-4 py-4 text-[0.9375rem] text-[color:var(--text-secondary)]">{s.text[lang].suits}</td>
                       <td className="px-4 py-4 font-semibold text-[color:var(--text-primary)]">{from ? from.price : '—'}</td>

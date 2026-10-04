@@ -1,4 +1,4 @@
-// Gambar Open Graph 1200×630 dengan gaya situs: putih lapang, judul serif Newsreader, teks Schibsted Grotesk.
+// Gambar Open Graph 1200×630 dengan gaya situs: putih lapang, huruf Inter (padanan SF Pro yang boleh dibundel).
 //   /api/og?l=en&t=Judul      -> kartu judul halaman
 //   /api/og?v=home&l=id       -> kartu beranda (kalimat & angka dari kamus, lib/site.ts & lib/demos.ts)
 import { ImageResponse } from 'next/og'
@@ -18,12 +18,9 @@ const TAG: Record<Lang, string> = {
 
 const fonts = async () => {
   const dir = join(process.cwd(), 'app/api/og/fonts')
-  const [serif, serifItalic, sans] = await Promise.all(
-    ['Newsreader-Medium.ttf', 'Newsreader-MediumItalic.ttf', 'SchibstedGrotesk-Regular.ttf'].map((f) => readFile(join(dir, f))),
-  )
+  const [display, sans] = await Promise.all(['Inter-SemiBold.ttf', 'Inter-Regular.ttf'].map((f) => readFile(join(dir, f))))
   return [
-    { name: 'Serif', data: serif, weight: 500 as const, style: 'normal' as const },
-    { name: 'Serif', data: serifItalic, weight: 500 as const, style: 'italic' as const },
+    { name: 'Display', data: display, weight: 600 as const, style: 'normal' as const },
     { name: 'Sans', data: sans, weight: 400 as const, style: 'normal' as const },
   ]
 }
@@ -66,19 +63,19 @@ export async function GET(req: Request) {
         </div>
 
         {home ? (
-          <div style={{ display: 'flex', flexWrap: 'wrap', width: 780, fontFamily: 'Serif', fontSize: 92, lineHeight: 1.0, letterSpacing: -2.5, color: C.ink }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', width: 780, fontFamily: 'Display', fontSize: 80, lineHeight: 1.05, letterSpacing: -2.6, color: C.ink }}>
             <span style={{ display: 'flex', marginRight: 22 }}>{h0.trim()}</span>
-            <span style={{ display: 'flex', fontStyle: 'italic', color: C.blue, marginRight: 22 }}>{h1}</span>
+            <span style={{ display: 'flex', color: C.blue, marginRight: 22 }}>{h1}</span>
             <span style={{ display: 'flex' }}>{(h2 ?? '').trim()}</span>
           </div>
         ) : (
-          <div style={{ display: 'flex', width: 780, fontFamily: 'Serif', fontSize: size, lineHeight: 1.06, letterSpacing: -1.5, color: C.ink }}>{title}</div>
+          <div style={{ display: 'flex', width: 780, fontFamily: 'Display', fontSize: size - 6, lineHeight: 1.1, letterSpacing: -1.8, color: C.ink }}>{title}</div>
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Mark size={44} color={C.blue} />
-            <span style={{ display: 'flex', fontFamily: 'Serif', fontSize: 40, color: C.ink, letterSpacing: -0.5 }}>PintuWeb</span>
+            <span style={{ display: 'flex', fontFamily: 'Display', fontSize: 36, color: C.ink, letterSpacing: -1 }}>PintuWeb</span>
           </div>
           <span style={{ display: 'flex', fontSize: 22, color: C.ink2 }}>www.pintuweb.com · {lang.toUpperCase()}</span>
         </div>

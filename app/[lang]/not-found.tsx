@@ -21,7 +21,7 @@ export default function NotFound() {
       <div className="mx-auto grid grid-cols-1 max-w-6xl items-end gap-x-10 gap-y-12 px-4 sm:px-6 md:grid-cols-12">
         <div className="md:col-span-8">
           <p className="kicker text-[color:var(--primary-700)]">404 · {t.title}</p>
-          <h1 className="mt-5 text-[2.8rem] leading-[1.02] text-[color:var(--text-primary)] sm:text-7xl">{t.h1}</h1>
+          <h1 className="mt-5 text-[2.6rem] leading-[1.05] text-[color:var(--text-primary)] sm:text-[3.75rem]">{t.h1}</h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--text-tertiary)]">{t.lead}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link href={t.homeHref} className="btn btn-solid">
@@ -39,7 +39,7 @@ export default function NotFound() {
         <div className="md:col-span-4" aria-hidden="true">
           <div className="pintu-frame mx-auto w-44 bg-white p-[3px] md:ml-auto md:mr-0">
             <div className="arch-top grid aspect-[5/7] place-items-center bg-[color:var(--surface-primary)]">
-              <span className="serif text-5xl text-[color:var(--primary-700)]">404</span>
+              <span className="display text-5xl text-[color:var(--primary-700)]">404</span>
             </div>
           </div>
           <div className="mx-auto h-[3px] w-44 bg-[color:var(--rule)] md:ml-auto md:mr-0" />

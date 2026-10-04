@@ -76,7 +76,7 @@ export default async function GlossaryPage({ params }: Params) {
                     const see = t.see ? seeLabel(t.see) : null
                     return (
                       <div key={t.id} id={t.id} className="scroll-mt-28 py-5">
-                        <dt className="serif text-[1.4rem] leading-snug text-[color:var(--text-primary)]">
+                        <dt className="display text-[1.4rem] leading-snug text-[color:var(--text-primary)]">
                           <dfn className="not-italic">{t.term[lang]}</dfn>
                         </dt>
                         <dd className="mt-1.5 max-w-2xl leading-relaxed text-[color:var(--text-secondary)]">

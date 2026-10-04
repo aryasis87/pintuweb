@@ -15,7 +15,7 @@ export default function WhyUs({ lang }: { lang: Lang }) {
           {t.promises.map((p) => (
             <li key={p.title}>
               <span className="block h-0.5 w-8 rounded-full bg-[color:var(--primary-700)]" aria-hidden="true" />
-              <h3 className="mt-5 text-[1.5rem] leading-snug text-[color:var(--text-primary)]">{p.title}</h3>
+              <h3 className="mt-5 text-[1.25rem] leading-snug text-[color:var(--text-primary)]">{p.title}</h3>
               <p className="mt-2 leading-relaxed text-[color:var(--text-tertiary)]">{p.body}</p>
             </li>
           ))}
