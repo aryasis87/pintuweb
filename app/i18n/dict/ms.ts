@@ -89,7 +89,8 @@ const ms: Dict = {
     ctaConsult: 'Konsultasi percuma',
     ctaDemos: (n: number) => `Lihat ${n} contoh`,
     facade: 'Lapan jenis laman web yang kami bina',
-    facadeHint: 'Buka pintunya untuk melihat contoh',
+    facadeHint: 'Tuding untuk pratonton, klik untuk membuka galeri',
+    openGallery: (t: string) => `Buka galeri ${t}`,
   },
   portfolio: {
     eyebrow: 'Karya pilihan',

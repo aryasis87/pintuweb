@@ -91,7 +91,8 @@ const id = {
     ctaConsult: 'Konsultasi gratis',
     ctaDemos: (n: number) => `Lihat ${n} contoh`,
     facade: 'Delapan jenis website yang kami buat',
-    facadeHint: 'Ketuk pintunya untuk melihat contohnya',
+    facadeHint: 'Sorot untuk pratinjau, klik untuk membuka galerinya',
+    openGallery: (t: string) => `Buka galeri ${t}`,
   },
   portfolio: {
     eyebrow: 'Karya pilihan',

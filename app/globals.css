@@ -207,12 +207,6 @@
     border-top-left-radius: 999px; border-top-right-radius: 999px;
   }
 
-  /* Deretan pintu (hero): pintu terangkat & ambang menyala saat disentuh */
-  .door { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
-  .door-link:hover .door, .door-link:focus-visible .door { transform: translateY(-8px); }
-  .door-sill { transition: background-color .3s ease, transform .45s cubic-bezier(.2,.7,.2,1); transform-origin: center; }
-  .door-link:hover .door-sill, .door-link:focus-visible .door-sill { background: var(--primary-700); transform: scaleX(1.06); }
-
   /* Cetak biru: grid tipis untuk latar gelap */
   .u-grid-light {
     background-image:

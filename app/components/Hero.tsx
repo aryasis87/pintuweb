@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { DEMOS, type DemoCategory } from '../lib/demos'
@@ -8,17 +7,31 @@ import { getDict } from '../i18n'
 import { packagesFor } from '../i18n/facts'
 import { path } from '../i18n/routes'
 import type { Lang } from '../i18n/config'
+import Kinds, { type Kind } from './Kinds'
 
 const count = (c: DemoCategory) => DEMOS.filter((d) => d.category === c).length
 
-// Server component. Pembuka beranda: kalimat besar yang lapang, lalu "deretan pintu" —
-// delapan lengkung berisi tangkapan layar galeri asli di atas panel biru muda.
+// Server component. Pembuka beranda: kalimat besar yang lapang, lalu delapan jenis website
+// (daftar + pratinjau besar, komponen klien Kinds) di atas panel biru muda.
 export default function Hero({ lang }: { lang: Lang }) {
   const d = getDict(lang)
   const t = d.hero
   const g = d.portfolio
   const pk = packagesFor(lang)
   const fromOf = (c: DemoCategory) => pk.find((x) => x.slug === PACKAGE_FOR_CATEGORY[c])!.priceFrom
+  // String siap tampil untuk komponen klien (kamus tidak ikut terkirim ke browser)
+  const kinds: Kind[] = PORTALS.map((p) => {
+    const gal = g.galleries[p.category]
+    return {
+      href: `/${p.path}`,
+      title: gal.title,
+      tagline: gal.tagline,
+      count: `${count(p.category)} ${g.unit[p.category]}`,
+      price: `${d.common.from} ${fromOf(p.category)}`,
+      image: p.image,
+      open: t.openGallery(gal.title),
+    }
+  })
 
   return (
     <section id="hero" className="pb-8 pt-32 sm:pt-40" aria-label={t.aria}>
@@ -47,46 +60,7 @@ export default function Hero({ lang }: { lang: Lang }) {
         </div>
       </div>
 
-      {/* Deretan pintu */}
-      <div className="mx-auto mt-20 max-w-6xl sm:px-6">
-        <div className="bg-[color:var(--surface-soft)] py-8 sm:rounded-[2rem] sm:py-10">
-          <div className="flex items-baseline justify-between gap-4 px-4 sm:px-10">
-            <h2 className="kicker text-[color:var(--text-primary)]">{t.facade}</h2>
-            <p className="hidden text-sm text-[color:var(--text-tertiary)] sm:block">{t.facadeHint}</p>
-          </div>
-          <div className="scrollbar-hide mt-6 overflow-x-auto lg:overflow-visible">
-            <ul className="flex w-max gap-4 px-4 sm:px-10 lg:grid lg:w-auto lg:grid-cols-8 lg:gap-5">
-              {PORTALS.map((p, i) => {
-                const gal = g.galleries[p.category]
-                return (
-                  <li key={p.path} className="w-[8.5rem] shrink-0 sm:w-36 lg:w-auto">
-                    {/* Portal = zona Next terpisah: tautan biasa, bukan navigasi klien. */}
-                    <a href={`/${p.path}`} hrefLang="id" className="door-link group block">
-                      <span className="door arch-top block border border-[color:var(--border-light)] bg-white p-1 shadow-[0_1px_2px_rgb(15_29_58/0.04)]">
-                        <span className="arch-top relative block aspect-[5/7] overflow-hidden bg-[color:var(--neutral-100)]">
-                          <Image
-                            src={p.image}
-                            alt=""
-                            fill
-                            sizes="(min-width: 1024px) 120px, 144px"
-                            loading={i < 4 ? 'eager' : 'lazy'}
-                            className="object-cover object-top"
-                          />
-                        </span>
-                      </span>
-                      <span className="mt-3 block text-[0.9375rem] font-semibold leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">{gal.title}</span>
-                      <span className="mt-0.5 block text-[0.8125rem] leading-snug text-[color:var(--text-tertiary)]">
-                        {count(p.category)} {g.unit[p.category]} · {d.common.from} {fromOf(p.category)}
-                      </span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-          {g.galleryLang && <p className="mt-6 px-4 text-sm text-[color:var(--text-tertiary)] sm:px-10">{g.galleryLang}</p>}
-        </div>
-      </div>
+      <Kinds items={kinds} heading={t.facade} hint={t.facadeHint} note={g.galleryLang || undefined} />
     </section>
   )
 }

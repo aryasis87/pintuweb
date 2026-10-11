@@ -89,7 +89,8 @@ const en: Dict = {
     ctaConsult: 'Free consultation',
     ctaDemos: (n: number) => `See ${n} examples`,
     facade: 'Eight kinds of website we build',
-    facadeHint: 'Open a door to see the examples',
+    facadeHint: 'Hover for a preview, click to open the gallery',
+    openGallery: (t: string) => `Open ${t}`,
   },
   portfolio: {
     eyebrow: 'Selected work',
