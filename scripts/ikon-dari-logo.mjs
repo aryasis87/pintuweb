@@ -59,25 +59,28 @@ const logoAt = (h) => sharp(clean).resize({ height: Math.round(h) }).png({ compr
 fs.writeFileSync(path.join(IMG, 'logo-pintuweb.png'), await logoAt(512))
 fs.writeFileSync(path.join(root, 'app/api/og/logo.png'), await logoAt(360))
 
-// ---- 2. Ubin putih berisi logo (favicon & ikon): tetap terbaca di tab terang maupun gelap ----
-async function tile(S, { scale, radius }) {
+// ---- 2. Ikon persegi berisi logo ----
+// Favicon & ikon umum berlatar TRANSPARAN (seperti PNG logonya). Latar putih hanya untuk yang secara teknis
+// tidak boleh transparan: apple-touch-icon (iOS mengisi transparan dengan hitam), ikon maskable, dan logo skema.
+async function tile(S, { scale, radius = 0, bg = null }) {
   const logo = await logoAt(S * scale)
   const lm = await sharp(logo).metadata()
-  const base = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${S}" height="${S}"><rect width="${S}" height="${S}" rx="${S * radius}" fill="#ffffff"/></svg>`)
-  return sharp(base).composite([{ input: logo, left: Math.round((S - lm.width) / 2), top: Math.round((S - lm.height) / 2) }]).png({ compressionLevel: 9 }).toBuffer()
+  const base = bg
+    ? sharp(Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${S}" height="${S}"><rect width="${S}" height="${S}" rx="${S * radius}" fill="${bg}"/></svg>`))
+    : sharp({ create: { width: S, height: S, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+  return base.composite([{ input: logo, left: Math.round((S - lm.width) / 2), top: Math.round((S - lm.height) / 2) }]).png({ compressionLevel: 9 }).toBuffer()
 }
 const out = async (file, S, opt) => fs.writeFileSync(path.join(IMG, file), await tile(S, opt))
-await out('favicon-16x16.png', 16, { scale: 0.88, radius: 0.19 })
-await out('favicon-32x32.png', 32, { scale: 0.84, radius: 0.19 })
-await out('apple-touch-icon.png', 180, { scale: 0.68, radius: 0 })
-await out('icon-192.png', 192, { scale: 0.7, radius: 0.22 })
-await out('icon-512.png', 512, { scale: 0.7, radius: 0.22 })
-await out('icon-maskable-512.png', 512, { scale: 0.52, radius: 0 }) // zona aman ikon maskable
-await out('logo-512.png', 512, { scale: 0.76, radius: 0 }) // logo Organization di JSON-LD
+await out('favicon-16x16.png', 16, { scale: 1 })
+await out('favicon-32x32.png', 32, { scale: 1 })
+await out('icon-192.png', 192, { scale: 0.92 })
+await out('icon-512.png', 512, { scale: 0.92 })
+await out('apple-touch-icon.png', 180, { scale: 0.68, bg: '#ffffff' })
+await out('icon-maskable-512.png', 512, { scale: 0.52, bg: '#ffffff' }) // zona aman ikon maskable
+await out('logo-512.png', 512, { scale: 0.76, bg: '#ffffff' }) // logo Organization di JSON-LD
 
 // ---- 3. favicon.ico berisi PNG 16/32/48 ----
-const sizes = [[16, 0.88], [32, 0.84], [48, 0.82]]
-const pngs = await Promise.all(sizes.map(async ([s, scale]) => ({ s, buf: await tile(s, { scale, radius: 0.19 }) })))
+const pngs = await Promise.all([16, 32, 48].map(async (s) => ({ s, buf: await tile(s, { scale: 1 }) })))
 const head = Buffer.alloc(6)
 head.writeUInt16LE(1, 2)
 head.writeUInt16LE(pngs.length, 4)

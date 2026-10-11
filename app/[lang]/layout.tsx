@@ -18,6 +18,9 @@ import { siteGraph } from '../i18n/seo'
 // dekat; sumbu optical size membuat judul besar memakai potongan "display" seperti SF Pro Display.
 const inter = Inter({ subsets: ['latin'], axes: ['opsz'], variable: '--font-inter', display: 'swap' })
 
+/** Naikkan bila favicon/ikon berubah: browser menyimpan favicon lama sangat lama, parameter ini memaksanya mengambil ulang. */
+const ICON_REV = 3
+
 export const dynamicParams = false
 export const generateStaticParams = () => LANGS.map((lang) => ({ lang }))
 
@@ -40,12 +43,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     formatDetection: { telephone: false, email: false, address: false },
     icons: {
       icon: [
-        { url: '/images/favicon.ico' },
-        { url: '/images/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-        { url: '/images/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+        { url: `/images/favicon.ico?v=${ICON_REV}` },
+        { url: `/images/favicon-32x32.png?v=${ICON_REV}`, sizes: '32x32', type: 'image/png' },
+        { url: `/images/favicon-16x16.png?v=${ICON_REV}`, sizes: '16x16', type: 'image/png' },
       ],
-      shortcut: '/images/favicon.ico',
-      apple: '/images/apple-touch-icon.png',
+      shortcut: `/images/favicon.ico?v=${ICON_REV}`,
+      apple: `/images/apple-touch-icon.png?v=${ICON_REV}`,
     },
     manifest: '/site.webmanifest',
     robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
