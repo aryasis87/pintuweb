@@ -138,6 +138,11 @@ const ms: Dict = {
     eyebrow: 'Cara kami bekerja',
     title: ['Empat peringkat, dan anda sentiasa tahu ', 'sedang di peringkat mana', '.'] as Hl,
     lead: 'Tiada apa yang dibina sebelum anda bersetuju, dan tiada bil yang muncul secara tiba-tiba.',
+    pay: {
+      deposit: ['Deposit 50%', 'untuk bermula'],
+      final: ['Bayaran baki', 'selepas anda luluskan'],
+      after: [`Jaminan ${GUARANTEE_DAYS} hari`, 'selepas pelancaran'],
+    },
     steps: [
       {
         title: 'Berbual dahulu',

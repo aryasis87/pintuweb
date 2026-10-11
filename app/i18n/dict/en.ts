@@ -138,6 +138,11 @@ const en: Dict = {
     eyebrow: 'How we work',
     title: ['Four stages, and you always know ', 'which one you are in', '.'] as Hl,
     lead: 'Nothing gets built before you agree, and no bill turns up out of nowhere.',
+    pay: {
+      deposit: ['50% deposit', 'to start'],
+      final: ['Final payment', 'once you approve'],
+      after: [`${GUARANTEE_DAYS}-day guarantee`, 'after launch'],
+    },
     steps: [
       {
         title: 'Talk first',

@@ -225,6 +225,45 @@
     }
   }
 
+  /* Cara kerja: lintasan yang terisi mengikuti gulir. Ponsel/tablet = tegak, tiap tahap (.proc-step) punya garis
+     waktunya sendiri terhadap pita tipis di 55% tinggi layar, jadi ujung isian mengikuti posisi baca. Desktop =
+     mendatar, memakai satu garis waktu milik daftar (.proc) yang dibagi rata per ruas. --i = nomor ruas (0-2).
+     Tanpa dukungan animation-timeline atau bila gerak dikurangi: lintasan tampil terisi penuh. */
+  .proc-fill {
+    transform-origin: 0 0;
+    background-image: linear-gradient(to bottom, var(--primary-700), var(--accent-400));
+    background-size: 100% 300%;
+    background-position: 0 calc(var(--i, 0) * 50%);
+  }
+  @media (min-width: 1024px) {
+    .proc-fill { background-image: linear-gradient(to right, var(--primary-700), var(--accent-400)); background-size: 300% 100%; background-position: calc(var(--i, 0) * 50%) 0; }
+  }
+  @keyframes proc-grow-y { from { transform: scaleY(0); } }
+  @keyframes proc-grow-x { from { transform: scaleX(0); } }
+  @keyframes proc-off { from { background-color: #fff; color: var(--primary-700); } }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .proc-step { view-timeline: --step block; view-timeline-inset: 55% 44%; }
+      .proc-fill { animation: proc-grow-y linear both; animation-timeline: --step; animation-range: cover 0% cover 100%; }
+      .proc-step:not(:first-child) .proc-node { animation: proc-off linear both; animation-timeline: --step; animation-range: entry 0% entry 100%; }
+      .proc-flag { view-timeline: --flag block; view-timeline-inset: 55% 44%; }
+      .proc-dot { animation: proc-off linear both; animation-timeline: --flag; animation-range: entry 0% entry 100%; }
+      @media (min-width: 1024px) {
+        .proc { view-timeline: --proc block; view-timeline-inset: 80% 8%; }
+        .proc-fill { animation-name: proc-grow-x; animation-timeline: --proc; }
+        .proc-step:nth-child(1) .proc-fill { animation-range: cover 0% cover 33.3%; }
+        .proc-step:nth-child(2) .proc-fill { animation-range: cover 33.3% cover 66.6%; }
+        .proc-step:nth-child(3) .proc-fill { animation-range: cover 66.6% cover 100%; }
+        .proc-step:not(:first-child) .proc-node, .proc-dot { animation-timeline: --proc; }
+        .proc-step:nth-child(2) .proc-node { animation-range: cover 30% cover 33.3%; }
+        .proc-step:nth-child(3) .proc-node { animation-range: cover 63% cover 66.6%; }
+        .proc-step:nth-child(4) .proc-node { animation-range: cover 96% cover 100%; }
+        .proc-step:nth-child(1) .proc-dot { animation-range: cover 14% cover 16.7%; }
+        .proc-step:nth-child(3) .proc-dot { animation-range: cover 80% cover 83.3%; }
+      }
+    }
+  }
+
   /* Cetak biru: grid tipis untuk latar gelap */
   .u-grid-light {
     background-image:

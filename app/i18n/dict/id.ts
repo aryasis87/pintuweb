@@ -140,6 +140,11 @@ const id = {
     eyebrow: 'Cara kerja',
     title: ['Empat tahap, dan kamu selalu tahu ', 'sedang di tahap mana', '.'] as Hl,
     lead: 'Tidak ada yang dibangun sebelum kamu setuju, dan tidak ada tagihan yang muncul tiba-tiba.',
+    pay: {
+      deposit: ['DP 50%', 'untuk memulai'],
+      final: ['Pelunasan', 'setelah kamu setujui'],
+      after: [`Garansi ${GUARANTEE_DAYS} hari`, 'setelah online'],
+    },
     steps: [
       {
         title: 'Ngobrol dulu',
