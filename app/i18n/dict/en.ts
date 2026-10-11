@@ -181,6 +181,8 @@ const en: Dict = {
     title: ['Prices are stated up front, ', 'not after you ask', '.'] as Hl,
     lead: 'Every package includes design and build; website packages also include basic SEO. The only recurring cost is domain & hosting renewal from the second year.',
     colPrice: 'Price range',
+    colPackage: 'Package',
+    openNote: 'A dotted tail means the price can go higher, depending on features.',
     seeAll: (n: number) => `Details of all ${n} packages`,
     depositTitle: 'Payment',
     depositBody: 'A 50% deposit to start; the rest once the website is finished and you approve it.',

@@ -91,6 +91,11 @@ function compact(lang: Lang, n: number) {
   return `${v} ${big ? 'juta' : 'ribu'}`
 }
 
+/** Angka ringkas tanpa mata uang, untuk label sumbu peta harga: "1 jt" / "1M" / "1 juta". */
+export const moneyCompact = compact
+/** Kode mata uang yang dipakai moneyShort: "Rp" (id) / "IDR" (en, ms). */
+export const currencyCode = (lang: Lang) => (lang === 'id' ? 'Rp' : 'IDR')
+
 /** "Rp600 rb – 1,2 jt" (id) / "IDR 600k – 1.2M" (en) — mata uang sekali saja di depan. */
 export const moneyShort = (lang: Lang, p: Pick<Paket, 'minPrice' | 'maxPrice' | 'openEnded'>) =>
   `${lang === 'id' ? 'Rp' : 'IDR '}${compact(lang, p.minPrice)} – ${compact(lang, p.maxPrice)}${p.openEnded ? '+' : ''}`

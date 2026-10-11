@@ -183,6 +183,8 @@ const id = {
     title: ['Harga ditulis di depan, ', 'bukan setelah kamu bertanya', '.'] as Hl,
     lead: 'Semua paket sudah termasuk desain dan pengerjaan; paket website juga mencakup SEO dasar. Biaya berkala hanya perpanjangan domain & hosting mulai tahun kedua.',
     colPrice: 'Kisaran harga',
+    colPackage: 'Paket',
+    openNote: 'Ekor titik-titik berarti harganya bisa lebih, tergantung fitur.',
     seeAll: (n: number) => `Rincian semua ${n} paket`,
     depositTitle: 'Pembayaran',
     depositBody: 'DP 50% untuk memulai, pelunasan setelah website selesai dan kamu setujui.',

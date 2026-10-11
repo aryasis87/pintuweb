@@ -181,6 +181,8 @@ const ms: Dict = {
     title: ['Harga dinyatakan di awal, ', 'bukan selepas anda bertanya', '.'] as Hl,
     lead: 'Semua pakej sudah termasuk reka bentuk dan pembinaan; pakej laman web juga merangkumi SEO asas. Kos berkala hanyalah pembaharuan domain & hosting mulai tahun kedua.',
     colPrice: 'Julat harga',
+    colPackage: 'Pakej',
+    openNote: 'Ekor bertitik bermaksud harganya boleh lebih, bergantung pada ciri.',
     seeAll: (n: number) => `Butiran semua ${n} pakej`,
     depositTitle: 'Bayaran',
     depositBody: 'Deposit 50% untuk bermula; bakinya selepas laman web siap dan anda luluskan.',
