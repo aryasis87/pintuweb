@@ -42,3 +42,6 @@ export const PORTALS: { path: string; origin: string; category: DemoCategory; im
 ]
 
 export const portalOf = (c: DemoCategory) => PORTALS.find((p) => p.category === c)
+
+/** #rrggbb -> rgb(r g b / a): lapisan tembus pandang dari warna jenis */
+export const alpha = (hex: string, a: number) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(' ')} / ${a})`

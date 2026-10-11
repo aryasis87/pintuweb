@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { DEMOS } from '../lib/demos'
-import { CATEGORY_COLOR } from '../lib/portals'
+import { CATEGORY_COLOR, alpha } from '../lib/portals'
 import { categoriesFor, demosFor, getDict } from '../i18n'
 import { path } from '../i18n/routes'
 import type { Lang } from '../i18n/config'
@@ -35,9 +35,6 @@ const PICKS: Pick[] = [
   { slug: 'hotel', w: 900, h: 1336, device: 'browser', span: 'lg:col-span-4', ratio: '4 / 3', dur: '4s', sizes: SMALL },
   { slug: 'celeste', w: 900, h: 1336, device: 'browser', span: 'lg:col-span-4', ratio: '4 / 3', dur: '4s', sizes: SMALL },
 ]
-
-/** #rrggbb -> rgb(r g b / a) */
-const alpha = (hex: string, a: number) => `rgb(${[1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16)).join(' ')} / ${a})`
 
 export default function Portfolio({ lang }: { lang: Lang }) {
   const d = getDict(lang)

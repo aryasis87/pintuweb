@@ -131,6 +131,10 @@ const id = {
       { label: 'Agen properti', desc: 'Katalog hunian mewah dengan jadwal kunjungan privat.' },
     ],
     open: 'Buka',
+    otherTitle: 'Usahamu tidak ada di daftar ini?',
+    otherBody: 'Ceritakan usahamu lewat WhatsApp, kami sarankan jenis website yang paling pas. Konsultasinya gratis.',
+    otherCta: 'Tanya lewat WhatsApp',
+    otherWa: 'Halo PintuWeb, jenis usaha saya belum ada di daftar contoh. Saya mau konsultasi dulu.',
   },
   process: {
     eyebrow: 'Cara kerja',

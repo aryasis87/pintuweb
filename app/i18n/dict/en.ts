@@ -129,6 +129,10 @@ const en: Dict = {
       { label: 'Property agents', desc: 'A luxury homes catalogue with private viewings.' },
     ],
     open: 'Open',
+    otherTitle: 'Is your business not on this list?',
+    otherBody: 'Tell us about it on WhatsApp and we will suggest the kind of website that fits. The consultation is free.',
+    otherCta: 'Ask on WhatsApp',
+    otherWa: 'Hello PintuWeb, my kind of business is not among your examples. I would like to ask first.',
   },
   process: {
     eyebrow: 'How we work',

@@ -129,6 +129,10 @@ const ms: Dict = {
       { label: 'Ejen hartanah', desc: 'Katalog kediaman mewah dengan lawatan peribadi.' },
     ],
     open: 'Buka',
+    otherTitle: 'Perniagaan anda tiada dalam senarai ini?',
+    otherBody: 'Ceritakan perniagaan anda melalui WhatsApp, kami cadangkan jenis laman web yang paling sesuai. Konsultasinya percuma.',
+    otherCta: 'Tanya melalui WhatsApp',
+    otherWa: 'Helo PintuWeb, jenis perniagaan saya tiada dalam senarai contoh. Saya ingin bertanya dahulu.',
   },
   process: {
     eyebrow: 'Cara kami bekerja',
