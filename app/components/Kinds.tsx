@@ -15,12 +15,13 @@ export type Kind = {
   image: string
   /** teks tombol, mis. "Buka galeri Landing Page" */
   open: string
-  /** warna khas jenis ini (lib/portals.ts CATEGORY_COLOR): warna kuat & latar mudanya */
+  /** warna khas jenis ini (lib/portals.ts CATEGORY_COLOR): warna kuat, ujung gradasi, & latar mudanya */
   color: string
+  to: string
   tint: string
 }
 
-// Delapan jenis website sebagai daftar rapi + satu pratinjau besar, masing-masing dengan warna khasnya.
+// Delapan jenis website sebagai daftar rapi + satu pratinjau besar, masing-masing dengan gradasi warna khasnya.
 // Baris adalah tautan ke galerinya; menyorot atau memfokus baris mengganti pratinjau dan warna panggungnya
 // (desktop). Di ponsel tiap baris punya gambar kecil sendiri dengan garis warna.
 export default function Kinds({ items, heading, hint, note }: { items: Kind[]; heading: string; hint: string; note?: string }) {
@@ -42,8 +43,8 @@ export default function Kinds({ items, heading, hint, note }: { items: Kind[]; h
             {items.map((it, i) => {
               const on = i === active
               return (
-                // --k = warna kuat, --kt = latar muda; dipakai kelas di bawah
-                <li key={it.href} style={{ '--k': it.color, '--kt': it.tint } as CSSProperties}>
+                // --k = warna kuat, --k2 = ujung gradasi, --kt = latar muda; dipakai kelas di bawah
+                <li key={it.href} style={{ '--k': it.color, '--k2': it.to, '--kt': it.tint } as CSSProperties}>
                   {/* Portal = zona Next terpisah: tautan biasa, bukan navigasi klien. */}
                   <a
                     href={it.href}
@@ -53,16 +54,16 @@ export default function Kinds({ items, heading, hint, note }: { items: Kind[]; h
                       setActive(i)
                       setArmed(true)
                     }}
-                    className={`group flex items-center gap-4 rounded-2xl px-2 py-2.5 transition-colors duration-200 lg:gap-3.5 lg:px-3 ${on ? 'lg:bg-[color:var(--kt)]' : 'lg:hover:bg-white'}`}
+                    className={`group flex items-center gap-4 rounded-2xl px-2 py-2.5 transition-colors duration-200 lg:gap-3.5 lg:px-3 ${on ? 'lg:[background-image:linear-gradient(90deg,var(--kt),transparent)]' : 'lg:hover:bg-white'}`}
                   >
                     {/* Ponsel: gambar kecil dengan garis warna jenisnya */}
                     <span className="relative h-14 w-[4.5rem] shrink-0 overflow-hidden rounded-xl bg-white ring-1 ring-[color:var(--border-light)] lg:hidden">
                       <Image src={it.image} alt="" fill sizes="72px" className="object-cover object-top" />
-                      <span className="absolute inset-x-0 bottom-0 h-1 bg-[color:var(--k)]" aria-hidden="true" />
+                      <span className="absolute inset-x-0 bottom-0 h-1 [background-image:linear-gradient(90deg,var(--k),var(--k2))]" aria-hidden="true" />
                     </span>
-                    {/* Desktop: lencana nomor berwarna */}
+                    {/* Desktop: lencana nomor bergradasi (yang aktif diberi bayangan sewarna) */}
                     <span
-                      className={`hidden h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-semibold transition-colors duration-200 lg:grid ${on ? 'bg-[color:var(--k)] text-white' : 'bg-[color:var(--kt)] text-[color:var(--k)]'}`}
+                      className={`hidden h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-semibold text-white transition-shadow duration-200 [background-image:linear-gradient(135deg,var(--k),var(--k2))] lg:grid ${on ? 'shadow-[0_8px_18px_-8px_var(--k)]' : ''}`}
                       aria-hidden="true"
                     >
                       {String(i + 1).padStart(2, '0')}
@@ -83,10 +84,18 @@ export default function Kinds({ items, heading, hint, note }: { items: Kind[]; h
             })}
           </ul>
 
-          {/* Pratinjau besar di atas "panggung" berwarna jenis yang aktif (desktop) */}
+          {/* Pratinjau besar di atas "panggung" bergradasi jenis yang aktif (desktop) */}
           <div className="hidden lg:col-span-6 lg:block">
-            <div className="rounded-[1.75rem] p-5 transition-colors duration-300" style={{ backgroundColor: cur.tint }} aria-hidden="true">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white shadow-[0_24px_50px_-30px_rgb(15_29_58/0.45)] ring-1 ring-black/5">
+            <div className="relative overflow-hidden rounded-[1.75rem] p-6" aria-hidden="true">
+              {/* Gradasi tidak bisa dianimasikan langsung, jadi tiap jenis punya lapisannya sendiri yang memudar silang */}
+              {items.map((it, i) => (
+                <span
+                  key={it.href}
+                  className={`absolute inset-0 transition-opacity duration-500 ${i === active ? 'opacity-100' : 'opacity-0'}`}
+                  style={{ backgroundImage: `radial-gradient(120% 90% at 100% 0%, rgb(255 255 255 / 0.28), transparent 55%), linear-gradient(135deg, ${it.color}, ${it.to})` }}
+                />
+              ))}
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-white shadow-[0_24px_50px_-24px_rgb(15_29_58/0.55)] ring-1 ring-white/40">
                 {items.map((it, i) =>
                   i === active || armed ? (
                     <Image
@@ -103,7 +112,7 @@ export default function Kinds({ items, heading, hint, note }: { items: Kind[]; h
             </div>
             <div className="mt-5 flex items-center justify-between gap-6">
               <p className="min-w-0 text-[color:var(--text-tertiary)]">{cur.tagline}</p>
-              <a href={cur.href} hrefLang="id" className="btn btn-sm shrink-0 text-white transition-[background-color,filter] duration-300 hover:brightness-90" style={{ backgroundColor: cur.color }}>
+              <a href={cur.href} hrefLang="id" className="btn btn-sm shrink-0 text-white shadow-[0_10px_24px_-12px_var(--k)] transition-[filter] duration-200 hover:brightness-90" style={{ backgroundImage: `linear-gradient(135deg, ${cur.color}, ${cur.to})`, '--k': cur.color } as CSSProperties}>
                 {cur.open} <ArrowUpRight size={16} className="arw arw-ne" aria-hidden="true" />
               </a>
             </div>

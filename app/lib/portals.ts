@@ -16,17 +16,18 @@ export const PACKAGE_FOR_CATEGORY: Record<DemoCategory, string> = {
 
 /**
  * Warna khas tiap jenis website (aksen di beranda; tema situs tetap biru-putih).
- * color = warna kuat (teks di latar muda & latar tombol berteks putih, kontras ≥ 4,5:1); tint = latar mudanya.
+ * color = warna kuat (teks di latar muda); to = ujung gradasi (color -> to dipakai untuk lencana, panggung
+ * pratinjau, dan tombol berteks putih; kontras putih >= 4,5:1 di sepanjang gradasi); tint = latar mudanya.
  */
-export const CATEGORY_COLOR: Record<DemoCategory, { color: string; tint: string }> = {
-  landing: { color: '#c2410c', tint: '#fff1e6' }, // jingga
-  linkinbio: { color: '#6d28d9', tint: '#f1ebff' }, // ungu
-  kontes: { color: '#047857', tint: '#e3f6ee' }, // hijau zamrud
-  undangan: { color: '#be123c', tint: '#ffecef' }, // merah mawar
-  portfolio: { color: '#1d4ed8', tint: '#e8f0ff' }, // biru
-  reservasi: { color: '#92400e', tint: '#fdf1d3' }, // cokelat emas
-  properti: { color: '#0e7490', tint: '#e2f5fa' }, // toska
-  todo: { color: '#a21caf', tint: '#fbeafc' }, // magenta
+export const CATEGORY_COLOR: Record<DemoCategory, { color: string; to: string; tint: string }> = {
+  landing: { color: '#c2410c', to: '#e11d48', tint: '#fff1e6' }, // jingga -> mawar
+  linkinbio: { color: '#6d28d9', to: '#2563eb', tint: '#f1ebff' }, // ungu -> biru
+  kontes: { color: '#047857', to: '#4d7c0f', tint: '#e3f6ee' }, // zamrud -> hijau limau
+  undangan: { color: '#be123c', to: '#a21caf', tint: '#ffecef' }, // mawar -> magenta
+  portfolio: { color: '#1d4ed8', to: '#0e7490', tint: '#e8f0ff' }, // biru -> toska
+  reservasi: { color: '#92400e', to: '#c2410c', tint: '#fdf1d3' }, // cokelat emas -> jingga
+  properti: { color: '#0e7490', to: '#047857', tint: '#e2f5fa' }, // toska -> zamrud
+  todo: { color: '#a21caf', to: '#6d28d9', tint: '#fbeafc' }, // magenta -> ungu
 }
 
 export const PORTALS: { path: string; origin: string; category: DemoCategory; image: string }[] = [
