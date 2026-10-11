@@ -56,6 +56,16 @@ const id = {
     waText: 'Halo PintuWeb, saya mau konsultasi website.',
     chat: 'Chat WhatsApp',
     seePackages: 'Lihat harga',
+    chatHello: 'Halo! Usahamu apa, dan website seperti apa yang kamu bayangkan?',
+    chatPick: 'Pilih pembuka, lanjut di WhatsApp',
+    chatOwn: 'Atau tulis pesanmu sendiri',
+    // Pesan pembuka: teksnya sengaja berakhir menggantung supaya tinggal dilanjutkan di WhatsApp.
+    starters: [
+      { label: 'Saya belum punya website', text: 'Halo PintuWeb, saya belum punya website dan ingin mulai. Usaha saya di bidang ' },
+      { label: 'Saya mau jualan online', text: 'Halo PintuWeb, saya ingin punya toko online. Yang saya jual: ' },
+      { label: 'Saya butuh undangan digital', text: 'Halo PintuWeb, saya butuh undangan digital. Acaranya: ' },
+      { label: 'Saya sudah punya website lama', text: 'Halo PintuWeb, saya sudah punya website dan ingin memperbarui atau memindahkannya. Alamatnya: ' },
+    ],
     phone: 'WhatsApp',
     email: 'Email',
     location: 'Lokasi',

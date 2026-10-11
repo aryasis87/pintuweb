@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUp, ArrowUpRight } from 'lucide-react'
 import { EMAIL, WA_DISPLAY, WA_NUMBER, wa } from '../lib/site'
 import { PORTALS } from '../lib/portals'
 import { getDict } from '../i18n'
@@ -8,9 +8,11 @@ import { LANGS, LANG_INFO, type Lang } from '../i18n/config'
 import { hasPage, path, pathOf } from '../i18n/routes'
 import { SERVICES } from '../content/services'
 import { HlText } from './Bits'
-import { Logo } from './Logo'
+import { Logo, LogoMark } from './Logo'
 
-// Footer = ajakan penutup + peta tautan internal (semua layanan, galeri, sumber daya, halaman perusahaan).
+// Footer = ajakan penutup + kontak + peta tautan internal (semua layanan, galeri, sumber daya, halaman perusahaan).
+// Ajakannya berbentuk kartu obrolan: sapaan dari PintuWeb, beberapa pesan pembuka siap pakai, dan kolom untuk
+// menulis sendiri. Semuanya tautan biasa yang membuka WhatsApp dengan pesan terisi (tanpa JavaScript).
 export default function Footer({ lang }: { lang: Lang }) {
   const t = getDict(lang)
   const f = facts(lang)
@@ -57,43 +59,88 @@ export default function Footer({ lang }: { lang: Lang }) {
   return (
     <footer id="contact" className="relative overflow-hidden bg-[color:var(--navy)] text-white" aria-label={t.footer.aria}>
       <div className="relative z-10 mx-auto max-w-6xl px-4 pt-20 sm:px-6 lg:pt-28">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="lg:col-span-7">
             <p className="kicker text-[color:var(--accent-200)]">{t.footer.kicker}</p>
             <h2 className="mt-5 text-[2.25rem] leading-[1.08] sm:text-[2.75rem] lg:text-[3.1rem]">
               <HlText parts={t.footer.title} mode="italic" tone="accent" />
             </h2>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-white/75">{t.footer.lead(f.response)}</p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a href={wa(t.footer.waText)} target="_blank" rel="noopener noreferrer" className="btn btn-white">
-                {t.footer.chat} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
-              </a>
-              <Link href={path(lang, 'pricing')} className="btn btn-ghost-dark">
-                {t.footer.seePackages} <ArrowRight size={17} className="arw" aria-hidden="true" />
-              </Link>
-            </div>
+            <Link href={path(lang, 'pricing')} className="btn btn-ghost-dark mt-9">
+              {t.footer.seePackages} <ArrowRight size={17} className="arw" aria-hidden="true" />
+            </Link>
           </div>
 
-          <dl className="lg:col-span-5 lg:mt-11">
-            {CONTACTS.map((c) => (
-              <div key={c.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-white/10 py-4 first:pt-0 sm:grid-cols-[9rem_1fr]">
-                <dt className="pt-0.5 text-sm text-white/65">{c.label}</dt>
-                <dd className="min-w-0">
-                  {c.link ? (
-                    <a href={c.link} target="_blank" rel="noopener noreferrer" className="break-all text-white underline decoration-white/35 underline-offset-4 hover:decoration-white">
-                      {c.value}
-                    </a>
-                  ) : (
-                    <span className="text-white">{c.value}</span>
-                  )}
-                  {c.sub && <span className="mt-0.5 block text-sm text-white/65">{c.sub}</span>}
-                </dd>
+          {/* Kartu obrolan: tiap gelembung biru adalah pesan pembuka yang langsung membuka WhatsApp */}
+          <div className="lg:col-span-5">
+            <div className="max-w-md rounded-[1.75rem] bg-white p-3 text-[color:var(--text-primary)] shadow-[0_40px_70px_-40px_rgb(0_0_0/0.75)] sm:p-4">
+              <div className="flex items-center gap-3 px-2 pb-3 pt-1">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[color:var(--primary-50)] ring-1 ring-[color:var(--border-light)]" aria-hidden="true">
+                  <LogoMark className="h-5 w-auto" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-semibold leading-tight">PintuWeb</span>
+                  <span className="mt-0.5 block text-[0.8125rem] leading-snug text-[color:var(--text-tertiary)]">
+                    {f.hoursDays} · {f.hoursTime}
+                  </span>
+                </span>
               </div>
-            ))}
-          </dl>
+
+              <div className="rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4">
+                <p className="max-w-[88%] rounded-[1.125rem] rounded-tl-md bg-white px-4 py-2.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)]">{t.footer.chatHello}</p>
+                <p className="mt-5 text-right text-[0.8125rem] text-[color:var(--text-tertiary)]">{t.footer.chatPick}</p>
+                <ul className="mt-2 flex flex-col items-end gap-2">
+                  {t.footer.starters.map((s) => (
+                    <li key={s.label}>
+                      <a
+                        href={wa(s.text)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-[1.125rem] rounded-br-md bg-[color:var(--primary-700)] px-4 py-2.5 text-left text-[0.9375rem] font-medium leading-snug text-white transition-colors hover:bg-[color:var(--primary-800)]"
+                      >
+                        {s.label} <ArrowUpRight size={15} className="arw-ne shrink-0 opacity-80 transition-transform" aria-hidden="true" />
+                        <span className="sr-only">{t.common.newTabShort}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <a
+                href={wa(t.footer.waText)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-3 flex h-12 items-center justify-between gap-3 rounded-full bg-[color:var(--surface-soft)] pl-5 pr-1.5 text-[0.9375rem] text-[color:var(--text-tertiary)] ring-1 ring-[color:var(--border-light)] transition-shadow hover:ring-[color:var(--primary-300)]"
+              >
+                <span className="min-w-0 truncate">{t.footer.chatOwn}</span>
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[color:var(--primary-700)] text-white transition-colors group-hover:bg-[color:var(--primary-800)]" aria-hidden="true">
+                  <ArrowUp size={17} />
+                </span>
+                <span className="sr-only">{t.common.newTabShort}</span>
+              </a>
+            </div>
+          </div>
         </div>
 
-        <nav aria-label={t.footer.linksAria} className="mt-20 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/10 pt-12 sm:grid-cols-4">
+        <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-6 border-t border-white/10 pt-10 sm:grid-cols-2 sm:gap-y-8 lg:mt-20 lg:grid-cols-4">
+          {CONTACTS.map((c) => (
+            <div key={c.label} className="min-w-0">
+              <dt className="text-sm text-white/65">{c.label}</dt>
+              <dd className="mt-1.5 min-w-0">
+                {c.link ? (
+                  <a href={c.link} target="_blank" rel="noopener noreferrer" className="text-white underline decoration-white/35 underline-offset-4 [overflow-wrap:anywhere] hover:decoration-white">
+                    {c.value}
+                  </a>
+                ) : (
+                  <span className="text-white">{c.value}</span>
+                )}
+                {c.sub && <span className="mt-0.5 block text-sm text-white/65">{c.sub}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <nav aria-label={t.footer.linksAria} className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/10 pt-12 sm:grid-cols-4">
           {cols.map((c) => (
             <div key={c.title}>
               <p className="kicker text-[color:var(--accent-200)]">{c.title}</p>
