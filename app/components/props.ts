@@ -3,6 +3,7 @@
 import { getDict } from '../i18n'
 import { path } from '../i18n/routes'
 import { faqFor } from '../content/faq'
+import { facts } from '../i18n/facts'
 import { wa } from '../lib/site'
 import type { Lang } from '../i18n/config'
 import type { FaqText } from './FAQ'
@@ -21,6 +22,7 @@ export function faqProps(lang: Lang, variant: 'home' | 'page') {
     none: t.none,
     unanswered: t.unanswered,
     askLead: t.askLead,
+    note: facts(lang).response,
     allN: t.allN(items.length),
     askWa: t.askWa,
   }

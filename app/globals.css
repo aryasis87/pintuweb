@@ -277,6 +277,10 @@
       radial-gradient(circle var(--notch) at calc(var(--stub) - 1px) 100%, #0000 calc(100% - .5px), #000) bottom / 100% 51% no-repeat;
   }
 
+  /* FAQ: jawaban muncul seperti balasan obrolan */
+  @keyframes faq-in { from { opacity: 0; transform: translateY(6px); } }
+  .faq-item[open] .faq-answer { animation: faq-in .3s cubic-bezier(.2,.7,.2,1); }
+
   /* Cetak biru: grid tipis untuk latar gelap */
   .u-grid-light {
     background-image:
