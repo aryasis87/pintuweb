@@ -1,4 +1,4 @@
-// Gambar Open Graph 1200×630 dengan gaya situs: putih lapang, huruf Inter (padanan SF Pro yang boleh dibundel).
+// Gambar Open Graph 1200×630 dengan gaya situs: putih lapang, logo PintuWeb, huruf Inter (padanan SF Pro yang boleh dibundel).
 //   /api/og?l=en&t=Judul      -> kartu judul halaman
 //   /api/og?v=home&l=id       -> kartu beranda (kalimat & angka dari kamus, lib/site.ts & lib/demos.ts)
 import { ImageResponse } from 'next/og'
@@ -25,15 +25,9 @@ const fonts = async () => {
   ]
 }
 
-/** Tanda PintuWeb (sama dengan components/Logo.tsx). */
-function Mark({ size, color }: { size: number; color: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill={color}>
-      <path fillRule="evenodd" d="M5 30V15C5 8.92 9.92 4 16 4s11 4.92 11 11v15zM10.5 30V15.5a5.5 5.5 0 0 1 11 0V30z" />
-      <path d="M10.5 30V16.8l7.5-1.6V30z" opacity={0.45} />
-    </svg>
-  )
-}
+/** Logo PintuWeb (app/api/og/logo.png, dibuat scripts/ikon-dari-logo.mjs) sebagai data URI untuk <img>. */
+const LOGO_RATIO = 258 / 360
+const logoSrc = async () => `data:image/png;base64,${(await readFile(join(process.cwd(), 'app/api/og/logo.png'))).toString('base64')}`
 
 export async function GET(req: Request) {
   const q = new URL(req.url).searchParams
@@ -44,18 +38,14 @@ export async function GET(req: Request) {
   const title = (q.get('t') ?? 'PintuWeb').slice(0, 120)
   const size = title.length > 70 ? 56 : title.length > 40 ? 68 : 80
   const [h0, h1, h2] = d.hero.title
+  const logo = await logoSrc()
 
   return new ImageResponse(
     (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: C.white, padding: '56px 72px', fontFamily: 'Sans', position: 'relative' }}>
-        {/* Pintu di kanan bawah: lengkung bergaris + ambang */}
-        <div style={{ position: 'absolute', right: 72, bottom: 128, width: 230, height: 330, display: 'flex', flexDirection: 'column', borderTopLeftRadius: 115, borderTopRightRadius: 115, overflow: 'hidden' }}>
-          <div style={{ display: 'flex', flex: 1, borderTopLeftRadius: 115, borderTopRightRadius: 115, border: `2px solid ${C.line}`, padding: 6 }}>
-            <div style={{ display: 'flex', flex: 1, borderTopLeftRadius: 109, borderTopRightRadius: 109, background: C.soft, alignItems: 'center', justifyContent: 'center' }}>
-              <Mark size={120} color={C.blue} />
-            </div>
-          </div>
-        </div>
+        {/* Logo besar di kanan */}
+        {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+        <img src={logo} width={Math.round(320 * LOGO_RATIO)} height={320} style={{ position: 'absolute', right: 104, top: 150 }} />
 
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 32, fontSize: 22, color: C.ink2 }}>
           <span style={{ display: 'flex', color: C.blue }}>{d.hero.kicker}</span>
@@ -74,8 +64,9 @@ export async function GET(req: Request) {
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <Mark size={44} color={C.blue} />
-            <span style={{ display: 'flex', fontFamily: 'Display', fontSize: 36, color: C.ink, letterSpacing: -1 }}>PintuWeb</span>
+            {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
+            <img src={logo} width={Math.round(46 * LOGO_RATIO)} height={46} />
+            <span style={{ display: 'flex', fontFamily: 'Display', fontSize: 36, color: C.ink, letterSpacing: -0.8 }}>PintuWeb</span>
           </div>
           <span style={{ display: 'flex', fontSize: 22, color: C.ink2 }}>www.pintuweb.com · {lang.toUpperCase()}</span>
         </div>

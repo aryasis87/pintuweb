@@ -117,7 +117,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
       <div className="border-b border-[color:var(--border-light)] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
         <div className="mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
           <Link href={homeHref} prefetch={false} className="shrink-0" aria-label={t.brandAria}>
-            <Logo />
+            <Logo priority />
           </Link>
 
           <nav aria-label={t.mainNav} className="hidden items-center lg:flex">

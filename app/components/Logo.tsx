@@ -1,21 +1,28 @@
-// Tanda PintuWeb: lengkung pintu dengan daun pintu yang sedikit terbuka.
-// Bentuk yang sama dipakai untuk favicon & ikon aplikasi (public/images, dibuat dari SVG ini).
-export function LogoMark({ className = 'h-7 w-7', leaf = 0.45 }: { className?: string; leaf?: number }) {
-  return (
-    <svg viewBox="0 0 32 32" fill="currentColor" className={className} aria-hidden="true" focusable="false">
-      <path fillRule="evenodd" d="M5 30V15C5 8.92 9.92 4 16 4s11 4.92 11 11v15zM10.5 30V15.5a5.5 5.5 0 0 1 11 0V30z" />
-      <path d="M10.5 30V16.8l7.5-1.6V30z" opacity={leaf} />
-    </svg>
-  )
+import Image from 'next/image'
+
+// Logo PintuWeb milik pemilik situs: sumbernya public/images/logo.png. Yang dipakai di sini versi rapatnya
+// (logo-pintuweb.png), dibuat oleh scripts/ikon-dari-logo.mjs bersama favicon, ikon aplikasi, dan logo OG.
+const SRC = '/images/logo-pintuweb.png'
+const W = 367
+const H = 512
+
+export function LogoMark({ className = 'h-8 w-auto', priority = false }: { className?: string; priority?: boolean }) {
+  return <Image src={SRC} alt="" width={W} height={H} sizes="40px" priority={priority} className={className} />
 }
 
-/** Logo lengkap: tanda + nama (huruf judul situs). */
-export function Logo({ tone = 'ink' }: { tone?: 'ink' | 'light' }) {
+/** Logo lengkap: gambar logo + nama. Di latar gelap logonya diberi alas putih supaya biru gelapnya tetap terbaca. */
+export function Logo({ tone = 'ink', priority = false }: { tone?: 'ink' | 'light'; priority?: boolean }) {
   const light = tone === 'light'
   return (
-    <span className="inline-flex items-center gap-2">
-      <LogoMark className={`h-7 w-7 ${light ? 'text-[color:var(--accent-300)]' : 'text-[color:var(--primary-700)]'}`} />
-      <span className={`display text-[1.25rem] leading-none tracking-[-0.025em] ${light ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>PintuWeb</span>
+    <span className="inline-flex items-center gap-2.5">
+      {light ? (
+        <span className="grid h-9 w-9 place-items-center rounded-lg bg-white">
+          <LogoMark className="h-6 w-auto" />
+        </span>
+      ) : (
+        <LogoMark className="h-8 w-auto" priority={priority} />
+      )}
+      <span className={`display text-[1.25rem] leading-none tracking-[-0.02em] ${light ? 'text-white' : 'text-[color:var(--text-primary)]'}`}>PintuWeb</span>
     </span>
   )
 }
