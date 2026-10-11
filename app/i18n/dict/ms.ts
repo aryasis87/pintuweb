@@ -112,6 +112,7 @@ const ms: Dict = {
     open: 'Buka demo',
     galleryLang: 'Galeri dan demo dalam bahasa Indonesia',
     allDemos: (n: number) => `Lihat semua ${n} demo`,
+    hoverHint: 'Tuding salah satu kad untuk melihat halamannya bergulir, klik untuk membuka laman demonya.',
   },
   audience: {
     eyebrow: 'Untuk siapa',

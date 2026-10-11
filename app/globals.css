@@ -207,6 +207,24 @@
     border-top-left-radius: 999px; border-top-right-radius: 999px;
   }
 
+  /* Karya pilihan: isi layar (.shot) bergulir pelan di dalam jendelanya (.win) saat kartu (.work) disorot/difokus.
+     100cqh = tinggi jendela, jadi gulirnya berhenti tepat di dasar tangkapan layar berapa pun ukuran kartunya;
+     min() mencegah gambar yang lebih pendek dari jendelanya bergeser ke bawah. --dur = lama gulir. */
+  .win { container-type: size; }
+  .shot { transition: transform .9s cubic-bezier(.3,.7,.3,1); will-change: transform; }
+  .work:hover .shot, .work:focus-visible .shot {
+    transform: translateY(min(0px, calc(100cqh - 100%)));
+    transition: transform var(--dur, 5s) cubic-bezier(.45,.05,.55,.95) .15s;
+  }
+  /* Layar sentuh tidak punya sorot: di sana isi layar ikut bergulir selagi kartunya melintasi layar. */
+  @keyframes shot-pan { to { transform: translateY(min(0px, calc(100cqh - 100%))); } }
+  @media (hover: none) and (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .work { view-timeline: --work block; }
+      .shot { animation: shot-pan linear both; animation-timeline: --work; animation-range: contain 0% contain 100%; transition: none; }
+    }
+  }
+
   /* Cetak biru: grid tipis untuk latar gelap */
   .u-grid-light {
     background-image:
@@ -261,6 +279,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .work:hover .shot, .work:focus-visible .shot { transform: none; }
   *, *::before, *::after {
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;

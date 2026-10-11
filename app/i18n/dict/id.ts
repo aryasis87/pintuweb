@@ -114,6 +114,7 @@ const id = {
     open: 'Buka demo',
     galleryLang: '',
     allDemos: (n: number) => `Lihat semua ${n} demo`,
+    hoverHint: 'Sorot salah satu kartu untuk melihat halamannya bergulir, klik untuk membuka situs demonya.',
   },
   audience: {
     eyebrow: 'Untuk siapa',

@@ -112,6 +112,7 @@ const en: Dict = {
     open: 'Open demo',
     galleryLang: 'Galleries and demos are in Indonesian',
     allDemos: (n: number) => `See all ${n} demos`,
+    hoverHint: 'Hover a card to watch its page scroll; click to open the live demo.',
   },
   audience: {
     eyebrow: 'Who it is for',
