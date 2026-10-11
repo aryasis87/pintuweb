@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { DEMOS, type DemoCategory } from '../lib/demos'
-import { PACKAGE_FOR_CATEGORY, PORTALS } from '../lib/portals'
+import { CATEGORY_COLOR, PACKAGE_FOR_CATEGORY, PORTALS } from '../lib/portals'
 import { wa } from '../lib/site'
 import { getDict } from '../i18n'
 import { packagesFor } from '../i18n/facts'
@@ -30,6 +30,7 @@ export default function Hero({ lang }: { lang: Lang }) {
       price: `${d.common.from} ${fromOf(p.category)}`,
       image: p.image,
       open: t.openGallery(gal.title),
+      ...CATEGORY_COLOR[p.category],
     }
   })
 
