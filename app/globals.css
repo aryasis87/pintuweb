@@ -264,6 +264,19 @@
     }
   }
 
+  /* Janji: kartu berbentuk kupon. Dua takik setengah lingkaran di batas potongan (--stub = lebar potongan kiri)
+     dipotong dengan mask, jadi latar bagian terlihat di baliknya; bayangannya (drop-shadow di pembungkus)
+     ikut bentuk takik. Tanpa dukungan mask: kartu persegi biasa. */
+  .tix {
+    --notch: 9px;
+    -webkit-mask:
+      radial-gradient(circle var(--notch) at calc(var(--stub) - 1px) 0, #0000 calc(100% - .5px), #000) top / 100% 51% no-repeat,
+      radial-gradient(circle var(--notch) at calc(var(--stub) - 1px) 100%, #0000 calc(100% - .5px), #000) bottom / 100% 51% no-repeat;
+    mask:
+      radial-gradient(circle var(--notch) at calc(var(--stub) - 1px) 0, #0000 calc(100% - .5px), #000) top / 100% 51% no-repeat,
+      radial-gradient(circle var(--notch) at calc(var(--stub) - 1px) 100%, #0000 calc(100% - .5px), #000) bottom / 100% 51% no-repeat;
+  }
+
   /* Cetak biru: grid tipis untuk latar gelap */
   .u-grid-light {
     background-image:

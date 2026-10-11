@@ -1,6 +1,7 @@
 // Kamus antarmuka — Bahasa Indonesia (bahasa utama). Teks diambil apa adanya dari situs sebelum i18n.
 // Pola judul [biasa, sorotan, sisa?]: bagian kedua diberi warna aksen.
 import { CLIENT_PROJECTS, FOUNDED_YEAR, GUARANTEE_DAYS, PERF_TARGET } from '../../lib/site'
+import { PACKAGES } from '../../lib/packages'
 
 export type Hl = [string, string, string?]
 
@@ -169,12 +170,12 @@ const id = {
     title: ['Enam hal yang ', 'bisa kamu tagih', ' dari kami.'] as Hl,
     lead: 'Semuanya juga tertulis di halaman harga, FAQ, serta syarat & ketentuan.',
     promises: [
-      { title: 'Harga ditulis di depan', body: 'Kisaran harga tiap paket ada di situs ini. Angka pastinya tertulis di penawaran sebelum kami mulai.' },
-      { title: 'Bayar separuh dulu', body: 'DP 50% untuk memulai. Sisanya dibayar setelah website selesai dan kamu setujui.' },
-      { title: 'Milikmu sepenuhnya', body: 'Setelah lunas, kode sumber, domain, hosting, dan akses admin diserahkan kepadamu.' },
-      { title: 'Cepat dibuka di ponsel', body: `Setiap website kami optimalkan dengan target skor PageSpeed ${PERF_TARGET}. Itu target kerja, bukan klaim rata-rata.` },
-      { title: `Garansi ${GUARANTEE_DAYS} hari`, body: `Bug diperbaiki gratis selama ${GUARANTEE_DAYS} hari setelah website online, ditambah maintenance sesuai paket.` },
-      { title: 'Dibalas di hari kerja', body: 'Pesan kami balas maksimal 24 jam di hari kerja, Senin–Sabtu pukul 09.00–17.00 WIB.' },
+      { fig: `${PACKAGES.length}`, unit: 'paket', proof: 'Tertulis di halaman harga', title: 'Harga ditulis di depan', body: 'Kisaran harga tiap paket ada di situs ini. Angka pastinya tertulis di penawaran sebelum kami mulai.' },
+      { fig: '50%', unit: 'DP', proof: 'Tertulis di FAQ', title: 'Bayar separuh dulu', body: 'DP 50% untuk memulai. Sisanya dibayar setelah website selesai dan kamu setujui.' },
+      { fig: '100%', unit: 'milikmu', proof: 'Tertulis di syarat & ketentuan', title: 'Milikmu sepenuhnya', body: 'Setelah lunas, kode sumber, domain, hosting, dan akses admin diserahkan kepadamu.' },
+      { fig: PERF_TARGET, unit: 'PageSpeed', proof: 'Tertulis di FAQ', title: 'Cepat dibuka di ponsel', body: `Setiap website kami optimalkan dengan target skor PageSpeed ${PERF_TARGET}. Itu target kerja, bukan klaim rata-rata.` },
+      { fig: `${GUARANTEE_DAYS}`, unit: 'hari', proof: 'Tertulis di syarat & ketentuan', title: `Garansi ${GUARANTEE_DAYS} hari`, body: `Bug diperbaiki gratis selama ${GUARANTEE_DAYS} hari setelah website online, ditambah maintenance sesuai paket.` },
+      { fig: '24', unit: 'jam', proof: 'Tertulis di FAQ', title: 'Dibalas di hari kerja', body: 'Pesan kami balas maksimal 24 jam di hari kerja, Senin–Sabtu pukul 09.00–17.00 WIB.' },
     ],
   },
   pricing: {

@@ -1,5 +1,6 @@
 // Interface dictionary — English.
 import { CLIENT_PROJECTS, FOUNDED_YEAR, GUARANTEE_DAYS, PERF_TARGET } from '../../lib/site'
+import { PACKAGES } from '../../lib/packages'
 import type { Dict, Hl } from './id'
 
 const en: Dict = {
@@ -167,12 +168,12 @@ const en: Dict = {
     title: ['Six things you can ', 'hold us to', '.'] as Hl,
     lead: 'Each of them is also written on the pricing page, in the FAQ and in the terms & conditions.',
     promises: [
-      { title: 'Prices stated up front', body: 'Every package’s price range is on this site. The exact figure is in a written quote before we start.' },
-      { title: 'Pay half first', body: 'A 50% deposit to start. The rest is paid once the website is finished and you have approved it.' },
-      { title: 'Entirely yours', body: 'Once paid in full, the source code, domain, hosting and admin access are handed over to you.' },
-      { title: 'Fast on phones', body: `We optimise every website towards a PageSpeed score of ${PERF_TARGET}. It is a working target, not an average claim.` },
-      { title: `${GUARANTEE_DAYS}-day guarantee`, body: `Bugs are fixed free for ${GUARANTEE_DAYS} days after launch, plus maintenance in your package.` },
-      { title: 'Replies on working days', body: 'We reply within 24 hours on working days, Monday–Saturday, 09:00–17:00 WIB.' },
+      { fig: `${PACKAGES.length}`, unit: 'packages', proof: 'Written on the pricing page', title: 'Prices stated up front', body: 'Every package’s price range is on this site. The exact figure is in a written quote before we start.' },
+      { fig: '50%', unit: 'deposit', proof: 'Written in the FAQ', title: 'Pay half first', body: 'A 50% deposit to start. The rest is paid once the website is finished and you have approved it.' },
+      { fig: '100%', unit: 'yours', proof: 'Written in the terms', title: 'Entirely yours', body: 'Once paid in full, the source code, domain, hosting and admin access are handed over to you.' },
+      { fig: PERF_TARGET, unit: 'PageSpeed', proof: 'Written in the FAQ', title: 'Fast on phones', body: `We optimise every website towards a PageSpeed score of ${PERF_TARGET}. It is a working target, not an average claim.` },
+      { fig: `${GUARANTEE_DAYS}`, unit: 'days', proof: 'Written in the terms', title: `${GUARANTEE_DAYS}-day guarantee`, body: `Bugs are fixed free for ${GUARANTEE_DAYS} days after launch, plus maintenance in your package.` },
+      { fig: '24', unit: 'hours', proof: 'Written in the FAQ', title: 'Replies on working days', body: 'We reply within 24 hours on working days, Monday–Saturday, 09:00–17:00 WIB.' },
     ],
   },
   pricing: {
