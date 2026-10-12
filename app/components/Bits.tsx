@@ -28,12 +28,12 @@ export function Breadcrumbs({ items, label }: { items: { name: string; href?: st
     <nav aria-label={label} className="mx-auto max-w-6xl px-4 pt-28 sm:px-6 sm:pt-32">
       <ol className="mono flex flex-wrap items-center gap-x-2 gap-y-1 text-xs tracking-[0.04em] text-[color:var(--text-tertiary)]">
         {items.map((it, i) => (
-          <li key={it.name} className="inline-flex items-center gap-2">
+          <li key={it.name} className="inline-flex min-w-0 max-w-full items-center gap-2">
             {i > 0 && <span aria-hidden="true" className="text-[color:var(--neutral-400)]">/</span>}
             {it.href ? (
               <Link href={it.href} className="underline-offset-4 hover:text-[color:var(--primary-700)] hover:underline">{it.name}</Link>
             ) : (
-              <span aria-current="page" className="text-[color:var(--text-primary)]">{it.name}</span>
+              <span aria-current="page" className="line-clamp-1 text-[color:var(--text-primary)]">{it.name}</span>
             )}
           </li>
         ))}
