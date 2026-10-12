@@ -138,9 +138,12 @@ function LangSwitch({ lang, label, notAvailable, onPick, big = false }: { lang: 
                 className={`${row} ${frame} text-[color:var(--text-secondary)] transition-colors hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--primary-700)]`}
               >
                 {info.name}
-                <span className="text-[0.75rem] font-semibold text-[color:var(--text-muted)]" aria-hidden="true">
-                  {info.short}
-                </span>
+                {/* kode bahasa hanya di menu desktop; di kisi ponsel nama saja supaya tidak terpotong dua baris */}
+                {!big && (
+                  <span className="text-[0.75rem] font-semibold text-[color:var(--text-muted)]" aria-hidden="true">
+                    {info.short}
+                  </span>
+                )}
               </a>
             </li>
           )
