@@ -1,6 +1,6 @@
 // Kalimat fakta bisnis per bahasa. Angka & kontak tetap dari lib/site.ts dan lib/packages.ts
 // (satu-satunya sumber); di sini hanya cara menuliskannya.
-import { GUARANTEE_DAYS, HOURS, LOCATION, PERF_TARGET, RESPONSE } from '../lib/site'
+import { CLOSES, GUARANTEE_DAYS, HOURS, LOCATION, OPENS, PERF_TARGET, RESPONSE, dotTime } from '../lib/site'
 import { DEMOS } from '../lib/demos'
 import { ADDONS, PACKAGES, PAYMENT_SUMMARY, RENEWAL_BIO_PER_YEAR, RENEWAL_PER_YEAR, RENEWAL_SUMMARY, type Paket } from '../lib/packages'
 import { LANG_INFO, type Lang } from './config'
@@ -31,9 +31,9 @@ const FACTS: Record<Lang, Facts> = {
     guarantee: `Bug dan masalah teknis diperbaiki gratis selama ${GUARANTEE_DAYS} hari setelah website online. Setelah itu maintenance mengikuti paket (1–6 bulan) dan bisa diperpanjang.`,
   },
   en: {
-    hours: 'Monday – Saturday, 09:00 – 17:00 WIB (UTC+7)',
+    hours: `Monday – Saturday, ${OPENS} – ${CLOSES} WIB (UTC+7)`,
     hoursDays: 'Monday – Saturday',
-    hoursTime: '09:00 – 17:00 WIB (UTC+7)',
+    hoursTime: `${OPENS} – ${CLOSES} WIB (UTC+7)`,
     response: 'We reply on working days, within 24 hours',
     location: 'Trenggalek, East Java, Indonesia',
     serves: 'Working with clients remotely',
@@ -49,9 +49,9 @@ const FACTS: Record<Lang, Facts> = {
     guarantee: `Bugs and technical issues are fixed free of charge for ${GUARANTEE_DAYS} days after launch. After that, maintenance follows your package (1–6 months) and can be extended.`,
   },
   ms: {
-    hours: 'Isnin – Sabtu, 09.00 – 17.00 WIB (UTC+7)',
+    hours: `Isnin – Sabtu, ${dotTime(OPENS)} – ${dotTime(CLOSES)} WIB (UTC+7)`,
     hoursDays: 'Isnin – Sabtu',
-    hoursTime: '09.00 – 17.00 WIB (UTC+7)',
+    hoursTime: `${dotTime(OPENS)} – ${dotTime(CLOSES)} WIB (UTC+7)`,
     response: 'Kami membalas pada hari bekerja, dalam masa 24 jam',
     location: 'Trenggalek, Jawa Timur, Indonesia',
     serves: 'Bekerja dengan pelanggan secara jarak jauh',
@@ -81,9 +81,9 @@ export function money(lang: Lang, n: number) {
 export const moneyRange = (lang: Lang, p: Paket) =>
   `${money(lang, p.minPrice)} – ${money(lang, p.maxPrice)}${p.openEnded ? '+' : ''}`
 
-/** Angka ringkas untuk papan harga: "600 rb" / "1,2 jt" (id), "600k" / "1.2M" (en), "600 ribu" / "1.2 juta" (ms). */
+/** Angka ringkas untuk papan harga: "300 rb" / "1,25 jt" (id), "300k" / "1.25M" (en), "300 ribu" / "1.25 juta" (ms). */
 function compact(lang: Lang, n: number) {
-  const fmt = (v: number) => new Intl.NumberFormat(LANG_INFO[lang].intl, { maximumFractionDigits: 1 }).format(v)
+  const fmt = (v: number) => new Intl.NumberFormat(LANG_INFO[lang].intl, { maximumFractionDigits: 2 }).format(v)
   const big = n >= 1_000_000
   const v = fmt(big ? n / 1_000_000 : n / 1_000)
   if (lang === 'id') return `${v} ${big ? 'jt' : 'rb'}`

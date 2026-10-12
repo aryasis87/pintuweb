@@ -9,7 +9,7 @@ import { LEGAL_UPDATED_ISO } from './content/legal'
 
 // Setiap URL dicantumkan beserta semua versi bahasanya (hreflang + x-default),
 // dengan tanggal perubahan isi yang sebenarnya — bukan tanggal build.
-const CONTENT_UPDATED = '2026-10-03'
+const CONTENT_UPDATED = '2026-10-13'
 
 type Entry = { ref: DocRef; priority: number; freq: MetadataRoute.Sitemap[number]['changeFrequency']; modified: string }
 

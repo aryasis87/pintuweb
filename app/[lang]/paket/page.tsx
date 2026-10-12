@@ -17,7 +17,7 @@ import { wa } from '../../lib/site'
 type Params = { params: Promise<{ lang: string }> }
 
 /** Tanggal harga terakhir ditinjau (tampil di halaman & dateModified). */
-const PRICES_REVIEWED = '2026-10-03'
+const PRICES_REVIEWED = '2026-10-13'
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { lang } = await params

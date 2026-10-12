@@ -1,5 +1,5 @@
 // Kamus antara muka — Bahasa Melayu.
-import { CLIENT_PROJECTS, FOUNDED_YEAR, GUARANTEE_DAYS, PERF_TARGET } from '../../lib/site'
+import { CLIENT_PROJECTS, CLOSES, FOUNDED_YEAR, GUARANTEE_DAYS, OPENS, PERF_TARGET, dotTime } from '../../lib/site'
 import { PACKAGES } from '../../lib/packages'
 import type { Dict, Hl } from './id'
 
@@ -183,7 +183,7 @@ const ms: Dict = {
       { fig: '100%', unit: 'milik anda', proof: 'Tertulis dalam terma & syarat', title: 'Milik anda sepenuhnya', body: 'Selepas bayaran penuh, kod sumber, domain, hosting dan akses pentadbir diserahkan kepada anda.' },
       { fig: PERF_TARGET, unit: 'PageSpeed', proof: 'Tertulis dalam soalan lazim', title: 'Pantas di telefon', body: `Setiap laman web kami optimumkan ke arah skor PageSpeed ${PERF_TARGET}. Itu sasaran kerja, bukan dakwaan purata.` },
       { fig: `${GUARANTEE_DAYS}`, unit: 'hari', proof: 'Tertulis dalam terma & syarat', title: `Jaminan ${GUARANTEE_DAYS} hari`, body: `Pepijat dibaiki percuma selama ${GUARANTEE_DAYS} hari selepas pelancaran, serta penyelenggaraan mengikut pakej.` },
-      { fig: '24', unit: 'jam', proof: 'Tertulis dalam soalan lazim', title: 'Dibalas pada hari bekerja', body: 'Mesej kami balas dalam 24 jam pada hari bekerja, Isnin–Sabtu, 09.00–17.00 WIB.' },
+      { fig: '24', unit: 'jam', proof: 'Tertulis dalam soalan lazim', title: 'Dibalas pada hari bekerja', body: `Mesej kami balas dalam 24 jam pada hari bekerja, Isnin–Sabtu, ${dotTime(OPENS)}–${dotTime(CLOSES)} WIB.` },
     ],
   },
   pricing: {

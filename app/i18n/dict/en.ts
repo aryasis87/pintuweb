@@ -1,5 +1,5 @@
 // Interface dictionary — English.
-import { CLIENT_PROJECTS, FOUNDED_YEAR, GUARANTEE_DAYS, PERF_TARGET } from '../../lib/site'
+import { CLIENT_PROJECTS, CLOSES, FOUNDED_YEAR, GUARANTEE_DAYS, OPENS, PERF_TARGET } from '../../lib/site'
 import { PACKAGES } from '../../lib/packages'
 import type { Dict, Hl } from './id'
 
@@ -183,7 +183,7 @@ const en: Dict = {
       { fig: '100%', unit: 'yours', proof: 'Written in the terms', title: 'Entirely yours', body: 'Once paid in full, the source code, domain, hosting and admin access are handed over to you.' },
       { fig: PERF_TARGET, unit: 'PageSpeed', proof: 'Written in the FAQ', title: 'Fast on phones', body: `We optimise every website towards a PageSpeed score of ${PERF_TARGET}. It is a working target, not an average claim.` },
       { fig: `${GUARANTEE_DAYS}`, unit: 'days', proof: 'Written in the terms', title: `${GUARANTEE_DAYS}-day guarantee`, body: `Bugs are fixed free for ${GUARANTEE_DAYS} days after launch, plus maintenance in your package.` },
-      { fig: '24', unit: 'hours', proof: 'Written in the FAQ', title: 'Replies on working days', body: 'We reply within 24 hours on working days, Monday–Saturday, 09:00–17:00 WIB.' },
+      { fig: '24', unit: 'hours', proof: 'Written in the FAQ', title: 'Replies on working days', body: `We reply within 24 hours on working days, Monday–Saturday, ${OPENS}–${CLOSES} WIB.` },
     ],
   },
   pricing: {

@@ -1,6 +1,6 @@
 // Kamus antarmuka — Bahasa Indonesia (bahasa utama). Teks diambil apa adanya dari situs sebelum i18n.
 // Pola judul [biasa, sorotan, sisa?]: bagian kedua diberi warna aksen.
-import { CLIENT_PROJECTS, FOUNDED_YEAR, GUARANTEE_DAYS, PERF_TARGET } from '../../lib/site'
+import { CLIENT_PROJECTS, CLOSES, FOUNDED_YEAR, GUARANTEE_DAYS, OPENS, PERF_TARGET, dotTime } from '../../lib/site'
 import { PACKAGES } from '../../lib/packages'
 
 export type Hl = [string, string, string?]
@@ -186,7 +186,7 @@ const id = {
       { fig: '100%', unit: 'milikmu', proof: 'Tertulis di syarat & ketentuan', title: 'Milikmu sepenuhnya', body: 'Setelah lunas, kode sumber, domain, hosting, dan akses admin diserahkan kepadamu.' },
       { fig: PERF_TARGET, unit: 'PageSpeed', proof: 'Tertulis di FAQ', title: 'Cepat dibuka di ponsel', body: `Setiap website kami optimalkan dengan target skor PageSpeed ${PERF_TARGET}. Itu target kerja, bukan klaim rata-rata.` },
       { fig: `${GUARANTEE_DAYS}`, unit: 'hari', proof: 'Tertulis di syarat & ketentuan', title: `Garansi ${GUARANTEE_DAYS} hari`, body: `Bug diperbaiki gratis selama ${GUARANTEE_DAYS} hari setelah website online, ditambah maintenance sesuai paket.` },
-      { fig: '24', unit: 'jam', proof: 'Tertulis di FAQ', title: 'Dibalas di hari kerja', body: 'Pesan kami balas maksimal 24 jam di hari kerja, Senin–Sabtu pukul 09.00–17.00 WIB.' },
+      { fig: '24', unit: 'jam', proof: 'Tertulis di FAQ', title: 'Dibalas di hari kerja', body: `Pesan kami balas maksimal 24 jam di hari kerja, Senin–Sabtu pukul ${dotTime(OPENS)}–${dotTime(CLOSES)} WIB.` },
     ],
   },
   pricing: {

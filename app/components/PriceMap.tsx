@@ -13,7 +13,7 @@ import type { Lang } from '../i18n/config'
 
 // Skala berpita: tiap pita sama lebar supaya paket murah tidak tergencet oleh yang puluhan juta.
 // Batasnya ditulis di sumbu, dan pita terakhir berakhir di harga tertinggi yang ada.
-const STOPS = [0, 1_000_000, 3_000_000, 10_000_000]
+const STOPS = [0, 500_000, 1_500_000, 5_000_000]
 const TOP = Math.max(...PACKAGES.map((p) => p.maxPrice), STOPS[STOPS.length - 1] + 1)
 const BOUNDS = [...STOPS, TOP]
 const BANDS = BOUNDS.length - 1

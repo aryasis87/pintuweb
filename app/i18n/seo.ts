@@ -1,7 +1,7 @@
 // Metadata & JSON-LD per halaman: canonical + hreflang lengkap, Open Graph per bahasa,
 // dan graf schema.org yang konsisten (Organization, WebSite, WebPage, BreadcrumbList).
 import type { Metadata } from 'next'
-import { CLIENT_PROJECTS, EMAIL, FOUNDED_YEAR, SITE, WA_NUMBER } from '../lib/site'
+import { CLIENT_PROJECTS, CLOSES, EMAIL, FOUNDED_YEAR, OPENS, SITE, WA_NUMBER } from '../lib/site'
 import { PACKAGES } from '../lib/packages'
 import { LANG_INFO, LANGS, type Lang } from './config'
 import { alternatesOf, langsOf, urlOf, type DocRef } from './routes'
@@ -96,15 +96,15 @@ export function siteGraph(lang: Lang) {
           hoursAvailable: {
             '@type': 'OpeningHoursSpecification',
             dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            opens: '09:00',
-            closes: '17:00',
+            opens: OPENS,
+            closes: CLOSES,
           },
         },
         openingHoursSpecification: {
           '@type': 'OpeningHoursSpecification',
           dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-          opens: '09:00',
-          closes: '17:00',
+          opens: OPENS,
+          closes: CLOSES,
         },
         additionalProperty: { '@type': 'PropertyValue', name: lang === 'id' ? 'Proyek klien' : 'Client projects', value: CLIENT_PROJECTS },
       },
