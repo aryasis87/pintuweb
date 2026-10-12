@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import PageHero from '../../../components/PageHero'
 import { Breadcrumbs, HlText, JsonLd } from '../../../components/Bits'
-import { SERVICES, serviceOf } from '../../../content/services'
+import { SERVICES, serviceOf, serviceText } from '../../../content/services'
 import { serviceFrom } from '../../../content/service-utils'
 import { fillFacts } from '../../../i18n/facts'
 import { cardsFor } from '../../../components/cards'
@@ -13,7 +13,7 @@ import { articlesIn } from '../../../content/articles'
 import { faqJsonLd } from '../../../content/faq'
 import { categoriesFor, demosFor, getDict, getPages, isLang, LANG_INFO, type Lang } from '../../../i18n'
 import { SERVICE_SLUGS, serviceKeyBySlug } from '../../../i18n/slugs'
-import { path, pathOf, urlOf } from '../../../i18n/routes'
+import { hasPage, path, pathOf, urlOf } from '../../../i18n/routes'
 import { ORG_ID, pageGraph, pageMeta } from '../../../i18n/seo'
 import { PACKAGES } from '../../../lib/packages'
 import { portalOf } from '../../../lib/portals'
@@ -24,13 +24,14 @@ type Params = { params: Promise<{ lang: string; slug: string }> }
 
 export const dynamicParams = false
 export function generateStaticParams({ params }: { params: { lang: string } }) {
-  if (!isLang(params.lang)) return []
+  // bahasa yang halaman layanannya belum diterjemahkan tidak membuat halaman apa pun
+  if (!isLang(params.lang) || !hasPage(params.lang, 'services')) return []
   const lang = params.lang
   return SERVICES.map((s) => ({ slug: SERVICE_SLUGS[s.key][lang] }))
 }
 
 function resolve(lang: string, slug: string) {
-  if (!isLang(lang)) return null
+  if (!isLang(lang) || !hasPage(lang, 'services')) return null
   const key = serviceKeyBySlug(lang, slug)
   return key ? { lang, service: serviceOf(key) } : null
 }
@@ -49,7 +50,7 @@ export default async function ServicePage({ params }: Params) {
   if (!r) notFound()
   const lang: Lang = r.lang
   const s = r.service
-  const raw = s.text[lang]
+  const raw = serviceText(s, lang)
   const fill = (x: string) => fillFacts(lang, x)
   const t = { ...raw, lead: fill(raw.lead), intro: raw.intro.map(fill), includes: raw.includes?.map(fill), faq: raw.faq.map((q) => ({ q: q.q, a: fill(q.a) })) }
   const d = getDict(lang)
@@ -318,7 +319,7 @@ export default async function ServicePage({ params }: Params) {
               {others.map((o) => (
                 <li key={o.key} className="border-b border-[color:var(--border-light)]">
                   <Link href={pathOf(lang, { key: 'services', service: o.key })} className="group flex items-center justify-between gap-3 py-3.5 text-[0.9375rem] text-[color:var(--text-secondary)] hover:text-[color:var(--primary-700)]">
-                    {o.text[lang].name} <ArrowRight size={15} aria-hidden="true" className="arw shrink-0" />
+                    {serviceText(o, lang).name} <ArrowRight size={15} aria-hidden="true" className="arw shrink-0" />
                   </Link>
                 </li>
               ))}

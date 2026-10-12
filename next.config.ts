@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import { PORTALS } from "./app/lib/portals";
 import { routingRules } from "./app/i18n/routes";
+import { LANGS } from "./app/i18n/config";
 
 // Header keamanan dasar untuk semua halaman. HSTS sudah dipasang Vercel.
 const securityHeaders = [
@@ -15,7 +16,7 @@ const { rewrites: langRewrites, redirects: langRedirects } = routingRules();
 
 // Path yang TIDAK ditulis ulang ke /id. Berkas public/ & rute statis sudah dilayani sebelum
 // afterFiles; daftar ini menjaga bahasa lain, aset Next, dan API.
-const notId = ["_next", "_vercel", "api", "id(?:/|$)", "en(?:/|$)", "ms(?:/|$)"].join("|");
+const notId = ["_next", "_vercel", "api", ...LANGS.map((l) => `${l}(?:/|$)`)].join("|");
 
 const nextConfig: NextConfig = {
   // Font TTF & logo untuk gambar OG dibaca lewat fs saat runtime: pastikan ikut terbundel.

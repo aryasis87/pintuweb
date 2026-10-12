@@ -16,7 +16,9 @@ import { siteGraph } from '../i18n/seo'
 // Huruf bergaya Apple. Perangkat Apple memakai SF Pro bawaan sistem (-apple-system di globals.css;
 // SF Pro sendiri tidak boleh di-embed di web). Perangkat lain memakai Inter, padanan terbuka yang paling
 // dekat; sumbu optical size membuat judul besar memakai potongan "display" seperti SF Pro Display.
-const inter = Inter({ subsets: ['latin'], axes: ['opsz'], variable: '--font-inter', display: 'swap' })
+// 'cyrillic' untuk versi Rusia (berkasnya hanya diunduh bila halaman memuat huruf Kiril). Aksara lain (Mandarin,
+// Hindi, Bengali, Arab) memakai huruf bawaan perangkat lewat daftar cadangan di globals.css.
+const inter = Inter({ subsets: ['latin', 'cyrillic'], axes: ['opsz'], variable: '--font-inter', display: 'swap' })
 
 /** Naikkan bila favicon/ikon berubah: browser menyimpan favicon lama sangat lama, parameter ini memaksanya mengambil ulang. */
 const ICON_REV = 3
@@ -57,7 +59,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
       ...(process.env.BING_SITE_VERIFICATION ? { other: { 'msvalidate.01': process.env.BING_SITE_VERIFICATION } } : {}),
     },
-    alternates: { types: { 'application/rss+xml': [{ url: lang === 'en' ? '/en/articles/rss' : '/artikel/rss', title: lang === 'en' ? 'PintuWeb articles' : 'Artikel PintuWeb' }] } },
+    // umpan RSS artikel: versi Inggris untuk semua bahasa selain Indonesia (artikel hanya ada dalam id & en)
+    alternates: { types: { 'application/rss+xml': [{ url: lang === 'id' ? '/artikel/rss' : '/en/articles/rss', title: lang === 'id' ? 'Artikel PintuWeb' : 'PintuWeb articles' }] } },
   }
 }
 
@@ -85,7 +88,7 @@ export default async function LangLayout({ children, params }: { children: React
   ]
 
   return (
-    <html lang={LANG_INFO[lang].htmlLang} className={inter.variable} suppressHydrationWarning>
+    <html lang={LANG_INFO[lang].htmlLang} dir={LANG_INFO[lang].dir} className={inter.variable} suppressHydrationWarning>
       <body className="antialiased">
         <a href="#main-content" className="skip-link">{t.common.skip}</a>
         <Header

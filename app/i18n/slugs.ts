@@ -1,8 +1,8 @@
 // Slug per bahasa untuk halaman bertingkat (layanan & artikel). Dipakai untuk membangun URL,
 // hreflang, dan pemilih bahasa. Isi lengkapnya ada di app/content/.
-import type { Lang } from './config'
+import { BASE_LANGS, X_LANGS, type BaseLang, type Lang } from './config'
 
-export const SERVICE_SLUGS = {
+const BASE_SERVICE_SLUGS = {
   'landing-page': { id: 'landing-page', en: 'landing-page', ms: 'landing-page' },
   'company-profile': { id: 'company-profile', en: 'company-profile-website', ms: 'laman-web-syarikat' },
   'toko-online': { id: 'toko-online', en: 'online-store', ms: 'kedai-dalam-talian' },
@@ -10,10 +10,15 @@ export const SERVICE_SLUGS = {
   'website-custom': { id: 'website-custom', en: 'custom-website', ms: 'laman-web-tersuai' },
   'undangan-digital': { id: 'undangan-digital', en: 'digital-invitation', ms: 'kad-jemputan-digital' },
   'link-in-bio': { id: 'link-in-bio', en: 'link-in-bio', ms: 'link-in-bio' },
-} satisfies Record<string, Record<Lang, string>>
+} satisfies Record<string, Record<BaseLang, string>>
 
-export type ServiceKey = keyof typeof SERVICE_SLUGS
-export const SERVICE_KEYS = Object.keys(SERVICE_SLUGS) as ServiceKey[]
+export type ServiceKey = keyof typeof BASE_SERVICE_SLUGS
+export const SERVICE_KEYS = Object.keys(BASE_SERVICE_SLUGS) as ServiceKey[]
+
+/** Slug layanan per bahasa; bahasa tambahan memakai slug Inggris. */
+export const SERVICE_SLUGS = Object.fromEntries(
+  SERVICE_KEYS.map((k) => [k, Object.fromEntries([...BASE_LANGS.map((l) => [l, BASE_SERVICE_SLUGS[k][l]]), ...X_LANGS.map((l) => [l, BASE_SERVICE_SLUGS[k].en])])]),
+) as Record<ServiceKey, Record<Lang, string>>
 
 /** Artikel hanya ada dalam ID & EN. */
 export const ARTICLE_SLUGS = {

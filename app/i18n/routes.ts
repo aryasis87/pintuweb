@@ -1,6 +1,6 @@
 // Peta URL publik per bahasa. Folder internal di app/[lang]/ memakai segmen versi Indonesia;
 // next.config.ts membangun rewrite (publik -> internal) dan redirect (internal -> publik) dari tabel ini.
-import { DEFAULT_LANG, LANGS, LANG_INFO, isLang, type Lang } from './config'
+import { BASE_LANGS, DEFAULT_LANG, LANGS, LANG_INFO, X_LANGS, isLang, type BaseLang, type Lang, type XLang } from './config'
 import { ARTICLE_SLUGS, SERVICE_SLUGS, articleKeyBySlug, serviceKeyBySlug, type ArticleKey, type ServiceKey } from './slugs'
 import { SITE } from '../lib/site'
 
@@ -8,8 +8,8 @@ export type PageKey =
   | 'home' | 'services' | 'pricing' | 'demo' | 'faq' | 'about' | 'contact'
   | 'founder' | 'privacy' | 'terms' | 'articles' | 'glossary'
 
-/** null = halaman itu tidak ada dalam bahasa tersebut. */
-export const SEGMENTS: Record<PageKey, Record<Lang, string | null>> = {
+/** Segmen URL bahasa dasar. null = halaman itu tidak ada dalam bahasa tersebut. */
+const BASE_SEGMENTS: Record<PageKey, Record<BaseLang, string | null>> = {
   home: { id: '', en: '', ms: '' },
   services: { id: 'services', en: 'services', ms: 'perkhidmatan' },
   pricing: { id: 'paket', en: 'pricing', ms: 'harga' },
@@ -24,14 +24,42 @@ export const SEGMENTS: Record<PageKey, Record<Lang, string | null>> = {
   glossary: { id: 'kamus-website', en: 'glossary', ms: 'glosari' },
 }
 
+/**
+ * Halaman yang SUDAH diterjemahkan untuk tiap bahasa tambahan. Halaman di luar daftar ini tidak dibuat untuk
+ * bahasa itu, dan tautan ke sana otomatis menuju versi Inggris (lihat path()). Artikel tidak pernah ada di sini.
+ */
+const X_CORE: PageKey[] = ['home', 'pricing', 'demo', 'faq', 'about', 'contact', 'founder']
+const X_READY: Record<string, PageKey[]> = Object.fromEntries((X_LANGS as readonly XLang[]).map((l) => [l, X_CORE]))
+
+/** Segmen URL per halaman per bahasa; bahasa tambahan memakai segmen Inggris. null = halaman tidak ada. */
+export const SEGMENTS = Object.fromEntries(
+  (Object.keys(BASE_SEGMENTS) as PageKey[]).map((key) => [
+    key,
+    Object.fromEntries([
+      ...BASE_LANGS.map((l) => [l, BASE_SEGMENTS[key][l]]),
+      ...X_LANGS.map((l) => [l, X_READY[l].includes(key) ? BASE_SEGMENTS[key].en : null]),
+    ]),
+  ]),
+) as Record<PageKey, Record<Lang, string | null>>
+
 const prefix = (lang: Lang) => (lang === DEFAULT_LANG ? '' : `/${lang}`)
 
 export const hasPage = (lang: Lang, key: PageKey) => SEGMENTS[key][lang] !== null
 
-/** Path publik, mis. path('en', 'pricing') -> '/en/pricing'. */
+/** Bahasa cadangan untuk menaut halaman yang belum ada dalam suatu bahasa. */
+const FALLBACK: Lang = 'en'
+
+/**
+ * Path publik, mis. path('en', 'pricing') -> '/en/pricing'. Bila halaman itu belum ada dalam bahasa yang diminta
+ * (bahasa tambahan yang belum lengkap), hasilnya path versi Inggris, supaya tautannya tetap hidup.
+ * Untuk memutuskan apakah sebuah halaman ADA, pakai hasPage()/langsOf(), jangan path().
+ */
 export function path(lang: Lang, key: PageKey, slug?: string): string {
   const seg = SEGMENTS[key][lang]
-  if (seg === null) throw new Error(`Halaman ${key} tidak ada dalam bahasa ${lang}`)
+  if (seg === null) {
+    if (lang !== FALLBACK && SEGMENTS[key][FALLBACK] !== null) return path(FALLBACK, key, slug)
+    throw new Error(`Halaman ${key} tidak ada dalam bahasa ${lang}`)
+  }
   const p = [prefix(lang), seg, slug].filter(Boolean).join('/')
   return p ? (p.startsWith('/') ? p : `/${p}`) : '/'
 }
@@ -57,7 +85,8 @@ export function langsOf(ref: DocRef): Lang[] {
 }
 
 export function pathOf(lang: Lang, ref: DocRef): string {
-  if (ref.key === 'services' && ref.service) return path(lang, 'services', SERVICE_SLUGS[ref.service][lang])
+  // layanan: slug mengikuti bahasa yang benar-benar dipakai (Inggris bila halaman layanan belum ada di bahasa ini)
+  if (ref.key === 'services' && ref.service) return path(lang, 'services', SERVICE_SLUGS[ref.service][hasPage(lang, 'services') ? lang : FALLBACK])
   if (ref.key === 'articles' && ref.article) {
     const slug = (ARTICLE_SLUGS[ref.article] as Partial<Record<Lang, string>>)[lang]
     if (!slug) throw new Error(`Artikel ${ref.article} tidak ada dalam bahasa ${lang}`)

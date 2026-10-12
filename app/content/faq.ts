@@ -4,7 +4,9 @@ import { CLIENT_PROJECTS, FOUNDED_YEAR, GUARANTEE_DAYS, PERF_TARGET } from '../l
 import { DEMOS } from '../lib/demos'
 import { facts, packagesFor } from '../i18n/facts'
 import { byPrice } from '../lib/packages'
-import type { Lang } from '../i18n/config'
+import { isBase, type BaseLang, type Lang } from '../i18n/config'
+import { pack } from '../i18n/x'
+import type { Listed } from '../i18n/x/types'
 import type { PageKey } from '../i18n/routes'
 import type { ArticleKey, ServiceKey } from '../i18n/slugs'
 import type { TermsId } from './legal'
@@ -52,7 +54,7 @@ export const FAQ_MORE: Partial<Record<FaqKey, FaqMore>> = {
   'website-bermasalah': { page: 'contact' },
 }
 
-const CATEGORIES: Record<Lang, { id: FaqCategoryId; name: string; lead: string }[]> = {
+const CATEGORIES: Record<BaseLang, { id: FaqCategoryId; name: string; lead: string }[]> = {
   id: [
     { id: 'general', name: 'Umum', lead: 'Siapa kami, cara kami bekerja, dan apa yang Anda dapat.' },
     { id: 'pricing', name: 'Harga', lead: 'Biaya, cara bayar, dan apa saja yang sudah termasuk.' },
@@ -80,10 +82,21 @@ const CATEGORIES: Record<Lang, { id: FaqCategoryId; name: string; lead: string }
  * Jawaban berbentuk daftar. Teks utuhnya (untuk JSON-LD, llms.txt, dan pencarian) dirakit dari bagian yang sama
  * dengan yang ditampilkan, jadi keduanya tidak bisa berselisih.
  */
-function listed(intro: string, rows: FaqList['rows'], outro: string, ordered = false): Pick<RawItem, 'answer' | 'list'> {
+function listed(intro: string, rows: FaqList['rows'], outro: string, ordered = false): Listed {
   const flat = rows.map((r, i) => `${ordered ? `${i + 1}) ` : ''}${r.label}${r.value ? `: ${r.value}` : ''}`).join('; ')
   return { answer: `${intro} ${flat}. ${outro}`, list: { intro, rows, outro, ordered } }
 }
+
+/** Kategori tiap pertanyaan menurut urutan FAQ_KEYS: 7 umum, 5 harga, 6 proses, 6 teknis, 5 dukungan. */
+const CATEGORY_OF: FaqCategoryId[] = (
+  [
+    ['general', 7],
+    ['pricing', 5],
+    ['process', 6],
+    ['technical', 6],
+    ['support', 5],
+  ] as const
+).flatMap(([c, n]) => Array<FaqCategoryId>(n).fill(c))
 
 function items(lang: Lang): RawItem[] {
   const f = facts(lang)
@@ -92,6 +105,13 @@ function items(lang: Lang): RawItem[] {
   const prices = byPrice(pk).map((p) => ({ label: p.title, value: p.priceFrom }))
   const steps = (list: string[]) => list.map((label) => ({ label }))
   const n = DEMOS.length
+
+  // Bahasa tambahan: 29 pasang [pertanyaan, jawaban] dari paketnya, berurutan seperti FAQ_KEYS.
+  if (!isBase(lang)) {
+    return pack(lang)
+      .faq({ year: FOUNDED_YEAR, projects: CLIENT_PROJECTS, demos: n, perf: PERF_TARGET, days: GUARANTEE_DAYS, facts: f, prices, durations, listed, steps })
+      .map(([question, a], i) => ({ category: CATEGORY_OF[i], question, ...(typeof a === 'string' ? { answer: a } : a) }))
+  }
 
   if (lang === 'en') {
     return [
@@ -194,11 +214,14 @@ function items(lang: Lang): RawItem[] {
   ]
 }
 
-export function faqFor(lang: Lang): { categories: (typeof CATEGORIES)[Lang]; items: FaqItem[] } {
+export function faqFor(lang: Lang): { categories: { id: FaqCategoryId; name: string; lead: string }[]; items: FaqItem[] } {
   const list = items(lang)
+  const categories = isBase(lang)
+    ? CATEGORIES[lang]
+    : (['general', 'pricing', 'process', 'technical', 'support'] as const).map((id) => ({ id, ...pack(lang).faqCategories[id] }))
   // daftar tiap bahasa harus sejajar dengan FAQ_KEYS; kalau tidak, jangkar akan menunjuk pertanyaan yang salah
   if (list.length !== FAQ_KEYS.length) throw new Error(`FAQ ${lang}: ${list.length} pertanyaan, tetapi ada ${FAQ_KEYS.length} kunci`)
-  return { categories: CATEGORIES[lang], items: list.map((it, i) => ({ ...it, key: FAQ_KEYS[i] })) }
+  return { categories, items: list.map((it, i) => ({ ...it, key: FAQ_KEYS[i] })) }
 }
 
 /** JSON-LD FAQPage dari daftar tanya-jawab yang sama dengan yang tampil. */

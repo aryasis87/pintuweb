@@ -88,9 +88,10 @@
   --card-bg: #ffffff;
 
   /* Tumpukan huruf: SF Pro bawaan perangkat Apple (tidak di-embed — lisensinya tidak mengizinkan),
-     lalu Inter (next/font) untuk Windows/Android supaya tampilannya tetap seragam. */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--font-inter), 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', var(--font-inter), 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+     lalu Inter (next/font) untuk Windows/Android supaya tampilannya tetap seragam. Nama-nama di ujung daftar adalah
+     huruf bawaan perangkat untuk aksara yang tidak ada di SF/Inter: Mandarin, Devanagari (Hindi), Bengali, Arab. */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--font-inter), 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'Nirmala UI', 'Noto Sans Devanagari', 'Noto Sans Bengali', 'Geeza Pro', 'Noto Sans Arabic', sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', var(--font-inter), 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'Nirmala UI', 'Noto Sans Devanagari', 'Noto Sans Bengali', 'Geeza Pro', 'Noto Sans Arabic', sans-serif;
   --radius: 16px;
 }
 
@@ -409,6 +410,17 @@
     }
   }
 }
+
+/* Aksara non-Latin (di luar @layer supaya menang atas utilitas Tailwind).
+   Pemadatan huruf (letter-spacing negatif) memutus sambungan huruf Arab dan menggeser tanda vokal Devanagari/Bengali,
+   dan tinggi baris judul yang rapat memotong tanda di atas/bawah huruf. Elemen ber-atribut lang lain (mis. nama
+   bahasa di pemilih bahasa) tidak ikut terkena. */
+:lang(ar), :lang(hi), :lang(bn), :lang(zh) { letter-spacing: 0 !important; }
+:is(:lang(ar), :lang(hi), :lang(bn)):is(h1, h2, h3, h4, .display, blockquote) { line-height: 1.4 !important; }
+:lang(zh):is(h1, h2, h3, h4, .display, blockquote) { line-height: 1.3 !important; }
+
+/* Kanan-ke-kiri (Arab): panah "lanjut" menunjuk ke kiri. */
+[dir='rtl'] .arw:not(.arw-ne) { scale: -1 1; }
 
 @media (prefers-reduced-motion: reduce) {
   .work:hover .shot, .work:focus-visible .shot { transform: none; }

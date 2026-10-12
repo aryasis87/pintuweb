@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { useEffect, useId, useRef, useState } from 'react'
+import { ArrowRight, ArrowUpRight, Check, ChevronDown, Globe } from 'lucide-react'
 import { LANGS, LANG_INFO, type Lang } from '../i18n/config'
 import { switchPath, toPublicPath } from '../i18n/routes'
 import { Logo } from './Logo'
@@ -32,37 +32,120 @@ export type HeaderProps = {
   }
 }
 
-/** Pemilih bahasa berbentuk kapsul: menaut ke halaman padanan; bahasa tanpa versi halaman ini ditampilkan nonaktif. */
+/**
+ * Pemilih bahasa: tombol (bola dunia + kode bahasa) yang membuka daftar semua bahasa dengan namanya sendiri.
+ * Tiap butir menaut ke halaman padanan; bahasa yang belum punya versi halaman ini tampil nonaktif.
+ * `big` = versi di lembar menu ponsel: tombol selebar lembar, daftarnya terbuka di bawahnya (bukan melayang).
+ */
 function LangSwitch({ lang, label, notAvailable, onPick, big = false }: { lang: Lang; label: string; notAvailable: string; onPick?: () => void; big?: boolean }) {
   const pathname = toPublicPath(usePathname() ?? '/')
-  const base = `grid place-items-center rounded-full ${big ? 'min-h-10 min-w-12 px-3' : 'min-h-8 min-w-9 px-2'}`
+  const [open, setOpen] = useState(false)
+  const box = useRef<HTMLDivElement>(null)
+  const listId = useId()
+  const cur = LANG_INFO[lang]
+
+  useEffect(() => {
+    if (!open) return
+    const onDown = (e: PointerEvent) => {
+      if (box.current && !box.current.contains(e.target as Node)) setOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
+    document.addEventListener('pointerdown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+  // pindah halaman = tutup daftar
+  useEffect(() => setOpen(false), [pathname])
+
+  const row = big
+    ? 'flex min-h-11 items-center justify-between gap-2 rounded-xl px-3 text-[0.9375rem]'
+    : 'flex min-h-10 items-center justify-between gap-3 rounded-xl px-3 text-[0.9375rem]'
+
   return (
-    <div role="group" aria-label={label} className={`flex items-center rounded-full bg-[color:var(--surface-soft)] p-0.5 font-semibold ring-1 ring-[color:var(--border-light)] ${big ? 'text-[0.9375rem]' : 'text-[0.8125rem]'}`}>
-      {LANGS.map((l) => {
-        const href = switchPath(pathname, l)
-        const info = LANG_INFO[l]
-        if (l === lang) {
-          return (
-            <span key={l} lang={info.htmlLang} aria-current="true" title={info.name} className={`${base} bg-white text-[color:var(--primary-700)] shadow-[0_1px_2px_rgb(15_29_58/0.12)] ring-1 ring-[color:var(--border-light)]`}>
-              {info.short}
-            </span>
-          )
+    <div ref={box} className={big ? 'w-full' : 'relative'}>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-label={`${label}: ${cur.name}`}
+        onClick={() => setOpen((v) => !v)}
+        className={
+          big
+            ? 'flex h-12 w-full items-center gap-2.5 rounded-2xl bg-[color:var(--surface-soft)] px-4 text-[0.9375rem] text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)]'
+            : 'inline-flex h-9 items-center gap-1.5 rounded-full bg-[color:var(--surface-soft)] pe-2 ps-2.5 text-[0.8125rem] font-semibold text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)] transition-colors hover:text-[color:var(--primary-700)]'
         }
-        if (!href) {
-          return (
-            <span key={l} lang={info.htmlLang} title={`${info.name} — ${notAvailable}`} aria-disabled="true" className={`${base} cursor-not-allowed text-[color:var(--text-muted)] line-through`}>
-              {info.short}
-              <span className="sr-only"> ({notAvailable})</span>
+      >
+        <Globe size={big ? 18 : 15} strokeWidth={1.75} className="shrink-0" aria-hidden="true" />
+        {big ? (
+          <>
+            <span>{label}</span>
+            <span lang={cur.htmlLang} className="ms-auto font-semibold text-[color:var(--text-primary)]">
+              {cur.name}
             </span>
-          )
+          </>
+        ) : (
+          <span>{cur.short}</span>
+        )}
+        <ChevronDown size={big ? 18 : 14} className={`shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
+      </button>
+
+      <ul
+        id={listId}
+        hidden={!open}
+        className={
+          big
+            ? 'mt-2 grid grid-cols-2 gap-1.5'
+            : 'absolute end-0 top-[calc(100%+0.625rem)] z-50 max-h-[min(70vh,32rem)] w-60 overflow-y-auto rounded-2xl bg-white p-1.5 shadow-[0_24px_48px_-24px_rgb(15_29_58/0.45)] ring-1 ring-[color:var(--border-light)]'
         }
-        return (
-          <a key={l} href={href} hrefLang={info.hreflang} lang={info.htmlLang} title={info.name} onClick={onPick} className={`${base} text-[color:var(--text-tertiary)] transition-colors hover:text-[color:var(--primary-700)]`}>
-            {info.short}
-            <span className="sr-only"> — {info.name}</span>
-          </a>
-        )
-      })}
+      >
+        {LANGS.map((l) => {
+          const href = switchPath(pathname, l)
+          const info = LANG_INFO[l]
+          const frame = big ? 'bg-white ring-1 ring-[color:var(--border-light)]' : ''
+          if (l === lang) {
+            return (
+              <li key={l}>
+                <span lang={info.htmlLang} aria-current="true" className={`${row} bg-[color:var(--primary-50)] font-semibold text-[color:var(--primary-700)]`}>
+                  {info.name}
+                  <Check size={16} className="shrink-0" aria-hidden="true" />
+                </span>
+              </li>
+            )
+          }
+          if (!href) {
+            return (
+              <li key={l}>
+                <span lang={info.htmlLang} aria-disabled="true" title={notAvailable} className={`${row} ${frame} cursor-not-allowed text-[color:var(--text-muted)]`}>
+                  <span className="line-through">{info.name}</span>
+                  <span className="sr-only"> ({notAvailable})</span>
+                </span>
+              </li>
+            )
+          }
+          return (
+            <li key={l}>
+              <a
+                href={href}
+                hrefLang={info.hreflang}
+                lang={info.htmlLang}
+                onClick={() => {
+                  setOpen(false)
+                  onPick?.()
+                }}
+                className={`${row} ${frame} text-[color:var(--text-secondary)] transition-colors hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--primary-700)]`}
+              >
+                {info.name}
+                <span className="text-[0.75rem] font-semibold text-[color:var(--text-muted)]" aria-hidden="true">
+                  {info.short}
+                </span>
+              </a>
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
@@ -203,8 +286,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
           </nav>
 
           <div className="mt-2 border-t border-[color:var(--border-light)] px-1.5 pb-1.5 pt-3">
-            <div className="flex items-center justify-between gap-3 md:hidden">
-              <span className="pl-2.5 text-sm text-[color:var(--text-tertiary)]">{t.language}</span>
+            <div className="md:hidden">
               <LangSwitch lang={lang} label={t.language} notAvailable={t.notAvailable} onPick={() => setMenuOpen(false)} big />
             </div>
             <a href={waHref} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} className="btn btn-solid mt-3 w-full md:mt-0">

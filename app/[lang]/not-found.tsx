@@ -4,16 +4,22 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { WA_NUMBER } from '../lib/site'
+import { isLang, type Lang } from '../i18n/config'
+import { path } from '../i18n/routes'
 
-const TEXT = {
-  id: { title: 'Halaman tidak ditemukan', h1: 'Pintu ini belum ada.', lead: 'Halaman yang Anda cari tidak ditemukan atau sudah dipindahkan. Coba mulai dari salah satu pintu di bawah.', home: 'Ke beranda', homeHref: '/', demos: 'Lihat demo', demosHref: '/demo', wa: 'Atau tanyakan langsung lewat WhatsApp', waText: 'Halo PintuWeb, saya tidak menemukan halaman yang saya cari di situs.' },
-  en: { title: 'Page not found', h1: 'This door does not exist yet.', lead: 'The page you are looking for could not be found or has moved. Try starting from one of the doors below.', home: 'Go to the home page', homeHref: '/en', demos: 'See demos', demosHref: '/en/demos', wa: 'Or ask us directly on WhatsApp', waText: 'Hello PintuWeb, I could not find the page I was looking for on your site.' },
-  ms: { title: 'Halaman tidak ditemui', h1: 'Pintu ini belum wujud.', lead: 'Halaman yang anda cari tidak ditemui atau telah dipindahkan. Cuba mulakan dari salah satu pintu di bawah.', home: 'Ke halaman utama', homeHref: '/ms', demos: 'Lihat demo', demosHref: '/ms/demo', wa: 'Atau tanya terus melalui WhatsApp', waText: 'Hai PintuWeb, saya tidak menemui halaman yang saya cari di laman anda.' },
+// Teks 404 per bahasa (sama dengan pages.notFound; ditulis di sini supaya kamus halaman tidak ikut terkirim ke
+// browser). Menambah bahasa = menambah satu baris di sini; tipenya memaksa semua bahasa terisi.
+type Text = { title: string; h1: string; lead: string; home: string; demos: string; wa: string; waText: string }
+const TEXT: Record<Lang, Text> = {
+  id: { title: 'Halaman tidak ditemukan', h1: 'Pintu ini belum ada.', lead: 'Halaman yang Anda cari tidak ditemukan atau sudah dipindahkan. Coba mulai dari salah satu pintu di bawah.', home: 'Ke beranda', demos: 'Lihat demo', wa: 'Atau tanyakan langsung lewat WhatsApp', waText: 'Halo PintuWeb, saya tidak menemukan halaman yang saya cari di situs.' },
+  en: { title: 'Page not found', h1: 'This door does not exist yet.', lead: 'The page you are looking for could not be found or has moved. Try starting from one of the doors below.', home: 'Go to the home page', demos: 'See demos', wa: 'Or ask us directly on WhatsApp', waText: 'Hello PintuWeb, I could not find the page I was looking for on your site.' },
+  ms: { title: 'Halaman tidak ditemui', h1: 'Pintu ini belum wujud.', lead: 'Halaman yang anda cari tidak ditemui atau telah dipindahkan. Cuba mulakan dari salah satu pintu di bawah.', home: 'Ke halaman utama', demos: 'Lihat demo', wa: 'Atau tanya terus melalui WhatsApp', waText: 'Hai PintuWeb, saya tidak menemui halaman yang saya cari di laman anda.' },
 }
 
 export default function NotFound() {
-  const first = usePathname()?.split('/')[1]
-  const t = TEXT[first === 'en' || first === 'ms' ? first : 'id']
+  const first = usePathname()?.split('/')[1] ?? ''
+  const lang: Lang = isLang(first) ? first : 'id'
+  const t = TEXT[lang]
   return (
     <main id="main-content" className="pb-24 pt-32 sm:pt-40">
       <title>{`${t.title} | PintuWeb`}</title>
@@ -24,10 +30,10 @@ export default function NotFound() {
           <h1 className="mt-5 text-[2.6rem] leading-[1.05] text-[color:var(--text-primary)] sm:text-[3.75rem]">{t.h1}</h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--text-tertiary)]">{t.lead}</p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Link href={t.homeHref} className="btn btn-solid">
+            <Link href={path(lang, 'home')} className="btn btn-solid">
               {t.home} <ArrowRight size={17} className="arw" aria-hidden="true" />
             </Link>
-            <Link href={t.demosHref} className="btn btn-line">
+            <Link href={path(lang, 'demo')} className="btn btn-line">
               {t.demos} <ArrowRight size={17} className="arw" aria-hidden="true" />
             </Link>
           </div>

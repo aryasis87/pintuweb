@@ -5,7 +5,7 @@ import { path, pathOf } from '../i18n/routes'
 import { ARTICLE_SLUGS } from '../i18n/slugs'
 import { FAQ_CATEGORY_SLUG, FAQ_MORE, faqFor, type FaqKey } from '../content/faq'
 import { getArticle } from '../content/articles'
-import { serviceOf } from '../content/services'
+import { serviceOf, serviceText } from '../content/services'
 import { facts } from '../i18n/facts'
 import { wa } from '../lib/site'
 import type { Lang } from '../i18n/config'
@@ -18,7 +18,7 @@ function moreOf(lang: Lang, key: FaqKey): FaqEntry['more'] {
   const m = FAQ_MORE[key]
   if (!m) return undefined
   const links = getDict(lang).links
-  if ('service' in m) return { label: serviceOf(m.service).text[lang].name, href: pathOf(lang, { key: 'services', service: m.service }) }
+  if ('service' in m) return { label: serviceText(serviceOf(m.service), lang).name, href: pathOf(lang, { key: 'services', service: m.service }) }
   if ('article' in m) {
     // artikel hanya ada dalam sebagian bahasa; bahasa lain memakai halaman penggantinya
     const has = Boolean((ARTICLE_SLUGS[m.article] as Partial<Record<Lang, string>>)[lang])

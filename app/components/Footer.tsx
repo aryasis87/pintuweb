@@ -6,7 +6,7 @@ import { getDict } from '../i18n'
 import { facts } from '../i18n/facts'
 import { LANGS, LANG_INFO, type Lang } from '../i18n/config'
 import { hasPage, path, pathOf } from '../i18n/routes'
-import { SERVICES } from '../content/services'
+import { SERVICES, serviceText } from '../content/services'
 import { HlText } from './Bits'
 import { Logo, LogoMark } from './Logo'
 
@@ -28,7 +28,7 @@ export default function Footer({ lang }: { lang: Lang }) {
   const cols: { title: string; links: { label: string; href: string; zone?: boolean }[] }[] = [
     {
       title: t.footer.colServices,
-      links: SERVICES.map((s) => ({ label: s.text[lang].name, href: pathOf(lang, { key: 'services', service: s.key }) })),
+      links: SERVICES.map((s) => ({ label: serviceText(s, lang).name, href: pathOf(lang, { key: 'services', service: s.key }) })),
     },
     {
       title: t.footer.colGalleries,

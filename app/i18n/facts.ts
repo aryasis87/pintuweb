@@ -3,22 +3,12 @@
 import { CLOSES, GUARANTEE_DAYS, HOURS, LOCATION, OPENS, PERF_TARGET, RESPONSE, dotTime } from '../lib/site'
 import { DEMOS } from '../lib/demos'
 import { ADDONS, PACKAGES, PAYMENT_SUMMARY, RENEWAL_BIO_PER_YEAR, RENEWAL_PER_YEAR, RENEWAL_SUMMARY, type Paket, type Waktu } from '../lib/packages'
-import { LANG_INFO, type Lang } from './config'
-import { ADDON_TEXT, PACKAGE_TEXT } from '../content/packages-text'
+import { LANG_INFO, isBase, type BaseLang, type Lang } from './config'
+import { ADDON_TEXT, PACKAGE_GROUP_TEXT, PACKAGE_TEXT } from '../content/packages-text'
+import { pack } from './x'
+import type { Facts } from './x/types'
 
-type Facts = {
-  hours: string
-  hoursDays: string
-  hoursTime: string
-  response: string
-  location: string
-  serves: string
-  payment: string
-  renewal: string
-  guarantee: string
-}
-
-const FACTS: Record<Lang, Facts> = {
+const FACTS: Record<BaseLang, Facts> = {
   id: {
     hours: HOURS,
     hoursDays: HOURS.split(', ')[0],
@@ -68,7 +58,17 @@ const FACTS: Record<Lang, Facts> = {
   },
 }
 
-export const facts = (lang: Lang) => FACTS[lang]
+/** "IDR 300,000–500,000": kisaran dengan kode mata uang sekali saja di depan. */
+const idrRange = (lang: Lang, r: { min: number; max: number }) => `${money(lang, r.min)}–${money(lang, r.max).replace('IDR ', '')}`
+
+const factsCache = new Map<Lang, Facts>()
+export function facts(lang: Lang): Facts {
+  if (isBase(lang)) return FACTS[lang]
+  if (!factsCache.has(lang)) {
+    factsCache.set(lang, pack(lang).facts({ opens: OPENS, closes: CLOSES, days: GUARANTEE_DAYS, renewal: idrRange(lang, RENEWAL_PER_YEAR), renewalBio: idrRange(lang, RENEWAL_BIO_PER_YEAR) }))
+  }
+  return factsCache.get(lang)!
+}
 
 /** Rp600.000 (id) / IDR 600,000 (en, ms). */
 export function money(lang: Lang, n: number) {
@@ -83,7 +83,10 @@ export const moneyRange = (lang: Lang, p: Paket) =>
 
 /** Angka ringkas untuk papan harga: "300 rb" / "1,25 jt" (id), "300k" / "1.25M" (en), "300 ribu" / "1.25 juta" (ms). */
 function compact(lang: Lang, n: number) {
-  const fmt = (v: number) => new Intl.NumberFormat(LANG_INFO[lang].intl, { maximumFractionDigits: 2 }).format(v)
+  const intl = LANG_INFO[lang].intl
+  // bahasa tambahan: notasi ringkas bawaan Intl ("300 k", "30万", "3 लाख", "300 тыс.")
+  if (!isBase(lang)) return new Intl.NumberFormat(intl, { notation: 'compact', maximumFractionDigits: 2 }).format(n)
+  const fmt = (v: number) => new Intl.NumberFormat(intl, { maximumFractionDigits: 2 }).format(v)
   const big = n >= 1_000_000
   const v = fmt(big ? n / 1_000_000 : n / 1_000)
   if (lang === 'id') return `${v} ${big ? 'jt' : 'rb'}`
@@ -107,6 +110,14 @@ export type LocalPaket = Paket & { priceFrom: string; priceRange: string; deposi
 export function durationText(lang: Lang, w: Waktu): string {
   const n = w.min === w.max ? `${w.min}` : `${w.min}–${w.max}`
   const one = w.max === 1
+  const intl = LANG_INFO[lang].intl
+  if (!isBase(lang)) {
+    // bentuk katanya mengikuti kaidah jamak bahasa itu untuk angka terakhir rentang
+    const t = pack(lang).time
+    const forms = w.unit === 'hari' ? t.day : t.week
+    const cat = new Intl.PluralRules(intl).select(w.max) as keyof typeof forms
+    return `${n} ${forms[cat] ?? forms.other}${w.flex ? t.flex : ''}`
+  }
   if (lang === 'en') return `${n} ${w.unit === 'hari' ? (one ? 'working day' : 'working days') : one ? 'week' : 'weeks'}${w.flex ? ', depending on features' : ''}`
   if (lang === 'ms') return `${n} ${w.unit === 'hari' ? 'hari bekerja' : 'minggu'}${w.flex ? ', bergantung pada ciri' : ''}`
   return `${n} ${w.unit === 'hari' ? 'hari kerja' : 'minggu'}${w.flex ? ', tergantung fitur' : ''}`
@@ -114,7 +125,7 @@ export function durationText(lang: Lang, w: Waktu): string {
 
 export function packagesFor(lang: Lang): LocalPaket[] {
   return PACKAGES.map((p) => {
-    const t = lang === 'id' ? null : PACKAGE_TEXT[lang][p.slug]
+    const t = lang === 'id' ? null : isBase(lang) ? PACKAGE_TEXT[lang][p.slug] : pack(lang).packages[p.slug]
     const base: Paket = t ? { ...p, ...t } : p
     return {
       ...base,
@@ -140,6 +151,7 @@ export function durationSpan(lang: Lang) {
 
 /** Pesan WhatsApp untuk paket, dalam bahasa pengunjung (supaya kami tahu bahasa balasannya). */
 export function waPackageText(lang: Lang, title: string) {
+  if (!isBase(lang)) return pack(lang).waPackage(title)
   if (lang === 'en') return `Hello PintuWeb, I'm interested in the "${title}" package. Could you tell me more?`
   if (lang === 'ms') return `Hai PintuWeb, saya berminat dengan pakej "${title}". Boleh kongsikan maklumat lanjut?`
   return `Halo PintuWeb, saya tertarik dengan paket "${title}". Boleh minta info lebih lanjut?`
@@ -148,10 +160,13 @@ export function waPackageText(lang: Lang, title: string) {
 /** Biaya tambahan per bahasa (angka dari ADDONS di packages.ts). */
 export function addonsFor(lang: Lang) {
   return ADDONS.map((a) => {
-    const t = ADDON_TEXT[lang][a.slug]
+    const t = (isBase(lang) ? ADDON_TEXT[lang] : pack(lang).addons)[a.slug]
     return { ...a, title: t.title, unit: t.unit, range: `${money(lang, a.minPrice)} – ${money(lang, a.maxPrice)}` }
   })
 }
+
+/** Nama & pengantar kelompok paket dalam bahasa pengunjung. */
+export const groupText = (lang: Lang) => (isBase(lang) ? PACKAGE_GROUP_TEXT[lang] : pack(lang).groups)
 
 /**
  * Mengisi penanda harga/fakta di teks (artikel, halaman layanan):

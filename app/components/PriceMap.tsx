@@ -1,9 +1,8 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { PACKAGES, byPrice } from '../lib/packages'
-import { PACKAGE_GROUP_TEXT } from '../content/packages-text'
 import { getDict } from '../i18n'
-import { currencyCode, moneyCompact, moneyShort, packagesFor } from '../i18n/facts'
+import { currencyCode, groupText, moneyCompact, moneyShort, packagesFor } from '../i18n/facts'
 import type { Lang } from '../i18n/config'
 
 // "Peta harga": semua paket diurutkan dari yang termurah, masing-masing dengan batang kisaran harganya pada
@@ -40,7 +39,7 @@ type Props = {
 
 export default function PriceMap({ lang, base, tone = 'soft', className = '' }: Props) {
   const t = getDict(lang).pricing
-  const groupTitle = PACKAGE_GROUP_TEXT[lang]
+  const groupTitle = groupText(lang)
   const items = byPrice(packagesFor(lang))
   const hasOpen = items.some((p) => p.openEnded)
   const panel = tone === 'white' ? 'bg-white ring-1 ring-[color:var(--border-light)]' : 'bg-[color:var(--surface-soft)]'

@@ -1,12 +1,12 @@
 // Kamus istilah website (3 bahasa). Definisi dibuka dengan kalimat "X adalah …" supaya mudah dikutip.
-import type { Lang } from '../i18n/config'
+import type { BaseLang } from '../i18n/config'
 import type { DocRef } from '../i18n/routes'
 
 /** Topik istilah: dasar website, jenis website, SEO & kecepatan, bisnis & pemasaran. */
 export const TERM_TOPICS = ['dasar', 'jenis', 'seo', 'bisnis'] as const
 export type TermTopic = (typeof TERM_TOPICS)[number]
 
-export type Term = { id: string; topic: TermTopic; term: Record<Lang, string>; def: Record<Lang, string>; see?: DocRef }
+export type Term = { id: string; topic: TermTopic; term: Record<BaseLang, string>; def: Record<BaseLang, string>; see?: DocRef }
 
 export const TERMS: Term[] = [
   {

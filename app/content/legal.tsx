@@ -7,9 +7,9 @@ import type { ReactNode } from 'react'
 import { EMAIL, GUARANTEE_DAYS, SITE, WA_DISPLAY } from '../lib/site'
 import { facts, packagesFor } from '../i18n/facts'
 import { path } from '../i18n/routes'
-import type { Lang } from '../i18n/config'
+import type { BaseLang } from '../i18n/config'
 
-export const LEGAL_UPDATED: Record<Lang, string> = {
+export const LEGAL_UPDATED: Record<BaseLang, string> = {
   id: '28 September 2026',
   en: '28 September 2026',
   ms: '28 September 2026',
@@ -24,7 +24,7 @@ export type TermsId = 'paket' | 'pembayaran' | 'waktu' | 'revisi' | 'garansi' | 
 
 const host = SITE.replace('https://', '')
 
-export function privacyDoc(lang: Lang): LegalDoc {
+export function privacyDoc(lang: BaseLang): LegalDoc {
   const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
   if (lang === 'en' || lang === 'ms') {
     const en = lang === 'en'
@@ -214,7 +214,7 @@ export function privacyDoc(lang: Lang): LegalDoc {
   }
 }
 
-export function termsDoc(lang: Lang): LegalDoc {
+export function termsDoc(lang: BaseLang): LegalDoc {
   const f = facts(lang)
   const pk = packagesFor(lang)
   const mail = <a href={`mailto:${EMAIL}`}>{EMAIL}</a>

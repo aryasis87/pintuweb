@@ -30,9 +30,11 @@ type MetaInput = {
 /** Naikkan bila desain gambar OG berubah, supaya perayap media sosial mengambil versi baru. */
 const OG_REV = 7
 /** Gambar OG bergaya situs dari judul halaman (semua bahasa). */
-export const ogImage = (lang: Lang, title: string) => `${SITE}/api/og?l=${lang}&t=${encodeURIComponent(title)}&r=${OG_REV}`
+export const ogImage = (lang: Lang, title: string) =>
+  // aksara yang tidak ada di huruf OG (Mandarin, Hindi, Bengali, Arab): pakai kartu merek berbahasa Inggris
+  LANG_INFO[lang].ogText ? `${SITE}/api/og?l=${lang}&t=${encodeURIComponent(title)}&r=${OG_REV}` : ogHome(lang)
 /** Kartu merek beranda; angkanya dirender dari lib/site.ts sehingga tidak pernah usang. */
-export const ogHome = (lang: Lang) => `${SITE}/api/og?v=home&l=${lang}&r=${OG_REV}`
+export const ogHome = (lang: Lang) => `${SITE}/api/og?v=home&l=${LANG_INFO[lang].ogText ? lang : 'en'}&r=${OG_REV}`
 
 export function pageMeta(m: MetaInput): Metadata {
   const { canonical, languages } = alternatesOf(m.lang, m.ref)

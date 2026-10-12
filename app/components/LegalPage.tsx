@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { Check } from 'lucide-react'
 import ArticleToc from './ArticleToc'
 import PageHero from './PageHero'
@@ -8,7 +9,7 @@ import { GUARANTEE_DAYS } from '../lib/site'
 import { getDict, getPages } from '../i18n'
 import { path, urlOf } from '../i18n/routes'
 import { pageGraph } from '../i18n/seo'
-import type { Lang } from '../i18n/config'
+import { isBase, type Lang } from '../i18n/config'
 
 /**
  * Tampilan dokumen legal (Kebijakan Privasi, Syarat & Ketentuan): daftar isi yang menempel dan menandai pasal
@@ -16,6 +17,8 @@ import type { Lang } from '../i18n/config'
  * content/legal.tsx dan tidak diubah di sini; tiap pasal punya jangkar sendiri (mis. /syarat-ketentuan#garansi).
  */
 export default function LegalPage({ lang, which }: { lang: Lang; which: 'privacy' | 'terms' }) {
+  // dokumen legal hanya ada dalam bahasa dasar; bahasa lain menaut ke versi Inggris
+  if (!isBase(lang)) notFound()
   const d = getDict(lang)
   const pages = getPages(lang)
   const p = pages.legal

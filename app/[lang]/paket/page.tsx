@@ -6,9 +6,8 @@ import PackageCard from '../../components/PackageCard'
 import PriceMap from '../../components/PriceMap'
 import { Breadcrumbs, HlText, JsonLd } from '../../components/Bits'
 import { cardsFor } from '../../components/cards'
-import { PACKAGE_GROUP_TEXT } from '../../content/packages-text'
-import { addonsFor, facts, minPrice, money } from '../../i18n/facts'
-import { getDict, getPages, isLang, type Lang } from '../../i18n'
+import { addonsFor, facts, groupText, minPrice, money } from '../../i18n/facts'
+import { LANG_INFO, getDict, getPages, isLang, type Lang } from '../../i18n'
 import { path, urlOf } from '../../i18n/routes'
 import { ORG_ID, pageGraph, pageMeta } from '../../i18n/seo'
 import { PACKAGES, PACKAGE_GROUPS } from '../../lib/packages'
@@ -36,13 +35,13 @@ export default async function PaketPage({ params }: Params) {
   const { cards, labels } = cardsFor(lang)
   const groups = PACKAGE_GROUPS.map((g) => ({
     id: g,
-    ...PACKAGE_GROUP_TEXT[lang][g],
+    ...groupText(lang)[g],
     cards: cards.filter((c) => c.group === g),
     // harga mulai kelompok ini
     from: money(lang, Math.min(...PACKAGES.filter((x) => x.group === g).map((x) => x.minPrice))),
   })).filter((g) => g.cards.length)
   const addons = addonsFor(lang)
-  const reviewed = new Intl.DateTimeFormat(lang === 'id' ? 'id-ID' : lang === 'ms' ? 'ms-MY' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(PRICES_REVIEWED))
+  const reviewed = new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : LANG_INFO[lang].intl, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(PRICES_REVIEWED))
 
   const info = [
     { title: p.payment, body: f.payment },

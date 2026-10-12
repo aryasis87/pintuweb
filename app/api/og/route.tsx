@@ -5,12 +5,13 @@ import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { getDict } from '../../i18n'
-import { isLang, type Lang } from '../../i18n/config'
+import { LANG_INFO, isLang, type Lang } from '../../i18n/config'
 import { DEMOS } from '../../lib/demos'
 
 const C = { white: '#ffffff', ink: '#0f1b33', ink2: '#4d5b74', blue: '#26469c', line: '#dfe5ef', soft: '#f4f7fc' }
 
-const TAG: Record<Lang, string> = {
+// Baris kecil di kanan atas kartu judul; bahasa tanpa entri memakai versi Inggris.
+const TAG: Partial<Record<Lang, string>> & { en: string } = {
   id: 'Jasa pembuatan website',
   en: 'Website design & development',
   ms: 'Perkhidmatan laman web',
@@ -32,7 +33,8 @@ const logoSrc = async () => `data:image/png;base64,${(await readFile(join(proces
 export async function GET(req: Request) {
   const q = new URL(req.url).searchParams
   const raw = q.get('l') ?? ''
-  const lang: Lang = isLang(raw) ? raw : 'id'
+  // huruf OG (Inter) tidak memuat aksara Mandarin/Hindi/Bengali/Arab: bahasa itu digambar dalam bahasa Inggris
+  const lang: Lang = isLang(raw) ? (LANG_INFO[raw].ogText ? raw : 'en') : 'id'
   const d = getDict(lang)
   const home = q.get('v') === 'home'
   const title = (q.get('t') ?? 'PintuWeb').slice(0, 120)
@@ -49,7 +51,7 @@ export async function GET(req: Request) {
 
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 32, fontSize: 22, color: C.ink2 }}>
           <span style={{ display: 'flex', color: C.blue }}>{d.hero.kicker}</span>
-          <span style={{ display: 'flex' }}>{home ? d.hero.meta(DEMOS.length) : TAG[lang]}</span>
+          <span style={{ display: 'flex' }}>{home ? d.hero.meta(DEMOS.length) : TAG[lang] ?? TAG.en}</span>
         </div>
 
         {home ? (

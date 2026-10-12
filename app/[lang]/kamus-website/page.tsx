@@ -1,12 +1,14 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { ArrowUpRight } from 'lucide-react'
 import Glossary, { type GlossaryItem, type GlossaryTopic } from '../../components/Glossary'
 import PageHero from '../../components/PageHero'
 import { Breadcrumbs, HlText, JsonLd } from '../../components/Bits'
 import { TERMS, TERM_TOPICS, type TermTopic } from '../../content/glossary'
 import { getDict, getPages, isLang, LANG_INFO, type Lang } from '../../i18n'
-import { langsOf, path, pathOf, urlOf } from '../../i18n/routes'
-import { SERVICES } from '../../content/services'
+import { hasPage, langsOf, path, pathOf, urlOf } from '../../i18n/routes'
+import { isBase } from '../../i18n/config'
+import { SERVICES, serviceText } from '../../content/services'
 import { articlesIn } from '../../content/articles'
 import { pageGraph, pageMeta } from '../../i18n/seo'
 import type { DemoCategory } from '../../lib/demos'
@@ -20,13 +22,15 @@ const TOPIC_TONE: Record<TermTopic, DemoCategory> = { dasar: 'portfolio', jenis:
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { lang } = await params
-  if (!isLang(lang)) return {}
+  if (!isLang(lang) || !hasPage(lang, 'glossary')) return {}
   const p = getPages(lang).glossary
   return pageMeta({ lang, ref: { key: 'glossary' }, title: p.title, description: p.description })
 }
 
 export default async function GlossaryPage({ params }: Params) {
   const lang = (await params).lang as Lang
+  // kamus hanya ada dalam bahasa dasar; bahasa lain menaut ke versi Inggris
+  if (!isBase(lang)) notFound()
   const d = getDict(lang)
   const p = getPages(lang).glossary
   const terms = [...TERMS].sort((a, b) => a.term[lang].localeCompare(b.term[lang], LANG_INFO[lang].intl))
@@ -36,7 +40,7 @@ export default async function GlossaryPage({ params }: Params) {
   // Judul tautan "lihat juga": nama layanan atau judul artikel, hanya bila versi bahasa itu ada.
   const seeLabel = (ref: NonNullable<(typeof TERMS)[number]['see']>) => {
     if (!langsOf(ref).includes(lang)) return null
-    if (ref.key === 'services' && ref.service) return SERVICES.find((s) => s.key === ref.service)!.text[lang].name
+    if (ref.key === 'services' && ref.service) return serviceText(SERVICES.find((s) => s.key === ref.service)!, lang).name
     if (ref.key === 'articles' && ref.article) return articles.find((a) => a.key === ref.article)?.title ?? null
     return null
   }
