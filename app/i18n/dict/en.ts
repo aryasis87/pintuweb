@@ -73,7 +73,7 @@ const en: Dict = {
     colCompany: 'PintuWeb',
     linksAria: 'Footer links',
     copyright: (year: number) => `© ${year} PintuWeb. All rights reserved.`,
-    madeIn: 'Made in Trenggalek, East Java.',
+    basedIn: 'Based in Trenggalek, East Java.',
     otherLangs: 'Other languages',
   },
   links: {

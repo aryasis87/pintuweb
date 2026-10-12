@@ -73,7 +73,7 @@ const ms: Dict = {
     colCompany: 'PintuWeb',
     linksAria: 'Pautan kaki halaman',
     copyright: (year: number) => `© ${year} PintuWeb. Hak cipta terpelihara.`,
-    madeIn: 'Dibina di Trenggalek, Jawa Timur.',
+    basedIn: 'Berpangkalan di Trenggalek, Jawa Timur.',
     otherLangs: 'Bahasa lain',
   },
   links: {

@@ -76,7 +76,7 @@ const id = {
     colCompany: 'PintuWeb',
     linksAria: 'Tautan footer',
     copyright: (year: number) => `© ${year} PintuWeb. Semua hak dilindungi.`,
-    madeIn: 'Dibuat di Trenggalek, Jawa Timur.',
+    basedIn: 'Berlokasi di Trenggalek, Jawa Timur.',
     otherLangs: 'Bahasa lain',
   },
   links: {

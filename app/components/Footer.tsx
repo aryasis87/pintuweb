@@ -171,7 +171,7 @@ export default function Footer({ lang }: { lang: Lang }) {
               </a>
             ))}
           </p>
-          <p>{t.footer.madeIn}</p>
+          <p>{t.footer.basedIn}</p>
         </div>
       </div>
     </footer>
