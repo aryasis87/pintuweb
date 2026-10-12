@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Check, ChevronDown, Copy, Mail } from 'lucide-react'
+import { LogoMark } from '../../components/Logo'
+import { copyText } from '../../components/CopyLink'
 import type { Hl } from '../../i18n/dict/id'
 
 type Form = { nama: string; usaha: string; paket: string; demo: string; pesan: string }
@@ -36,52 +38,71 @@ export type ContactText = {
   msgPkg: string
   msgDemo: string
   subject: string
+  formTitle: string
+  previewTitle: string
+  copy: string
+  copied: string
+  faqTitle: string
 }
+
+export type ContactPackage = { title: string; from: string; duration: string; href: string }
 
 type Props = {
   t: ContactText
-  packages: string[]
+  packages: ContactPackage[]
+  /** nama demo untuk saran isian "demo yang kamu suka" */
+  demos: string[]
   waNumber: string
-  waDisplay: string
   email: string
-  location: string
-  serves: string
-  hoursDays: string
-  hoursTime: string
+  /** jam kerja, satu baris */
+  hours: string
+  /** kata "mulai" di depan harga */
+  fromLabel: string
+  /** teks tautan ke rincian paket */
+  seePackage: string
+  newTab: string
 }
 
-export default function ContactForm({ t, packages, waNumber, waDisplay, email, location, serves, hoursDays, hoursTime }: Props) {
+/**
+ * Formulir kontak tanpa backend: isian di kiri, dan di kanan pratinjau pesan (gelembung obrolan) yang
+ * tersusun saat diketik, lalu dikirim lewat WhatsApp atau email dari aplikasi pengunjung sendiri, atau disalin.
+ */
+export default function ContactForm({ t, packages, demos, waNumber, email, hours, fromLabel, seePackage, newTab }: Props) {
   const [f, setF] = useState<Form>(EMPTY)
   const [errors, setErrors] = useState<Partial<Record<keyof Form, string>>>({})
+  const [copied, setCopied] = useState(false)
+  const picked = packages.find((p) => p.title === f.paket)
 
-  const info = [
-    { title: t.infoWa, value: waDisplay, href: `https://wa.me/${waNumber}` },
-    { title: t.infoEmail, value: email, href: `mailto:${email}` },
-    { title: t.infoLocation, value: location, sub: serves },
-    { title: t.infoHours, value: hoursDays, sub: hoursTime },
-  ]
+  // Baris rincian pesan; baris opsional yang kosong tidak ikut terkirim.
+  const details = [
+    { label: t.msgName, value: f.nama.trim(), always: true },
+    { label: t.msgBusiness, value: f.usaha.trim(), always: false },
+    { label: t.msgPkg, value: f.paket || t.pkgUnsure, always: true },
+    { label: t.msgDemo, value: f.demo.trim(), always: false },
+  ].filter((d) => d.always || d.value)
 
-  const compose = () => {
-    const detail = [
-      `${t.msgName}: ${f.nama.trim()}`,
-      f.usaha.trim() ? `${t.msgBusiness}: ${f.usaha.trim()}` : null,
-      `${t.msgPkg}: ${f.paket || t.pkgUnsure}`,
-      f.demo.trim() ? `${t.msgDemo}: ${f.demo.trim()}` : null,
-    ]
-      .filter(Boolean)
-      .join('\n')
-    return `${t.msgIntro}\n\n${detail}\n\n${f.pesan.trim()}`
-  }
+  const compose = () => `${t.msgIntro}\n\n${details.map((d) => `${d.label}: ${d.value}`).join('\n')}\n\n${f.pesan.trim()}`
 
-  const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  const set = (k: keyof Form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setF((prev) => ({ ...prev, [k]: e.target.value }))
+    // galat suatu isian hilang begitu isian itu diperbaiki, tidak menunggu tombol kirim ditekan lagi
+    if (errors[k])
+      setErrors((prev) => {
+        const next = { ...prev }
+        delete next[k]
+        return next
+      })
+  }
 
   const validate = () => {
     const e: typeof errors = {}
     if (!f.nama.trim()) e.nama = t.errName
     if (f.pesan.trim().length < 10) e.pesan = t.errMessage
     setErrors(e)
-    return Object.keys(e).length === 0
+    // bawa pengunjung ke isian pertama yang perlu diperbaiki
+    const first = (Object.keys(e) as (keyof Form)[])[0]
+    if (first) document.getElementById(first)?.focus()
+    return !first
   }
 
   const sendWa = (ev: React.FormEvent) => {
@@ -96,89 +117,150 @@ export default function ContactForm({ t, packages, waNumber, waDisplay, email, l
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(compose())}`
   }
 
+  const copy = async () => {
+    if (!validate()) return
+    if (!(await copyText(compose()))) return
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 2200)
+  }
+
   const field =
-    'mt-1 w-full border-0 border-b border-[color:var(--border-medium)] bg-transparent px-0 py-2.5 text-base text-[color:var(--text-primary)] outline-none transition-colors placeholder:text-[color:var(--text-muted)] focus:border-[color:var(--primary-700)]'
-  const label = 'kicker text-[color:var(--text-tertiary)]'
+    'mt-1.5 w-full rounded-xl border-0 bg-[color:var(--surface-soft)] px-4 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:bg-white focus:ring-2 focus:ring-[color:var(--primary-700)] aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-[color:var(--error-600)]'
+  const label = 'text-[0.875rem] font-semibold text-[color:var(--text-primary)]'
   const err = 'mt-1.5 text-sm font-medium text-[color:var(--error-700)]'
+  const star = (
+    <span aria-hidden="true" className="text-[color:var(--error-700)]">
+      *
+    </span>
+  )
+  // isian yang boleh dikosongkan ditandai di labelnya (bukan di placeholder, yang hilang begitu diketik)
+  const opt = <span className="font-normal text-[color:var(--text-tertiary)]">· {t.optional}</span>
+  // bagian pesan yang belum diisi
+  const blank = <span className="text-white/75">…</span>
 
   return (
-    <main id="main-content" className="pb-20 pt-28 sm:pb-28 sm:pt-36">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="grid grid-cols-1 gap-x-10 gap-y-6 border-b border-[color:var(--rule)] pb-10 lg:grid-cols-12">
-          <p className="kicker text-[color:var(--primary-700)] lg:col-span-12">{t.badge}</p>
-          <h1 className="text-[2.4rem] leading-[1.06] text-[color:var(--text-primary)] sm:text-[3.25rem] lg:col-span-10 lg:text-[3.75rem]">
-            {t.h1[0]}
-            <em className="text-[color:var(--primary-700)]">{t.h1[1]}</em>
-            {t.h1[2] ?? ''}
-          </h1>
-          <p className="max-w-2xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:col-span-7 lg:text-[1.2rem]">{t.lead}</p>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-14 lg:grid-cols-12">
-          {/* Form */}
-          <form onSubmit={sendWa} noValidate className="lg:col-span-7">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
-              <div>
-                <label htmlFor="nama" className={label}>{t.name} <span aria-hidden="true" className="text-[color:var(--error-700)]">*</span></label>
-                <input id="nama" autoComplete="name" value={f.nama} onChange={set('nama')} aria-invalid={!!errors.nama} aria-describedby={errors.nama ? 'nama-err' : undefined} className={field} />
-                {errors.nama && <p id="nama-err" className={err}>{errors.nama}</p>}
-              </div>
-              <div>
-                <label htmlFor="usaha" className={label}>{t.business}</label>
-                <input id="usaha" autoComplete="organization" value={f.usaha} onChange={set('usaha')} className={field} placeholder={t.optional} />
-              </div>
-              <div>
-                <label htmlFor="paket" className={label}>{t.pkg}</label>
-                <select id="paket" value={f.paket} onChange={set('paket')} className={field}>
+    <section aria-labelledby="form-title" className="mt-12 bg-[color:var(--surface-soft)] py-12 sm:mt-16 sm:py-16">
+      <form onSubmit={sendWa} noValidate className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-x-8 gap-y-6 px-4 sm:px-6 lg:grid-cols-12">
+        {/* Isian */}
+        <div className="rounded-[1.5rem] bg-white p-6 ring-1 ring-[color:var(--border-light)] sm:p-8 lg:col-span-7">
+          <h2 id="form-title" className="text-[1.5rem] leading-tight text-[color:var(--text-primary)] sm:text-[1.75rem]">
+            {t.formTitle}
+          </h2>
+          <div className="mt-6 grid grid-cols-1 gap-x-5 gap-y-5 sm:grid-cols-2">
+            <div>
+              <label htmlFor="nama" className={label}>
+                {t.name} {star}
+              </label>
+              <input id="nama" autoComplete="name" required value={f.nama} onChange={set('nama')} aria-invalid={!!errors.nama} aria-describedby={errors.nama ? 'nama-err' : undefined} className={`${field} h-12`} />
+              {errors.nama && (
+                <p id="nama-err" className={err}>
+                  {errors.nama}
+                </p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="usaha" className={label}>
+                {t.business} {opt}
+              </label>
+              <input id="usaha" autoComplete="organization" value={f.usaha} onChange={set('usaha')} className={`${field} h-12`} />
+            </div>
+            <div>
+              <label htmlFor="paket" className={label}>
+                {t.pkg}
+              </label>
+              <div className="relative">
+                <select id="paket" value={f.paket} onChange={set('paket')} aria-describedby={picked ? 'paket-info' : undefined} className={`${field} h-12 appearance-none pr-11`}>
                   <option value="">{t.pkgUnsure}</option>
                   {packages.map((p) => (
-                    <option key={p} value={p}>{p}</option>
+                    <option key={p.title} value={p.title}>
+                      {p.title}
+                    </option>
                   ))}
                 </select>
+                <ChevronDown size={18} className="pointer-events-none absolute right-4 top-1/2 mt-[0.1875rem] -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
               </div>
-              <div>
-                <label htmlFor="demo" className={label}>{t.demo}</label>
-                <input id="demo" value={f.demo} onChange={set('demo')} className={field} placeholder={t.demoPh} />
+              {/* paket terpilih: harga mulai + lama pengerjaan dari lib/packages.ts; rinciannya dibuka di tab baru supaya isian tidak hilang */}
+              {picked && (
+                <p id="paket-info" className="mt-1.5 text-[0.8125rem] leading-snug text-[color:var(--text-tertiary)]">
+                  {fromLabel} {picked.from} · {picked.duration} ·{' '}
+                  <a href={picked.href} target="_blank" rel="noopener" className="font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
+                    {seePackage}
+                    <span className="sr-only"> {newTab}</span>
+                  </a>
+                </p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="demo" className={label}>
+                {t.demo} {opt}
+              </label>
+              <input id="demo" list="demo-saran" value={f.demo} onChange={set('demo')} className={`${field} h-12`} placeholder={t.demoPh} />
+              <datalist id="demo-saran">
+                {demos.map((n) => (
+                  <option key={n} value={n} />
+                ))}
+              </datalist>
+            </div>
+            <div className="sm:col-span-2">
+              <label htmlFor="pesan" className={label}>
+                {t.message} {star}
+              </label>
+              <textarea id="pesan" rows={5} required value={f.pesan} onChange={set('pesan')} aria-invalid={!!errors.pesan} aria-describedby={errors.pesan ? 'pesan-err' : undefined} className={`${field} min-h-[8.5rem] resize-y py-3 leading-relaxed`} placeholder={t.messagePh} />
+              {errors.pesan && (
+                <p id="pesan-err" className={err}>
+                  {errors.pesan}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Pratinjau pesan + kirim */}
+        <div className="lg:sticky lg:top-28 lg:col-span-5">
+          <div className="rounded-[1.75rem] bg-white p-3 ring-1 ring-[color:var(--border-light)] sm:p-4">
+            <div className="flex items-center gap-3 px-2 pb-3 pt-1">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[color:var(--primary-50)] ring-1 ring-[color:var(--border-light)]" aria-hidden="true">
+                <LogoMark className="h-5 w-auto" />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-semibold leading-tight text-[color:var(--text-primary)]">PintuWeb</span>
+                <span className="mt-0.5 block text-[0.8125rem] leading-snug text-[color:var(--text-tertiary)]">{hours}</span>
+              </span>
+            </div>
+
+            <div className="rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4">
+              <h3 className="text-right text-[0.8125rem] font-normal text-[color:var(--text-tertiary)]">{t.previewTitle}</h3>
+              <div className="ml-auto mt-2 w-fit max-w-[94%] break-words rounded-[1.125rem] rounded-br-md bg-[color:var(--primary-700)] px-4 py-3 text-[0.9375rem] leading-relaxed text-white">
+                <p>{t.msgIntro}</p>
+                <p className="mt-3">
+                  {details.map((d) => (
+                    <span key={d.label} className="block">
+                      {d.label}: {d.value || blank}
+                    </span>
+                  ))}
+                </p>
+                <p className="mt-3 whitespace-pre-line">{f.pesan.trim() || blank}</p>
               </div>
             </div>
-            <div className="mt-7">
-              <label htmlFor="pesan" className={label}>{t.message} <span aria-hidden="true" className="text-[color:var(--error-700)]">*</span></label>
-              <textarea id="pesan" rows={5} value={f.pesan} onChange={set('pesan')} aria-invalid={!!errors.pesan} aria-describedby={errors.pesan ? 'pesan-err' : undefined} className={`${field} resize-y`} placeholder={t.messagePh} />
-              {errors.pesan && <p id="pesan-err" className={err}>{errors.pesan}</p>}
-            </div>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <button type="submit" className="btn btn-solid">
+
+            <div className="mt-3 flex flex-col gap-2.5 px-1 pb-1">
+              <button type="submit" className="btn btn-solid w-full">
                 {t.sendWa} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
               </button>
-              <button type="button" onClick={sendEmail} className="btn btn-line">
-                {t.sendEmail} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
-              </button>
+              <div className="grid grid-cols-1 gap-2.5 min-[400px]:grid-cols-2">
+                <button type="button" onClick={sendEmail} className="btn btn-line btn-sm">
+                  <Mail size={15} aria-hidden="true" /> {t.sendEmail}
+                </button>
+                <button type="button" onClick={copy} className="btn btn-line btn-sm">
+                  {copied ? <Check size={15} aria-hidden="true" /> : <Copy size={15} aria-hidden="true" />}
+                  <span aria-live="polite">{copied ? t.copied : t.copy}</span>
+                </button>
+              </div>
             </div>
-            <p className="mt-5 max-w-lg text-sm text-[color:var(--text-tertiary)]">{t.privacy}</p>
-          </form>
-
-          {/* Info */}
-          <aside aria-label={t.infoAria} className="lg:col-span-4 lg:col-start-9">
-            <dl className="border-t border-[color:var(--rule)]">
-              {info.map((i) => (
-                <div key={i.title} className="border-b border-[color:var(--border-light)] py-4">
-                  <dt className="kicker text-[color:var(--text-tertiary)]">{i.title}</dt>
-                  <dd className="mt-1.5">
-                    {i.href ? (
-                      <a href={i.href} target={i.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="display break-all text-[1.35rem] text-[color:var(--text-primary)] underline decoration-[color:var(--neutral-300)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:decoration-current">
-                        {i.value}
-                      </a>
-                    ) : (
-                      <span className="display text-[1.35rem] text-[color:var(--text-primary)]">{i.value}</span>
-                    )}
-                    {i.sub && <span className="mt-0.5 block text-sm text-[color:var(--text-tertiary)]">{i.sub}</span>}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </aside>
+          </div>
+          <p className="mt-4 px-2 text-sm leading-relaxed text-[color:var(--text-tertiary)]">{t.privacy}</p>
         </div>
-      </div>
-    </main>
+      </form>
+    </section>
   )
 }

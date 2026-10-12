@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Check, Link2 } from 'lucide-react'
 
 /** Menyalin teks: Clipboard API bila tersedia, kalau gagal lewat textarea sementara + execCommand. */
-async function copyText(text: string) {
+export async function copyText(text: string) {
   try {
     await navigator.clipboard.writeText(text)
     return true
