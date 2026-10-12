@@ -24,9 +24,11 @@ type Params = { params: Promise<{ lang: string; slug: string }> }
 
 export const dynamicParams = false
 export function generateStaticParams({ params }: { params: { lang: string } }) {
-  // bahasa yang halaman layanannya belum diterjemahkan tidak membuat halaman apa pun
-  if (!isLang(params.lang) || !hasPage(params.lang, 'services')) return []
-  const lang = params.lang
+  if (!isLang(params.lang)) return []
+  // Bahasa yang halaman layanannya belum diterjemahkan TETAP harus mengembalikan slug (di sini slug Inggris):
+  // daftar kosong untuk satu bahasa membuat Next menggugurkan halaman layanan SEMUA bahasa. Halamannya sendiri
+  // berakhir notFound() lewat resolve() di bawah.
+  const lang = hasPage(params.lang, 'services') ? params.lang : 'en'
   return SERVICES.map((s) => ({ slug: SERVICE_SLUGS[s.key][lang] }))
 }
 

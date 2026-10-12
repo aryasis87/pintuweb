@@ -14,6 +14,7 @@ const TEXT: Record<Lang, Text> = {
   id: { title: 'Halaman tidak ditemukan', h1: 'Pintu ini belum ada.', lead: 'Halaman yang Anda cari tidak ditemukan atau sudah dipindahkan. Coba mulai dari salah satu pintu di bawah.', home: 'Ke beranda', demos: 'Lihat demo', wa: 'Atau tanyakan langsung lewat WhatsApp', waText: 'Halo PintuWeb, saya tidak menemukan halaman yang saya cari di situs.' },
   en: { title: 'Page not found', h1: 'This door does not exist yet.', lead: 'The page you are looking for could not be found or has moved. Try starting from one of the doors below.', home: 'Go to the home page', demos: 'See demos', wa: 'Or ask us directly on WhatsApp', waText: 'Hello PintuWeb, I could not find the page I was looking for on your site.' },
   ms: { title: 'Halaman tidak ditemui', h1: 'Pintu ini belum wujud.', lead: 'Halaman yang anda cari tidak ditemui atau telah dipindahkan. Cuba mulakan dari salah satu pintu di bawah.', home: 'Ke halaman utama', demos: 'Lihat demo', wa: 'Atau tanya terus melalui WhatsApp', waText: 'Hai PintuWeb, saya tidak menemui halaman yang saya cari di laman anda.' },
+  es: { title: 'Página no encontrada', h1: 'Esta puerta aún no existe.', lead: 'La página que buscas no se ha encontrado o se ha movido. Prueba a empezar por una de las puertas de abajo.', home: 'Ir al inicio', demos: 'Ver demos', wa: 'O pregúntanos directamente por WhatsApp', waText: 'Hola PintuWeb, no he encontrado la página que buscaba en su sitio.' },
 }
 
 export default function NotFound() {
