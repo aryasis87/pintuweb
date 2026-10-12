@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Search } from 'lucide-react'
 import type { Demo, DemoCategory } from '../../lib/demos'
+import { CATEGORY_COLOR } from '../../lib/portals'
 import type { Hl } from '../../i18n/dict/id'
 
 type Filter = 'semua' | DemoCategory
@@ -15,6 +16,9 @@ export type DemoGalleryText = {
   note: string
   filterAria: string
   all: string
+  search: string
+  searchPh: string
+  none: string
   /** mis. 'mulai' — diikuti harga mulai kategori demo */
   from: string
   /** templat dengan {n} dan {cat} */
@@ -22,18 +26,41 @@ export type DemoGalleryText = {
   showingCat: string
   imgAlt: string
   newTab: string
+  newTabShort: string
+  seePackage: string
   ctaTitle: string
   ctaLead: string
   contact: string
   seePricing: string
 }
 
-const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''))
+/** Kategori lengkap dengan teks spanduknya (dirakit di server dari kamus & data paket). */
+export type DemoCat = {
+  id: DemoCategory
+  label: string
+  /** judul & kalimat galeri kategori ini */
+  title: string
+  tagline: string
+  /** mis. "17 demo" */
+  countText: string
+  /** harga mulai, mis. "Rp600.000" */
+  from: string
+  packageHref: string
+  portalHref: string
+  /** mis. "Buka galeri Landing Page" */
+  openLabel: string
+}
 
-export default function DemoGallery({ demos, categories, t, contactHref, pricingHref, fromByCat }: { demos: Demo[]; categories: { id: DemoCategory; label: string }[]; t: DemoGalleryText; contactHref: string; pricingHref: string; fromByCat: Record<DemoCategory, string> }) {
-  const label = Object.fromEntries(categories.map((c) => [c.id, c.label])) as Record<DemoCategory, string>
+const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''))
+const vars = (c: DemoCategory) => ({ '--k': CATEGORY_COLOR[c].color, '--k2': CATEGORY_COLOR[c].to }) as CSSProperties
+
+// Galeri semua demo: pencarian, saringan kategori berwarna, spanduk kategori (harga + galeri khususnya),
+// dan kisi kartu. Kategori tercermin di hash URL (/demo#undangan) supaya halaman lain bisa menautkannya.
+export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }: { demos: Demo[]; cats: DemoCat[]; t: DemoGalleryText; contactHref: string; pricingHref: string }) {
+  const catOf = useMemo(() => Object.fromEntries(cats.map((c) => [c.id, c])) as Record<DemoCategory, DemoCat>, [cats])
   const [filter, setFilterState] = useState<Filter>('semua')
-  // Filter tercermin di hash URL (/demo#undangan) supaya halaman lain bisa menautkan ke kategori tertentu.
+  const [query, setQuery] = useState('')
+  const q = query.trim().toLowerCase()
   const setFilter = (f: Filter) => {
     setFilterState(f)
     history.replaceState(null, '', f === 'semua' ? location.pathname : `#${f}`)
@@ -43,12 +70,21 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
 
   // Gambar yang sudah gagal sebelum hydration tidak memicu onError — tangkap di sini.
   useEffect(() => {
-    const h = location.hash.slice(1)
-    if (categories.some((c) => c.id === h)) setFilterState(h as DemoCategory)
+    // Kategori dari hash, juga saat hash berubah setelah halaman terbuka (tautan ke /demo#kategori, tombol kembali).
+    const fromHash = () => {
+      const h = location.hash.slice(1)
+      if (cats.some((c) => c.id === h)) {
+        setFilterState(h as DemoCategory)
+        setQuery('')
+      } else if (!h) setFilterState('semua')
+    }
+    fromHash()
+    window.addEventListener('hashchange', fromHash)
     document.querySelectorAll<HTMLImageElement>('img[data-demo]').forEach((img) => {
       if (img.complete && img.naturalWidth === 0) markFailed(img.dataset.demo!)
     })
-  }, [categories])
+    return () => window.removeEventListener('hashchange', fromHash)
+  }, [cats])
 
   const counts = useMemo(() => {
     const c = {} as Record<DemoCategory, number>
@@ -56,112 +92,195 @@ export default function DemoGallery({ demos, categories, t, contactHref, pricing
     return c
   }, [demos])
 
-  const shown = filter === 'semua' ? demos : demos.filter((d) => d.category === filter)
+  const shown = useMemo(
+    () => demos.filter((d) => (filter === 'semua' || d.category === filter) && (!q || d.name.toLowerCase().includes(q) || d.tagline.toLowerCase().includes(q) || catOf[d.category].label.toLowerCase().includes(q))),
+    [demos, filter, q, catOf],
+  )
+  const banner = filter !== 'semua' && !q ? catOf[filter] : null
 
-  const tab = (active: boolean) =>
-    `inline-flex min-h-11 items-baseline gap-1.5 whitespace-nowrap px-2.5 py-2.5 text-[0.9375rem] transition-colors first:pl-0 ${
-      active
-        ? 'font-semibold text-[color:var(--text-primary)] underline decoration-[color:var(--primary-700)] decoration-2 underline-offset-[9px]'
-        : 'text-[color:var(--text-secondary)] hover:text-[color:var(--primary-700)]'
-    }`
+  const chip = (id: Filter, label: string, n: number) => {
+    const on = filter === id
+    const c = id === 'semua' ? null : CATEGORY_COLOR[id]
+    return (
+      <button
+        key={id}
+        type="button"
+        onClick={() => setFilter(id)}
+        aria-pressed={on}
+        className={`inline-flex min-h-10 items-center gap-2 whitespace-nowrap rounded-full px-4 text-[0.9375rem] transition-colors ${
+          on ? 'font-semibold text-white' : 'bg-white text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)] hover:text-[color:var(--text-primary)] hover:ring-[color:var(--primary-300)]'
+        }`}
+        style={on ? { backgroundImage: c ? `linear-gradient(135deg, ${c.color}, ${c.to})` : 'linear-gradient(135deg, var(--primary-700), var(--primary-800))' } : undefined}
+      >
+        {c && !on && <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundImage: `linear-gradient(135deg, ${c.color}, ${c.to})` }} aria-hidden="true" />}
+        {label}
+        <span className={`text-[0.8125rem] font-medium ${on ? 'text-white/80' : 'text-[color:var(--text-muted)]'}`}>{n}</span>
+      </button>
+    )
+  }
 
   return (
-    <main id="main-content" className="pb-20 pt-28 sm:pb-28 sm:pt-36">
+    <main id="main-content" className="pt-28 sm:pt-36">
+      {/* Kepala halaman */}
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        {/* Kepala halaman */}
-        <div className="grid grid-cols-1 gap-x-10 gap-y-6 border-b border-[color:var(--rule)] pb-10 lg:grid-cols-12">
-          <p className="kicker text-[color:var(--primary-700)] lg:col-span-12">{t.badge}</p>
-          <h1 className="text-[2.4rem] leading-[1.06] text-[color:var(--text-primary)] sm:text-[3.25rem] lg:col-span-10 lg:text-[3.75rem]">
-            {t.h1[0]}
-            <em className="text-[color:var(--primary-700)]">{t.h1[1]}</em>
-            {t.h1[2] ?? ''}
-          </h1>
-          <div className="lg:col-span-7">
-            <p className="text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{t.lead}</p>
-            {t.note && <p className="kicker mt-3 text-[color:var(--text-tertiary)]">{t.note}</p>}
-          </div>
-        </div>
-
-        {/* Filter — ponsel: satu baris yang bisa digeser; layar lebar: membungkus */}
-        <div className="scrollbar-hide -mx-4 mt-6 overflow-x-auto px-4 sm:mx-0 sm:overflow-visible sm:px-0">
-          <div role="group" aria-label={t.filterAria} className="flex w-max gap-x-1 sm:w-auto sm:flex-wrap">
-            <button type="button" onClick={() => setFilter('semua')} aria-pressed={filter === 'semua'} className={tab(filter === 'semua')}>
-              {t.all} <span className="mono text-[0.6875rem] text-[color:var(--text-tertiary)]">{demos.length}</span>
-            </button>
-            {categories.map((c) => (
-              <button key={c.id} type="button" onClick={() => setFilter(c.id)} aria-pressed={filter === c.id} className={tab(filter === c.id)}>
-                {c.label} <span className="mono text-[0.6875rem] text-[color:var(--text-tertiary)]">{counts[c.id]}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <p className="sr-only" aria-live="polite">
-          {filter === 'semua' ? fill(t.showingAll, { n: shown.length }) : fill(t.showingCat, { n: shown.length, cat: label[filter] })}
-        </p>
-
-        {/* Grid */}
-        <ul className="mt-10 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {shown.map((d) => (
-            <li key={d.slug}>
-              <a href={d.url} target="_blank" rel="noopener noreferrer" className="group block">
-                <div className="relative aspect-[1200/630] overflow-hidden border border-[color:var(--border-light)] bg-[color:var(--neutral-100)]">
-                  {failed.has(d.slug) ? (
-                    // Cadangan bila gambar situs demo gagal dimuat (situsnya lambat/terblokir)
-                    <div className="grid h-full w-full place-items-center bg-[color:var(--navy)] p-6 text-center">
-                      <span className="display text-2xl text-white">{d.name}</span>
-                    </div>
-                  ) : (
-                    // Thumbnail lokal yang sudah diperkecil (lib/demos.ts); tidak perlu optimizer Next.
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={`/demos/${d.slug}.webp`}
-                      alt={fill(t.imgAlt, { name: d.name })}
-                      width={720}
-                      height={378}
-                      loading="lazy"
-                      decoding="async"
-                      fetchPriority="low"
-                      data-demo={d.slug}
-                      onError={() => markFailed(d.slug)}
-                      className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                    />
-                  )}
-                </div>
-                <div className="mt-4">
-                  <p className="kicker text-[color:var(--text-tertiary)]">{label[d.category]}</p>
-                  <h2 className="mt-1.5 flex items-start justify-between gap-3 text-[1.45rem] leading-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--primary-700)]">
-                    {d.name}
-                    <ArrowUpRight size={17} className="arw-ne mt-1 shrink-0 text-[color:var(--primary-700)] transition-transform" aria-hidden="true" />
-                  </h2>
-                  {d.tagline && <p className="mt-1 text-[0.9375rem] leading-snug text-[color:var(--text-tertiary)]">{d.tagline}</p>}
-                  <span className="sr-only">{t.newTab}</span>
-                  <p className="mono mt-3 flex flex-wrap gap-x-3 border-t border-[color:var(--border-light)] pt-3 text-[0.6875rem] text-[color:var(--text-tertiary)]">
-                    <span className="text-[color:var(--text-primary)]">{t.from} {fromByCat[d.category]}</span>
-                    <span>{d.url.replace('https://', '')}</span>
-                  </p>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        {/* Ajakan */}
-        <div className="mt-20 grid grid-cols-1 gap-6 border-t border-[color:var(--rule)] pt-8 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
-            <h2 className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.1rem]">{t.ctaTitle}</h2>
-            <p className="mt-3 text-[color:var(--text-tertiary)]">{t.ctaLead}</p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:justify-end">
-            <Link href={contactHref} className="btn btn-line">
-              {t.contact}
-            </Link>
-            <Link href={pricingHref} className="btn btn-solid">
-              {t.seePricing} <ArrowRight size={17} className="arw" aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
+        <p className="kicker text-[color:var(--primary-700)]">{t.badge}</p>
+        <h1 className="mt-5 text-[2.4rem] leading-[1.06] text-[color:var(--text-primary)] sm:text-[3.25rem] lg:text-[3.75rem]">
+          {t.h1[0]}
+          <em className="text-[color:var(--primary-700)]">{t.h1[1]}</em>
+          {t.h1[2] ?? ''}
+        </h1>
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{t.lead}</p>
+        {t.note && <p className="mt-3 text-[0.9375rem] text-[color:var(--text-tertiary)]">{t.note}</p>}
       </div>
+
+      <section className="mt-10 bg-[color:var(--surface-soft)] pb-16 pt-10 sm:mt-12 sm:pb-20 sm:pt-12">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          {/* Pencarian + kategori */}
+          <div className="relative">
+            <Search size={18} className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
+            <label htmlFor="demo-search" className="sr-only">
+              {t.search}
+            </label>
+            <input
+              id="demo-search"
+              type="search"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value)
+                // mencari berarti mencari di semua kategori
+                if (e.target.value.trim() && filter !== 'semua') setFilter('semua')
+              }}
+              placeholder={t.searchPh}
+              className="h-[3.25rem] w-full rounded-full border-0 bg-white pl-[3.25rem] pr-5 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
+            />
+          </div>
+          {/* Ponsel: sembilan pil memakan banyak baris, jadi kategori dipilih lewat satu menu. Layar lebih lebar: pil. */}
+          <div className="relative mt-3 sm:hidden">
+            <label htmlFor="demo-cat" className="sr-only">
+              {t.filterAria}
+            </label>
+            <select
+              id="demo-cat"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value as Filter)}
+              className="h-12 w-full appearance-none rounded-full border-0 bg-white pl-5 pr-11 text-[0.9375rem] font-semibold text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
+            >
+              <option value="semua">
+                {t.all} ({demos.length})
+              </option>
+              {cats.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.label} ({counts[c.id]})
+                </option>
+              ))}
+            </select>
+            <span className="pointer-events-none absolute right-5 top-1/2 h-2 w-2 -translate-y-[70%] rotate-45 border-b-2 border-r-2 border-[color:var(--text-secondary)]" aria-hidden="true" />
+          </div>
+          <div role="group" aria-label={t.filterAria} className="mt-4 hidden flex-wrap gap-2 sm:flex">
+            {chip('semua', t.all, demos.length)}
+            {cats.map((c) => chip(c.id, c.label, counts[c.id]))}
+          </div>
+          <p className="mt-4 text-[0.9375rem] text-[color:var(--text-tertiary)]" role="status">
+            {filter === 'semua' ? fill(t.showingAll, { n: shown.length }) : fill(t.showingCat, { n: shown.length, cat: catOf[filter].label })}
+          </p>
+
+          {/* Spanduk kategori: apa jenisnya, mulai berapa, dan galeri khususnya */}
+          {banner && (
+            <div className="mt-5 overflow-hidden rounded-[1.5rem] bg-white ring-1 ring-[color:var(--border-light)]" style={vars(banner.id)}>
+              <div className="flex flex-col gap-5 p-6 sm:p-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10" style={{ backgroundImage: `linear-gradient(120deg, ${CATEGORY_COLOR[banner.id].tint} 0%, #ffffff 70%)` }}>
+                <div className="min-w-0">
+                  <p className="text-[0.8125rem] font-semibold text-[color:var(--k)]">
+                    {banner.countText} · {t.from} {banner.from}
+                  </p>
+                  <h2 className="mt-1.5 text-[1.5rem] leading-tight text-[color:var(--text-primary)] sm:text-[1.75rem]">{banner.title}</h2>
+                  <p className="mt-1.5 max-w-xl leading-relaxed text-[color:var(--text-tertiary)]">{banner.tagline}</p>
+                </div>
+                <div className="flex shrink-0 flex-col gap-2.5 sm:flex-row">
+                  <Link href={banner.packageHref} className="btn btn-line btn-sm bg-white">
+                    {t.seePackage} <ArrowRight size={15} className="arw" aria-hidden="true" />
+                  </Link>
+                  {/* Portal = zona Next terpisah: tautan biasa, bukan navigasi klien. */}
+                  <a href={banner.portalHref} hrefLang="id" className="btn btn-sm text-white transition-[filter] duration-200 hover:brightness-90" style={{ backgroundImage: 'linear-gradient(135deg, var(--k), var(--k2))' }}>
+                    {banner.openLabel} <ArrowUpRight size={15} className="arw arw-ne" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Kisi kartu */}
+          <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:gap-5 xl:grid-cols-4">
+            {shown.map((d) => (
+              <li key={d.slug}>
+                <a
+                  href={d.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-full flex-col rounded-[1.125rem] bg-white p-1.5 ring-1 ring-[color:var(--border-light)] transition-shadow duration-300 hover:shadow-[0_24px_44px_-30px_var(--k)] sm:rounded-[1.375rem] sm:p-2"
+                  style={vars(d.category)}
+                >
+                  <span className="relative block aspect-[1200/630] overflow-hidden rounded-[0.8rem] bg-[color:var(--neutral-100)] ring-1 ring-black/5 sm:rounded-[1rem]">
+                    {failed.has(d.slug) ? (
+                      // Cadangan bila gambar demo gagal dimuat
+                      <span className="grid h-full w-full place-items-center p-3 text-center [background-image:linear-gradient(135deg,var(--k),var(--k2))]">
+                        <span className="display text-base font-semibold text-white sm:text-lg">{d.name}</span>
+                      </span>
+                    ) : (
+                      // Thumbnail lokal yang sudah diperkecil (lib/demos.ts); tidak perlu optimizer Next.
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={`/demos/${d.slug}.webp`}
+                        alt={fill(t.imgAlt, { name: d.name })}
+                        width={720}
+                        height={378}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
+                        data-demo={d.slug}
+                        onError={() => markFailed(d.slug)}
+                        className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      />
+                    )}
+                  </span>
+                  <span className="flex flex-1 flex-col px-1.5 pb-1.5 pt-2.5 sm:px-2.5 sm:pb-2 sm:pt-3.5">
+                    <span className="inline-flex items-center gap-1.5 text-[0.75rem] font-semibold leading-tight text-[color:var(--k)] sm:text-[0.8125rem]">
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full [background-image:linear-gradient(135deg,var(--k),var(--k2))] sm:h-2 sm:w-2" aria-hidden="true" />
+                      {catOf[d.category].label}
+                    </span>
+                    <h2 className="mt-1 text-[0.9375rem] leading-snug text-[color:var(--text-primary)] transition-colors group-hover:text-[color:var(--k)] sm:mt-1.5 sm:text-[1.125rem]">{d.name}</h2>
+                    {d.tagline && <span className="mt-1 hidden text-[0.875rem] leading-snug text-[color:var(--text-tertiary)] sm:line-clamp-2">{d.tagline}</span>}
+                    <span className="mt-auto flex items-center justify-between gap-2 pt-2 text-[0.75rem] text-[color:var(--text-tertiary)] sm:pt-3 sm:text-[0.8125rem]">
+                      <span>
+                        {t.from} {catOf[d.category].from}
+                      </span>
+                      <ArrowUpRight size={15} className="arw-ne shrink-0 text-[color:var(--k)] transition-transform" aria-hidden="true" />
+                    </span>
+                    <span className="sr-only">{t.newTabShort}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {shown.length === 0 && <p className="mt-6 rounded-[1.25rem] bg-white px-6 py-8 text-[color:var(--text-tertiary)] ring-1 ring-[color:var(--border-light)]">{t.none}</p>}
+
+          {/* Ajakan */}
+          <div className="mt-12 flex flex-col gap-6 rounded-[2rem] bg-[color:var(--primary-700)] p-8 text-white [background-image:linear-gradient(135deg,var(--primary-700),var(--primary-900))] sm:mt-16 sm:p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12">
+            <div className="max-w-2xl">
+              <h2 className="text-[1.75rem] leading-[1.12] sm:text-[2.25rem]">{t.ctaTitle}</h2>
+              <p className="mt-3 leading-relaxed text-white/85">{t.ctaLead}</p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+              <Link href={contactHref} className="btn btn-white">
+                {t.contact}
+              </Link>
+              <Link href={pricingHref} className="btn btn-ghost-dark">
+                {t.seePricing} <ArrowRight size={17} className="arw" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
-import DemoGallery, { type DemoGalleryText } from './DemoGallery'
+import DemoGallery, { type DemoCat, type DemoGalleryText } from './DemoGallery'
 import { JsonLd } from '../../components/Bits'
 import { categoriesFor, demosFor, getDict, getPages, isLang, type Lang } from '../../i18n'
 import { path, urlOf } from '../../i18n/routes'
 import { pageGraph, pageMeta } from '../../i18n/seo'
 import { packagesFor } from '../../i18n/facts'
-import { PACKAGE_FOR_CATEGORY } from '../../lib/portals'
+import { PACKAGE_FOR_CATEGORY, portalOf } from '../../lib/portals'
 import type { DemoCategory } from '../../lib/demos'
 
 type Params = { params: Promise<{ lang: string }> }
@@ -25,7 +25,24 @@ export default async function DemoPage({ params }: Params) {
   const demos = demosFor(lang)
   const n = demos.length
   const pk = packagesFor(lang)
-  const fromByCat = Object.fromEntries(Object.entries(PACKAGE_FOR_CATEGORY).map(([c, slug]) => [c, pk.find((x) => x.slug === slug)!.priceFrom])) as Record<DemoCategory, string>
+  const g = d.portfolio
+  const count = (c: DemoCategory) => demos.filter((x) => x.category === c).length
+  // Tiap kategori lengkap dengan teks spanduknya: judul galeri, jumlah, harga mulai, paket, dan galeri khususnya.
+  const cats: DemoCat[] = categoriesFor(lang).map((c) => {
+    const slug = PACKAGE_FOR_CATEGORY[c.id]
+    const gal = g.galleries[c.id]
+    return {
+      id: c.id,
+      label: c.label,
+      title: gal.title,
+      tagline: gal.tagline,
+      countText: `${count(c.id)} ${g.unit[c.id]}`,
+      from: pk.find((x) => x.slug === slug)!.priceFrom,
+      packageHref: `${path(lang, 'pricing')}#${slug}`,
+      portalHref: `/${portalOf(c.id)!.path}`,
+      openLabel: d.hero.openGallery(gal.title),
+    }
+  })
 
   // Templat {n}/{cat}/{name} diisi di klien, supaya fungsi kamus tidak perlu dikirim ke browser.
   const t: DemoGalleryText = {
@@ -36,6 +53,11 @@ export default async function DemoPage({ params }: Params) {
     note: d.common.demoLangNote,
     filterAria: p.filterAria,
     all: p.all,
+    search: p.search,
+    searchPh: p.searchPh,
+    none: p.none,
+    seePackage: p.seePackage,
+    newTabShort: d.common.newTabShort,
     showingAll: p.showing(999, null).replace('999', '{n}'),
     showingCat: p.showing(999, '§').replace('999', '{n}').replace('§', '{cat}'),
     imgAlt: p.imgAlt('§').replace('§', '{name}'),
@@ -69,7 +91,7 @@ export default async function DemoPage({ params }: Params) {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <DemoGallery demos={demos} categories={categoriesFor(lang)} t={t} contactHref={path(lang, 'contact')} pricingHref={path(lang, 'pricing')} fromByCat={fromByCat} />
+      <DemoGallery demos={demos} cats={cats} t={t} contactHref={path(lang, 'contact')} pricingHref={path(lang, 'pricing')} />
     </>
   )
 }
