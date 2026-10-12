@@ -97,6 +97,15 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
     [demos, filter, q, catOf],
   )
   const banner = filter !== 'semua' && !q ? catOf[filter] : null
+  // Beberapa demo memakai nama yang sama: entri kontes desain adalah beberapa konsep untuk satu merek
+  // ("EthyleneAbsorber" x4, "Positive Crave" x5) dan pembedanya ada di tagline ("Konsep Korporat", ...).
+  // Untuk nama seperti itu, tagline dijadikan judul kartu dan nama mereknya jadi keterangan, supaya tidak
+  // tampak sebagai kartu ganda.
+  const sharedNames = useMemo(() => {
+    const n = new Map<string, number>()
+    for (const d of demos) n.set(d.name, (n.get(d.name) ?? 0) + 1)
+    return new Set([...n].filter(([, c]) => c > 1).map(([k]) => k))
+  }, [demos])
 
   const chip = (id: Filter, label: string, n: number) => {
     const on = filter === id
@@ -210,7 +219,11 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
 
           {/* Kisi kartu */}
           <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:gap-5 xl:grid-cols-4">
-            {shown.map((d) => (
+            {shown.map((d) => {
+              const shared = sharedNames.has(d.name) && Boolean(d.tagline)
+              const title = shared ? d.tagline : d.name
+              const sub = shared ? d.name : d.tagline
+              return (
               <li key={d.slug}>
                 <a
                   href={d.url}
@@ -223,14 +236,14 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
                     {failed.has(d.slug) ? (
                       // Cadangan bila gambar demo gagal dimuat
                       <span className="grid h-full w-full place-items-center p-3 text-center [background-image:linear-gradient(135deg,var(--k),var(--k2))]">
-                        <span className="display text-base font-semibold text-white sm:text-lg">{d.name}</span>
+                        <span className="display text-base font-semibold text-white sm:text-lg">{title}</span>
                       </span>
                     ) : (
                       // Thumbnail lokal yang sudah diperkecil (lib/demos.ts); tidak perlu optimizer Next.
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={`/demos/${d.slug}.webp`}
-                        alt={fill(t.imgAlt, { name: d.name })}
+                        alt={fill(t.imgAlt, { name: shared ? `${d.name} (${d.tagline})` : d.name })}
                         width={720}
                         height={378}
                         loading="lazy"
@@ -247,8 +260,9 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
                       <span className="h-1.5 w-1.5 shrink-0 rounded-full [background-image:linear-gradient(135deg,var(--k),var(--k2))] sm:h-2 sm:w-2" aria-hidden="true" />
                       {catOf[d.category].label}
                     </span>
-                    <h2 className="mt-1 text-[0.9375rem] leading-snug text-[color:var(--text-primary)] transition-colors group-hover:text-[color:var(--k)] sm:mt-1.5 sm:text-[1.125rem]">{d.name}</h2>
-                    {d.tagline && <span className="mt-1 hidden text-[0.875rem] leading-snug text-[color:var(--text-tertiary)] sm:line-clamp-2">{d.tagline}</span>}
+                    <h2 className="mt-1 text-[0.9375rem] leading-snug text-[color:var(--text-primary)] transition-colors group-hover:text-[color:var(--k)] sm:mt-1.5 sm:text-[1.125rem]">{title}</h2>
+                    {/* keterangan: di ponsel disembunyikan, kecuali untuk nama bersama (di sana ia nama mereknya) */}
+                    {sub && <span className={`mt-1 leading-snug text-[color:var(--text-tertiary)] ${shared ? 'block text-[0.8125rem] sm:text-[0.875rem]' : 'hidden text-[0.875rem] sm:line-clamp-2'}`}>{sub}</span>}
                     <span className="mt-auto flex items-center justify-between gap-2 pt-2 text-[0.75rem] text-[color:var(--text-tertiary)] sm:pt-3 sm:text-[0.8125rem]">
                       <span>
                         {t.from} {catOf[d.category].from}
@@ -259,7 +273,8 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
                   </span>
                 </a>
               </li>
-            ))}
+              )
+            })}
           </ul>
 
           {shown.length === 0 && <p className="mt-6 rounded-[1.25rem] bg-white px-6 py-8 text-[color:var(--text-tertiary)] ring-1 ring-[color:var(--border-light)]">{t.none}</p>}
