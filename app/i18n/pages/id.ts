@@ -199,6 +199,8 @@ const pages = {
       { year: 'Kini', title: `${CLIENT_PROJECTS} proyek klien`, body: `Melayani UMKM, startup, dan personal brand, serta merawat ${n} demo live.` },
     ],
     skillsTitle: 'Keahlian utama',
+    // Judul tiga kelompok keahlian; pembagiannya (4, 3, 3 butir dari `skills`) ada di halaman founder.
+    skillGroups: ['Frontend', 'Hosting & data', 'Mutu & pengalaman'],
     skills: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel', 'Supabase', 'Headless CMS', 'SEO teknis', 'Audit performa', 'UI/UX'],
     quote: 'Website bukan hanya soal desain. Ia adalah citra, kepercayaan, dan strategi bisnis.',
     quoteBy: 'Sanzy, Founder PintuWeb',

@@ -201,6 +201,7 @@ const pages: Pages = {
       { year: 'Kini', title: `${CLIENT_PROJECTS} projek pelanggan`, body: `Berkhidmat untuk PKS, syarikat pemula dan penjenamaan peribadi, serta menjaga ${n} demo langsung.` },
     ],
     skillsTitle: 'Kepakaran utama',
+    skillGroups: ['Frontend', 'Hosting & data', 'Kualiti & pengalaman'],
     skills: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel', 'Supabase', 'Headless CMS', 'SEO teknikal', 'Audit prestasi', 'UI/UX'],
     quote: 'Laman web bukan sekadar soal reka bentuk. Ia adalah imej, kepercayaan dan strategi perniagaan.',
     quoteBy: 'Sanzy, Pengasas PintuWeb',

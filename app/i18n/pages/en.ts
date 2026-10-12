@@ -201,6 +201,7 @@ const pages: Pages = {
       { year: 'Today', title: `${CLIENT_PROJECTS} client projects`, body: `Working with small businesses, start-ups and personal brands, and maintaining ${n} live demos.` },
     ],
     skillsTitle: 'Core skills',
+    skillGroups: ['Front end', 'Hosting & data', 'Quality & experience'],
     skills: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Vercel', 'Supabase', 'Headless CMS', 'Technical SEO', 'Performance audits', 'UI/UX'],
     quote: 'A website is not just about design. It is your image, your credibility and your business strategy.',
     quoteBy: 'Sanzy, Founder of PintuWeb',

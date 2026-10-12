@@ -1,15 +1,29 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Github, ArrowRight, ArrowUpRight } from 'lucide-react'
-import { Breadcrumbs, JsonLd } from '../../components/Bits'
+import { ArrowRight, ArrowUpRight, CodeXml, Database, Gauge, Github, Mail, MapPin, MessageCircle, Quote, type LucideIcon } from 'lucide-react'
+import ArticleCard from '../../components/ArticleCard'
+import { Breadcrumbs, HlText, JsonLd } from '../../components/Bits'
+import { Logo } from '../../components/Logo'
 import { articlesIn } from '../../content/articles'
 import { DEMOS } from '../../lib/demos'
-import { wa } from '../../lib/site'
+import { CLIENT_PROJECTS, EMAIL, FOUNDED_YEAR, WA_DISPLAY, wa } from '../../lib/site'
+import { facts } from '../../i18n/facts'
 import { getDict, getPages, isLang, type Lang } from '../../i18n'
-import { path, pathOf, urlOf } from '../../i18n/routes'
+import { path, urlOf } from '../../i18n/routes'
 import { FOUNDER_ID, ORG_ID, pageGraph, pageMeta } from '../../i18n/seo'
 
 type Params = { params: Promise<{ lang: string }> }
+
+const NAME = 'Sanzy'
+const GITHUB = 'github.com/aryasis87'
+
+// Tiga kelompok keahlian: potongan dari founder.skills (urutannya sama di ketiga bahasa) + ikonnya.
+// Judul kelompok ada di founder.skillGroups.
+const SKILL_GROUPS: { icon: LucideIcon; from: number; to: number }[] = [
+  { icon: CodeXml, from: 0, to: 4 },
+  { icon: Database, from: 4, to: 7 },
+  { icon: Gauge, from: 7, to: 10 },
+]
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { lang } = await params
@@ -21,48 +35,135 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function OwnerPage({ params }: Params) {
   const lang = (await params).lang as Lang
   const d = getDict(lang)
-  const p = getPages(lang).founder
+  const pages = getPages(lang)
+  const p = pages.founder
+  const f = facts(lang)
   const n = DEMOS.length
   const writing = articlesIn(lang)
+  const timeline = p.timeline(n)
+
+  const stats = [
+    { v: `${FOUNDED_YEAR}`, l: pages.about.stats.since },
+    { v: CLIENT_PROJECTS, l: pages.about.stats.projects },
+    { v: `${n}`, l: pages.about.stats.demos },
+  ]
+  // Baris kartu nama: kontak dari lib/site.ts
+  const card: { icon: LucideIcon; text: string; href?: string; rel?: string }[] = [
+    { icon: MapPin, text: f.location },
+    { icon: MessageCircle, text: WA_DISPLAY, href: wa(p.ctaWa), rel: 'noopener noreferrer' },
+    { icon: Mail, text: EMAIL, href: `mailto:${EMAIL}` },
+    // rel="me": profil ini dan akun GitHub itu milik orang yang sama
+    { icon: Github, text: GITHUB, href: `https://${GITHUB}`, rel: 'noopener noreferrer me' },
+  ]
 
   return (
     <main id="main-content">
       <Breadcrumbs label={d.common.breadcrumb} items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.title }]} />
-      {/* Perkenalan */}
-      <section className="mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-10">
-        <div className="grid grid-cols-1 items-end gap-x-10 gap-y-12 border-b border-[color:var(--rule)] pb-14 md:grid-cols-12">
-          <div className="md:col-span-8">
+
+      {/* Perkenalan + kartu nama. overflow-x-clip: kartu kedua yang miring tidak boleh membuat halaman bisa digeser. */}
+      <section className="overflow-x-clip">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-x-12 gap-y-12 px-4 pt-8 sm:px-6 sm:pt-10 lg:grid-cols-12">
+          <div className="lg:col-span-7">
             <p className="kicker text-[color:var(--primary-700)]">{p.badge}</p>
             <h1 className="mt-5 text-[2.4rem] leading-[1.06] text-[color:var(--text-primary)] sm:text-[3.25rem] lg:text-[3.75rem]">
-              {p.h1[0]}
-              <em className="text-[color:var(--primary-700)]">{p.h1[1]}</em>
+              <HlText parts={p.h1} mode="italic" tone="primary" />
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--text-tertiary)]">{p.lead}</p>
-            <a href="https://github.com/aryasis87" target="_blank" rel="noopener noreferrer me" className="link mt-6 inline-flex items-center gap-2 font-semibold">
-              <Github size={18} aria-hidden="true" /> {p.github}
-            </a>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{p.lead}</p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <a href={wa(p.ctaWa)} target="_blank" rel="noopener noreferrer" className="btn btn-solid">
+                {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
+                <span className="sr-only">{d.common.newTabShort}</span>
+              </a>
+              <Link href={path(lang, 'demo')} className="btn btn-line">
+                {p.ctaDemos(n)} <ArrowRight size={17} className="arw" aria-hidden="true" />
+              </Link>
+            </div>
+            <dl className="mt-9 flex flex-wrap gap-x-10 gap-y-5">
+              {stats.map((s) => (
+                <div key={s.l} className="flex flex-col-reverse">
+                  <dt className="mt-1 text-[0.875rem] text-[color:var(--text-tertiary)]">{s.l}</dt>
+                  <dd className="display text-[1.75rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2rem]">{s.v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
-          <div className="md:col-span-4">
-            <div className="pintu-frame mx-auto w-full max-w-[260px] bg-white p-[3px] md:ml-auto md:mr-0">
-              <div role="img" aria-label={p.monogram} className="arch-top grid aspect-[4/5] w-full place-items-center bg-[color:var(--navy)]">
-                <span className="display select-none text-[120px] leading-none text-white">S</span>
+
+          {/* Kartu nama */}
+          <div className="lg:col-span-5">
+            <div className="relative mx-auto w-full max-w-[26rem] lg:ml-auto lg:mr-0">
+              <span className="absolute inset-0 translate-x-2 translate-y-3 rotate-[4deg] rounded-[1.75rem] [background-image:linear-gradient(145deg,var(--primary-600),var(--primary-900))] sm:translate-x-3" aria-hidden="true" />
+              <div className="relative rounded-[1.75rem] bg-white p-6 shadow-[0_30px_60px_-40px_rgb(15_29_58/0.5)] ring-1 ring-[color:var(--border-light)] sm:p-7">
+                <div className="flex items-center justify-between gap-3">
+                  <Logo />
+                  <span className="rounded-full bg-[color:var(--primary-50)] px-3 py-1 text-[0.8125rem] font-semibold text-[color:var(--primary-700)]">
+                    {pages.about.stats.since} {FOUNDED_YEAR}
+                  </span>
+                </div>
+                <div className="mt-8 flex items-center gap-4">
+                  <span
+                    role="img"
+                    aria-label={p.monogram}
+                    className="display grid h-16 w-16 shrink-0 select-none place-items-center rounded-2xl text-[2.25rem] font-semibold leading-none text-white [background-image:linear-gradient(145deg,var(--primary-600),var(--primary-900))]"
+                  >
+                    {NAME[0]}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="display text-[1.625rem] font-semibold leading-tight tracking-tight text-[color:var(--text-primary)]">{NAME}</p>
+                    <p className="text-[0.9375rem] text-[color:var(--text-tertiary)]">{p.jobTitle}</p>
+                  </div>
+                </div>
+                <ul className="mt-6 border-t border-[color:var(--border-light)] pt-2">
+                  {card.map((r) => {
+                    const inner = (
+                      <>
+                        <r.icon size={17} strokeWidth={1.75} className="shrink-0 text-[color:var(--primary-700)]" aria-hidden="true" />
+                        <span className="min-w-0 flex-1 truncate">{r.text}</span>
+                      </>
+                    )
+                    return (
+                      <li key={r.text}>
+                        {r.href ? (
+                          <a
+                            href={r.href}
+                            {...(r.rel ? { target: '_blank', rel: r.rel } : {})}
+                            className="group -mx-2 flex min-h-11 items-center gap-3 rounded-xl px-2 text-[0.9375rem] text-[color:var(--text-secondary)] transition-colors hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--primary-700)]"
+                          >
+                            {inner}
+                            {r.rel && <span className="sr-only">{d.common.newTabShort}</span>}
+                            <ArrowUpRight size={15} className="shrink-0 text-[color:var(--text-muted)] transition-colors group-hover:text-[color:var(--primary-700)]" aria-hidden="true" />
+                          </a>
+                        ) : (
+                          <span className="flex min-h-11 items-center gap-3 text-[0.9375rem] text-[color:var(--text-secondary)]">{inner}</span>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ul>
               </div>
             </div>
-            <div className="mx-auto h-[3px] max-w-[260px] bg-[color:var(--rule)] md:ml-auto md:mr-0" aria-hidden="true" />
           </div>
         </div>
       </section>
 
-      {/* Perjalanan */}
-      <section aria-labelledby="journey-title" className="py-16 sm:py-24">
+      {/* Perjalanan: rel tegak di ponsel, mendatar mulai 768px */}
+      <section aria-labelledby="journey-title" className="mt-16 bg-[color:var(--surface-soft)] py-16 sm:mt-24 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 id="journey-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.journeyTitle}</h2>
-          <ol className="mt-10 grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-3">
-            {p.timeline(n).map((t) => (
-              <li key={t.year} className="border-t border-[color:var(--rule)] pt-5">
-                <p className="mono text-xs text-[color:var(--primary-700)]">{t.year}</p>
-                <h3 className="mt-2 text-[1.4rem] leading-snug text-[color:var(--text-primary)]">{t.title}</h3>
-                <p className="mt-2 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{t.body}</p>
+          <h2 id="journey-title" className="text-[2rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.5rem]">
+            {p.journeyTitle}
+          </h2>
+          <ol className="mt-10 grid grid-cols-1 gap-y-9 md:grid-cols-3 md:gap-x-8">
+            {timeline.map((t, i) => (
+              <li key={t.year} className="relative pl-8 md:pl-0 md:pt-9">
+                <span className="absolute left-0 top-[0.3125rem] h-3 w-3 rounded-full bg-[color:var(--primary-700)] ring-4 ring-[color:var(--primary-100)] md:top-0" aria-hidden="true" />
+                {i < timeline.length - 1 && (
+                  <span
+                    className="absolute -bottom-9 left-[0.3125rem] top-6 w-0.5 rounded-full bg-[color:var(--primary-200)] md:-right-8 md:bottom-auto md:left-6 md:top-[0.3125rem] md:h-0.5 md:w-auto"
+                    aria-hidden="true"
+                  />
+                )}
+                <p className="text-[0.875rem] font-semibold text-[color:var(--primary-700)]">{t.year}</p>
+                <h3 className="mt-1 text-[1.3125rem] leading-snug text-[color:var(--text-primary)]">{t.title}</h3>
+                <p className="mt-2 max-w-sm text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{t.body}</p>
               </li>
             ))}
           </ol>
@@ -70,37 +171,63 @@ export default async function OwnerPage({ params }: Params) {
       </section>
 
       {/* Keahlian + prinsip */}
-      <section aria-labelledby="skills-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
-        <div className="mx-auto grid grid-cols-1 max-w-6xl gap-x-10 gap-y-12 px-4 sm:px-6 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <h2 id="skills-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.skillsTitle}</h2>
-            <ul className="mt-6 border-t border-[color:var(--rule)]">
-              {p.skills.map((s) => (
-                <li key={s} className="flex items-start gap-3 border-b border-[color:var(--border-medium)] py-3 text-[0.9375rem] text-[color:var(--text-secondary)]">
-                  <span className="mt-[0.55em] h-[5px] w-[5px] shrink-0 bg-[color:var(--primary-700)]" aria-hidden="true" />
-                  {s}
+      <section aria-labelledby="skills-title" className="py-16 sm:py-24">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-x-8 gap-y-10 px-4 sm:px-6 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <h2 id="skills-title" className="text-[2rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.5rem]">
+              {p.skillsTitle}
+            </h2>
+            <ul className="mt-8 space-y-3">
+              {SKILL_GROUPS.map((g, i) => (
+                <li key={p.skillGroups[i]} className="flex gap-4 rounded-[1.25rem] bg-[color:var(--surface-soft)] p-5 sm:p-6">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-[color:var(--primary-700)] ring-1 ring-[color:var(--border-light)]" aria-hidden="true">
+                    <g.icon size={21} strokeWidth={1.75} />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-[1.0625rem] font-semibold leading-snug text-[color:var(--text-primary)]">{p.skillGroups[i]}</h3>
+                    <ul className="mt-2.5 flex flex-wrap gap-2">
+                      {p.skills.slice(g.from, g.to).map((s) => (
+                        <li key={s} className="rounded-full bg-white px-3 py-1 text-[0.875rem] font-medium text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)]">
+                          {s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
-          <figure className="self-center lg:col-span-6 lg:col-start-7">
-            <blockquote className="display border-l-2 border-[color:var(--primary-700)] pl-6 text-[1.8rem] leading-snug text-[color:var(--text-primary)] sm:text-[2.2rem]">“{p.quote}”</blockquote>
-            <figcaption className="kicker mt-5 pl-6 text-[color:var(--text-tertiary)]">{p.quoteBy}</figcaption>
+          <figure className="flex flex-col justify-between gap-10 rounded-[1.75rem] p-7 text-white [background-image:linear-gradient(150deg,var(--primary-700),var(--primary-900))] sm:p-9 lg:col-span-5">
+            <Quote size={38} strokeWidth={0} className="fill-[color:var(--accent-300)]" aria-hidden="true" />
+            <div>
+              <blockquote className="display text-[1.5rem] font-semibold leading-snug tracking-tight sm:text-[1.75rem]">{p.quote}</blockquote>
+              <figcaption className="mt-6 flex items-center gap-3 text-[0.9375rem] text-white/85">
+                <span className="display grid h-9 w-9 shrink-0 select-none place-items-center rounded-full bg-white text-[1.0625rem] font-semibold leading-none text-[color:var(--primary-700)]" aria-hidden="true">
+                  {NAME[0]}
+                </span>
+                {p.quoteBy}
+              </figcaption>
+            </div>
           </figure>
         </div>
       </section>
 
-      {/* Tulisan — sinyal keahlian (E-E-A-T) */}
+      {/* Tulisan — sinyal keahlian (E-E-A-T). Artikel hanya ada dalam sebagian bahasa. */}
       {writing.length > 0 && (
-        <section aria-labelledby="writing-title" className="py-16 sm:py-24">
+        <section aria-labelledby="writing-title" className="bg-[color:var(--surface-soft)] py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
-            <h2 id="writing-title" className="kicker border-b border-[color:var(--rule)] pb-3 text-[color:var(--text-primary)]">{p.writing}</h2>
-            <ul className="grid grid-cols-1 gap-x-10 sm:grid-cols-2">
-              {writing.map((a) => (
-                <li key={a.key} className="border-b border-[color:var(--border-light)]">
-                  <Link href={pathOf(lang, { key: 'articles', article: a.key })} className="display block py-4 text-[1.2rem] leading-snug text-[color:var(--text-primary)] hover:text-[color:var(--primary-700)]">
-                    {a.title}
-                  </Link>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <h2 id="writing-title" className="text-[2rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.5rem]">
+                {p.writing}
+              </h2>
+              <Link href={path(lang, 'articles')} className="btn btn-line btn-sm self-start sm:self-auto">
+                {pages.articles.all} <ArrowRight size={15} className="arw" aria-hidden="true" />
+              </Link>
+            </div>
+            <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+              {writing.slice(0, 3).map((a) => (
+                <li key={a.key}>
+                  <ArticleCard lang={lang} a={a} read={pages.articles.read(a.minutes)} />
                 </li>
               ))}
             </ul>
@@ -109,19 +236,22 @@ export default async function OwnerPage({ params }: Params) {
       )}
 
       {/* Ajakan */}
-      <section className="bg-[color:var(--primary-700)] py-16 text-white sm:py-20">
-        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <h2 className="text-[2.2rem] leading-[1.08] sm:text-5xl">{p.ctaTitle}</h2>
-            <p className="mt-4 text-lg text-white/85">{p.ctaLead}</p>
-          </div>
-          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <a href={wa(p.ctaWa)} target="_blank" rel="noopener noreferrer" className="btn btn-white">
-              {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
-            </a>
-            <Link href={path(lang, 'demo')} className="btn btn-ghost-dark">
-              {p.ctaDemos(n)} <ArrowRight size={17} className="arw" aria-hidden="true" />
-            </Link>
+      <section className={writing.length > 0 ? 'py-16 sm:py-24' : 'pb-16 sm:pb-24'}>
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="flex flex-col gap-7 rounded-[2rem] p-7 ring-1 ring-[color:var(--border-light)] sm:p-10 lg:flex-row lg:items-center lg:justify-between lg:p-12">
+            <div className="max-w-2xl">
+              <h2 className="text-[1.75rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.ctaTitle}</h2>
+              <p className="mt-3 leading-relaxed text-[color:var(--text-tertiary)]">{p.ctaLead}</p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+              <a href={wa(p.ctaWa)} target="_blank" rel="noopener noreferrer" className="btn btn-solid">
+                {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
+                <span className="sr-only">{d.common.newTabShort}</span>
+              </a>
+              <Link href={path(lang, 'about')} className="btn btn-line">
+                {pages.about.ogTitle} <ArrowRight size={17} className="arw" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -141,11 +271,11 @@ export default async function OwnerPage({ params }: Params) {
             {
               '@type': 'Person',
               '@id': FOUNDER_ID,
-              name: 'Sanzy',
+              name: NAME,
               jobTitle: p.jobTitle,
               worksFor: { '@id': ORG_ID },
               knowsAbout: p.skills,
-              sameAs: ['https://github.com/aryasis87'],
+              sameAs: [`https://${GITHUB}`],
             },
           ],
         })}
