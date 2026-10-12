@@ -2,7 +2,7 @@
 // (satu-satunya sumber); di sini hanya cara menuliskannya.
 import { CLOSES, GUARANTEE_DAYS, HOURS, LOCATION, OPENS, PERF_TARGET, RESPONSE, dotTime } from '../lib/site'
 import { DEMOS } from '../lib/demos'
-import { ADDONS, PACKAGES, PAYMENT_SUMMARY, RENEWAL_BIO_PER_YEAR, RENEWAL_PER_YEAR, RENEWAL_SUMMARY, type Paket } from '../lib/packages'
+import { ADDONS, PACKAGES, PAYMENT_SUMMARY, RENEWAL_BIO_PER_YEAR, RENEWAL_PER_YEAR, RENEWAL_SUMMARY, type Paket, type Waktu } from '../lib/packages'
 import { LANG_INFO, type Lang } from './config'
 import { ADDON_TEXT, PACKAGE_TEXT } from '../content/packages-text'
 
@@ -103,12 +103,22 @@ export const moneyShort = (lang: Lang, p: Pick<Paket, 'minPrice' | 'maxPrice' | 
 /** Paket dengan teks sesuai bahasa; angka selalu dari PACKAGES. */
 export type LocalPaket = Paket & { priceFrom: string; priceRange: string; deposit: string }
 
+/** Perkiraan waktu pengerjaan dalam bahasa pengunjung, mis. "1–2 working days" / "1–3 minggu, bergantung pada ciri". */
+export function durationText(lang: Lang, w: Waktu): string {
+  const n = w.min === w.max ? `${w.min}` : `${w.min}–${w.max}`
+  const one = w.max === 1
+  if (lang === 'en') return `${n} ${w.unit === 'hari' ? (one ? 'working day' : 'working days') : one ? 'week' : 'weeks'}${w.flex ? ', depending on features' : ''}`
+  if (lang === 'ms') return `${n} ${w.unit === 'hari' ? 'hari bekerja' : 'minggu'}${w.flex ? ', bergantung pada ciri' : ''}`
+  return `${n} ${w.unit === 'hari' ? 'hari kerja' : 'minggu'}${w.flex ? ', tergantung fitur' : ''}`
+}
+
 export function packagesFor(lang: Lang): LocalPaket[] {
   return PACKAGES.map((p) => {
     const t = lang === 'id' ? null : PACKAGE_TEXT[lang][p.slug]
     const base: Paket = t ? { ...p, ...t } : p
     return {
       ...base,
+      duration: durationText(lang, p.time),
       priceFrom: money(lang, p.minPrice),
       priceRange: moneyRange(lang, p),
       deposit: money(lang, Math.round(p.minPrice / 2)),
@@ -118,18 +128,10 @@ export function packagesFor(lang: Lang): LocalPaket[] {
 
 export const minPrice = () => Math.min(...PACKAGES.map((p) => p.minPrice))
 
-/**
- * Paket dengan perkiraan pengerjaan tercepat dan terlama (dibaca dari `duration` di packages.ts, mis.
- * "1–3 hari kerja" atau "4–8 minggu"; satu minggu dihitung 5 hari kerja). Durasi yang tidak terbaca
- * menggagalkan build supaya ringkasannya tidak pernah menampilkan angka yang salah.
- */
+/** Paket dengan perkiraan pengerjaan tercepat dan terlama (dari `time` di packages.ts; satu minggu = 5 hari kerja). */
 export function durationSpan(lang: Lang) {
-  const span = PACKAGES.map((p) => {
-    const m = /^(\d+)–(\d+) (hari kerja|minggu)/.exec(p.duration)
-    if (!m) throw new Error(`Durasi paket ${p.slug} tidak terbaca: ${p.duration}`)
-    const k = m[3] === 'minggu' ? 5 : 1
-    return { slug: p.slug, lo: Number(m[1]) * k, hi: Number(m[2]) * k }
-  })
+  const days = (n: number, p: Paket) => n * (p.time.unit === 'minggu' ? 5 : 1)
+  const span = PACKAGES.map((p) => ({ slug: p.slug, lo: days(p.time.min, p), hi: days(p.time.max, p) }))
   const fast = span.reduce((a, b) => (b.lo < a.lo || (b.lo === a.lo && b.hi < a.hi) ? b : a))
   const slow = span.reduce((a, b) => (b.hi > a.hi ? b : a))
   const pk = packagesFor(lang)

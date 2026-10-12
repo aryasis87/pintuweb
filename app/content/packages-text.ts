@@ -2,7 +2,8 @@
 // keduanya selalu dari lib/packages.ts.
 import type { Paket, PaketGroup } from '../lib/packages'
 
-type PaketText = Pick<Paket, 'title' | 'subtitle' | 'duration' | 'highlights' | 'features'> & { badge?: string }
+// Waktu pengerjaan tidak ditulis di sini: teksnya dirakit dari data paket oleh durationText() di i18n/facts.ts.
+type PaketText = Pick<Paket, 'title' | 'subtitle' | 'highlights' | 'features'> & { badge?: string }
 
 export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
   en: {
@@ -10,7 +11,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Landing Page',
       badge: 'Starter',
       subtitle: 'One promotional page built to convert',
-      duration: '1–3 working days',
       highlights: ['Product launches', 'Events', 'Ad campaigns'],
       features: [
         'One promotional page focused on conversion',
@@ -25,7 +25,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Small Business Standard',
       badge: 'Business',
       subtitle: 'The most popular choice for businesses',
-      duration: '3–5 working days',
       highlights: ['Company profile', 'Services', 'Small businesses'],
       features: [
         '3–5 complete pages (Home, About, Services, Blog, Contact)',
@@ -41,7 +40,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Simple Online Store',
       badge: 'Premium',
       subtitle: 'Start selling online without the hassle',
-      duration: '1–2 weeks',
       highlights: ['Product catalogue', 'Orders via WhatsApp', 'Retail shops'],
       features: [
         'Product catalogue of up to 20 items',
@@ -57,7 +55,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Custom Website',
       badge: 'Custom',
       subtitle: 'Design and features built entirely around your needs',
-      duration: '2–6 weeks, depending on features',
       highlights: ['Start-ups', 'Institutions', 'Bespoke systems'],
       features: [
         'Fully custom design & layout',
@@ -72,7 +69,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'toko-online-full': {
       title: 'Full Online Store',
       subtitle: 'A complete online store with an admin dashboard',
-      duration: '2–3 weeks',
       highlights: ['E-commerce', 'Automatic shipping rates', 'Order management'],
       features: [
         'Shopping cart & full checkout',
@@ -87,7 +83,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     portofolio: {
       title: 'Portfolio / Personal Branding',
       subtitle: 'A showcase of work for freelancers & creators',
-      duration: '3–5 working days',
       highlights: ['Freelancers', 'Creators', 'Professionals'],
       features: [
         'About, Work, Blog & Contact pages',
@@ -101,7 +96,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'link-in-bio': {
       title: "Link in Bio",
       subtitle: "One bio link with your own design & features",
-      duration: "1–3 working days",
       highlights: ["Creators","Cafés & food stalls","Musicians"],
       features: [
         "One link-in-bio page in your brand style",
@@ -115,7 +109,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'undangan-digital': {
       title: "Digital Invitation",
       subtitle: "A website invitation from our theme gallery, filled with your event details",
-      duration: "1–2 working days",
       highlights: ["Weddings","Family celebrations","Birthdays & graduations"],
       features: [
         "A theme from our invitation gallery, tailored to your event",
@@ -129,7 +122,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'situs-acara': {
       title: "Event Website & Custom Invitation",
       subtitle: "A bespoke design for large or corporate events",
-      duration: "3–7 working days",
       highlights: ["Corporate events","Seminars & conferences","Premium weddings"],
       features: [
         "A bespoke invitation/event site design, not a ready-made theme",
@@ -143,7 +135,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'sistem-reservasi': {
       title: "Online Booking System",
       subtitle: "Book tables, rooms, doctor appointments or courts",
-      duration: "2–4 weeks",
       highlights: ["Restaurants & cafés","Clinics","Hotels & courts"],
       features: [
         "Automatic availability calendar & time slots",
@@ -158,7 +149,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'website-properti': {
       title: "Property Website",
       subtitle: "A listings catalogue for an agent or developer",
-      duration: "2–3 weeks",
       highlights: ["Property agents","Housing developers","Rentals & boarding houses"],
       features: [
         "Listings with location, price and type filters",
@@ -173,7 +163,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'marketplace-properti': {
       title: "Property Marketplace",
       subtitle: "A multi-agent portal: many listers, one place to search",
-      duration: "4–8 weeks",
       highlights: ["Property portals","Agent networks","Proptech start-ups"],
       features: [
         "Agent & owner accounts to post listings",
@@ -188,7 +177,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'aplikasi-web': {
       title: "Web App",
       subtitle: "A work app: tasks, kanban, calendar or internal data",
-      duration: "2–4 weeks",
       highlights: ["Small teams","Internal operations","Start-ups"],
       features: [
         "Sign-in & user roles",
@@ -203,7 +191,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'konsep-desain': {
       title: "Website Design Concepts",
       subtitle: "Several live concepts for one brief — pick the best",
-      duration: "1–2 weeks",
       highlights: ["Rebranding","Pitching","Design contests"],
       features: [
         "3–5 distinct design concepts for one brief",
@@ -220,7 +207,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Landing Page',
       badge: 'Permulaan',
       subtitle: 'Satu halaman promosi yang fokus pada penukaran',
-      duration: '1–3 hari bekerja',
       highlights: ['Promosi produk', 'Acara', 'Kempen iklan'],
       features: [
         '1 halaman promosi yang fokus pada penukaran',
@@ -235,7 +221,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Standard PKS',
       badge: 'Perniagaan',
       subtitle: 'Pilihan paling popular untuk perniagaan',
-      duration: '3–5 hari bekerja',
       highlights: ['Profil syarikat', 'Perkhidmatan', 'PKS'],
       features: [
         '3–5 halaman lengkap (Utama, Profil, Perkhidmatan, Blog, Hubungi)',
@@ -251,7 +236,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Kedai Online Ringkas',
       badge: 'Premium',
       subtitle: 'Mula berniaga dalam talian tanpa kerumitan',
-      duration: '1–2 minggu',
       highlights: ['Katalog produk', 'Pesanan melalui WhatsApp', 'Kedai runcit'],
       features: [
         'Katalog produk sehingga 20 item',
@@ -267,7 +251,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
       title: 'Laman Web Tersuai',
       badge: 'Tersuai',
       subtitle: 'Reka bentuk & ciri sepenuhnya mengikut keperluan',
-      duration: '2–6 minggu, bergantung pada ciri',
       highlights: ['Syarikat pemula', 'Institusi', 'Sistem khas'],
       features: [
         'Reka bentuk & susun atur tersuai sepenuhnya',
@@ -282,7 +265,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'toko-online-full': {
       title: 'Kedai Online Penuh',
       subtitle: 'Kedai dalam talian lengkap dengan papan pemuka admin',
-      duration: '2–3 minggu',
       highlights: ['E-dagang', 'Kos penghantaran automatik', 'Urus pesanan'],
       features: [
         'Troli beli-belah & proses pembayaran lengkap',
@@ -297,7 +279,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     portofolio: {
       title: 'Portfolio / Penjenamaan Peribadi',
       subtitle: 'Pameran karya untuk pekerja bebas & pencipta kandungan',
-      duration: '3–5 hari bekerja',
       highlights: ['Pekerja bebas', 'Pencipta kandungan', 'Profesional'],
       features: [
         'Halaman Tentang, Karya, Blog & Hubungi',
@@ -311,7 +292,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'link-in-bio': {
       title: "Link in Bio",
       subtitle: "Satu pautan bio dengan reka bentuk & ciri sendiri",
-      duration: "1–3 hari bekerja",
       highlights: ["Pencipta kandungan","Kafe & gerai","Pemuzik"],
       features: [
         "Satu halaman link in bio mengikut jenama",
@@ -325,7 +305,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'undangan-digital': {
       title: "Kad Jemputan Digital",
       subtitle: "Jemputan laman web daripada tema galeri, diisi butiran majlis anda",
-      duration: "1–2 hari bekerja",
       highlights: ["Perkahwinan","Majlis keluarga","Hari jadi & konvokesyen"],
       features: [
         "Tema daripada galeri jemputan, disesuaikan dengan majlis",
@@ -339,7 +318,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'situs-acara': {
       title: "Laman Acara & Jemputan Tersuai",
       subtitle: "Reka bentuk khas untuk majlis besar atau acara korporat",
-      duration: "3–7 hari bekerja",
       highlights: ["Acara korporat","Seminar & persidangan","Perkahwinan premium"],
       features: [
         "Reka bentuk jemputan/laman acara khas, bukan tema siap",
@@ -353,7 +331,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'sistem-reservasi': {
       title: "Sistem Tempahan Dalam Talian",
       subtitle: "Tempah meja, bilik, temu janji doktor atau gelanggang",
-      duration: "2–4 minggu",
       highlights: ["Restoran & kafe","Klinik","Hotel & gelanggang"],
       features: [
         "Kalendar & slot ketersediaan automatik",
@@ -368,7 +345,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'website-properti': {
       title: "Laman Web Hartanah",
       subtitle: "Katalog penyenaraian untuk ejen atau pemaju",
-      duration: "2–3 minggu",
       highlights: ["Ejen hartanah","Pemaju perumahan","Rumah sewa & bilik"],
       features: [
         "Penyenaraian dengan penapis lokasi, harga dan jenis",
@@ -383,7 +359,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'marketplace-properti': {
       title: "Pasaran Hartanah",
       subtitle: "Portal berbilang ejen: ramai pemasang, satu tempat mencari",
-      duration: "4–8 minggu",
       highlights: ["Portal hartanah","Rangkaian ejen","Syarikat pemula proptech"],
       features: [
         "Akaun ejen & pemilik untuk memasang penyenaraian",
@@ -398,7 +373,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'aplikasi-web': {
       title: "Aplikasi Web",
       subtitle: "Aplikasi kerja: tugasan, kanban, kalendar atau data dalaman",
-      duration: "2–4 minggu",
       highlights: ["Pasukan kecil","Operasi dalaman","Syarikat pemula"],
       features: [
         "Log masuk & peranan pengguna",
@@ -413,7 +387,6 @@ export const PACKAGE_TEXT: Record<'en' | 'ms', Record<string, PaketText>> = {
     'konsep-desain': {
       title: "Konsep Reka Bentuk Laman Web",
       subtitle: "Beberapa konsep langsung untuk satu taklimat, pilih yang terbaik",
-      duration: "1–2 minggu",
       highlights: ["Penjenamaan semula","Pembentangan","Peraduan reka bentuk"],
       features: [
         "3–5 konsep reka bentuk berbeza untuk satu taklimat",

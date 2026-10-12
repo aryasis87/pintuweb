@@ -2,7 +2,8 @@
 // Dipakai halaman Paket, bagian harga di beranda, halaman layanan, artikel, FAQ, llms.txt,
 // dan JSON-LD — ubah harga di sini saja supaya semuanya tidak pernah berselisih.
 //
-// 13 Okt 2026: atas permintaan pemilik, harga semua paket diturunkan 50% dari angka 3 Okt di bawah ini.
+// 13 Okt 2026: atas permintaan pemilik, harga DAN waktu pengerjaan semua paket diturunkan 50% dari angka 3 Okt di
+// bawah ini (waktu: pecahan hari dibulatkan ke atas, 1 minggu = 5 hari kerja).
 // Biaya tambahan (ADDONS) dan biaya perpanjangan TIDAK ikut diturunkan.
 //
 // Harga ditetapkan 3 Okt 2026 (diserahkan pemilik) mengacu kisaran pasar Indonesia 2026:
@@ -16,6 +17,10 @@ import { WA_NUMBER } from './site'
 export { WA_NUMBER }
 
 export type PaketGroup = 'bisnis' | 'toko' | 'personal' | 'sistem' | 'desain'
+
+/** Perkiraan waktu pengerjaan: rentang dalam hari kerja atau minggu. `flex` = masih bergantung pada fitur. */
+export type Waktu = { min: number; max: number; unit: 'hari' | 'minggu'; flex?: boolean }
+const waktuId = (w: Waktu) => `${w.min === w.max ? w.min : `${w.min}–${w.max}`} ${w.unit === 'hari' ? 'hari kerja' : 'minggu'}${w.flex ? ', tergantung fitur' : ''}`
 
 export type Paket = {
   slug: string
@@ -31,7 +36,9 @@ export type Paket = {
   featured?: boolean
   recommended?: boolean
   subtitle: string
-  /** perkiraan waktu pengerjaan setelah konten lengkap */
+  /** perkiraan waktu pengerjaan setelah konten lengkap (data; teksnya dirakit per bahasa) */
+  time: Waktu
+  /** `time` dalam bahasa Indonesia, mis. "1–2 hari kerja"; bahasa lain lewat packagesFor() di i18n/facts.ts */
   duration: string
   highlights: string[]
   features: string[]
@@ -39,7 +46,7 @@ export type Paket = {
 
 export const PACKAGE_GROUPS: PaketGroup[] = ['bisnis', 'toko', 'personal', 'sistem', 'desain']
 
-export const PACKAGES: Paket[] = [
+const DATA: Omit<Paket, 'duration'>[] = [
   // ---- Website bisnis ----
   {
     slug: 'landing-page',
@@ -51,7 +58,7 @@ export const PACKAGES: Paket[] = [
     badgeColor: 'green',
     featured: true,
     subtitle: 'Satu halaman promosi yang fokus konversi',
-    duration: '1–3 hari kerja',
+    time: { min: 1, max: 2, unit: 'hari' },
     highlights: ['Promosi produk', 'Event', 'Kampanye iklan'],
     features: [
       '1 halaman promosi yang fokus konversi',
@@ -73,7 +80,7 @@ export const PACKAGES: Paket[] = [
     featured: true,
     recommended: true,
     subtitle: 'Pilihan terpopuler untuk bisnis',
-    duration: '3–5 hari kerja',
+    time: { min: 2, max: 3, unit: 'hari' },
     highlights: ['Company profile', 'Jasa & layanan', 'UMKM'],
     features: [
       '3–5 halaman lengkap (Home, Profil, Layanan, Blog, Kontak)',
@@ -96,7 +103,7 @@ export const PACKAGES: Paket[] = [
     badgeColor: 'red',
     featured: true,
     subtitle: 'Mulai jualan online tanpa ribet',
-    duration: '1–2 minggu',
+    time: { min: 3, max: 5, unit: 'hari' },
     highlights: ['Katalog produk', 'Order via WhatsApp', 'Toko ritel'],
     features: [
       'Katalog produk hingga 20 item',
@@ -115,7 +122,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 2500000,
     maxPrice: 4500000,
     subtitle: 'Toko online lengkap dengan dashboard admin',
-    duration: '2–3 minggu',
+    time: { min: 5, max: 8, unit: 'hari' },
     highlights: ['E-commerce', 'Ongkir otomatis', 'Kelola pesanan'],
     features: [
       'Keranjang belanja & sistem checkout lengkap',
@@ -135,7 +142,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 125000,
     maxPrice: 375000,
     subtitle: 'Satu tautan bio dengan desain & fitur milik sendiri',
-    duration: '1–3 hari kerja',
+    time: { min: 1, max: 2, unit: 'hari' },
     highlights: ['Kreator', 'Kafe & warung', 'Musisi'],
     features: [
       'Satu halaman link in bio sesuai merek',
@@ -153,7 +160,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 75000,
     maxPrice: 225000,
     subtitle: 'Undangan website dari tema galeri, diisi data acaramu',
-    duration: '1–2 hari kerja',
+    time: { min: 1, max: 1, unit: 'hari' },
     highlights: ['Pernikahan', 'Khitanan & aqiqah', 'Ulang tahun & wisuda'],
     features: [
       'Tema dari galeri undangan, disesuaikan data acara',
@@ -171,7 +178,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 500000,
     maxPrice: 1250000,
     subtitle: 'Desain khusus untuk acara besar atau acara kantor',
-    duration: '3–7 hari kerja',
+    time: { min: 2, max: 4, unit: 'hari' },
     highlights: ['Acara kantor', 'Seminar & konferensi', 'Pernikahan premium'],
     features: [
       'Desain undangan/situs acara khusus, bukan tema siap pakai',
@@ -189,7 +196,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 750000,
     maxPrice: 1250000,
     subtitle: 'Etalase karya untuk freelancer & kreator',
-    duration: '3–5 hari kerja',
+    time: { min: 2, max: 3, unit: 'hari' },
     highlights: ['Freelancer', 'Kreator', 'Profesional'],
     features: [
       'Halaman Tentang, Karya, Blog & Kontak',
@@ -208,7 +215,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 2500000,
     maxPrice: 6000000,
     subtitle: 'Booking meja, kamar, jadwal dokter, atau lapangan',
-    duration: '2–4 minggu',
+    time: { min: 1, max: 2, unit: 'minggu' },
     highlights: ['Restoran & kafe', 'Klinik', 'Hotel & lapangan'],
     features: [
       'Kalender & slot ketersediaan otomatis',
@@ -227,7 +234,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 2000000,
     maxPrice: 4500000,
     subtitle: 'Katalog listing untuk agen atau developer',
-    duration: '2–3 minggu',
+    time: { min: 5, max: 8, unit: 'hari' },
     highlights: ['Agen properti', 'Developer perumahan', 'Kos & kontrakan'],
     features: [
       'Listing dengan filter lokasi, harga, dan tipe',
@@ -247,7 +254,7 @@ export const PACKAGES: Paket[] = [
     maxPrice: 15000000,
     openEnded: true,
     subtitle: 'Portal multi-agen: banyak pemasang, satu tempat cari',
-    duration: '4–8 minggu',
+    time: { min: 2, max: 4, unit: 'minggu' },
     highlights: ['Portal properti', 'Jaringan agen', 'Startup proptech'],
     features: [
       'Akun agen & pemilik untuk memasang listing',
@@ -267,7 +274,7 @@ export const PACKAGES: Paket[] = [
     maxPrice: 5000000,
     openEnded: true,
     subtitle: 'Aplikasi kerja: tugas, kanban, kalender, atau data internal',
-    duration: '2–4 minggu',
+    time: { min: 1, max: 2, unit: 'minggu' },
     highlights: ['Tim kecil', 'Operasional internal', 'Startup'],
     features: [
       'Login & peran pengguna',
@@ -289,7 +296,7 @@ export const PACKAGES: Paket[] = [
     badge: 'Custom',
     badgeColor: 'purple',
     subtitle: 'Desain & fitur sepenuhnya sesuai kebutuhan',
-    duration: '2–6 minggu, tergantung fitur',
+    time: { min: 1, max: 3, unit: 'minggu', flex: true },
     highlights: ['Startup', 'Instansi', 'Sistem khusus'],
     features: [
       'Desain & layout full custom',
@@ -309,7 +316,7 @@ export const PACKAGES: Paket[] = [
     minPrice: 1250000,
     maxPrice: 2500000,
     subtitle: 'Beberapa konsep live untuk satu brief, pilih yang terbaik',
-    duration: '1–2 minggu',
+    time: { min: 3, max: 5, unit: 'hari' },
     highlights: ['Rebranding', 'Pitching', 'Kontes desain'],
     features: [
       '3–5 konsep desain berbeda untuk satu brief',
@@ -321,6 +328,8 @@ export const PACKAGES: Paket[] = [
     ],
   },
 ]
+
+export const PACKAGES: Paket[] = DATA.map((p) => ({ ...p, duration: waktuId(p.time) }))
 
 /** Biaya tambahan (per satuan), dipakai halaman Paket & llms.txt. */
 export type Addon = { slug: string; title: string; minPrice: number; maxPrice: number; unit: string }
