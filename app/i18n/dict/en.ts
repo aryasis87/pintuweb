@@ -91,6 +91,7 @@ const en: Dict = {
   },
   hero: {
     aria: 'Introducing PintuWeb',
+    artAlt: 'Illustration: a web developer building a website at their desk',
     kicker: 'Web studio · Trenggalek, East Java',
     meta: (n: number) => `Since ${FOUNDED_YEAR} · ${CLIENT_PROJECTS} client projects · ${n} live demos`,
     title: ['Every business deserves a proper ', 'front door', '.'] as Hl,

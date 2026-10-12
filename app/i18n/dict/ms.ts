@@ -91,6 +91,7 @@ const ms: Dict = {
   },
   hero: {
     aria: 'Pengenalan PintuWeb',
+    artAlt: 'Ilustrasi: pembangun web sedang membina laman web di meja kerjanya',
     kicker: 'Studio web · Trenggalek, Jawa Timur',
     meta: (n: number) => `Sejak ${FOUNDED_YEAR} · ${CLIENT_PROJECTS} projek pelanggan · ${n} demo dalam talian`,
     title: ['Setiap perniagaan layak ada ', 'pintu depan', ' yang sewajarnya.'] as Hl,

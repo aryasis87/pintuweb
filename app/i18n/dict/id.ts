@@ -94,6 +94,7 @@ const id = {
   },
   hero: {
     aria: 'Perkenalan PintuWeb',
+    artAlt: 'Ilustrasi: pengembang web sedang membangun website di meja kerjanya',
     kicker: 'Studio web · Trenggalek, Jawa Timur',
     meta: (n: number) => `Sejak ${FOUNDED_YEAR} · ${CLIENT_PROJECTS} proyek klien · ${n} demo online`,
     title: ['Setiap usaha butuh ', 'pintu depan', ' yang layak.'] as Hl,
