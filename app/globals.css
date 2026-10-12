@@ -329,11 +329,19 @@
 
 
   /* Halaman legal (Kebijakan Privasi, Syarat & Ketentuan) */
-  .legal { color: var(--text-secondary); font-size: 1.0625rem; line-height: 1.8; }
-  .legal > * + * { margin-top: 1em; }
-  .legal h2 { margin-top: 2.2em; font-size: 1.6rem; line-height: 1.25; color: var(--text-primary); }
-  .legal h2 + p, .legal h2 + ul, .legal h2 + ol { margin-top: .6em; }
+  /* Isi pasal dokumen legal (judul pasalnya diatur components/LegalPage.tsx) */
+  .legal { color: var(--text-secondary); font-size: 1.0625rem; line-height: 1.75; }
+  .legal > * + * { margin-top: .9em; }
   .legal ul, .legal ol { padding-left: 1.3rem; }
+  /* daftar "nama ... nilai" (perkiraan waktu per paket): dua kolom yang dibaca dari atas ke bawah */
+  .legal ul.rows { list-style: none; padding-left: 0; column-gap: 2rem; }
+  @media (min-width: 640px) { .legal ul.rows { columns: 2; } }
+  .legal ul.rows li {
+    display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; break-inside: avoid;
+    margin-top: 0; padding: .45rem 0; border-bottom: 1px solid var(--border-light); font-size: .9375rem; line-height: 1.5;
+  }
+  .legal ul.rows li > span:last-child { text-align: right; font-weight: 600; color: var(--text-primary); white-space: nowrap; }
+  .legal ul.rows li > span.wrap { white-space: normal; max-width: 55%; }
   .legal ul { list-style: disc; }
   .legal ol { list-style: decimal; }
   .legal li + li { margin-top: .4em; }

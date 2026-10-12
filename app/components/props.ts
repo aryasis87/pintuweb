@@ -24,7 +24,7 @@ function moreOf(lang: Lang, key: FaqKey): FaqEntry['more'] {
     const has = Boolean((ARTICLE_SLUGS[m.article] as Partial<Record<Lang, string>>)[lang])
     return has ? { label: getArticle(lang, m.article).title, href: pathOf(lang, { key: 'articles', article: m.article }) } : { label: links[m.fallback], href: path(lang, m.fallback) }
   }
-  return { label: links[m.page], href: path(lang, m.page) }
+  return { label: links[m.page], href: `${path(lang, m.page)}${m.at ? `#${m.at}` : ''}` }
 }
 
 /** Daftar tanya-jawab yang dipakai tampilan DAN JSON-LD (sumbernya sama, jadi selalu cocok). */

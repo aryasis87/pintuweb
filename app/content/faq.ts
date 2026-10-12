@@ -7,6 +7,7 @@ import { byPrice } from '../lib/packages'
 import type { Lang } from '../i18n/config'
 import type { PageKey } from '../i18n/routes'
 import type { ArticleKey, ServiceKey } from '../i18n/slugs'
+import type { TermsId } from './legal'
 
 export type FaqCategoryId = 'general' | 'pricing' | 'process' | 'technical' | 'support'
 
@@ -31,22 +32,23 @@ export const FAQ_CATEGORY_SLUG: Record<FaqCategoryId, string> = { general: 'umum
 
 /** Halaman yang membahas suatu jawaban lebih rinci (tautan "Selengkapnya" di bawah jawaban). */
 type MorePage = Exclude<PageKey, 'home' | 'services' | 'articles'>
-export type FaqMore = { page: MorePage } | { service: ServiceKey } | { article: ArticleKey; fallback: MorePage }
+/** `at` = pasal Syarat & Ketentuan yang dituju (jangkar), bila halamannya 'terms'. */
+export type FaqMore = { page: MorePage; at?: TermsId } | { service: ServiceKey } | { article: ArticleKey; fallback: MorePage }
 export const FAQ_MORE: Partial<Record<FaqKey, FaqMore>> = {
   'usia-pintuweb': { page: 'demo' },
   'muncul-di-google': { article: 'seo-checklist', fallback: 'glossary' },
   'beda-pintuweb': { page: 'about' },
-  'hak-milik': { page: 'terms' },
+  'hak-milik': { page: 'terms', at: 'kepemilikan' },
   'fitur-custom': { service: 'website-custom' },
   biaya: { page: 'pricing' },
   'biaya-tersembunyi': { page: 'pricing' },
-  pembayaran: { page: 'terms' },
-  'tidak-cocok': { page: 'terms' },
+  pembayaran: { page: 'terms', at: 'pembayaran' },
+  'tidak-cocok': { page: 'terms', at: 'revisi' },
   'lama-pengerjaan': { page: 'pricing' },
-  revisi: { page: 'terms' },
+  revisi: { page: 'terms', at: 'revisi' },
   responsif: { page: 'demo' },
   teknologi: { page: 'glossary' },
-  garansi: { page: 'terms' },
+  garansi: { page: 'terms', at: 'garansi' },
   'website-bermasalah': { page: 'contact' },
 }
 

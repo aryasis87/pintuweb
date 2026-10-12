@@ -232,6 +232,21 @@ const pages: Pages = {
     termsTitle: 'Terma & Syarat',
     termsDescription: 'Terma perkhidmatan membina laman web PintuWeb: pembayaran, tempoh siap, semakan, jaminan, domain & hosting dan pemilikan.',
     since: (d: string) => `Berkuat kuasa sejak ${d}.`,
+    docsNav: 'Dokumen perundangan',
+    summaryTitle: 'Ringkasnya',
+    summaryNote: 'Ringkasan ini hanya panduan; teks penuh di bawah yang terpakai.',
+    privacyPoints: [
+      { text: 'Borang hubungi tidak menyimpan apa-apa di pelayan kami.', to: 'data-diterima' },
+      { text: 'Statistik lawatan adalah tanpa nama dan tidak menggunakan kuki.', to: 'data-diterima' },
+      { text: 'Kami tidak menjual atau menyewakan data anda.', to: 'berbagi-data' },
+      { text: 'Anda boleh meminta salinan, pembetulan atau pemadaman data.', to: 'hak-anda' },
+    ],
+    termsPoints: (days: number) => [
+      { text: 'Butiran akhir setiap projek ada dalam sebut harga bertulis yang anda luluskan.', to: '' },
+      { text: 'Deposit 50% untuk bermula, baki 50% selepas laman web siap dan anda luluskan.', to: 'pembayaran' },
+      { text: `Pepijat dan masalah teknikal dibaiki secara percuma selama ${days} hari selepas laman web dilancarkan.`, to: 'garansi' },
+      { text: 'Selepas bayaran penuh, laman web menjadi milik anda sepenuhnya.', to: 'kepemilikan' },
+    ],
   },
   articles: {
     title: 'Artikel & Panduan Laman Web',

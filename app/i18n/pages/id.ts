@@ -231,6 +231,23 @@ const pages = {
     termsTitle: 'Syarat & Ketentuan',
     termsDescription: 'Ketentuan layanan pembuatan website PintuWeb: pembayaran, waktu pengerjaan, revisi, garansi, domain & hosting, dan kepemilikan.',
     since: (d: string) => `Berlaku sejak ${d}.`,
+    docsNav: 'Dokumen legal',
+    // Ringkasan di atas tiap dokumen. Isinya mengulang kalimat di teks lengkap (content/legal.tsx) dan HARUS ikut
+    // diubah bila teks itu berubah; `to` = jangkar pasalnya.
+    summaryTitle: 'Ringkasnya',
+    summaryNote: 'Ringkasan ini hanya penunjuk; yang berlaku adalah teks lengkap di bawah.',
+    privacyPoints: [
+      { text: 'Formulir kontak tidak menyimpan apa pun di server kami.', to: 'data-diterima' },
+      { text: 'Statistik kunjungan bersifat anonim dan tidak memakai cookie.', to: 'data-diterima' },
+      { text: 'Kami tidak menjual atau menyewakan data Anda.', to: 'berbagi-data' },
+      { text: 'Anda boleh meminta salinan, perbaikan, atau penghapusan data.', to: 'hak-anda' },
+    ],
+    termsPoints: (days: number) => [
+      { text: 'Rincian akhir tiap proyek ada di penawaran tertulis yang Anda setujui.', to: '' },
+      { text: 'DP 50% untuk memulai, pelunasan 50% setelah website selesai dan Anda setujui.', to: 'pembayaran' },
+      { text: `Bug dan masalah teknis diperbaiki gratis selama ${days} hari setelah website online.`, to: 'garansi' },
+      { text: 'Setelah pelunasan, website sepenuhnya menjadi milik Anda.', to: 'kepemilikan' },
+    ],
   },
   articles: {
     title: 'Artikel & Panduan Website',

@@ -232,6 +232,21 @@ const pages: Pages = {
     termsTitle: 'Terms & Conditions',
     termsDescription: 'Terms of the PintuWeb website service: payment, turnaround, revisions, guarantee, domain & hosting and ownership.',
     since: (d: string) => `Effective from ${d}.`,
+    docsNav: 'Legal documents',
+    summaryTitle: 'In short',
+    summaryNote: 'This summary is only a guide; the full text below is what applies.',
+    privacyPoints: [
+      { text: 'The contact form stores nothing on our server.', to: 'data-diterima' },
+      { text: 'Visit statistics are anonymous and use no cookies.', to: 'data-diterima' },
+      { text: 'We do not sell or rent your data.', to: 'berbagi-data' },
+      { text: 'You may ask for a copy, correction or deletion of your data.', to: 'hak-anda' },
+    ],
+    termsPoints: (days: number) => [
+      { text: 'The final details of each project are in the written quote you approve.', to: '' },
+      { text: 'A 50% deposit to start, and the remaining 50% once the website is finished and you have approved it.', to: 'pembayaran' },
+      { text: `Bugs and technical issues are fixed free of charge for ${days} days after launch.`, to: 'garansi' },
+      { text: 'Once paid in full, the website becomes entirely yours.', to: 'kepemilikan' },
+    ],
   },
   articles: {
     title: 'Website Articles & Guides',
