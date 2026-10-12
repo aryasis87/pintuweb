@@ -2,11 +2,16 @@
 import type { Lang } from '../i18n/config'
 import type { DocRef } from '../i18n/routes'
 
-export type Term = { id: string; term: Record<Lang, string>; def: Record<Lang, string>; see?: DocRef }
+/** Topik istilah: dasar website, jenis website, SEO & kecepatan, bisnis & pemasaran. */
+export const TERM_TOPICS = ['dasar', 'jenis', 'seo', 'bisnis'] as const
+export type TermTopic = (typeof TERM_TOPICS)[number]
+
+export type Term = { id: string; topic: TermTopic; term: Record<Lang, string>; def: Record<Lang, string>; see?: DocRef }
 
 export const TERMS: Term[] = [
   {
     id: 'domain',
+    topic: 'dasar',
     term: { id: 'Domain', en: 'Domain', ms: 'Domain' },
     def: {
       id: 'Domain adalah alamat website yang diketik orang di browser, misalnya pintuweb.com. Domain disewa per tahun dari registrar dan harus diperpanjang agar tidak hilang.',
@@ -17,6 +22,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'hosting',
+    topic: 'dasar',
     term: { id: 'Hosting', en: 'Hosting', ms: 'Hosting' },
     def: {
       id: 'Hosting adalah layanan server yang menyimpan file website dan menayangkannya ke pengunjung 24 jam. Domain adalah alamatnya, hosting adalah “rumah” tempat isinya disimpan.',
@@ -27,6 +33,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'ssl',
+    topic: 'dasar',
     term: { id: 'SSL / HTTPS', en: 'SSL / HTTPS', ms: 'SSL / HTTPS' },
     def: {
       id: 'SSL adalah sertifikat yang mengenkripsi data antara browser dan website, ditandai alamat berawalan https://. Tanpa SSL, browser menandai website sebagai “tidak aman”.',
@@ -36,6 +43,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'dns',
+    topic: 'dasar',
     term: { id: 'DNS', en: 'DNS', ms: 'DNS' },
     def: {
       id: 'DNS (Domain Name System) adalah sistem yang menerjemahkan nama domain menjadi alamat server. Pengaturan DNS menentukan ke hosting mana sebuah domain mengarah.',
@@ -45,6 +53,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'cdn',
+    topic: 'dasar',
     term: { id: 'CDN', en: 'CDN', ms: 'CDN' },
     def: {
       id: 'CDN (Content Delivery Network) adalah jaringan server di banyak lokasi yang menyimpan salinan website, sehingga halaman dikirim dari server terdekat dengan pengunjung dan terbuka lebih cepat.',
@@ -54,6 +63,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'cms',
+    topic: 'dasar',
     term: { id: 'CMS', en: 'CMS', ms: 'CMS' },
     def: {
       id: 'CMS (Content Management System) adalah panel admin untuk mengubah isi website — teks, gambar, produk, atau artikel — tanpa menyentuh kode.',
@@ -63,6 +73,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'landing-page',
+    topic: 'jenis',
     term: { id: 'Landing page', en: 'Landing page', ms: 'Landing page' },
     def: {
       id: 'Landing page adalah satu halaman web dengan satu tujuan, misalnya pembelian atau pendaftaran, dan biasanya menjadi tujuan iklan.',
@@ -73,6 +84,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'company-profile',
+    topic: 'jenis',
     term: { id: 'Company profile', en: 'Company profile website', ms: 'Laman web profil syarikat' },
     def: {
       id: 'Website company profile adalah website beberapa halaman yang memperkenalkan usaha: profil, layanan atau produk, lokasi, dan kontak.',
@@ -83,6 +95,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'responsive',
+    topic: 'dasar',
     term: { id: 'Responsif (mobile-friendly)', en: 'Responsive (mobile-friendly)', ms: 'Responsif (mesra mudah alih)' },
     def: {
       id: 'Website responsif adalah website yang tata letaknya menyesuaikan ukuran layar, sehingga tetap nyaman dibaca di ponsel, tablet, maupun desktop.',
@@ -92,6 +105,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'seo',
+    topic: 'seo',
     term: { id: 'SEO', en: 'SEO', ms: 'SEO' },
     def: {
       id: 'SEO (Search Engine Optimization) adalah upaya membuat website mudah dipahami dan dipercaya mesin pencari, agar muncul di hasil pencarian untuk kata kunci yang relevan.',
@@ -102,6 +116,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'meta-description',
+    topic: 'seo',
     term: { id: 'Meta description', en: 'Meta description', ms: 'Meta description' },
     def: {
       id: 'Meta description adalah ringkasan singkat sebuah halaman yang ditulis di kode dan sering ditampilkan Google di bawah judul hasil pencarian.',
@@ -111,6 +126,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'sitemap',
+    topic: 'seo',
     term: { id: 'Sitemap', en: 'Sitemap', ms: 'Peta laman (sitemap)' },
     def: {
       id: 'Sitemap adalah file berisi daftar halaman website yang membantu mesin pencari menemukan semua halaman, termasuk halaman baru.',
@@ -120,6 +136,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'structured-data',
+    topic: 'seo',
     term: { id: 'Structured data (schema)', en: 'Structured data (schema)', ms: 'Data berstruktur (schema)' },
     def: {
       id: 'Structured data adalah keterangan tambahan dalam kode halaman (biasanya format JSON-LD dari schema.org) yang menjelaskan isi halaman kepada mesin pencari, misalnya harga, FAQ, atau artikel.',
@@ -129,6 +146,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'core-web-vitals',
+    topic: 'seo',
     term: { id: 'Core Web Vitals', en: 'Core Web Vitals', ms: 'Core Web Vitals' },
     def: {
       id: 'Core Web Vitals adalah tiga ukuran pengalaman halaman dari Google: LCP (kecepatan konten utama tampil, baik ≤ 2,5 detik), INP (respons terhadap interaksi, baik ≤ 200 ms), dan CLS (stabilitas tata letak, baik ≤ 0,1).',
@@ -139,6 +157,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'pagespeed',
+    topic: 'seo',
     term: { id: 'PageSpeed', en: 'PageSpeed', ms: 'PageSpeed' },
     def: {
       id: 'PageSpeed Insights adalah alat gratis dari Google yang memberi skor 0–100 untuk kecepatan dan kualitas teknis sebuah halaman, beserta saran perbaikannya.',
@@ -148,6 +167,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'search-console',
+    topic: 'seo',
     term: { id: 'Google Search Console', en: 'Google Search Console', ms: 'Google Search Console' },
     def: {
       id: 'Google Search Console adalah layanan gratis dari Google untuk memantau bagaimana website tampil di pencarian: halaman yang terindeks, kata kunci, klik, dan masalah teknis.',
@@ -157,6 +177,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'google-business-profile',
+    topic: 'seo',
     term: { id: 'Google Business Profile', en: 'Google Business Profile', ms: 'Google Business Profile' },
     def: {
       id: 'Google Business Profile adalah profil usaha gratis yang tampil di Google Maps dan pencarian lokal, berisi alamat, jam buka, foto, dan ulasan.',
@@ -166,6 +187,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'cta',
+    topic: 'bisnis',
     term: { id: 'Call to action (CTA)', en: 'Call to action (CTA)', ms: 'Seruan tindakan (CTA)' },
     def: {
       id: 'Call to action adalah tombol atau ajakan yang meminta pengunjung melakukan satu langkah berikutnya, misalnya “Chat WhatsApp” atau “Daftar sekarang”.',
@@ -175,6 +197,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'conversion',
+    topic: 'bisnis',
     term: { id: 'Konversi', en: 'Conversion', ms: 'Penukaran (conversion)' },
     def: {
       id: 'Konversi adalah saat pengunjung melakukan tindakan yang Anda harapkan — membeli, mendaftar, atau menghubungi. Tingkat konversi adalah persentase pengunjung yang melakukannya.',
@@ -184,6 +207,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'payment-gateway',
+    topic: 'bisnis',
     term: { id: 'Payment gateway', en: 'Payment gateway', ms: 'Gerbang pembayaran' },
     def: {
       id: 'Payment gateway adalah layanan yang memproses pembayaran online di website — transfer bank, e-wallet, QRIS, atau kartu — dan memberi tahu toko saat pembayaran berhasil.',
@@ -194,6 +218,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'link-in-bio',
+    topic: 'jenis',
     term: { id: 'Link in bio', en: 'Link in bio', ms: 'Link in bio' },
     def: {
       id: 'Link in bio adalah satu halaman yang ditautkan dari bio media sosial dan berisi semua tujuan penting: WhatsApp, toko, jadwal, atau karya.',
@@ -204,6 +229,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'undangan-digital',
+    topic: 'jenis',
     term: { id: 'Undangan digital', en: 'Digital invitation', ms: 'Kad jemputan digital' },
     def: {
       id: 'Undangan digital adalah undangan acara berbentuk halaman web yang dibagikan lewat tautan, biasanya dilengkapi peta lokasi, hitung mundur, dan konfirmasi kehadiran (RSVP).',
@@ -214,6 +240,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'redirect',
+    topic: 'seo',
     term: { id: 'Redirect 301/308', en: '301/308 redirect', ms: 'Pengalihan 301/308' },
     def: {
       id: 'Redirect permanen (301 atau 308) adalah pengalihan dari alamat lama ke alamat baru yang memberi tahu mesin pencari bahwa halaman sudah pindah, sehingga peringkatnya ikut berpindah.',
@@ -223,6 +250,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'hreflang',
+    topic: 'seo',
     term: { id: 'Hreflang', en: 'Hreflang', ms: 'Hreflang' },
     def: {
       id: 'Hreflang adalah penanda di kode halaman yang memberi tahu mesin pencari versi bahasa lain dari halaman yang sama, supaya pengunjung diarahkan ke bahasa yang tepat.',
@@ -232,6 +260,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'analytics',
+    topic: 'bisnis',
     term: { id: 'Analytics', en: 'Analytics', ms: 'Analitik' },
     def: {
       id: 'Analytics adalah alat yang mencatat statistik kunjungan — jumlah pengunjung, halaman yang dibuka, dan asal kunjungan — untuk menilai apa yang berhasil di website.',
@@ -241,6 +270,7 @@ export const TERMS: Term[] = [
   },
   {
     id: 'maintenance',
+    topic: 'dasar',
     term: { id: 'Maintenance', en: 'Maintenance', ms: 'Penyelenggaraan' },
     def: {
       id: 'Maintenance website adalah perawatan rutin setelah website online: memperbarui konten kecil, menambal keamanan, memperbarui dependensi, dan memperbaiki masalah teknis.',

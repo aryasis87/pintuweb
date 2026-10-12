@@ -1,16 +1,22 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
+import Glossary, { type GlossaryItem, type GlossaryTopic } from '../../components/Glossary'
 import PageHero from '../../components/PageHero'
 import { Breadcrumbs, HlText, JsonLd } from '../../components/Bits'
-import { TERMS } from '../../content/glossary'
+import { TERMS, TERM_TOPICS, type TermTopic } from '../../content/glossary'
 import { getDict, getPages, isLang, LANG_INFO, type Lang } from '../../i18n'
 import { langsOf, path, pathOf, urlOf } from '../../i18n/routes'
 import { SERVICES } from '../../content/services'
 import { articlesIn } from '../../content/articles'
 import { pageGraph, pageMeta } from '../../i18n/seo'
+import type { DemoCategory } from '../../lib/demos'
+import { CATEGORY_COLOR } from '../../lib/portals'
+import { wa } from '../../lib/site'
 
 type Params = { params: Promise<{ lang: string }> }
+
+// Warna tiap topik meminjam palet CATEGORY_COLOR (hanya soal palet).
+const TOPIC_TONE: Record<TermTopic, DemoCategory> = { dasar: 'portfolio', jenis: 'landing', seo: 'kontes', bisnis: 'linkinbio' }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { lang } = await params
@@ -24,7 +30,6 @@ export default async function GlossaryPage({ params }: Params) {
   const d = getDict(lang)
   const p = getPages(lang).glossary
   const terms = [...TERMS].sort((a, b) => a.term[lang].localeCompare(b.term[lang], LANG_INFO[lang].intl))
-  const letters = Array.from(new Set(terms.map((t) => t.term[lang][0].toUpperCase())))
   const articles = articlesIn(lang)
   const url = urlOf(lang, { key: 'glossary' })
 
@@ -35,6 +40,20 @@ export default async function GlossaryPage({ params }: Params) {
     if (ref.key === 'articles' && ref.article) return articles.find((a) => a.key === ref.article)?.title ?? null
     return null
   }
+
+  // String siap tampil untuk komponen klien (kamus tidak ikut terkirim ke browser)
+  const items: GlossaryItem[] = terms.map((t) => {
+    const label = t.see ? seeLabel(t.see) : null
+    return {
+      id: t.id,
+      topic: t.topic,
+      term: t.term[lang],
+      def: t.def[lang],
+      letter: t.term[lang][0].toUpperCase(),
+      ...(label && t.see ? { see: { label, href: pathOf(lang, t.see) } } : {}),
+    }
+  })
+  const topics: GlossaryTopic[] = TERM_TOPICS.map((id) => ({ id, label: p.topics[id], ...CATEGORY_COLOR[TOPIC_TONE[id]] }))
 
   const termSet = {
     '@type': 'DefinedTermSet',
@@ -54,45 +73,39 @@ export default async function GlossaryPage({ params }: Params) {
   return (
     <main id="main-content">
       <Breadcrumbs label={d.common.breadcrumb} items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.eyebrow }]} />
-      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} mode="italic" tone="primary" />} lead={p.lead}>
-        <nav aria-label={p.jump} className="mono -ml-2 mt-2 flex flex-wrap">
-          {letters.map((l) => (
-            <a key={l} href={`#huruf-${l}`} className="grid h-10 min-w-10 place-items-center text-sm text-[color:var(--text-secondary)] underline-offset-4 hover:text-[color:var(--primary-700)] hover:underline">
-              {l}
-            </a>
-          ))}
-        </nav>
-      </PageHero>
+      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} mode="italic" tone="primary" />} lead={p.lead} />
 
-      <section className="pb-20 pt-6">
+      <section className="mt-10 bg-[color:var(--surface-soft)] py-12 sm:mt-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          {letters.map((l) => (
-            <div key={l} id={`huruf-${l}`} className="mt-10 grid grid-cols-1 scroll-mt-28 gap-x-10 border-t border-[color:var(--rule)] first:mt-0 first:border-t-0 lg:grid-cols-12">
-              <h2 className="pt-3 text-[3rem] leading-none text-[color:var(--primary-700)] lg:col-span-3 lg:text-[4rem]">{l}</h2>
-              <dl className="divide-y divide-[color:var(--border-light)] lg:col-span-9">
-                {terms
-                  .filter((t) => t.term[lang][0].toUpperCase() === l)
-                  .map((t) => {
-                    const see = t.see ? seeLabel(t.see) : null
-                    return (
-                      <div key={t.id} id={t.id} className="scroll-mt-28 py-5">
-                        <dt className="display text-[1.4rem] leading-snug text-[color:var(--text-primary)]">
-                          <dfn className="not-italic">{t.term[lang]}</dfn>
-                        </dt>
-                        <dd className="mt-1.5 max-w-2xl leading-relaxed text-[color:var(--text-secondary)]">
-                          {t.def[lang]}
-                          {see && t.see && (
-                            <Link href={pathOf(lang, t.see)} className="link mt-2 flex w-fit items-center gap-1.5 text-sm font-semibold">
-                              {p.related}: {see} <ArrowRight size={14} aria-hidden="true" />
-                            </Link>
-                          )}
-                        </dd>
-                      </div>
-                    )
-                  })}
-              </dl>
+          <Glossary
+            items={items}
+            topics={topics}
+            t={{
+              search: p.search,
+              searchPh: p.searchPh,
+              topicLabel: p.topicLabel,
+              all: p.all,
+              jump: p.jump,
+              related: p.related,
+              none: p.none,
+              // pola dengan penanda supaya fungsi kamus tidak perlu dikirim ke klien
+              count: p.count(111111).replace('111111', '{n}'),
+              countOf: p.countOf(111111, 222222).replace('111111', '{n}').replace('222222', '{total}'),
+              linkTo: p.linkTo('{term}'),
+            }}
+          />
+
+          {/* Untuk istilah yang tidak ada di kamus */}
+          <div className="mt-10 flex flex-col gap-5 rounded-[1.5rem] bg-white p-6 ring-1 ring-[color:var(--border-light)] sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:px-8">
+            <div className="min-w-0">
+              <h2 className="text-[1.125rem] leading-snug text-[color:var(--text-primary)] sm:text-[1.25rem]">{p.missingTitle}</h2>
+              <p className="mt-1.5 max-w-xl text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{p.missingBody}</p>
             </div>
-          ))}
+            <a href={wa(p.missingWa)} target="_blank" rel="noopener noreferrer" className="btn btn-solid shrink-0">
+              {p.missingCta} <ArrowUpRight size={16} className="arw arw-ne" aria-hidden="true" />
+              <span className="sr-only">{d.common.newTabShort}</span>
+            </a>
+          </div>
         </div>
       </section>
 
