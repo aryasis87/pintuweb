@@ -381,6 +381,12 @@
   /* Garis kemajuan membaca artikel: lebar garis mengikuti seberapa jauh artikel (.read-subject) sudah digulir.
      timeline-scope di <main> membuat garis waktu milik artikel bisa dipakai garis yang posisinya fixed.
      Tanpa dukungan browser atau bila gerak dikurangi, garisnya tidak tampil. */
+  /* Tentang: "tembok karya". Kolom tangkapan layar demo bergeser pelan naik-turun; kolom tengah berlawanan arah
+     (mulai lebih tinggi, lalu turun). Murni hiasan: dengan gerak dikurangi, kolomnya diam di posisi awal. */
+  @keyframes wall-drift { to { transform: translateY(var(--drift)); } }
+  .wall-col { --drift: -6rem; animation: wall-drift 18s ease-in-out infinite alternate; will-change: transform; }
+  .wall-col-rev { --drift: 6rem; margin-top: -6rem; }
+
   .read-progress {
     position: fixed; inset: 0 0 auto 0; z-index: 60; height: 3px; pointer-events: none;
     transform-origin: 0 50%; transform: scaleX(0);
@@ -398,6 +404,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .work:hover .shot, .work:focus-visible .shot { transform: none; }
+  .wall-col { animation: none; }
   *, *::before, *::after {
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;

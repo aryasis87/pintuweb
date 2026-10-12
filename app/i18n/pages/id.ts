@@ -122,6 +122,7 @@ const pages = {
       { year: '2022', title: 'Fokus pada kecepatan & SEO', body: 'Menerapkan praktik terbaik performa, pengujian Lighthouse, dan struktur konten SEO di setiap proyek.' },
       { year: 'Kini', title: `${CLIENT_PROJECTS} proyek klien`, body: `Melayani klien dari berbagai daerah, dengan ${n} demo live di ${CATEGORY_COUNT} kategori sebagai bukti karya.` },
     ],
+    founderTitle: 'Di balik PintuWeb',
     beliefTitle: ['Yang kami ', 'pegang'] as Hl,
     beliefs: [
       { title: 'Visi', body: 'Menjadi mitra digital yang memberdayakan UMKM dan startup di seluruh Indonesia lewat kehadiran online yang profesional.' },

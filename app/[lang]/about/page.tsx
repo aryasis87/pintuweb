@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
-import PageHero from '../../components/PageHero'
+import { ArrowRight, ArrowUpRight, CalendarClock, Check, Clock, Gauge, Github, LifeBuoy, MapPin, MessageCircle, ReceiptText, type LucideIcon } from 'lucide-react'
 import { Breadcrumbs, HlText, JsonLd } from '../../components/Bits'
 import { DEMOS } from '../../lib/demos'
 import { CATEGORY_COUNT, CLIENT_PROJECTS, FOUNDED_YEAR, wa } from '../../lib/site'
@@ -9,6 +9,7 @@ import { facts, packagesFor } from '../../i18n/facts'
 import { getDict, getPages, isLang, type Lang } from '../../i18n'
 import { path, urlOf } from '../../i18n/routes'
 import { FOUNDER_ID, ORG_ID, pageGraph, pageMeta } from '../../i18n/seo'
+import type { FaqKey } from '../../content/faq'
 
 type Params = { params: Promise<{ lang: string }> }
 
@@ -19,15 +20,35 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return pageMeta({ lang, ref: { key: 'about' }, title: p.title, description: p.description, ogTitle: p.ogTitle, ogDescription: p.ogDescription(DEMOS.length) })
 }
 
+// "Tembok karya" di pembuka: tangkapan layar demo asli (public/demos), tiga kolom dari jenis website yang
+// berbeda-beda. Murni hiasan (aria-hidden); daftar lengkapnya ada di galeri demo.
+const WALL = [
+  ['cissycoffee', 'nimbus', 'jajan', 'propertia', 'skywings', 'wedding'],
+  ['lumora', 'restoran', 'absorber-segar', 'homigo', 'bioskop', 'atlas'],
+  ['hotel', 'celeste', 'milo', 'woodora', 'eduplay', 'kanban-board'],
+]
+
+// Sejajar dengan about.why di kamus: ikon, dan pertanyaan FAQ tempat hal itu tertulis.
+const WHY: { icon: LucideIcon; faq: FaqKey }[] = [
+  { icon: Gauge, faq: 'kecepatan' },
+  { icon: CalendarClock, faq: 'lama-pengerjaan' },
+  { icon: ReceiptText, faq: 'pembayaran' },
+  { icon: LifeBuoy, faq: 'garansi' },
+]
+
 export default async function AboutPage({ params }: Params) {
   const lang = (await params).lang as Lang
   const d = getDict(lang)
-  const p = getPages(lang).about
+  const pages = getPages(lang)
+  const p = pages.about
+  const pf = pages.founder
   const f = facts(lang)
   const pk = packagesFor(lang)
   const landing = pk.find((x) => x.slug === 'landing-page')!.duration
   const business = pk.find((x) => x.slug === 'standar-umkm')!.duration
   const n = DEMOS.length
+  // "Tertulis di FAQ": teks yang sama dengan kupon janji di beranda
+  const inFaq = d.why.promises[1].proof
 
   const stats = [
     { v: CLIENT_PROJECTS, l: p.stats.projects },
@@ -35,39 +56,89 @@ export default async function AboutPage({ params }: Params) {
     { v: `${FOUNDED_YEAR}`, l: p.stats.since },
     { v: `${CATEGORY_COUNT}`, l: p.stats.categories },
   ]
+  const timeline = p.timeline(n)
+  const [vision, ...beliefs] = p.beliefs
+  const reach = [
+    { icon: MapPin, label: d.footer.location, lines: [f.location, f.serves] },
+    { icon: Clock, label: d.footer.hours, lines: [f.hoursDays, f.hoursTime] },
+    { icon: MessageCircle, label: d.footer.phone, lines: [f.response] },
+  ]
 
   return (
     <main id="main-content">
       <Breadcrumbs label={d.common.breadcrumb} items={[{ name: d.common.home, href: path(lang, 'home') }, { name: p.eyebrow }]} />
-      <PageHero tight eyebrow={p.eyebrow} title={<HlText parts={p.h1} mode="italic" tone="primary" />} lead={p.lead}>
-        <dl className="mt-4 grid grid-cols-2 border-t border-[color:var(--border-light)] sm:grid-cols-4">
+
+      {/* Pembuka: perkenalan + tembok karya + empat angka */}
+      <section className="mx-auto max-w-6xl px-4 pt-8 sm:px-6 sm:pt-10">
+        <div className="grid grid-cols-1 items-center gap-x-10 gap-y-9 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <p className="kicker text-[color:var(--primary-700)]">{p.eyebrow}</p>
+            <h1 className="mt-5 text-[2.4rem] leading-[1.06] text-[color:var(--text-primary)] sm:text-[3.25rem]">
+              <HlText parts={p.h1} mode="italic" tone="primary" />
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{p.lead}</p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link href={path(lang, 'demo')} className="btn btn-solid">
+                {p.ctaDemos(n)} <ArrowRight size={17} className="arw" aria-hidden="true" />
+              </Link>
+              <Link href={path(lang, 'founder')} className="btn btn-line">
+                {d.links.founder} <ArrowRight size={17} className="arw" aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+
+          <div
+            className="grid h-[15rem] grid-cols-2 gap-2.5 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,#000_14%,#000_86%,transparent)] sm:h-[22rem] sm:grid-cols-3 sm:gap-3 lg:col-span-7 lg:h-[30rem]"
+            aria-hidden="true"
+          >
+            {WALL.map((col, ci) => (
+              // ponsel: dua kolom saja, supaya tiap tangkapan layar masih terbaca
+              <div key={col[0]} className={`wall-col flex flex-col gap-2.5 sm:gap-3 ${ci === 1 ? 'wall-col-rev' : ''} ${ci === 2 ? 'hidden sm:flex' : ''}`}>
+                {col.map((slug) => (
+                  <span key={slug} className="relative block aspect-[720/378] shrink-0 overflow-hidden rounded-xl bg-[color:var(--surface-soft)] ring-1 ring-[color:var(--border-light)] sm:rounded-2xl">
+                    <Image src={`/demos/${slug}.webp`} alt="" fill sizes="(min-width: 1024px) 200px, (min-width: 640px) 31vw, 46vw" className="object-cover" />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <dl className="mt-10 grid grid-cols-2 gap-2.5 sm:gap-3 lg:mt-12 lg:grid-cols-4">
           {stats.map((s) => (
-            <div key={s.l} className="flex flex-col-reverse border-b border-[color:var(--border-light)] py-4 pr-4 sm:border-b-0 sm:border-r sm:pl-5 sm:first:pl-0 sm:last:border-r-0">
-              <dt className="kicker mt-1 text-[color:var(--text-tertiary)]">{s.l}</dt>
-              <dd className="display text-[2.25rem] leading-none text-[color:var(--text-primary)]">{s.v}</dd>
+            <div key={s.l} className="flex flex-col-reverse justify-end rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4 sm:p-5">
+              <dt className="mt-1.5 text-[0.875rem] leading-snug text-[color:var(--text-tertiary)] sm:text-[0.9375rem]">{s.l}</dt>
+              <dd className="display text-[2rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2.5rem]">{s.v}</dd>
             </div>
           ))}
         </dl>
-      </PageHero>
+      </section>
 
       {/* Cerita + linimasa */}
-      <section aria-labelledby="story-title" className="py-16 sm:py-24">
-        <div className="mx-auto grid grid-cols-1 max-w-6xl items-start gap-x-10 gap-y-12 px-4 sm:px-6 lg:grid-cols-12">
+      <section aria-labelledby="story-title" className="mt-14 bg-[color:var(--surface-soft)] py-16 sm:mt-20 sm:py-24">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-x-12 gap-y-10 px-4 sm:px-6 lg:grid-cols-12">
           <div className="lg:col-span-6">
-            <h2 id="story-title" className="text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.storyTitle}</h2>
+            <h2 id="story-title" className="text-[2rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.5rem]">
+              {p.storyTitle}
+            </h2>
             <div className="mt-6 space-y-5 text-[1.0625rem] leading-relaxed text-[color:var(--text-secondary)]">
               {p.story(n).map((s, i) => (
-                <p key={s} className={i === 0 ? 'text-[1.25rem] font-medium leading-snug text-[color:var(--text-primary)]' : undefined}>{s}</p>
+                <p key={s} className={i === 0 ? 'text-[1.25rem] font-medium leading-snug text-[color:var(--text-primary)] sm:text-[1.375rem]' : undefined}>
+                  {s}
+                </p>
               ))}
             </div>
           </div>
-          <ol className="border-t border-[color:var(--rule)] lg:col-span-5 lg:col-start-8">
-            {p.timeline(n).map((t) => (
-              <li key={t.year} className="grid grid-cols-[4.5rem_1fr] gap-4 border-b border-[color:var(--border-light)] py-5">
-                <p className="mono pt-1 text-xs text-[color:var(--primary-700)]">{t.year}</p>
+          <ol className="rounded-[1.5rem] bg-white p-6 ring-1 ring-[color:var(--border-light)] sm:p-8 lg:col-span-6">
+            {timeline.map((t, i) => (
+              <li key={t.year} className="relative grid grid-cols-[0.75rem_1fr] gap-x-5 pb-8 last:pb-0">
+                {/* rel linimasa: titik per tahap, garis sampai tahap berikutnya */}
+                {i < timeline.length - 1 && <span className="absolute bottom-0 left-[0.3125rem] top-5 w-0.5 rounded-full bg-[color:var(--primary-100)]" aria-hidden="true" />}
+                <span className="relative mt-[0.4375rem] h-3 w-3 rounded-full bg-[color:var(--primary-700)] ring-4 ring-[color:var(--primary-100)]" aria-hidden="true" />
                 <div>
-                  <h3 className="text-[1.3rem] leading-snug text-[color:var(--text-primary)]">{t.title}</h3>
-                  <p className="mt-1 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{t.body}</p>
+                  <p className="text-[0.875rem] font-semibold text-[color:var(--primary-700)]">{t.year}</p>
+                  <h3 className="mt-1 text-[1.25rem] leading-snug text-[color:var(--text-primary)]">{t.title}</h3>
+                  <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{t.body}</p>
                 </div>
               </li>
             ))}
@@ -75,68 +146,148 @@ export default async function AboutPage({ params }: Params) {
         </div>
       </section>
 
-      {/* Visi, misi, fokus + nilai */}
-      <section aria-labelledby="belief-title" className="bg-[color:var(--surface-primary)] py-16 sm:py-24">
+      {/* Orang di baliknya */}
+      <section aria-labelledby="founder-title" className="py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="max-w-3xl">
-            <p className="kicker text-[color:var(--primary-700)]">{p.eyebrow}</p>
-            <h2 id="belief-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">
-              <HlText parts={p.beliefTitle} />
-            </h2>
-          </div>
-          <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-3">
-            {p.beliefs.map((b, i) => (
-              <div key={b.title} className="border-t border-[color:var(--border-medium)] pt-5">
-                <p className="mono text-xs text-[color:var(--primary-700)]">{String(i + 1).padStart(2, '0')}</p>
-                <h3 className="mt-2 text-[1.5rem] leading-snug text-[color:var(--text-primary)]">{b.title}</h3>
-                <p className="mt-2 leading-relaxed text-[color:var(--text-tertiary)]">{b.body}</p>
+          <div className="grid grid-cols-1 items-center gap-x-12 gap-y-8 rounded-[2rem] bg-[color:var(--surface-soft)] p-6 sm:p-10 lg:grid-cols-12 lg:p-12">
+            <div className="lg:col-span-3">
+              <div
+                role="img"
+                aria-label={pf.monogram}
+                className="grid aspect-square w-20 place-items-center rounded-[1.25rem] text-white [background-image:linear-gradient(145deg,var(--primary-600),var(--primary-900))] sm:w-32 sm:rounded-[1.75rem] lg:w-full lg:rounded-[2.25rem]"
+              >
+                <span className="display select-none text-[2.75rem] font-semibold leading-none sm:text-[4.5rem] lg:text-[7.5rem]">S</span>
               </div>
-            ))}
-          </div>
-          <div className="mt-12 grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-3">
-            {p.values.map((v) => (
-              <div key={v.title} className="border-l border-[color:var(--primary-700)] pl-5">
-                <h3 className="kicker text-[color:var(--text-primary)]">{v.title}</h3>
-                <p className="mt-2 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{v.body}</p>
+            </div>
+            <div className="lg:col-span-9">
+              <h2 id="founder-title" className="kicker text-[color:var(--primary-700)]">
+                {p.founderTitle}
+              </h2>
+              <figure className="mt-4">
+                <blockquote className="display text-[1.5rem] font-semibold leading-snug tracking-tight text-[color:var(--text-primary)] sm:text-[2rem]">“{pf.quote}”</blockquote>
+                <figcaption className="mt-4 text-[1.0625rem] text-[color:var(--text-secondary)]">
+                  <span className="font-semibold text-[color:var(--text-primary)]">{pf.quoteBy}</span>
+                  <span className="mt-1 block text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{pages.articles.authorRole(FOUNDED_YEAR)}</span>
+                </figcaption>
+              </figure>
+              <ul className="mt-6 flex flex-wrap gap-2" aria-label={pf.skillsTitle}>
+                {pf.skills.map((s) => (
+                  <li key={s} className="rounded-full bg-white px-3 py-1 text-[0.8125rem] font-medium text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)]">
+                    {s}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link href={path(lang, 'founder')} className="btn btn-solid btn-sm">
+                  {d.links.founder} <ArrowRight size={15} className="arw" aria-hidden="true" />
+                </Link>
+                <a href="https://github.com/aryasis87" target="_blank" rel="noopener noreferrer" className="btn btn-line btn-sm">
+                  <Github size={15} aria-hidden="true" /> GitHub <span className="sr-only">{d.common.newTabShort}</span>
+                </a>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Mengapa */}
+      {/* Visi, misi, fokus + nilai */}
+      <section aria-labelledby="belief-title" className="bg-[color:var(--surface-soft)] py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <h2 id="belief-title" className="text-[2rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.5rem]">
+            <HlText parts={p.beliefTitle} />
+          </h2>
+          <div className="mt-9 grid grid-cols-1 gap-4 lg:grid-cols-12 lg:gap-5">
+            {/* Visi: satu pernyataan besar */}
+            <div className="flex flex-col justify-between gap-10 rounded-[1.75rem] p-7 text-white [background-image:linear-gradient(150deg,var(--primary-700),var(--primary-900))] sm:p-9 lg:col-span-5">
+              <h3 className="kicker text-[color:var(--accent-200)]">{vision.title}</h3>
+              <p className="display text-[1.5rem] font-semibold leading-snug tracking-tight sm:text-[1.75rem] lg:text-[2rem]">{vision.body}</p>
+            </div>
+            <div className="grid grid-cols-1 gap-4 lg:col-span-7 lg:gap-5">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-5">
+                {beliefs.map((b) => (
+                  <div key={b.title} className="rounded-[1.25rem] bg-white p-6 ring-1 ring-[color:var(--border-light)]">
+                    <h3 className="kicker text-[color:var(--primary-700)]">{b.title}</h3>
+                    <p className="mt-3 text-[1.0625rem] leading-relaxed text-[color:var(--text-primary)]">{b.body}</p>
+                  </div>
+                ))}
+              </div>
+              <ul className="divide-y divide-[color:var(--border-light)] rounded-[1.25rem] bg-white ring-1 ring-[color:var(--border-light)]">
+                {p.values.map((v) => (
+                  <li key={v.title} className="flex gap-4 px-6 py-4 sm:py-5">
+                    <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[color:var(--primary-50)] text-[color:var(--primary-700)]" aria-hidden="true">
+                      <Check size={15} strokeWidth={2.5} />
+                    </span>
+                    <div>
+                      <h3 className="text-[1.0625rem] font-semibold leading-snug text-[color:var(--text-primary)]">{v.title}</h3>
+                      <p className="mt-1 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{v.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mengapa + ajakan */}
       <section aria-labelledby="why-title" className="py-16 sm:py-24">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="max-w-3xl">
-            <p className="kicker text-[color:var(--primary-700)]">PintuWeb</p>
-            <h2 id="why-title" className="mt-3 text-[2rem] leading-tight text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.whyTitle}</h2>
-          </div>
-          <div className="mt-12 grid grid-cols-1 gap-x-10 sm:grid-cols-2">
-            {p.why(landing, business, f.response).map((w, i) => (
-              <div key={w.title} className="border-t border-[color:var(--border-medium)] py-6">
-                <p className="mono text-xs text-[color:var(--primary-700)]">{String(i + 1).padStart(2, '0')}</p>
-                <h3 className="mt-2 text-[1.4rem] leading-snug text-[color:var(--text-primary)]">{w.title}</h3>
-                <p className="mt-2 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{w.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+          <h2 id="why-title" className="text-[2rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.5rem]">
+            {p.whyTitle}
+          </h2>
+          <ul className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {p.why(landing, business, f.response).map((w, i) => {
+              const Icon = WHY[i].icon
+              return (
+                // ponsel: ikon di samping teks (lebih ringkas); mulai 640px ikon di atas
+                <li key={w.title} className="flex gap-4 rounded-[1.25rem] bg-[color:var(--surface-soft)] p-5 sm:flex-col sm:p-6">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-[color:var(--primary-700)] ring-1 ring-[color:var(--border-light)]" aria-hidden="true">
+                    <Icon size={21} strokeWidth={1.75} />
+                  </span>
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <h3 className="text-[1.1875rem] leading-snug text-[color:var(--text-primary)]">{w.title}</h3>
+                    <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">{w.body}</p>
+                    {/* tiap alasan menunjuk ke pertanyaan FAQ tempat hal itu tertulis */}
+                    <Link href={`${path(lang, 'faq')}#${WHY[i].faq}`} className="mt-auto inline-flex items-center gap-1.5 self-start pt-3 text-[0.8125rem] font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline sm:pt-4">
+                      {inFaq} <ArrowRight size={14} className="arw" aria-hidden="true" />
+                    </Link>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
 
-      {/* Ajakan */}
-      <section className="bg-[color:var(--primary-700)] py-16 text-white sm:py-20">
-        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <h2 className="text-[2.2rem] leading-[1.08] sm:text-5xl">{p.ctaTitle}</h2>
-            <p className="mt-4 text-lg text-white/85">{p.ctaLead}</p>
-          </div>
-          <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <a href={wa(p.ctaWa)} target="_blank" rel="noopener noreferrer" className="btn btn-white">
-              {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
-            </a>
-            <Link href={path(lang, 'demo')} className="btn btn-ghost-dark">
-              {p.ctaDemos(n)} <ArrowRight size={17} className="arw" aria-hidden="true" />
-            </Link>
+          <div className="mt-10 grid grid-cols-1 items-center gap-x-12 gap-y-8 rounded-[2rem] p-7 ring-1 ring-[color:var(--border-light)] sm:mt-12 sm:p-10 lg:grid-cols-12 lg:p-12">
+            <div className="lg:col-span-7">
+              <h2 className="text-[1.75rem] leading-[1.12] text-[color:var(--text-primary)] sm:text-[2.25rem]">{p.ctaTitle}</h2>
+              <p className="mt-3 max-w-xl leading-relaxed text-[color:var(--text-tertiary)]">{p.ctaLead}</p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <a href={wa(p.ctaWa)} target="_blank" rel="noopener noreferrer" className="btn btn-solid">
+                  {d.common.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
+                  <span className="sr-only">{d.common.newTabShort}</span>
+                </a>
+                <Link href={path(lang, 'contact')} className="btn btn-line">
+                  {d.links.contact} <ArrowRight size={17} className="arw" aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+            <ul className="space-y-4 lg:col-span-5">
+              {reach.map((r) => (
+                <li key={r.label} className="flex gap-4">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[color:var(--primary-50)] text-[color:var(--primary-700)]" aria-hidden="true">
+                    <r.icon size={18} strokeWidth={1.75} />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[0.8125rem] text-[color:var(--text-tertiary)]">{r.label}</p>
+                    {r.lines.map((line, k) => (
+                      <p key={line} className={k === 0 ? 'font-semibold leading-snug text-[color:var(--text-primary)]' : 'text-[0.9375rem] leading-snug text-[color:var(--text-secondary)]'}>
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

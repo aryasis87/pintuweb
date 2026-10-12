@@ -124,6 +124,7 @@ const pages: Pages = {
       { year: '2022', title: 'Fokus pada kelajuan & SEO', body: 'Menerapkan amalan terbaik prestasi, ujian Lighthouse dan struktur kandungan SEO dalam setiap projek.' },
       { year: 'Kini', title: `${CLIENT_PROJECTS} projek pelanggan`, body: `Berkhidmat untuk pelanggan dari pelbagai kawasan, dengan ${n} demo langsung dalam ${CATEGORY_COUNT} kategori sebagai bukti karya.` },
     ],
+    founderTitle: 'Di sebalik PintuWeb',
     beliefTitle: ['Prinsip yang kami ', 'pegang'] as Hl,
     beliefs: [
       { title: 'Visi', body: 'Menjadi rakan digital yang memperkasakan PKS dan syarikat pemula melalui kehadiran dalam talian yang profesional.' },

@@ -124,6 +124,7 @@ const pages: Pages = {
       { year: '2022', title: 'A focus on speed & SEO', body: 'Applying performance best practice, Lighthouse testing and SEO content structure to every project.' },
       { year: 'Today', title: `${CLIENT_PROJECTS} client projects`, body: `Working with clients from many regions, with ${n} live demos across ${CATEGORY_COUNT} categories as proof of our work.` },
     ],
+    founderTitle: 'Behind PintuWeb',
     beliefTitle: ['What we ', 'stand for'] as Hl,
     beliefs: [
       { title: 'Vision', body: 'To be a digital partner that empowers small businesses and start-ups through a professional online presence.' },
