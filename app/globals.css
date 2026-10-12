@@ -281,6 +281,22 @@
   @keyframes faq-in { from { opacity: 0; transform: translateY(6px); } }
   .faq-item[open] .faq-answer { animation: faq-in .3s cubic-bezier(.2,.7,.2,1); }
 
+  /* Hero di ponsel: tabir putih di atas gambar latar. Tipis di puncak (gambar terlihat jelas di sekitar navbar),
+     menebal di belakang judul dan paragraf, lalu putih penuh di dasar supaya menyatu dengan halaman.
+     Angkanya dijaga agar teks tetap >= 4,5:1 bahkan di atas bagian gambar yang paling gelap. */
+  .hero-veil {
+    background-image: linear-gradient(
+      to bottom,
+      rgb(255 255 255 / .30) 0%,
+      rgb(255 255 255 / .46) 13%,
+      rgb(255 255 255 / .78) 21%,
+      rgb(255 255 255 / .82) 30%,
+      rgb(255 255 255 / .84) 60%,
+      rgb(255 255 255 / .94) 80%,
+      #fff 97%
+    );
+  }
+
   /* Cetak biru: grid tipis untuk latar gelap */
   .u-grid-light {
     background-image:
