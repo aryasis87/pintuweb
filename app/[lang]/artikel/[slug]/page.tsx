@@ -6,6 +6,7 @@ import ArticleCard, { ArticleCover, coverVars } from '../../../components/Articl
 import ArticleToc from '../../../components/ArticleToc'
 import { Breadcrumbs, JsonLd } from '../../../components/Bits'
 import CopyLink from '../../../components/CopyLink'
+import { articleImage } from '../../../content/article-covers'
 import { articlesIn, getArticle } from '../../../content/articles'
 import { faqJsonLd } from '../../../content/faq'
 import { ARTICLE_LANGS } from '../../../i18n/config'
@@ -13,7 +14,7 @@ import { ARTICLE_SLUGS, articleKeyBySlug } from '../../../i18n/slugs'
 import { getDict, getPages, isLang, LANG_INFO, type Lang } from '../../../i18n'
 import { langsOf, path, pathOf, urlOf } from '../../../i18n/routes'
 import { FOUNDER_ID, ORG_ID, ogImage, pageGraph, pageMeta } from '../../../i18n/seo'
-import { FOUNDED_YEAR, wa } from '../../../lib/site'
+import { FOUNDED_YEAR, SITE, wa } from '../../../lib/site'
 
 type Params = { params: Promise<{ lang: string; slug: string }> }
 
@@ -67,13 +68,14 @@ export default async function ArticlePage({ params }: Params) {
   const others = langsOf(ref).filter((l) => l !== lang)
   const related = articlesIn(lang).filter((x) => x.key !== a.key).slice(0, 3)
   const cover = coverVars(a.key)
+  const coverImg = articleImage(a.key)
 
   const posting = {
     '@type': 'BlogPosting',
     '@id': `${url}#article`,
     headline: a.title,
     description: a.description,
-    image: ogImage(lang, a.title),
+    image: coverImg ? [ogImage(lang, a.title), `${SITE}${coverImg}`] : ogImage(lang, a.title),
     datePublished: a.date,
     dateModified: a.updated,
     inLanguage: LANG_INFO[lang].htmlLang,
@@ -111,9 +113,9 @@ export default async function ArticlePage({ params }: Params) {
               <h1 className="mt-5 text-[2.1rem] leading-[1.1] text-[color:var(--text-primary)] sm:text-[2.75rem] lg:text-[3.1rem]">{a.title}</h1>
               <p className="mt-5 max-w-3xl text-lg leading-relaxed text-[color:var(--text-tertiary)] lg:text-[1.2rem]">{a.description}</p>
             </div>
-            {/* Sampul yang sama dengan kartu artikel di daftar */}
-            <div className="hidden lg:col-span-4 lg:block">
-              <ArticleCover k={a.key} size="lg" className="aspect-[4/3] rounded-[1.75rem]" />
+            {/* Sampul yang sama dengan kartu artikel di daftar. Gambar tampil di semua ukuran layar; sampul tipografi hanya di desktop. */}
+            <div className={coverImg ? 'lg:col-span-4' : 'hidden lg:col-span-4 lg:block'}>
+              <ArticleCover k={a.key} size="lg" priority sizes="(min-width: 1024px) 380px, 100vw" className="aspect-[16/9] rounded-[1.25rem] ring-1 ring-[color:var(--border-light)] sm:rounded-[1.75rem] lg:aspect-[4/3]" />
             </div>
           </div>
 
