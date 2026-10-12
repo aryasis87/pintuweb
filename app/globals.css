@@ -281,20 +281,38 @@
   @keyframes faq-in { from { opacity: 0; transform: translateY(6px); } }
   .faq-item[open] .faq-answer { animation: faq-in .3s cubic-bezier(.2,.7,.2,1); }
 
-  /* Hero di ponsel: tabir putih di atas gambar latar. Tipis di puncak (gambar terlihat jelas di sekitar navbar),
-     menebal di belakang judul dan paragraf, lalu putih penuh di dasar supaya menyatu dengan halaman.
-     Angkanya dijaga agar teks tetap >= 4,5:1 bahkan di atas bagian gambar yang paling gelap. */
+  /* Hero di ponsel: tabir putih di atas gambar latar. Putihnya dominan: gambar hanya terlihat samar di puncak
+     (sekitar navbar) dan nyaris hilang di belakang judul dan paragraf, lalu putih penuh di dasar. */
   .hero-veil {
     background-image: linear-gradient(
       to bottom,
-      rgb(255 255 255 / .30) 0%,
-      rgb(255 255 255 / .46) 13%,
-      rgb(255 255 255 / .78) 21%,
-      rgb(255 255 255 / .82) 30%,
-      rgb(255 255 255 / .84) 60%,
-      rgb(255 255 255 / .94) 80%,
+      rgb(255 255 255 / .58) 0%,
+      rgb(255 255 255 / .72) 13%,
+      rgb(255 255 255 / .88) 21%,
+      rgb(255 255 255 / .91) 30%,
+      rgb(255 255 255 / .93) 60%,
+      rgb(255 255 255 / .98) 80%,
       #fff 97%
     );
+  }
+
+  /* Hero: kisi kotak-kotak tipis di atas lapisan putih (permintaan pemilik situs). Garis 1px biru sangat muda;
+     mask membuatnya paling jelas di kiri atas lalu melebur ke putih ke arah kanan dan bawah. */
+  .hero-grid {
+    --cell: 2.5rem;
+    background-image:
+      linear-gradient(to right, rgb(38 70 156 / .14) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(38 70 156 / .14) 1px, transparent 1px);
+    background-size: var(--cell) var(--cell);
+    -webkit-mask-image: radial-gradient(135% 78% at 50% 0%, #000 0%, rgb(0 0 0 / .6) 40%, transparent 82%);
+    mask-image: radial-gradient(135% 78% at 50% 0%, #000 0%, rgb(0 0 0 / .6) 40%, transparent 82%);
+  }
+  @media (min-width: 768px) {
+    .hero-grid {
+      --cell: 3.25rem;
+      -webkit-mask-image: radial-gradient(78% 100% at 16% 6%, #000 0%, rgb(0 0 0 / .6) 42%, transparent 80%);
+      mask-image: radial-gradient(78% 100% at 16% 6%, #000 0%, rgb(0 0 0 / .6) 42%, transparent 80%);
+    }
   }
 
   /* Cetak biru: grid tipis untuk latar gelap */

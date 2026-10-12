@@ -80,6 +80,9 @@ export default function Hero({ lang }: { lang: Lang }) {
           <span className="absolute -inset-x-0.5 -top-0.5 hidden h-[18%] [background-image:linear-gradient(to_bottom,#fff_0%,#fff_25%,rgb(255_255_255/0)_100%)] md:block" aria-hidden="true" />
           <span className="absolute -inset-x-0.5 -bottom-0.5 hidden h-[26%] [background-image:linear-gradient(to_top,#fff_0%,#fff_30%,rgb(255_255_255/0)_100%)] md:block" aria-hidden="true" />
         </div>
+
+        {/* Kisi tipis di atas lapisan putih; melebur ke putih (kelas .hero-grid di globals.css) */}
+        <span className="hero-grid pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
       </div>
 
       <Kinds items={kinds} heading={t.facade} hint={t.facadeHint} note={g.galleryLang || undefined} />
