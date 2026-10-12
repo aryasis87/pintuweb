@@ -94,6 +94,14 @@ const pages: Pages = {
     eyebrow: 'Soalan Lazim',
     h1: ['Semua yang perlu anda tahu ', 'sebelum menempah.'] as Hl,
     lead: 'Kos, tempoh siap, pembayaran, semakan, jaminan dan sokongan selepas laman web dilancarkan.',
+    quickTitle: 'Jawapan ringkas',
+    quickMore: 'Jawapan penuh',
+    quick: {
+      price: { q: 'Berapakah kosnya?', pre: 'dari', note: (n: number) => `${n} pakej, harganya dinyatakan di awal` },
+      time: { q: 'Berapa lama siapnya?', pre: 'terpantas', note: (slow: string) => `paling lama ${slow}, bergantung pada pakej` },
+      pay: { q: 'Bagaimana cara bayar?', fig: 'Deposit 50%', note: 'bakinya selepas laman web siap dan anda luluskan' },
+      guarantee: { q: 'Adakah jaminan?', fig: (days: number) => `${days} hari`, note: 'pepijat dibaiki percuma selepas laman web dilancarkan' },
+    },
   },
   about: {
     title: 'Tentang Kami',

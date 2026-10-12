@@ -225,6 +225,17 @@ const id = {
     allN: (n: number) => `Semua ${n} pertanyaan`,
     askWa: 'Tanya lewat WhatsApp',
     waText: 'Halo PintuWeb, saya punya pertanyaan soal pembuatan website.',
+    // Halaman FAQ. Pola berpenanda ({n}, {q}, ...) diisi di komponen klien.
+    more: 'Selengkapnya',
+    clear: 'Hapus pencarian',
+    count: '{n} pertanyaan dalam {c} kategori',
+    found: '{n} dari {total} pertanyaan untuk “{q}”',
+    nQuestions: '{n} pertanyaan',
+    openAll: 'Buka semua',
+    closeAll: 'Tutup semua',
+    follow: 'Tanya soal ini',
+    followText: 'Halo PintuWeb, saya ingin bertanya lebih lanjut soal: "{q}"',
+    searchAskText: 'Halo PintuWeb, saya mencari jawaban soal: "{q}"',
   },
 }
 

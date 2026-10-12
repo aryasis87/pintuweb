@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function HomePage({ params }: Params) {
   const lang = (await params).lang as Lang
   const t = getDict(lang)
-  const faq = faqProps(lang, 'home')
+  const faq = faqProps(lang)
   return (
     <>
       <main id="main-content">

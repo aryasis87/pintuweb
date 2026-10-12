@@ -3,13 +3,22 @@ import { ArrowRight } from 'lucide-react'
 import { getDict } from '../i18n'
 import { path, type PageKey } from '../i18n/routes'
 import type { Lang } from '../i18n/config'
+import type { FaqKey } from '../content/faq'
 import SectionHead from './SectionHead'
 import { HlText } from './Bits'
 
 // Janji yang bisa ditagih, masing-masing sebagai satu "kupon": potongan kiri memuat angkanya, badan kupon
 // memuat janjinya, dan tautan di dasarnya menunjuk halaman tempat janji itu tertulis.
-// PROOF sejajar dengan why.promises di kamus.
-const PROOF: PageKey[] = ['pricing', 'faq', 'terms', 'faq', 'terms', 'faq']
+// PROOF sejajar dengan why.promises di kamus. Janji yang tertulis di FAQ menunjuk langsung ke pertanyaannya
+// (halaman FAQ membuka dan menyorot kartu yang dituju).
+const PROOF: { page: PageKey; faq?: FaqKey }[] = [
+  { page: 'pricing' },
+  { page: 'faq', faq: 'pembayaran' },
+  { page: 'terms' },
+  { page: 'faq', faq: 'kecepatan' },
+  { page: 'terms' },
+  { page: 'faq', faq: 'website-bermasalah' },
+]
 
 export default function WhyUs({ lang }: { lang: Lang }) {
   const t = getDict(lang).why
@@ -33,7 +42,7 @@ export default function WhyUs({ lang }: { lang: Lang }) {
                 <div className="flex min-w-0 flex-1 flex-col p-5 sm:p-6 lg:px-7">
                   <h3 className="text-[1.125rem] leading-snug text-[color:var(--text-primary)] sm:text-[1.25rem]">{p.title}</h3>
                   <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)] sm:text-base">{p.body}</p>
-                  <Link href={path(lang, PROOF[i])} className="mt-auto inline-flex items-center gap-1.5 self-start pt-4 text-[0.8125rem] font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
+                  <Link href={`${path(lang, PROOF[i].page)}${PROOF[i].faq ? `#${PROOF[i].faq}` : ''}`} className="mt-auto inline-flex items-center gap-1.5 self-start pt-4 text-[0.8125rem] font-semibold text-[color:var(--primary-700)] underline-offset-4 hover:underline">
                     {p.proof} <ArrowRight size={14} className="arw" aria-hidden="true" />
                   </Link>
                 </div>

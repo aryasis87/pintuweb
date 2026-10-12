@@ -222,6 +222,16 @@ const en: Dict = {
     allN: (n: number) => `All ${n} questions`,
     askWa: 'Ask on WhatsApp',
     waText: 'Hello PintuWeb, I have a question about building a website.',
+    more: 'More details',
+    clear: 'Clear search',
+    count: '{n} questions in {c} categories',
+    found: '{n} of {total} questions for “{q}”',
+    nQuestions: '{n} questions',
+    openAll: 'Open all',
+    closeAll: 'Close all',
+    follow: 'Ask about this',
+    followText: 'Hello PintuWeb, I would like to ask more about: "{q}"',
+    searchAskText: 'Hello PintuWeb, I am looking for an answer about: "{q}"',
   },
 }
 

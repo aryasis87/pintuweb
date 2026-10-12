@@ -91,6 +91,15 @@ const pages = {
     eyebrow: 'Pertanyaan Umum',
     h1: ['Semua yang perlu Anda tahu ', 'sebelum memesan.'] as Hl,
     lead: 'Biaya, lama pengerjaan, pembayaran, revisi, garansi, dan dukungan setelah website online.',
+    // Empat jawaban ringkas di pembuka halaman; angkanya diisi dari lib/packages.ts & lib/site.ts.
+    quickTitle: 'Jawaban singkat',
+    quickMore: 'Jawaban lengkap',
+    quick: {
+      price: { q: 'Berapa biayanya?', pre: 'mulai', note: (n: number) => `${n} paket, harganya tertulis di depan` },
+      time: { q: 'Berapa lama jadinya?', pre: 'tercepat', note: (slow: string) => `paling lama ${slow}, tergantung paket` },
+      pay: { q: 'Bagaimana bayarnya?', fig: 'DP 50%', note: 'sisanya setelah website selesai dan Anda setujui' },
+      guarantee: { q: 'Ada garansinya?', fig: (days: number) => `${days} hari`, note: 'bug diperbaiki gratis setelah website online' },
+    },
   },
   about: {
     title: 'Tentang Kami',

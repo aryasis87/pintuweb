@@ -26,18 +26,32 @@ async function copyText(text: string) {
   }
 }
 
-/** Tombol "Salin tautan" halaman ini. */
-export default function CopyLink({ label, done }: { label: string; done: string }) {
+type Props = {
+  label: string
+  done: string
+  /** bila diisi, yang disalin adalah alamat halaman ini + #hash (mis. satu pertanyaan di halaman FAQ) */
+  hash?: string
+  /** tampil sebagai tautan teks, bukan pil */
+  plain?: boolean
+}
+
+/** Tombol "Salin tautan" halaman ini (atau satu bagiannya). */
+export default function CopyLink({ label, done, hash, plain = false }: Props) {
   const [copied, setCopied] = useState(false)
   return (
     <button
       type="button"
       onClick={async () => {
-        if (!(await copyText(window.location.href))) return
+        const url = hash ? `${window.location.origin}${window.location.pathname}#${hash}` : window.location.href
+        if (!(await copyText(url))) return
         setCopied(true)
         window.setTimeout(() => setCopied(false), 2200)
       }}
-      className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-white px-3.5 text-[0.8125rem] font-semibold text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)] transition-colors hover:text-[color:var(--primary-700)] hover:ring-[color:var(--primary-300)]"
+      className={
+        plain
+          ? 'inline-flex min-h-8 items-center gap-1.5 text-[0.8125rem] font-semibold text-[color:var(--text-secondary)] underline-offset-4 transition-colors hover:text-[color:var(--primary-700)] hover:underline'
+          : 'inline-flex min-h-9 items-center gap-1.5 rounded-full bg-white px-3.5 text-[0.8125rem] font-semibold text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)] transition-colors hover:text-[color:var(--primary-700)] hover:ring-[color:var(--primary-300)]'
+      }
     >
       {copied ? <Check size={14} aria-hidden="true" /> : <Link2 size={14} aria-hidden="true" />}
       <span aria-live="polite">{copied ? done : label}</span>

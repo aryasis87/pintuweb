@@ -94,6 +94,14 @@ const pages: Pages = {
     eyebrow: 'FAQ',
     h1: ['Everything you need to know ', 'before ordering.'] as Hl,
     lead: 'Cost, turnaround, payment, revisions, the guarantee and support after launch.',
+    quickTitle: 'Quick answers',
+    quickMore: 'Full answer',
+    quick: {
+      price: { q: 'How much does it cost?', pre: 'from', note: (n: number) => `${n} packages, with prices stated upfront` },
+      time: { q: 'How long does it take?', pre: 'fastest', note: (slow: string) => `up to ${slow}, depending on the package` },
+      pay: { q: 'How do I pay?', fig: '50% deposit', note: 'the rest once the website is finished and approved' },
+      guarantee: { q: 'Is there a guarantee?', fig: (days: number) => `${days} days`, note: 'bugs fixed free of charge after launch' },
+    },
   },
   about: {
     title: 'About Us',

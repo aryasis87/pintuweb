@@ -5,39 +5,90 @@ import { DEMOS } from '../lib/demos'
 import { facts, packagesFor } from '../i18n/facts'
 import { byPrice } from '../lib/packages'
 import type { Lang } from '../i18n/config'
+import type { PageKey } from '../i18n/routes'
+import type { ArticleKey, ServiceKey } from '../i18n/slugs'
 
 export type FaqCategoryId = 'general' | 'pricing' | 'process' | 'technical' | 'support'
-export type FaqItem = { category: FaqCategoryId; question: string; answer: string }
 
-const CATEGORIES: Record<Lang, { id: FaqCategoryId; name: string }[]> = {
+/** Jawaban yang memuat daftar: tampil sebagai pembuka + daftar + penutup, bukan satu kalimat panjang. */
+export type FaqList = { intro: string; rows: { label: string; value?: string }[]; outro: string; ordered?: boolean }
+type RawItem = { category: FaqCategoryId; question: string; answer: string; list?: FaqList }
+
+// Kunci tiap pertanyaan, sejajar dengan urutan daftar di bawah (sama di ketiga bahasa). Dipakai sebagai
+// jangkar di halaman FAQ (/faq#garansi), jadi jangan diganti tanpa alasan: tautan lama akan putus.
+export const FAQ_KEYS = [
+  'mulai-dari-nol', 'usia-pintuweb', 'muncul-di-google', 'beda-pintuweb', 'alur-kerja', 'hak-milik', 'fitur-custom',
+  'biaya', 'biaya-tersembunyi', 'pembayaran', 'tidak-cocok', 'diskon',
+  'lama-pengerjaan', 'persiapan', 'tanpa-konten', 'revisi', 'progres', 'tambah-fitur',
+  'responsif', 'teknologi', 'kecepatan', 'panel-admin', 'keamanan', 'integrasi',
+  'garansi', 'update-konten', 'website-bermasalah', 'migrasi', 'bantuan-lanjutan',
+] as const
+export type FaqKey = (typeof FAQ_KEYS)[number]
+export type FaqItem = RawItem & { key: FaqKey }
+
+/** Jangkar bagian kategori di halaman FAQ (sama di ketiga bahasa). */
+export const FAQ_CATEGORY_SLUG: Record<FaqCategoryId, string> = { general: 'umum', pricing: 'harga', process: 'proses', technical: 'teknis', support: 'dukungan' }
+
+/** Halaman yang membahas suatu jawaban lebih rinci (tautan "Selengkapnya" di bawah jawaban). */
+type MorePage = Exclude<PageKey, 'home' | 'services' | 'articles'>
+export type FaqMore = { page: MorePage } | { service: ServiceKey } | { article: ArticleKey; fallback: MorePage }
+export const FAQ_MORE: Partial<Record<FaqKey, FaqMore>> = {
+  'usia-pintuweb': { page: 'demo' },
+  'muncul-di-google': { article: 'seo-checklist', fallback: 'glossary' },
+  'beda-pintuweb': { page: 'about' },
+  'hak-milik': { page: 'terms' },
+  'fitur-custom': { service: 'website-custom' },
+  biaya: { page: 'pricing' },
+  'biaya-tersembunyi': { page: 'pricing' },
+  pembayaran: { page: 'terms' },
+  'tidak-cocok': { page: 'terms' },
+  'lama-pengerjaan': { page: 'pricing' },
+  revisi: { page: 'terms' },
+  responsif: { page: 'demo' },
+  teknologi: { page: 'glossary' },
+  garansi: { page: 'terms' },
+  'website-bermasalah': { page: 'contact' },
+}
+
+const CATEGORIES: Record<Lang, { id: FaqCategoryId; name: string; lead: string }[]> = {
   id: [
-    { id: 'general', name: 'Umum' },
-    { id: 'pricing', name: 'Harga' },
-    { id: 'process', name: 'Proses' },
-    { id: 'technical', name: 'Teknis' },
-    { id: 'support', name: 'Dukungan' },
+    { id: 'general', name: 'Umum', lead: 'Siapa kami, cara kami bekerja, dan apa yang Anda dapat.' },
+    { id: 'pricing', name: 'Harga', lead: 'Biaya, cara bayar, dan apa saja yang sudah termasuk.' },
+    { id: 'process', name: 'Proses', lead: 'Dari konsultasi pertama sampai website online.' },
+    { id: 'technical', name: 'Teknis', lead: 'Teknologi, kecepatan, keamanan, dan integrasi.' },
+    { id: 'support', name: 'Dukungan', lead: 'Garansi, perubahan konten, dan bantuan setelah website jadi.' },
   ],
   en: [
-    { id: 'general', name: 'General' },
-    { id: 'pricing', name: 'Pricing' },
-    { id: 'process', name: 'Process' },
-    { id: 'technical', name: 'Technical' },
-    { id: 'support', name: 'Support' },
+    { id: 'general', name: 'General', lead: 'Who we are, how we work and what you get.' },
+    { id: 'pricing', name: 'Pricing', lead: 'Cost, how payment works and what is included.' },
+    { id: 'process', name: 'Process', lead: 'From the first consultation to launch.' },
+    { id: 'technical', name: 'Technical', lead: 'Technology, speed, security and integrations.' },
+    { id: 'support', name: 'Support', lead: 'The guarantee, content updates and help after launch.' },
   ],
   ms: [
-    { id: 'general', name: 'Umum' },
-    { id: 'pricing', name: 'Harga' },
-    { id: 'process', name: 'Proses' },
-    { id: 'technical', name: 'Teknikal' },
-    { id: 'support', name: 'Sokongan' },
+    { id: 'general', name: 'Umum', lead: 'Siapa kami, cara kami bekerja dan apa yang anda terima.' },
+    { id: 'pricing', name: 'Harga', lead: 'Kos, cara pembayaran dan apa yang sudah termasuk.' },
+    { id: 'process', name: 'Proses', lead: 'Dari konsultasi pertama hingga laman web dilancarkan.' },
+    { id: 'technical', name: 'Teknikal', lead: 'Teknologi, kelajuan, keselamatan dan integrasi.' },
+    { id: 'support', name: 'Sokongan', lead: 'Jaminan, kemas kini kandungan dan bantuan selepas laman web siap.' },
   ],
 }
 
-function items(lang: Lang): FaqItem[] {
+/**
+ * Jawaban berbentuk daftar. Teks utuhnya (untuk JSON-LD, llms.txt, dan pencarian) dirakit dari bagian yang sama
+ * dengan yang ditampilkan, jadi keduanya tidak bisa berselisih.
+ */
+function listed(intro: string, rows: FaqList['rows'], outro: string, ordered = false): Pick<RawItem, 'answer' | 'list'> {
+  const flat = rows.map((r, i) => `${ordered ? `${i + 1}) ` : ''}${r.label}${r.value ? `: ${r.value}` : ''}`).join('; ')
+  return { answer: `${intro} ${flat}. ${outro}`, list: { intro, rows, outro, ordered } }
+}
+
+function items(lang: Lang): RawItem[] {
   const f = facts(lang)
   const pk = packagesFor(lang)
-  const durations = pk.map((p) => `${p.title}: ${p.duration}`).join('; ')
-  const priceList = byPrice(pk).map((p) => `${p.priceFrom} (${p.title})`).join(', ')
+  const durations = pk.map((p) => ({ label: p.title, value: p.duration }))
+  const prices = byPrice(pk).map((p) => ({ label: p.title, value: p.priceFrom }))
+  const steps = (list: string[]) => list.map((label) => ({ label }))
   const n = DEMOS.length
 
   if (lang === 'en') {
@@ -46,15 +97,15 @@ function items(lang: Lang): FaqItem[] {
       { category: 'general', question: 'How long has PintuWeb been around?', answer: `PintuWeb was founded in ${FOUNDED_YEAR} in Trenggalek, East Java, Indonesia, and has completed ${CLIENT_PROJECTS} client projects. There are also ${n} live demos you can try for yourself on the Demos page.` },
       { category: 'general', question: 'Will my website show up on Google?', answer: 'Yes. Every website is optimised for search from day one: meta tags, structured data, a sitemap and a clean heading structure. A new website usually starts being indexed by Google within 1–2 weeks, and its rankings grow with good-quality content.' },
       { category: 'general', question: 'What makes PintuWeb different?', answer: `Each website is designed around your brand rather than recycled from a template. We aim for a PageSpeed score of ${PERF_TARGET}, mobile-first design and SEO from the start, plus a ${GUARANTEE_DAYS}-day guarantee and maintenance according to your package.` },
-      { category: 'general', question: 'What does the process look like from start to finish?', answer: '1) A consultation about your needs, 2) a quote and agreement, 3) an initial design for your approval, 4) development, 5) testing and revisions, 6) launch and handover. We keep you updated over WhatsApp at every stage.' },
+      { category: 'general', question: 'What does the process look like from start to finish?', ...listed('There are six stages:', steps(['A consultation about your needs', 'A quote and agreement', 'An initial design for your approval', 'Development', 'Testing and revisions', 'Launch and handover']), 'We keep you updated over WhatsApp at every stage.', true) },
       { category: 'general', question: 'Will I fully own the website?', answer: 'Yes. Once the final payment is made, you receive the source code, admin access, hosting and domain access and every credential. The website is entirely yours, with no dependence on us.' },
       { category: 'general', question: 'Can I request custom features for my business?', answer: 'Yes. Booking systems, member areas, calculators, dynamic catalogues or integrations with systems you already use can be built through the Custom Website package. Tell us what you need and we will give you an estimate.' },
-      { category: 'pricing', question: 'How much does a website cost?', answer: `Prices start from ${priceList}. Full details of each package are on the Pricing page, and all prices are in Indonesian Rupiah (IDR). Every price includes design and build; website packages also include basic SEO.` },
+      { category: 'pricing', question: 'How much does a website cost?', ...listed('Starting prices per package, cheapest first:', prices, 'Full details of each package are on the Pricing page, and all prices are in Indonesian Rupiah (IDR). Every price includes design and build; website packages also include basic SEO.') },
       { category: 'pricing', question: 'Are there any hidden costs?', answer: `No. The package price covers design and build (plus basic SEO for website packages). The only recurring cost is the domain and hosting renewal: ${f.renewal} Any major features outside the package are always discussed and agreed first.` },
       { category: 'pricing', question: 'How does payment work?', answer: f.payment },
       { category: 'pricing', question: 'What if I am not happy with the result?', answer: 'You approve the design before development starts, with the number of revisions set by your package. The remaining 50% is only paid once the website is finished and you have approved it, so you never pay in full for work that is not right yet.' },
       { category: 'pricing', question: 'Do you offer discounts for start-ups or small businesses?', answer: 'Yes. Businesses that are less than a year old can get up to 20% off, and payment can be arranged more flexibly. Contact us to talk it through.' },
-      { category: 'process', question: 'How long does it take to build a website?', answer: `Estimated time per package once your content is complete: ${durations}. It can be quicker or longer depending on how complete your content is and how complex the features are.` },
+      { category: 'process', question: 'How long does it take to build a website?', ...listed('Estimated time per package once your content is complete:', durations, 'It can be quicker or longer depending on how complete your content is and how complex the features are.') },
       { category: 'process', question: 'What do I need to prepare?', answer: 'Required: your business name, a description of your business and contact details. Helpful: a logo, photos of your products or services and examples of websites you like. If anything is missing, we will help you prepare it.' },
       { category: 'process', question: 'What if I do not have any content or photos?', answer: 'No problem. We can write the content from a short brief, use licensed stock photos, or recommend a photographer if you need your own product photos.' },
       { category: 'process', question: 'Can I revise the design?', answer: 'Yes. The number of revisions depends on your package (for example, 2 design revisions for the Small Business Standard and Simple Online Store packages). Small changes such as text, photos or contact details are free during the maintenance period.' },
@@ -80,15 +131,15 @@ function items(lang: Lang): FaqItem[] {
       { category: 'general', question: 'Sudah berapa lama PintuWeb beroperasi?', answer: `PintuWeb ditubuhkan pada ${FOUNDED_YEAR} di Trenggalek, Jawa Timur, Indonesia, dan telah menyiapkan ${CLIENT_PROJECTS} projek pelanggan. Terdapat juga ${n} demo langsung yang boleh anda cuba sendiri di halaman Demo.` },
       { category: 'general', question: 'Adakah laman web saya akan muncul di Google?', answer: 'Ya. Setiap laman web dioptimumkan untuk carian sejak awal: tag meta, data berstruktur, peta laman dan struktur tajuk yang kemas. Laman web baharu biasanya mula diindeks Google dalam 1–2 minggu, dan kedudukannya meningkat seiring kandungan yang berkualiti.' },
       { category: 'general', question: 'Apakah yang membezakan PintuWeb?', answer: `Setiap laman web direka mengikut identiti perniagaan anda, bukan templat kitar semula. Kami menyasarkan skor PageSpeed ${PERF_TARGET}, reka bentuk mudah alih dahulu dan SEO sejak awal, berserta jaminan ${GUARANTEE_DAYS} hari dan penyelenggaraan mengikut pakej.` },
-      { category: 'general', question: 'Bagaimanakah proses kerja dari awal hingga akhir?', answer: '1) Konsultasi keperluan, 2) sebut harga dan persetujuan, 3) reka bentuk awal untuk kelulusan anda, 4) pembangunan, 5) pengujian dan semakan, 6) pelancaran dan serahan. Kami maklumkan setiap peringkat melalui WhatsApp.' },
+      { category: 'general', question: 'Bagaimanakah proses kerja dari awal hingga akhir?', ...listed('Terdapat enam peringkat:', steps(['Konsultasi keperluan', 'Sebut harga dan persetujuan', 'Reka bentuk awal untuk kelulusan anda', 'Pembangunan', 'Pengujian dan semakan', 'Pelancaran dan serahan']), 'Kami maklumkan setiap peringkat melalui WhatsApp.', true) },
       { category: 'general', question: 'Adakah saya memiliki laman web itu sepenuhnya?', answer: 'Ya. Selepas bayaran penuh, anda menerima kod sumber, akses admin, akses hosting dan domain, serta semua kelayakan masuk. Laman web itu milik anda sepenuhnya, tanpa bergantung kepada kami.' },
       { category: 'general', question: 'Bolehkah saya meminta ciri khas untuk perniagaan saya?', answer: 'Boleh. Sistem tempahan, ruang ahli, kalkulator, katalog dinamik atau integrasi dengan sistem sedia ada boleh dibina melalui pakej Laman Web Tersuai. Bincangkan keperluan anda dan kami berikan anggaran.' },
-      { category: 'pricing', question: 'Berapakah kos membina laman web?', answer: `Harga bermula dari ${priceList}. Butiran setiap pakej ada di halaman Harga, dan semua harga dalam Rupiah Indonesia (IDR). Setiap harga sudah termasuk reka bentuk dan pembinaan; pakej laman web juga merangkumi SEO asas.` },
+      { category: 'pricing', question: 'Berapakah kos membina laman web?', ...listed('Harga permulaan setiap pakej, daripada yang paling murah:', prices, 'Butiran setiap pakej ada di halaman Harga, dan semua harga dalam Rupiah Indonesia (IDR). Setiap harga sudah termasuk reka bentuk dan pembinaan; pakej laman web juga merangkumi SEO asas.') },
       { category: 'pricing', question: 'Adakah kos tersembunyi?', answer: `Tiada. Harga pakej merangkumi reka bentuk dan pembinaan (serta SEO asas untuk pakej laman web). Satu-satunya kos berkala ialah pembaharuan domain dan hosting: ${f.renewal} Ciri besar di luar pakej sentiasa dibincang dan dipersetujui terlebih dahulu.` },
       { category: 'pricing', question: 'Bagaimanakah sistem pembayarannya?', answer: f.payment },
       { category: 'pricing', question: 'Bagaimana jika saya tidak berpuas hati dengan hasilnya?', answer: 'Anda meluluskan reka bentuk sebelum pembangunan bermula, dengan bilangan semakan mengikut pakej. Baki 50% hanya dibayar selepas laman web siap dan anda luluskan, jadi anda tidak membayar penuh untuk hasil yang belum sesuai.' },
       { category: 'pricing', question: 'Adakah diskaun untuk syarikat pemula atau PKS?', answer: 'Ada potongan sehingga 20% untuk perniagaan yang berusia kurang daripada setahun, dan pembayaran boleh diatur dengan lebih fleksibel. Hubungi kami untuk berbincang.' },
-      { category: 'process', question: 'Berapa lama masa untuk membina laman web?', answer: `Anggaran setiap pakej selepas kandungan lengkap: ${durations}. Masa boleh lebih cepat atau lebih lama bergantung pada kelengkapan kandungan dan kerumitan ciri.` },
+      { category: 'process', question: 'Berapa lama masa untuk membina laman web?', ...listed('Anggaran setiap pakej selepas kandungan lengkap:', durations, 'Masa boleh lebih cepat atau lebih lama bergantung pada kelengkapan kandungan dan kerumitan ciri.') },
       { category: 'process', question: 'Apakah yang perlu saya sediakan?', answer: 'Wajib: nama perniagaan, penerangan perniagaan dan maklumat hubungan. Membantu: logo, foto produk atau perkhidmatan, dan contoh laman web yang anda suka. Jika belum lengkap, kami bantu menyediakannya.' },
       { category: 'process', question: 'Bagaimana jika saya tiada kandungan atau foto?', answer: 'Tiada masalah. Kami boleh menulis kandungan berdasarkan ringkasan pendek, menggunakan foto stok berlesen, atau mengesyorkan jurugambar jika anda memerlukan foto produk sendiri.' },
       { category: 'process', question: 'Bolehkah saya menyemak semula reka bentuk?', answer: 'Boleh. Bilangan semakan mengikut pakej (contohnya 2× semakan reka bentuk untuk pakej Standard PKS dan Kedai Online Ringkas). Perubahan kecil seperti teks, foto atau maklumat hubungan dibantu tanpa caj sepanjang tempoh penyelenggaraan.' },
@@ -113,15 +164,15 @@ function items(lang: Lang): FaqItem[] {
     { category: 'general', question: 'Sudah berapa lama PintuWeb berdiri?', answer: `PintuWeb berdiri sejak ${FOUNDED_YEAR} di Trenggalek, Jawa Timur, dan sudah menyelesaikan ${CLIENT_PROJECTS} proyek klien. Selain itu ada ${n} demo live yang bisa Anda coba langsung di halaman Demo.` },
     { category: 'general', question: 'Apakah website yang dibuat bisa muncul di Google?', answer: 'Ya. Setiap website dioptimasi SEO sejak awal: meta tag, structured data, sitemap, dan struktur heading yang rapi. Biasanya website mulai terindeks Google dalam 1–2 minggu, lalu peringkatnya tumbuh seiring konten yang berkualitas.' },
     { category: 'general', question: 'Apa yang membedakan PintuWeb dengan jasa lain?', answer: `Setiap website dirancang khusus sesuai identitas bisnis Anda, bukan template daur ulang. Kami menargetkan skor PageSpeed ${PERF_TARGET}, desain mobile-first, SEO sejak awal, serta garansi ${GUARANTEE_DAYS} hari dan maintenance sesuai paket.` },
-    { category: 'general', question: 'Bagaimana proses kerja dari awal sampai akhir?', answer: '1) Konsultasi kebutuhan, 2) penawaran dan kesepakatan, 3) desain awal untuk Anda setujui, 4) pengembangan, 5) pengujian dan revisi, 6) website online dan serah terima. Setiap tahap kami kabarkan lewat WhatsApp.' },
+    { category: 'general', question: 'Bagaimana proses kerja dari awal sampai akhir?', ...listed('Ada enam tahap:', steps(['Konsultasi kebutuhan', 'Penawaran dan kesepakatan', 'Desain awal untuk Anda setujui', 'Pengembangan', 'Pengujian dan revisi', 'Website online dan serah terima']), 'Setiap tahap kami kabarkan lewat WhatsApp.', true) },
     { category: 'general', question: 'Apakah saya memiliki hak penuh atas website?', answer: 'Ya. Setelah pelunasan, Anda mendapat source code, akses admin, akses hosting dan domain, serta semua kredensial. Website sepenuhnya milik Anda, tanpa ketergantungan pada kami.' },
     { category: 'general', question: 'Apakah bisa request fitur custom sesuai kebutuhan bisnis?', answer: 'Bisa. Sistem booking, area member, kalkulator, katalog dinamis, atau integrasi dengan sistem yang sudah ada dapat kami buatkan lewat paket Website Custom. Diskusikan kebutuhan Anda dan kami beri estimasi.' },
-    { category: 'pricing', question: 'Berapa biaya pembuatan website?', answer: `Harga mulai ${byPrice(pk).map((p) => `${p.priceFrom} untuk ${p.title}`).join(', ')}. Rincian fitur tiap paket ada di halaman Paket. Semua harga sudah termasuk desain dan pengerjaan; paket website juga mencakup SEO dasar.` },
+    { category: 'pricing', question: 'Berapa biaya pembuatan website?', ...listed('Harga mulai tiap paket, dari yang termurah:', prices, 'Rincian fitur tiap paket ada di halaman Paket. Semua harga sudah termasuk desain dan pengerjaan; paket website juga mencakup SEO dasar.') },
     { category: 'pricing', question: 'Apakah ada biaya tersembunyi?', answer: `Tidak. Harga paket sudah mencakup desain dan pengerjaan (plus SEO dasar untuk paket website). Biaya berkala satu-satunya adalah perpanjangan domain dan hosting: ${f.renewal} Fitur besar di luar paket selalu dibicarakan dan disepakati lebih dulu.` },
     { category: 'pricing', question: 'Bagaimana sistem pembayarannya?', answer: f.payment },
     { category: 'pricing', question: 'Bagaimana kalau saya tidak cocok dengan hasilnya?', answer: 'Desain Anda setujui dulu sebelum pengembangan dimulai, dengan jatah revisi sesuai paket. Pelunasan 50% baru dibayar setelah website selesai dan Anda setujui, jadi Anda tidak membayar penuh untuk hasil yang belum sesuai.' },
     { category: 'pricing', question: 'Apakah ada diskon untuk startup atau UMKM?', answer: 'Ada potongan hingga 20% untuk bisnis yang berdiri kurang dari 1 tahun, dan pembayaran bisa diatur lebih fleksibel. Hubungi kami untuk membicarakannya.' },
-    { category: 'process', question: 'Berapa lama proses pembuatan website?', answer: `Perkiraan per paket setelah konten lengkap: ${durations}. Waktu bisa lebih cepat atau lebih lama tergantung kelengkapan konten dan kompleksitas fitur.` },
+    { category: 'process', question: 'Berapa lama proses pembuatan website?', ...listed('Perkiraan per paket setelah konten lengkap:', durations, 'Waktu bisa lebih cepat atau lebih lama tergantung kelengkapan konten dan kompleksitas fitur.') },
     { category: 'process', question: 'Apa saja yang perlu saya siapkan?', answer: 'Yang wajib: nama bisnis, deskripsi usaha, dan kontak. Yang membantu: logo, foto produk atau layanan, dan contoh website yang Anda suka. Kalau belum lengkap, kami bantu menyiapkannya.' },
     { category: 'process', question: 'Bagaimana jika saya tidak punya konten atau foto?', answer: 'Tidak masalah. Kami bisa menulis konten berdasarkan brief singkat, memakai foto stok berlisensi, atau merekomendasikan fotografer bila Anda butuh foto produk sendiri.' },
     { category: 'process', question: 'Apakah saya bisa merevisi desain?', answer: 'Bisa. Jatah revisi mengikuti paket (misalnya 2× revisi desain untuk paket Standar UMKM dan Toko Online Simple). Perubahan kecil seperti teks, foto, atau info kontak kami bantu tanpa biaya selama masa maintenance.' },
@@ -141,7 +192,12 @@ function items(lang: Lang): FaqItem[] {
   ]
 }
 
-export const faqFor = (lang: Lang) => ({ categories: CATEGORIES[lang], items: items(lang) })
+export function faqFor(lang: Lang): { categories: (typeof CATEGORIES)[Lang]; items: FaqItem[] } {
+  const list = items(lang)
+  // daftar tiap bahasa harus sejajar dengan FAQ_KEYS; kalau tidak, jangkar akan menunjuk pertanyaan yang salah
+  if (list.length !== FAQ_KEYS.length) throw new Error(`FAQ ${lang}: ${list.length} pertanyaan, tetapi ada ${FAQ_KEYS.length} kunci`)
+  return { categories: CATEGORIES[lang], items: list.map((it, i) => ({ ...it, key: FAQ_KEYS[i] })) }
+}
 
 /** JSON-LD FAQPage dari daftar tanya-jawab yang sama dengan yang tampil. */
 export const faqJsonLd = (list: { question: string; answer: string }[], inLanguage: string) => ({

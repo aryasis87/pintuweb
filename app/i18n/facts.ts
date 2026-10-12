@@ -118,6 +118,24 @@ export function packagesFor(lang: Lang): LocalPaket[] {
 
 export const minPrice = () => Math.min(...PACKAGES.map((p) => p.minPrice))
 
+/**
+ * Paket dengan perkiraan pengerjaan tercepat dan terlama (dibaca dari `duration` di packages.ts, mis.
+ * "1–3 hari kerja" atau "4–8 minggu"; satu minggu dihitung 5 hari kerja). Durasi yang tidak terbaca
+ * menggagalkan build supaya ringkasannya tidak pernah menampilkan angka yang salah.
+ */
+export function durationSpan(lang: Lang) {
+  const span = PACKAGES.map((p) => {
+    const m = /^(\d+)–(\d+) (hari kerja|minggu)/.exec(p.duration)
+    if (!m) throw new Error(`Durasi paket ${p.slug} tidak terbaca: ${p.duration}`)
+    const k = m[3] === 'minggu' ? 5 : 1
+    return { slug: p.slug, lo: Number(m[1]) * k, hi: Number(m[2]) * k }
+  })
+  const fast = span.reduce((a, b) => (b.lo < a.lo || (b.lo === a.lo && b.hi < a.hi) ? b : a))
+  const slow = span.reduce((a, b) => (b.hi > a.hi ? b : a))
+  const pk = packagesFor(lang)
+  return { fastest: pk.find((p) => p.slug === fast.slug)!, slowest: pk.find((p) => p.slug === slow.slug)! }
+}
+
 /** Pesan WhatsApp untuk paket, dalam bahasa pengunjung (supaya kami tahu bahasa balasannya). */
 export function waPackageText(lang: Lang, title: string) {
   if (lang === 'en') return `Hello PintuWeb, I'm interested in the "${title}" package. Could you tell me more?`

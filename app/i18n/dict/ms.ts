@@ -222,6 +222,16 @@ const ms: Dict = {
     allN: (n: number) => `Semua ${n} soalan`,
     askWa: 'Tanya melalui WhatsApp',
     waText: 'Hai PintuWeb, saya ada soalan tentang membina laman web.',
+    more: 'Selanjutnya',
+    clear: 'Padam carian',
+    count: '{n} soalan dalam {c} kategori',
+    found: '{n} daripada {total} soalan untuk “{q}”',
+    nQuestions: '{n} soalan',
+    openAll: 'Buka semua',
+    closeAll: 'Tutup semua',
+    follow: 'Tanya tentang ini',
+    followText: 'Hai PintuWeb, saya ingin bertanya lebih lanjut tentang: "{q}"',
+    searchAskText: 'Hai PintuWeb, saya mencari jawapan tentang: "{q}"',
   },
 }
 
