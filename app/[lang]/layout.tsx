@@ -108,6 +108,7 @@ export default async function LangLayout({ children, params }: { children: React
             consultFree: t.header.consultFree,
             openMenu: t.header.openMenu,
             closeMenu: t.header.closeMenu,
+            menu: t.header.menu,
             demosReady: t.header.demosReady(DEMOS.length),
             respond: t.header.respond,
             language: t.header.language,

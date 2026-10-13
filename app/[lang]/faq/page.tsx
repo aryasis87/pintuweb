@@ -55,7 +55,7 @@ export default async function FaqPage({ params }: Params) {
                   <span className="text-[0.8125rem] leading-snug text-[color:var(--text-tertiary)] sm:text-[0.875rem]">{k.q}</span>
                   <span className="display mt-2 text-[1.25rem] font-semibold leading-[1.15] tracking-tight text-[color:var(--primary-700)] sm:text-[1.5rem]">
                     {/* ponsel (dua kartu sempit per baris): kata pembuka di barisnya sendiri; selebihnya sebaris dengan angkanya */}
-                    {k.pre && <span className="mr-1.5 block text-[0.8125rem] font-medium tracking-normal text-[color:var(--text-tertiary)] sm:inline sm:text-[0.875rem]">{k.pre}</span>}
+                    {k.pre && <span className="me-1.5 block text-[0.8125rem] font-medium tracking-normal text-[color:var(--text-tertiary)] sm:inline sm:text-[0.875rem]">{k.pre}</span>}
                     {/* inline-block: bila tidak muat sebaris dengan kata pembuka, angkanya turun utuh ke baris berikut.
                         Word joiner di sekitar tanda pisah: "1–2" tidak boleh terbelah di ujung baris. */}
                     <span className="inline-block">{k.fig.replace(/–/g, '⁠–⁠')}</span>

@@ -29,7 +29,7 @@ const pages: Pages = {
     colItem: 'Serviço',
     colRange: 'Faixa de preço',
     colUnit: 'Unidade',
-    count: (n: number) => `${n} pacotes`,
+    count: (n: number) => `${n} pacote${n === 1 ? '' : 's'}`,
     listAria: 'Lista de pacotes',
     infoTitle: ['O que saber ', 'antes de encomendar'] as Hl,
     payment: 'Pagamento',

@@ -40,6 +40,7 @@ const es: Dict = {
     consultFree: 'Consulta gratuita',
     openMenu: 'Abrir menú',
     closeMenu: 'Cerrar menú',
+    menu: 'Menú',
     demosReady: (n: number) => `${n} demos listas para explorar`,
     respond: 'Respondemos en días laborables',
     waText: 'Hola PintuWeb, me gustaría hablar sobre la creación de un sitio web.',

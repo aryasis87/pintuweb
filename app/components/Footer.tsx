@@ -87,8 +87,8 @@ export default function Footer({ lang }: { lang: Lang }) {
               </div>
 
               <div className="rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4">
-                <p className="max-w-[88%] rounded-[1.125rem] rounded-tl-md bg-white px-4 py-2.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)]">{t.footer.chatHello}</p>
-                <p className="mt-5 text-right text-[0.8125rem] text-[color:var(--text-tertiary)]">{t.footer.chatPick}</p>
+                <p className="max-w-[88%] rounded-[1.125rem] rounded-ss-md bg-white px-4 py-2.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-secondary)] ring-1 ring-[color:var(--border-light)]">{t.footer.chatHello}</p>
+                <p className="mt-5 text-end text-[0.8125rem] text-[color:var(--text-tertiary)]">{t.footer.chatPick}</p>
                 <ul className="mt-2 flex flex-col items-end gap-2">
                   {t.footer.starters.map((s) => (
                     <li key={s.label}>
@@ -96,7 +96,7 @@ export default function Footer({ lang }: { lang: Lang }) {
                         href={wa(s.text)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-[1.125rem] rounded-br-md bg-[color:var(--primary-700)] px-4 py-2.5 text-left text-[0.9375rem] font-medium leading-snug text-white transition-colors hover:bg-[color:var(--primary-800)]"
+                        className="inline-flex items-center gap-2 rounded-[1.125rem] rounded-ee-md bg-[color:var(--primary-700)] px-4 py-2.5 text-start text-[0.9375rem] font-medium leading-snug text-white transition-colors hover:bg-[color:var(--primary-800)]"
                       >
                         {s.label} <ArrowUpRight size={15} className="arw-ne shrink-0 opacity-80 transition-transform" aria-hidden="true" />
                         <span className="sr-only">{t.common.newTabShort}</span>
@@ -110,7 +110,7 @@ export default function Footer({ lang }: { lang: Lang }) {
                 href={wa(t.footer.waText)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mt-3 flex h-12 items-center justify-between gap-3 rounded-full bg-[color:var(--surface-soft)] pl-5 pr-1.5 text-[0.9375rem] text-[color:var(--text-tertiary)] ring-1 ring-[color:var(--border-light)] transition-shadow hover:ring-[color:var(--primary-300)]"
+                className="group mt-3 flex h-12 items-center justify-between gap-3 rounded-full bg-[color:var(--surface-soft)] ps-5 pe-1.5 text-[0.9375rem] text-[color:var(--text-tertiary)] ring-1 ring-[color:var(--border-light)] transition-shadow hover:ring-[color:var(--primary-300)]"
               >
                 <span className="min-w-0 truncate">{t.footer.chatOwn}</span>
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[color:var(--primary-700)] text-white transition-colors group-hover:bg-[color:var(--primary-800)]" aria-hidden="true">
@@ -129,10 +129,10 @@ export default function Footer({ lang }: { lang: Lang }) {
               <dd className="mt-1.5 min-w-0">
                 {c.link ? (
                   <a href={c.link} target="_blank" rel="noopener noreferrer" className="text-white underline decoration-white/35 underline-offset-4 [overflow-wrap:anywhere] hover:decoration-white">
-                    {c.value}
+                    <bdi>{c.value}</bdi>
                   </a>
                 ) : (
-                  <span className="text-white">{c.value}</span>
+                  <span className="text-white"><bdi>{c.value}</bdi></span>
                 )}
                 {c.sub && <span className="mt-0.5 block text-sm text-white/65">{c.sub}</span>}
               </dd>

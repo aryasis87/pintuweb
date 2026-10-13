@@ -53,7 +53,7 @@ const pages: Pages = {
     colItem: 'Service',
     colRange: 'Price range',
     colUnit: 'Unit',
-    count: (n: number) => `${n} packages`,
+    count: (n: number) => `${n} package${n === 1 ? '' : 's'}`,
     listAria: 'List of packages',
     infoTitle: ['What to know ', 'before you order'] as Hl,
     payment: 'Payment',

@@ -31,7 +31,7 @@ export default function PackageCard({ p, labels, maxFeatures, as: Heading = 'h3'
         ) : (
           <span />
         )}
-        <span className="inline-flex items-center gap-1.5 text-right text-[0.8125rem] leading-tight text-[color:var(--text-tertiary)]">
+        <span className="inline-flex items-center gap-1.5 text-end text-[0.8125rem] leading-tight text-[color:var(--text-tertiary)]">
           <Clock size={14} className="shrink-0" aria-hidden="true" />
           <span>
             <span className="sr-only">{labels.duration}: </span>

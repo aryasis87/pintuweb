@@ -139,7 +139,7 @@ export default function FaqCenter({ items, categories, t, waHref }: Props) {
       <div className="min-w-0">
         <p className="display text-[1.0625rem] font-semibold leading-snug text-[color:var(--text-primary)]">{t.unanswered}</p>
         <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">
-          {t.askLead} {t.note}.
+          {t.askLead} {t.note}
         </p>
       </div>
       <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn btn-solid btn-sm mt-4 w-full sm:mt-0 sm:w-auto sm:shrink-0 lg:mt-4 lg:w-full">
@@ -156,7 +156,7 @@ export default function FaqCenter({ items, categories, t, waHref }: Props) {
         <div className="contents lg:sticky lg:top-28 lg:col-span-4 lg:block lg:self-start">
           <div className="order-1">
             <div className="relative">
-              <Search size={18} className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
+              <Search size={18} className="pointer-events-none absolute start-5 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
               <label htmlFor="faq-search" className="sr-only">
                 {t.search}
               </label>
@@ -166,7 +166,7 @@ export default function FaqCenter({ items, categories, t, waHref }: Props) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t.searchPh}
-                className="h-[3.25rem] w-full rounded-full border-0 bg-white pl-[3.25rem] pr-5 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
+                className="h-[3.25rem] w-full rounded-full border-0 bg-white ps-[3.25rem] pe-5 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
               />
             </div>
 

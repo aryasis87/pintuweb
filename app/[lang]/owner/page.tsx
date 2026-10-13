@@ -82,7 +82,7 @@ export default async function OwnerPage({ params }: Params) {
               {stats.map((s) => (
                 <div key={s.l} className="flex flex-col-reverse">
                   <dt className="mt-1 text-[0.875rem] text-[color:var(--text-tertiary)]">{s.l}</dt>
-                  <dd className="display text-[1.75rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2rem]">{s.v}</dd>
+                  <dd className="display text-[1.75rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2rem]"><bdi>{s.v}</bdi></dd>
                 </div>
               ))}
             </dl>
@@ -90,7 +90,7 @@ export default async function OwnerPage({ params }: Params) {
 
           {/* Kartu nama */}
           <div className="lg:col-span-5">
-            <div className="relative mx-auto w-full max-w-[26rem] lg:ml-auto lg:mr-0">
+            <div className="relative mx-auto w-full max-w-[26rem] lg:ms-auto lg:me-0">
               <span className="absolute inset-0 translate-x-2 translate-y-3 rotate-[4deg] rounded-[1.75rem] [background-image:linear-gradient(145deg,var(--primary-600),var(--primary-900))] sm:translate-x-3" aria-hidden="true" />
               <div className="relative rounded-[1.75rem] bg-white p-6 shadow-[0_30px_60px_-40px_rgb(15_29_58/0.5)] ring-1 ring-[color:var(--border-light)] sm:p-7">
                 <div className="flex items-center justify-between gap-3">
@@ -117,7 +117,7 @@ export default async function OwnerPage({ params }: Params) {
                     const inner = (
                       <>
                         <r.icon size={17} strokeWidth={1.75} className="shrink-0 text-[color:var(--primary-700)]" aria-hidden="true" />
-                        <span className="min-w-0 flex-1 truncate">{r.text}</span>
+                        <span className="min-w-0 flex-1 truncate"><bdi>{r.text}</bdi></span>
                       </>
                     )
                     return (
@@ -153,11 +153,11 @@ export default async function OwnerPage({ params }: Params) {
           </h2>
           <ol className="mt-10 grid grid-cols-1 gap-y-9 md:grid-cols-3 md:gap-x-8">
             {timeline.map((t, i) => (
-              <li key={t.year} className="relative pl-8 md:pl-0 md:pt-9">
-                <span className="absolute left-0 top-[0.3125rem] h-3 w-3 rounded-full bg-[color:var(--primary-700)] ring-4 ring-[color:var(--primary-100)] md:top-0" aria-hidden="true" />
+              <li key={t.year} className="relative ps-8 md:ps-0 md:pt-9">
+                <span className="absolute start-0 top-[0.3125rem] h-3 w-3 rounded-full bg-[color:var(--primary-700)] ring-4 ring-[color:var(--primary-100)] md:top-0" aria-hidden="true" />
                 {i < timeline.length - 1 && (
                   <span
-                    className="absolute -bottom-9 left-[0.3125rem] top-6 w-0.5 rounded-full bg-[color:var(--primary-200)] md:-right-8 md:bottom-auto md:left-6 md:top-[0.3125rem] md:h-0.5 md:w-auto"
+                    className="absolute -bottom-9 start-[0.3125rem] top-6 w-0.5 rounded-full bg-[color:var(--primary-200)] md:-end-8 md:bottom-auto md:start-6 md:top-[0.3125rem] md:h-0.5 md:w-auto"
                     aria-hidden="true"
                   />
                 )}

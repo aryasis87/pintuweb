@@ -40,8 +40,9 @@ export default function Hero({ lang }: { lang: Lang }) {
       {/* Pita pembuka: teks di depan, gambar utama di belakangnya pada semua ukuran layar */}
       <div className="relative isolate overflow-hidden pb-2 pt-32 sm:pt-40 md:pb-16 xl:pb-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          {/* dari tablet ke atas teks dibatasi supaya berhenti sebelum isi gambar mulai terlihat */}
-          <div className="md:max-w-[25rem] lg:max-w-[30rem] xl:max-w-[38rem]">
+          {/* dari tablet ke atas teks dibatasi supaya berhenti sebelum isi gambar mulai terlihat; di bahasa kanan-ke-kiri
+              kolom ini tetap di sisi kiri (rtl:md:mr-auto) karena gambar utama tidak dibalik */}
+          <div className="md:max-w-[25rem] rtl:md:mr-auto lg:max-w-[30rem] xl:max-w-[38rem]">
             <p className="text-[0.9375rem] text-[color:var(--text-tertiary)]">
               <span className="font-semibold text-[color:var(--primary-700)]">{t.kicker}</span>
               <span className="hidden sm:inline md:hidden"> · </span>

@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react'
 import { PACKAGES, byPrice } from '../lib/packages'
 import { getDict } from '../i18n'
 import { currencyCode, groupText, moneyCompact, moneyShort, packagesFor } from '../i18n/facts'
-import type { Lang } from '../i18n/config'
+import { LANG_INFO, type Lang } from '../i18n/config'
 
 // "Peta harga": semua paket diurutkan dari yang termurah, masing-masing dengan batang kisaran harganya pada
 // satu skala bersama, sehingga terlihat sekilas paket mana yang masuk anggaran. Server component (tanpa
@@ -47,25 +47,27 @@ export default function PriceMap({ lang, base, tone = 'soft', className = '' }: 
   const rowHover = tone === 'white' ? 'hover:bg-[color:var(--surface-soft)]' : 'hover:bg-white'
   // Jangkar di halaman yang sama memakai <a> biasa: navigasi klien Next tidak memicu :target (sorotan kartu tujuan).
   const Row = base.startsWith('#') ? 'a' : Link
+  // kanan-ke-kiri: posisi memakai inset-inline-start, gradasi batang dan irisannya dicerminkan
+  const rtl = LANG_INFO[lang].dir === 'rtl'
 
   return (
     <div className={`rounded-[1.75rem] p-2 pb-4 sm:p-4 sm:pb-5 lg:p-5 ${panel} ${className}`}>
       {/* Sumbu: tetap terlihat selama daftar digulir */}
       <div className={`sticky top-0 z-10 grid grid-cols-1 rounded-t-[1.25rem] px-3 pb-2 pt-3 text-[0.75rem] font-semibold text-[color:var(--text-tertiary)] md:px-4 md:text-[0.8125rem] ${bg} ${COLS}`} aria-hidden="true">
         <span className="hidden md:block">{t.colPackage}</span>
-        <span className="relative mr-7 block h-5 md:mr-0">
-          <span className="absolute left-0">{currencyCode(lang)}</span>
+        <span className="relative me-7 block h-5 md:me-0">
+          <span className="absolute start-0">{currencyCode(lang)}</span>
           {BOUNDS.slice(1).map((b, i) => (
             <span
               key={b}
-              className={`absolute whitespace-nowrap ${i === BANDS - 1 ? 'right-0 hidden sm:block md:hidden lg:block' : '-translate-x-1/2'}`}
-              style={i === BANDS - 1 ? undefined : { left: `${((i + 1) / BANDS) * 100}%` }}
+              className={`absolute whitespace-nowrap ${i === BANDS - 1 ? 'end-0 hidden sm:block md:hidden lg:block' : '-translate-x-1/2 rtl:translate-x-1/2'}`}
+              style={i === BANDS - 1 ? undefined : { insetInlineStart: `${((i + 1) / BANDS) * 100}%` }}
             >
               {moneyCompact(lang, b)}
             </span>
           ))}
         </span>
-        <span className="hidden text-right md:block">{t.colPrice}</span>
+        <span className="hidden text-end md:block">{t.colPrice}</span>
       </div>
 
       <ul>
@@ -73,6 +75,8 @@ export default function PriceMap({ lang, base, tone = 'soft', className = '' }: 
           const a = pos(p.minPrice)
           const w = pos(p.maxPrice) - a
           const price = moneyShort(lang, p)
+          // irisan gradasi bersama yang ditampilkan batang ini (0–100)
+          const slice = w >= 100 ? 0 : (a / (100 - w)) * 100
           return (
             <li key={p.slug}>
               <Row href={base + p.slug} className={`group block items-center rounded-2xl px-3 py-3 transition-colors md:grid md:px-4 md:py-0 ${rowHover} ${COLS}`}>
@@ -86,30 +90,30 @@ export default function PriceMap({ lang, base, tone = 'soft', className = '' }: 
                     {groupTitle[p.group].title} · {p.duration}
                   </span>
                 </span>
-                <span className="hidden whitespace-nowrap text-right text-[0.9375rem] font-semibold text-[color:var(--text-primary)] md:order-3 md:block">{price}</span>
+                <span className="hidden whitespace-nowrap text-end text-[0.9375rem] font-semibold text-[color:var(--text-primary)] md:order-3 md:block">{price}</span>
 
                 {/* Batang kisaran harga pada skala bersama */}
-                <span className="relative mr-7 mt-2.5 block h-5 md:order-2 md:mr-0 md:mt-0 md:h-full md:min-h-[3.75rem]" aria-hidden="true">
+                <span className="relative me-7 mt-2.5 block h-5 md:order-2 md:me-0 md:mt-0 md:h-full md:min-h-[3.75rem]" aria-hidden="true">
                   {GRID_LINES.map((x) => (
-                    <span key={x} className="absolute inset-y-0 w-px bg-[color:var(--primary-200)]" style={{ left: x === 100 ? 'calc(100% - 1px)' : `${x}%` }} />
+                    <span key={x} className="absolute inset-y-0 w-px bg-[color:var(--primary-200)]" style={{ insetInlineStart: x === 100 ? 'calc(100% - 1px)' : `${x}%` }} />
                   ))}
                   <span
                     className="absolute top-1/2 h-2.5 -translate-y-1/2 rounded-full transition-[height] duration-200 group-hover:h-3.5"
                     style={
                       {
-                        left: `${a}%`,
+                        insetInlineStart: `${a}%`,
                         width: `${w}%`,
                         // satu gradasi untuk seluruh skala: tiap batang menampilkan irisannya sendiri
-                        backgroundImage: 'linear-gradient(90deg, var(--accent-400), var(--primary-700))',
+                        backgroundImage: `linear-gradient(${rtl ? 270 : 90}deg, var(--accent-400), var(--primary-700))`,
                         backgroundSize: `${(100 / w) * 100}% 100%`,
-                        backgroundPosition: `${w >= 100 ? 0 : (a / (100 - w)) * 100}% 0`,
+                        backgroundPosition: `${rtl ? 100 - slice : slice}% 0`,
                       } as CSSProperties
                     }
                   />
                   {p.openEnded &&
                     // bisa lebih dari batas atas: ekor titik-titik
                     [0, 1, 2].map((k) => (
-                      <span key={k} className="absolute top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-[color:var(--primary-700)]" style={{ left: `calc(${a + w}% + ${5 + k * 7}px)`, opacity: 0.75 - k * 0.22 }} />
+                      <span key={k} className="absolute top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-[color:var(--primary-700)]" style={{ insetInlineStart: `calc(${a + w}% + ${5 + k * 7}px)`, opacity: 0.75 - k * 0.22 }} />
                     ))}
                 </span>
               </Row>

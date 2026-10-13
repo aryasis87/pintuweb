@@ -29,7 +29,7 @@ const pages: Pages = {
     colItem: 'Prestation',
     colRange: 'Fourchette de prix',
     colUnit: 'Unité',
-    count: (n: number) => `${n} formules`,
+    count: (n: number) => `${n} formule${n > 1 ? 's' : ''}`,
     listAria: 'Liste des formules',
     infoTitle: ['À savoir ', 'avant de commander'] as Hl,
     payment: 'Paiement',

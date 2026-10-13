@@ -6,6 +6,7 @@ import { ADDONS, PACKAGES, PAYMENT_SUMMARY, RENEWAL_BIO_PER_YEAR, RENEWAL_PER_YE
 import { LANG_INFO, isBase, type BaseLang, type Lang } from './config'
 import { ADDON_TEXT, PACKAGE_GROUP_TEXT, PACKAGE_TEXT } from '../content/packages-text'
 import { pack } from './x'
+import { plural } from './plural'
 import type { Facts } from './x/types'
 
 const FACTS: Record<BaseLang, Facts> = {
@@ -58,8 +59,17 @@ const FACTS: Record<BaseLang, Facts> = {
   },
 }
 
+/**
+ * Di bahasa kanan-ke-kiri, harga (huruf Latin + angka + tanda "+") dibungkus isolasi LTR (U+2066…U+2069) supaya
+ * urutannya tidak teracak oleh teks Arab di sekitarnya: tanpa ini "IDR 2,500,000+" tampil sebagai "+IDR 2,500,000".
+ * Tanda isolasi dibuang lagi dari meta dan JSON-LD (lihat plain() di config.ts).
+ */
+function iso(lang: Lang, s: string) {
+  return LANG_INFO[lang].dir === 'rtl' ? `\u2066${s}\u2069` : s
+}
+
 /** "IDR 300,000–500,000": kisaran dengan kode mata uang sekali saja di depan. */
-const idrRange = (lang: Lang, r: { min: number; max: number }) => `${money(lang, r.min)}–${money(lang, r.max).replace('IDR ', '')}`
+const idrRange = (lang: Lang, r: { min: number; max: number }) => iso(lang, `${rawMoney(lang, r.min)}–${rawMoney(lang, r.max).replace('IDR ', '')}`)
 
 const factsCache = new Map<Lang, Facts>()
 export function facts(lang: Lang): Facts {
@@ -72,6 +82,10 @@ export function facts(lang: Lang): Facts {
 
 /** Rp600.000 (id) / IDR 600,000 (en, ms). */
 export function money(lang: Lang, n: number) {
+  return iso(lang, rawMoney(lang, n))
+}
+
+function rawMoney(lang: Lang, n: number) {
   if (lang === 'id') {
     return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(n).replace(/\s/g, '')
   }
@@ -79,13 +93,17 @@ export function money(lang: Lang, n: number) {
 }
 
 export const moneyRange = (lang: Lang, p: Paket) =>
-  `${money(lang, p.minPrice)} – ${money(lang, p.maxPrice)}${p.openEnded ? '+' : ''}`
+  iso(lang, `${rawMoney(lang, p.minPrice)} – ${rawMoney(lang, p.maxPrice)}${p.openEnded ? '+' : ''}`)
 
 /** Angka ringkas untuk papan harga: "300 rb" / "1,25 jt" (id), "300k" / "1.25M" (en), "300 ribu" / "1.25 juta" (ms). */
 function compact(lang: Lang, n: number) {
   const intl = LANG_INFO[lang].intl
-  // bahasa tambahan: notasi ringkas bawaan Intl ("300 k", "30万", "3 लाख", "300 тыс.")
-  if (!isBase(lang)) return new Intl.NumberFormat(intl, { notation: 'compact', maximumFractionDigits: 2 }).format(n)
+  // bahasa tambahan: notasi ringkas bawaan Intl ("300 k", "30万", "3 लाख", "300 тыс."). Hindi & Bengali memakai bentuk
+  // panjang karena bentuk pendeknya berupa singkatan yang sulit dibaca ("3 क॰", "75 হা").
+  if (!isBase(lang)) {
+    const compactDisplay = lang === 'hi' || lang === 'bn' ? 'long' : 'short'
+    return new Intl.NumberFormat(intl, { notation: 'compact', compactDisplay, maximumFractionDigits: 2 }).format(n)
+  }
   const fmt = (v: number) => new Intl.NumberFormat(intl, { maximumFractionDigits: 2 }).format(v)
   const big = n >= 1_000_000
   const v = fmt(big ? n / 1_000_000 : n / 1_000)
@@ -114,9 +132,7 @@ export function durationText(lang: Lang, w: Waktu): string {
   if (!isBase(lang)) {
     // bentuk katanya mengikuti kaidah jamak bahasa itu untuk angka terakhir rentang
     const t = pack(lang).time
-    const forms = w.unit === 'hari' ? t.day : t.week
-    const cat = new Intl.PluralRules(intl).select(w.max) as keyof typeof forms
-    return `${n} ${forms[cat] ?? forms.other}${w.flex ? t.flex : ''}`
+    return `${n} ${plural(intl, w.max, w.unit === 'hari' ? t.day : t.week)}${w.flex ? t.flex : ''}`
   }
   if (lang === 'en') return `${n} ${w.unit === 'hari' ? (one ? 'working day' : 'working days') : one ? 'week' : 'weeks'}${w.flex ? ', depending on features' : ''}`
   if (lang === 'ms') return `${n} ${w.unit === 'hari' ? 'hari bekerja' : 'minggu'}${w.flex ? ', bergantung pada ciri' : ''}`
@@ -161,7 +177,7 @@ export function waPackageText(lang: Lang, title: string) {
 export function addonsFor(lang: Lang) {
   return ADDONS.map((a) => {
     const t = (isBase(lang) ? ADDON_TEXT[lang] : pack(lang).addons)[a.slug]
-    return { ...a, title: t.title, unit: t.unit, range: `${money(lang, a.minPrice)} – ${money(lang, a.maxPrice)}` }
+    return { ...a, title: t.title, unit: t.unit, range: iso(lang, `${rawMoney(lang, a.minPrice)} – ${rawMoney(lang, a.maxPrice)}`) }
   })
 }
 
@@ -183,7 +199,7 @@ export function fillFacts(lang: Lang, s: string): string {
   const renewal =
     lang === 'id'
       ? `${money('id', RENEWAL_PER_YEAR.min)}–${money('id', RENEWAL_PER_YEAR.max)}`
-      : `${money(lang, RENEWAL_PER_YEAR.min)}–${money(lang, RENEWAL_PER_YEAR.max).replace('IDR ', '')}`
+      : idrRange(lang, RENEWAL_PER_YEAR)
   const head = lang === 'id' ? ['Paket', 'Kisaran harga', 'Pengerjaan', 'Cocok untuk'] : ['Package', 'Price range', 'Turnaround', 'Best for']
   const table = [
     `| ${head.join(' | ')} |`,

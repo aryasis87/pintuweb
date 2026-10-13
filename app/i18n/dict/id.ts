@@ -42,6 +42,7 @@ const id = {
     consultFree: 'Konsultasi Gratis',
     openMenu: 'Buka menu',
     closeMenu: 'Tutup menu',
+    menu: 'Menu',
     demosReady: (n: number) => `${n} demo siap dilihat langsung`,
     respond: 'Respon di hari kerja',
     waText: 'Halo PintuWeb, saya mau konsultasi pembuatan website.',

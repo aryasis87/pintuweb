@@ -75,7 +75,7 @@ export default function FAQ({ items, categories, t, waHref, faqHref }: Props) {
             <div className="rounded-[1.5rem] bg-white p-6 ring-1 ring-[color:var(--border-light)]">
               <p className="display text-[1.125rem] font-semibold leading-snug text-[color:var(--text-primary)]">{t.unanswered}</p>
               <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-[color:var(--text-tertiary)]">
-                {t.askLead} {t.note}.
+                {t.askLead} {t.note}
               </p>
               <div className="mt-5 flex flex-col gap-2.5 sm:flex-row lg:flex-col">
                 <a href={waHref} target="_blank" rel="noopener noreferrer" className="btn btn-solid btn-sm">
@@ -92,7 +92,7 @@ export default function FAQ({ items, categories, t, waHref, faqHref }: Props) {
         <div className="order-2 lg:col-span-8">
           {/* Pencarian */}
           <div className="relative">
-            <Search size={18} className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
+            <Search size={18} className="pointer-events-none absolute start-5 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
             <label htmlFor="faq-search-home" className="sr-only">
               {t.search}
             </label>
@@ -106,7 +106,7 @@ export default function FAQ({ items, categories, t, waHref, faqHref }: Props) {
                 if (e.target.value.trim()) setCategory('all')
               }}
               placeholder={t.searchPh}
-              className="h-[3.25rem] w-full rounded-full border-0 bg-white pl-[3.25rem] pr-5 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
+              className="h-[3.25rem] w-full rounded-full border-0 bg-white ps-[3.25rem] pe-5 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
             />
           </div>
 

@@ -1,3 +1,4 @@
+import { plain } from '../i18n/config'
 import Link from 'next/link'
 import type { Hl } from '../i18n/dict/id'
 
@@ -19,7 +20,7 @@ export function HlText({ parts, mode = 'plain', tone = 'ink' }: { parts: Hl; mod
 
 /** Data terstruktur JSON-LD. */
 export function JsonLd({ data }: { data: unknown }) {
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: plain(JSON.stringify(data)) }} />
 }
 
 /** Jejak navigasi yang terlihat (pasangan BreadcrumbList di JSON-LD). */

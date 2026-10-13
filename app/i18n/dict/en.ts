@@ -40,6 +40,7 @@ const en: Dict = {
     consultFree: 'Free consultation',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
+    menu: 'Menu',
     demosReady: (n: number) => `${n} demos ready to explore`,
     respond: 'Replies on working days',
     waText: 'Hello PintuWeb, I would like to talk about building a website.',

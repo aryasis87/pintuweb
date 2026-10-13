@@ -146,7 +146,7 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           {/* Pencarian + kategori */}
           <div className="relative">
-            <Search size={18} className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
+            <Search size={18} className="pointer-events-none absolute start-5 top-1/2 -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
             <label htmlFor="demo-search" className="sr-only">
               {t.search}
             </label>
@@ -160,7 +160,7 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
                 if (e.target.value.trim() && filter !== 'semua') setFilter('semua')
               }}
               placeholder={t.searchPh}
-              className="h-[3.25rem] w-full rounded-full border-0 bg-white pl-[3.25rem] pr-5 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
+              className="h-[3.25rem] w-full rounded-full border-0 bg-white ps-[3.25rem] pe-5 text-base text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] transition-shadow placeholder:text-[color:var(--text-muted)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
             />
           </div>
           {/* Ponsel: sembilan pil memakan banyak baris, jadi kategori dipilih lewat satu menu. Layar lebih lebar: pil. */}
@@ -172,7 +172,7 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
               id="demo-cat"
               value={filter}
               onChange={(e) => setFilter(e.target.value as Filter)}
-              className="h-12 w-full appearance-none rounded-full border-0 bg-white pl-5 pr-11 text-[0.9375rem] font-semibold text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
+              className="h-12 w-full appearance-none rounded-full border-0 bg-white ps-5 pe-11 text-[0.9375rem] font-semibold text-[color:var(--text-primary)] outline-none ring-1 ring-[color:var(--border-light)] focus:ring-2 focus:ring-[color:var(--primary-700)]"
             >
               <option value="semua">
                 {t.all} ({demos.length})
@@ -183,7 +183,7 @@ export default function DemoGallery({ demos, cats, t, contactHref, pricingHref }
                 </option>
               ))}
             </select>
-            <span className="pointer-events-none absolute right-5 top-1/2 h-2 w-2 -translate-y-[70%] rotate-45 border-b-2 border-r-2 border-[color:var(--text-secondary)]" aria-hidden="true" />
+            <span className="pointer-events-none absolute end-5 top-1/2 h-2 w-2 -translate-y-[70%] rotate-45 border-b-2 border-r-2 border-[color:var(--text-secondary)]" aria-hidden="true" />
           </div>
           <div role="group" aria-label={t.filterAria} className="mt-4 hidden flex-wrap gap-2 sm:flex">
             {chip('semua', t.all, demos.length)}

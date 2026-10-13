@@ -60,10 +60,10 @@ export default async function KontakPage({ params }: Params) {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-[0.8125rem] text-[color:var(--text-tertiary)]">{c.label}</span>
-                  <span className="mt-0.5 block break-words text-[1.0625rem] font-semibold leading-snug text-[color:var(--text-primary)] transition-colors group-hover:text-[color:var(--primary-700)]">{c.value}</span>
+                  <span className="mt-0.5 block break-words text-[1.0625rem] font-semibold leading-snug text-[color:var(--text-primary)] transition-colors group-hover:text-[color:var(--primary-700)]"><bdi>{c.value}</bdi></span>
                   {c.sub && <span className="mt-0.5 block text-[0.875rem] leading-snug text-[color:var(--text-tertiary)]">{c.sub}</span>}
                 </span>
-                {c.href && <ArrowUpRight size={16} className="shrink-0 self-center text-[color:var(--text-muted)] transition-colors group-hover:text-[color:var(--primary-700)] sm:absolute sm:right-5 sm:top-5 sm:self-auto" aria-hidden="true" />}
+                {c.href && <ArrowUpRight size={16} className="shrink-0 self-center text-[color:var(--text-muted)] transition-colors group-hover:text-[color:var(--primary-700)] sm:absolute sm:end-5 sm:top-5 sm:self-auto" aria-hidden="true" />}
               </>
             )
             const box = 'relative flex h-full items-center gap-4 p-4 sm:flex-col sm:items-start sm:rounded-[1.25rem] sm:bg-[color:var(--surface-soft)] sm:p-5'

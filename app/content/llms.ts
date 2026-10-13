@@ -8,6 +8,7 @@ import { urlOf, type PageKey } from '../i18n/routes'
 import { SERVICES } from './services'
 import { articlesIn } from './articles'
 import { faqFor } from './faq'
+import { LANG_INFO, X_LANGS } from '../i18n/config'
 
 export function llmsDoc(full: boolean) {
   const en = facts('en')
@@ -32,7 +33,8 @@ export function llmsDoc(full: boolean) {
     `- Guarantee: ${GUARANTEE_DAYS}-day bug-fix guarantee after launch; maintenance 1–6 months depending on the package`,
     `- Performance target: PageSpeed ${PERF_TARGET} (a target, not an average claim)`,
     '- Ownership: after full payment the client owns the source code, domain, hosting and admin access',
-    '- Languages: Indonesian (default), English (/en), Malay (/ms)',
+    '- Languages: Indonesian (default), English (/en) and Malay (/ms) for the whole site; ' +
+      `${X_LANGS.map((l) => `${LANG_INFO[l].name} (/${l})`).join(', ')} for the main pages (home, pricing, demos, FAQ, about, contact, founder)`,
     '',
     '## Packages (IDR)',
     '',

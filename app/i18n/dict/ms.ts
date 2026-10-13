@@ -40,6 +40,7 @@ const ms: Dict = {
     consultFree: 'Konsultasi Percuma',
     openMenu: 'Buka menu',
     closeMenu: 'Tutup menu',
+    menu: 'Menu',
     demosReady: (n: number) => `${n} demo sedia untuk dilihat`,
     respond: 'Dibalas pada hari bekerja',
     waText: 'Hai PintuWeb, saya ingin berbincang tentang membina laman web.',

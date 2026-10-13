@@ -4,8 +4,13 @@ import type { Pack } from './types'
 import es from './es'
 import fr from './fr'
 import pt from './pt'
+import ru from './ru'
+import zh from './zh'
+import hi from './hi'
+import bn from './bn'
+import ar from './ar'
 
-export const X: Record<XLang, Pack> = { es, fr, pt }
+export const X: Record<XLang, Pack> = { es, fr, pt, ru, zh, hi, bn, ar }
 
 /** Paket bahasa tambahan. Panggil hanya untuk bahasa di luar BASE_LANGS (cek dengan isBase()). */
 export const pack = (lang: Lang): Pack => {

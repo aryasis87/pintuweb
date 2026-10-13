@@ -169,7 +169,7 @@ export default function ContactForm({ t, packages, demos, waNumber, email, hours
                 {t.pkg}
               </label>
               <div className="relative">
-                <select id="paket" value={f.paket} onChange={set('paket')} aria-describedby={picked ? 'paket-info' : undefined} className={`${field} h-12 appearance-none pr-11`}>
+                <select id="paket" value={f.paket} onChange={set('paket')} aria-describedby={picked ? 'paket-info' : undefined} className={`${field} h-12 appearance-none pe-11`}>
                   <option value="">{t.pkgUnsure}</option>
                   {packages.map((p) => (
                     <option key={p.title} value={p.title}>
@@ -177,7 +177,7 @@ export default function ContactForm({ t, packages, demos, waNumber, email, hours
                     </option>
                   ))}
                 </select>
-                <ChevronDown size={18} className="pointer-events-none absolute right-4 top-1/2 mt-[0.1875rem] -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
+                <ChevronDown size={18} className="pointer-events-none absolute end-4 top-1/2 mt-[0.1875rem] -translate-y-1/2 text-[color:var(--text-muted)]" aria-hidden="true" />
               </div>
               {/* paket terpilih: harga mulai + lama pengerjaan dari lib/packages.ts; rinciannya dibuka di tab baru supaya isian tidak hilang */}
               {picked && (
@@ -229,8 +229,8 @@ export default function ContactForm({ t, packages, demos, waNumber, email, hours
             </div>
 
             <div className="rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4">
-              <h3 className="text-right text-[0.8125rem] font-normal text-[color:var(--text-tertiary)]">{t.previewTitle}</h3>
-              <div className="ml-auto mt-2 w-fit max-w-[94%] break-words rounded-[1.125rem] rounded-br-md bg-[color:var(--primary-700)] px-4 py-3 text-[0.9375rem] leading-relaxed text-white">
+              <h3 className="text-end text-[0.8125rem] font-normal text-[color:var(--text-tertiary)]">{t.previewTitle}</h3>
+              <div className="ms-auto mt-2 w-fit max-w-[94%] break-words rounded-[1.125rem] rounded-ee-md bg-[color:var(--primary-700)] px-4 py-3 text-[0.9375rem] leading-relaxed text-white">
                 <p>{t.msgIntro}</p>
                 <p className="mt-3">
                   {details.map((d) => (

@@ -56,7 +56,7 @@ function Answer({ item, q }: { item: FaqEntry; q: string }) {
             )}
             <span className="min-w-0">{mark(r.label, q)}</span>
             {/* nilai pendek (harga, "1-3 hari kerja") tidak boleh terpotong baris */}
-            {r.value && <span className={`text-right font-semibold text-[color:var(--text-primary)] ${r.value.length <= 16 ? 'whitespace-nowrap' : 'max-w-[55%]'}`}>{mark(r.value, q)}</span>}
+            {r.value && <span className={`text-end font-semibold text-[color:var(--text-primary)] ${r.value.length <= 16 ? 'whitespace-nowrap' : 'max-w-[55%]'}`}>{mark(r.value, q)}</span>}
           </li>
         ))}
       </List>
@@ -97,7 +97,7 @@ export default function FaqCard({ item, q, as: Q, hidden, open, onToggle, id, fo
         focused ? 'ring-2 ring-[color:var(--primary-700)]' : 'ring-1 ring-[color:var(--border-light)] open:ring-[color:var(--primary-300)]'
       }`}
     >
-      <summary className="flex cursor-pointer list-none items-center gap-4 rounded-[1.25rem] px-5 py-4 text-left sm:px-6 sm:py-[1.125rem] [&::-webkit-details-marker]:hidden">
+      <summary className="flex cursor-pointer list-none items-center gap-4 rounded-[1.25rem] px-5 py-4 text-start sm:px-6 sm:py-[1.125rem] [&::-webkit-details-marker]:hidden">
         <Q className="flex-1 text-[1.0625rem] leading-snug text-[color:var(--text-primary)] transition-colors group-open:text-[color:var(--primary-700)] sm:text-[1.125rem]">{mark(item.question, q)}</Q>
         <span
           aria-hidden="true"
@@ -112,12 +112,12 @@ export default function FaqCard({ item, q, as: Q, hidden, open, onToggle, id, fo
           <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white ring-1 ring-[color:var(--border-light)]" aria-hidden="true">
             <LogoMark className="h-[1.125rem] w-auto" />
           </span>
-          <div className="min-w-0 max-w-2xl rounded-[1.125rem] rounded-tl-md bg-[color:var(--primary-50)] px-4 py-3 text-[0.9375rem] leading-relaxed text-[color:var(--text-secondary)] sm:text-base">
+          <div className="min-w-0 max-w-2xl rounded-[1.125rem] rounded-ss-md bg-[color:var(--primary-50)] px-4 py-3 text-[0.9375rem] leading-relaxed text-[color:var(--text-secondary)] sm:text-base">
             <Answer item={item} q={q} />
           </div>
         </div>
         {(item.more || actions) && (
-          <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 pl-11 text-[0.8125rem] font-semibold">
+          <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 ps-11 text-[0.8125rem] font-semibold">
             {item.more && (
               <Link href={item.more.href} className="inline-flex min-h-8 items-center gap-1.5 text-[color:var(--primary-700)] underline-offset-4 hover:underline">
                 <span>

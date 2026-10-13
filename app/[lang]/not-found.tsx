@@ -17,6 +17,11 @@ const TEXT: Record<Lang, Text> = {
   es: { title: 'Página no encontrada', h1: 'Esta puerta aún no existe.', lead: 'La página que buscas no se ha encontrado o se ha movido. Prueba a empezar por una de las puertas de abajo.', home: 'Ir al inicio', demos: 'Ver demos', wa: 'O pregúntanos directamente por WhatsApp', waText: 'Hola PintuWeb, no he encontrado la página que buscaba en su sitio.' },
   fr: { title: 'Page introuvable', h1: 'Cette porte n’existe pas encore.', lead: 'La page que vous cherchez est introuvable ou a été déplacée. Essayez de repartir de l’une des portes ci-dessous.', home: 'Aller à l’accueil', demos: 'Voir les démos', wa: 'Ou posez-nous la question directement sur WhatsApp', waText: 'Bonjour PintuWeb, je n’ai pas trouvé la page que je cherchais sur votre site.' },
   pt: { title: 'Página não encontrada', h1: 'Esta porta ainda não existe.', lead: 'A página que você procura não foi encontrada ou foi movida. Tente começar por uma das portas abaixo.', home: 'Ir para o início', demos: 'Ver demos', wa: 'Ou pergunte diretamente pelo WhatsApp', waText: 'Olá PintuWeb, não encontrei a página que procurava no site de vocês.' },
+  ru: { title: 'Страница не найдена', h1: 'Этой двери пока нет.', lead: 'Страница, которую вы ищете, не найдена или была перемещена. Попробуйте начать с одной из дверей ниже.', home: 'На главную', demos: 'Смотреть демо', wa: 'Или спросите нас напрямую в WhatsApp', waText: 'Здравствуйте, PintuWeb! Не получилось найти нужную страницу на вашем сайте.' },
+  zh: { title: '页面未找到', h1: '这扇门还不存在。', lead: '您要找的页面不存在或已被移动。试试从下面的某一扇门开始。', home: '回到首页', demos: '查看演示', wa: '或直接在 WhatsApp 上问我们', waText: '您好 PintuWeb，我在你们的网站上没有找到想看的页面。' },
+  hi: { title: 'पेज नहीं मिला', h1: 'यह दरवाज़ा अभी मौजूद नहीं है।', lead: 'आप जो पेज ढूँढ रहे हैं, वह नहीं मिला या कहीं और चला गया है। नीचे दिए किसी दरवाज़े से शुरू करके देखिए।', home: 'होम पर जाएँ', demos: 'डेमो देखें', wa: 'या हमसे सीधे WhatsApp पर पूछें', waText: 'नमस्ते PintuWeb, आपकी साइट पर मुझे अपनी ज़रूरत का पेज नहीं मिला।' },
+  bn: { title: 'পেজ পাওয়া যায়নি', h1: 'এই দরজাটি এখনো নেই।', lead: 'আপনি যে পেজ খুঁজছেন তা পাওয়া যায়নি অথবা সরিয়ে নেওয়া হয়েছে। নিচের যেকোনো একটি দরজা দিয়ে শুরু করে দেখুন।', home: 'হোমে যান', demos: 'ডেমো দেখুন', wa: 'অথবা সরাসরি WhatsApp-এ জিজ্ঞাসা করুন', waText: 'হ্যালো PintuWeb, আপনাদের সাইটে আমি যে পেজ খুঁজছিলাম তা পাইনি।' },
+  ar: { title: 'الصفحة غير موجودة', h1: 'هذا الباب غير موجود بعد.', lead: 'الصفحة التي تبحث عنها غير موجودة أو نُقلت. جرّب البدء من أحد الأبواب أدناه.', home: 'إلى الرئيسية', demos: 'شاهد العروض التجريبية', wa: 'أو اسألنا مباشرة عبر واتساب', waText: 'مرحبًا PintuWeb، لم أجد الصفحة التي أبحث عنها في موقعكم.' },
 }
 
 export default function NotFound() {
@@ -46,12 +51,12 @@ export default function NotFound() {
         </div>
         {/* Pintu yang masih tertutup */}
         <div className="md:col-span-4" aria-hidden="true">
-          <div className="pintu-frame mx-auto w-44 bg-white p-[3px] md:ml-auto md:mr-0">
+          <div className="pintu-frame mx-auto w-44 bg-white p-[3px] md:ms-auto md:me-0">
             <div className="arch-top grid aspect-[5/7] place-items-center bg-[color:var(--surface-primary)]">
               <span className="display text-5xl text-[color:var(--primary-700)]">404</span>
             </div>
           </div>
-          <div className="mx-auto h-[3px] w-44 bg-[color:var(--rule)] md:ml-auto md:mr-0" />
+          <div className="mx-auto h-[3px] w-44 bg-[color:var(--rule)] md:ms-auto md:me-0" />
         </div>
       </div>
     </main>

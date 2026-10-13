@@ -8,7 +8,7 @@ import { getArticle } from '../content/articles'
 import { serviceOf, serviceText } from '../content/services'
 import { facts } from '../i18n/facts'
 import { wa } from '../lib/site'
-import type { Lang } from '../i18n/config'
+import { fullStop, type Lang } from '../i18n/config'
 import type { FaqText } from './FAQ'
 import type { FaqEntry } from './FaqCard'
 import type { FaqCenterCategory, FaqCenterText } from './FaqCenter'
@@ -45,7 +45,7 @@ export function faqProps(lang: Lang) {
     none: t.none,
     unanswered: t.unanswered,
     askLead: t.askLead,
-    note: facts(lang).response,
+    note: facts(lang).response + fullStop(lang),
     allN: t.allN(items.length),
     askWa: t.askWa,
     more: t.more,
@@ -78,7 +78,7 @@ export function faqCenterProps(lang: Lang) {
     copied: a.copied,
     unanswered: t.unanswered,
     askLead: t.askLead,
-    note: facts(lang).response,
+    note: facts(lang).response + fullStop(lang),
     askWa: t.askWa,
     newTab: d.common.newTabShort,
   }

@@ -34,10 +34,10 @@ export default function WhyUs({ lang }: { lang: Lang }) {
             <li key={p.title} className="[filter:drop-shadow(0_1px_1px_rgb(15_29_58/0.05))_drop-shadow(0_12px_22px_rgb(15_29_58/0.06))]">
               <div className="tix flex h-full overflow-hidden rounded-[1.25rem] bg-white [--stub:5.5rem] sm:[--stub:8.5rem] lg:[--stub:9.5rem]">
                 <div
-                  className="flex w-[var(--stub)] shrink-0 flex-col items-center justify-center border-r-2 border-dashed border-[color:var(--primary-200)] px-2 py-6 text-center [background-image:linear-gradient(160deg,var(--primary-50),var(--accent-100))]"
+                  className="flex w-[var(--stub)] shrink-0 flex-col items-center justify-center border-e-2 border-dashed border-[color:var(--primary-200)] px-2 py-6 text-center [background-image:linear-gradient(160deg,var(--primary-50),var(--accent-100))]"
                   aria-hidden="true"
                 >
-                  <span className="display text-[1.625rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2.5rem]">{p.fig}</span>
+                  <span className="display text-[1.625rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2.5rem]"><bdi>{p.fig}</bdi></span>
                   <span className="mt-1.5 text-[0.6875rem] font-semibold leading-tight text-[color:var(--primary-800)] sm:mt-2 sm:text-[0.8125rem]">{p.unit}</span>
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col p-5 sm:p-6 lg:px-7">

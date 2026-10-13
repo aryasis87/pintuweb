@@ -239,6 +239,9 @@
   @media (min-width: 1024px) {
     .proc-fill { background-image: linear-gradient(to right, var(--primary-700), var(--accent-400)); background-size: 300% 100%; background-position: calc(var(--i, 0) * 50%) 0; }
   }
+  @media (min-width: 1024px) {
+    [dir='rtl'] .proc-fill { transform-origin: 100% 0; background-image: linear-gradient(to left, var(--primary-700), var(--accent-400)); background-position: calc(100% - var(--i, 0) * 50%) 0; }
+  }
   @keyframes proc-grow-y { from { transform: scaleY(0); } }
   @keyframes proc-grow-x { from { transform: scaleX(0); } }
   @keyframes proc-off { from { background-color: #fff; color: var(--primary-700); } }

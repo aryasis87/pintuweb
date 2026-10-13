@@ -108,7 +108,7 @@ export default async function AboutPage({ params }: Params) {
           {stats.map((s) => (
             <div key={s.l} className="flex flex-col-reverse justify-end rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4 sm:p-5">
               <dt className="mt-1.5 text-[0.875rem] leading-snug text-[color:var(--text-tertiary)] sm:text-[0.9375rem]">{s.l}</dt>
-              <dd className="display text-[2rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2.5rem]">{s.v}</dd>
+              <dd className="display text-[2rem] font-semibold leading-none tracking-tight text-[color:var(--primary-700)] sm:text-[2.5rem]"><bdi>{s.v}</bdi></dd>
             </div>
           ))}
         </dl>
@@ -133,7 +133,7 @@ export default async function AboutPage({ params }: Params) {
             {timeline.map((t, i) => (
               <li key={t.year} className="relative grid grid-cols-[0.75rem_1fr] gap-x-5 pb-8 last:pb-0">
                 {/* rel linimasa: titik per tahap, garis sampai tahap berikutnya */}
-                {i < timeline.length - 1 && <span className="absolute bottom-0 left-[0.3125rem] top-5 w-0.5 rounded-full bg-[color:var(--primary-100)]" aria-hidden="true" />}
+                {i < timeline.length - 1 && <span className="absolute bottom-0 start-[0.3125rem] top-5 w-0.5 rounded-full bg-[color:var(--primary-100)]" aria-hidden="true" />}
                 <span className="relative mt-[0.4375rem] h-3 w-3 rounded-full bg-[color:var(--primary-700)] ring-4 ring-[color:var(--primary-100)]" aria-hidden="true" />
                 <div>
                   <p className="text-[0.875rem] font-semibold text-[color:var(--primary-700)]">{t.year}</p>

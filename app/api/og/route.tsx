@@ -15,6 +15,10 @@ const TAG: Partial<Record<Lang, string>> & { en: string } = {
   id: 'Jasa pembuatan website',
   en: 'Website design & development',
   ms: 'Perkhidmatan laman web',
+  es: 'Diseño y desarrollo web',
+  fr: 'Création de sites web',
+  pt: 'Criação de sites',
+  ru: 'Разработка сайтов',
 }
 
 const fonts = async () => {

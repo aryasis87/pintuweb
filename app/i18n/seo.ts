@@ -3,7 +3,7 @@
 import type { Metadata } from 'next'
 import { CLIENT_PROJECTS, CLOSES, EMAIL, FOUNDED_YEAR, OPENS, SITE, WA_NUMBER } from '../lib/site'
 import { PACKAGES } from '../lib/packages'
-import { LANG_INFO, LANGS, type Lang } from './config'
+import { LANG_INFO, LANGS, plain, type Lang } from './config'
 import { alternatesOf, langsOf, urlOf, type DocRef } from './routes'
 import { getDict } from './index'
 
@@ -40,15 +40,18 @@ export function pageMeta(m: MetaInput): Metadata {
   const { canonical, languages } = alternatesOf(m.lang, m.ref)
   const info = LANG_INFO[m.lang]
   const others = langsOf(m.ref).filter((l) => l !== m.lang).map((l) => LANG_INFO[l].ogLocale)
-  const ogTitle = m.ogTitle ?? m.title
+  const title = plain(m.title)
+  const description = plain(m.description)
+  const ogTitle = plain(m.ogTitle ?? m.title)
+  const ogDescription = plain(m.ogDescription ?? m.description)
   const image = m.image ?? ogImage(m.lang, ogTitle)
   return {
-    title: m.absoluteTitle ? { absolute: m.title } : m.title,
-    description: m.description,
+    title: m.absoluteTitle ? { absolute: title } : title,
+    description,
     alternates: { canonical, languages },
     openGraph: {
       title: ogTitle,
-      description: m.ogDescription ?? m.description,
+      description: ogDescription,
       url: canonical,
       siteName: 'PintuWeb',
       locale: info.ogLocale,
@@ -57,7 +60,7 @@ export function pageMeta(m: MetaInput): Metadata {
       images: [{ url: image, width: 1200, height: 630, alt: ogTitle }],
       ...(m.type === 'article' && m.published ? { publishedTime: m.published, modifiedTime: m.modified ?? m.published, authors: [`${SITE}/owner`] } : {}),
     },
-    twitter: { card: 'summary_large_image', title: ogTitle, description: m.ogDescription ?? m.description, images: [image] },
+    twitter: { card: 'summary_large_image', title: ogTitle, description: ogDescription, images: [image] },
     ...(m.noindex ? { robots: { index: false, follow: true } } : {}),
   }
 }

@@ -25,6 +25,7 @@ export type HeaderProps = {
     consultFree: string
     openMenu: string
     closeMenu: string
+    menu: string
     demosReady: string
     respond: string
     language: string
@@ -206,7 +207,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
 
       <header className={`pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 transition-transform duration-300 sm:px-5 ${visible || menuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
         <div
-          className={`pointer-events-auto mx-auto flex h-[3.75rem] max-w-6xl items-center justify-between gap-3 rounded-full pl-4 pr-2 ring-1 backdrop-blur-md transition-[background-color,box-shadow] duration-300 sm:pl-5 ${
+          className={`pointer-events-auto mx-auto flex h-[3.75rem] max-w-6xl items-center justify-between gap-3 rounded-full ps-4 pe-2 ring-1 backdrop-blur-md transition-[background-color,box-shadow] duration-300 sm:ps-5 ${
             scrolled || menuOpen
               ? 'bg-white/95 shadow-[0_16px_36px_-22px_rgb(15_29_58/0.45)] ring-[color:var(--border-light)]'
               : 'bg-white/80 shadow-[0_10px_28px_-22px_rgb(15_29_58/0.35)] ring-white/80'
@@ -243,13 +244,13 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
             </div>
 
             <button
-              className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[color:var(--surface-soft)] pl-4 pr-3.5 text-sm font-semibold text-[color:var(--text-primary)] ring-1 ring-[color:var(--border-light)] lg:hidden"
+              className="inline-flex h-11 items-center gap-2.5 rounded-full bg-[color:var(--surface-soft)] ps-4 pe-3.5 text-sm font-semibold text-[color:var(--text-primary)] ring-1 ring-[color:var(--border-light)] lg:hidden"
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? t.closeMenu : t.openMenu}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
             >
-              <span aria-hidden="true">Menu</span>
+              <span aria-hidden="true">{t.menu}</span>
               <span aria-hidden="true" className="relative block h-3 w-[1.125rem]">
                 <span className={`absolute inset-x-0 h-[1.5px] rounded-full bg-current transition-transform duration-200 ${menuOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-[2px]'}`} />
                 <span className={`absolute inset-x-0 h-[1.5px] rounded-full bg-current transition-transform duration-200 ${menuOpen ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-[2px]'}`} />
@@ -280,7 +281,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
                       }`}
                     >
                       {n.label}
-                      <ArrowRight size={18} className={active ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--text-muted)]'} aria-hidden="true" />
+                      <ArrowRight size={18} className={`rtl:-scale-x-100 ${active ? 'text-[color:var(--primary-700)]' : 'text-[color:var(--text-muted)]'}`} aria-hidden="true" />
                     </Link>
                   </li>
                 )
@@ -296,7 +297,7 @@ export default function Header({ lang, homeHref, nav, waHref, waDisplay, t }: He
               {t.consultFree} <ArrowUpRight size={17} className="arw arw-ne" aria-hidden="true" />
             </a>
             <p className="mt-3 text-center text-sm text-[color:var(--text-tertiary)]">
-              {t.respond} · <span className="text-[color:var(--text-primary)]">{waDisplay}</span>
+              {t.respond} · <bdi className="text-[color:var(--text-primary)]">{waDisplay}</bdi>
             </p>
           </div>
         </div>
